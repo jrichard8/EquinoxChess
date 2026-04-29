@@ -1,0 +1,18 @@
+# Compiled engine binary
+/equinoxchess-uci
+/equinoxchess-uci.exe
+
+# Go test caches & build artefacts
+*.test
+*.out
+/.cache/
+
+# IDE
+/.idea/
+/.vscode/
+
+# Local Claude Code session data
+/.claude/
+
+# macOS
+.DS_Store

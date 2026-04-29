@@ -1,0 +1,508 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>EquinoxChess</title>
+  <link rel="stylesheet" href="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.css">
+  <style>
+    body {
+      font-family: monospace;
+      margin: 0;
+      background: #000000;
+      color: #00ffff;
+      display: flex;
+      min-height: 100vh;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .title {
+      font-size: 1.4rem;
+      letter-spacing: 2px;
+      color: #00ffff;
+      text-shadow: 0 0 8px rgba(0, 255, 255, 0.6);
+      margin: 24px 0 18px;
+    }
+    .app {
+      width: min(1200px, 96vw);
+      display: grid;
+      grid-template-columns: 12px minmax(280px, 66vh) minmax(220px, 1fr);
+      gap: 20px;
+      align-items: center;
+    }
+    .app {
+      margin-bottom: 32px;
+    }
+    .eval-bar {
+      height: min(66vh, 90vw);
+      width: 40px;
+      background: linear-gradient(180deg, #00ffff 0%, #001414 100%);
+      box-shadow: 0 0 18px rgba(0, 255, 255, 0.5);
+      border-radius: 6px;
+      overflow: hidden;
+      position: relative;
+      border: 1px solid rgba(0, 255, 255, 0.35);
+    }
+    .eval-fill {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      height: 50%;
+      background: linear-gradient(180deg, #ffffff 0%, #d8d8d8 100%);
+      transition: height 0.4s ease;
+    }
+    .board-wrapper {
+      width: min(66vh, 90vw);
+      height: min(66vh, 90vw);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    #board {
+      width: 100%;
+      height: 100%;
+      box-shadow: 0 0 25px rgba(0, 255, 255, 0.5);
+      transition: all 0.3s ease;
+    }
+    .side-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      height: min(66vh, 90vw);
+      min-width: 220px;
+      padding: 12px 14px;
+      border: 1px solid rgba(0, 255, 255, 0.25);
+      box-shadow: 0 0 18px rgba(0, 255, 255, 0.25);
+      border-radius: 10px;
+    }
+    #engine-info,
+    #move-history,
+    #status {
+      font-size: 0.95rem;
+      color: #00ffff;
+      text-shadow: 0 0 8px #00ffff;
+    }
+    #move-history {
+      max-height: 66vh;
+      overflow-y: auto;
+      padding: 8px 6px;
+      scroll-behavior: smooth;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 6px 20px;
+    }
+    #status {
+      min-height: 20px;
+    }
+    .square-55d63 { position: relative; }
+    .move-dot::after {
+      content: "";
+      position: absolute;
+      width: 14px;
+      height: 14px;
+      background: rgba(120, 180, 180, 0.45);
+      border-radius: 50%;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    .capture-dot::after {
+      content: "";
+      position: absolute;
+      width: 28px;
+      height: 28px;
+      border: 3px solid rgba(120, 180, 180, 0.6);
+      border-radius: 50%;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    .square-check {
+      box-shadow: inset 0 0 25px rgba(255, 0, 0, 0.6);
+      transition: all 0.3s ease;
+    }
+    .square-mate {
+      box-shadow:
+        inset 0 0 35px rgba(255, 0, 0, 0.9),
+        0 0 20px rgba(255, 0, 0, 0.8);
+      transition: all 0.3s ease;
+    }
+    @media (max-width: 900px) {
+      .app {
+        grid-template-columns: 8px 1fr;
+        grid-template-rows: auto auto;
+      }
+      .side-panel {
+        height: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="title">Equinox Chess V1.0</div>
+  <div class="app">
+    <div class="eval-bar">
+      <div class="eval-fill"></div>
+    </div>
+    <div class="board-wrapper">
+      <div id="board"></div>
+    </div>
+    <div class="side-panel">
+      <div id="engine-info">
+        <div class="engine-line" id="engine-depth">Depth: -</div>
+        <div class="engine-line" id="engine-score">Score: -</div>
+        <div class="engine-line" id="engine-nodes">Nodes: -</div>
+        <div class="engine-line" id="engine-side">Turn: -</div>
+      </div>
+      <div id="move-history">No moves yet</div>
+      <div id="status"></div>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.js"></script>
+  <script>
+    let latestFenData = null;
+    let playerColor = Math.random() < 0.5 ? 'white' : 'black';
+    let selectedSquare = null;
+
+    const board = Chessboard('board', {
+      draggable: true,
+      position: 'start',
+      pieceTheme: '/img/chesspieces/wikipedia/{piece}.png',
+      onDrop: handleDrop,
+      onDragStart: handleDragStart,
+      onMouseoverSquare: handleMouseoverSquare,
+      onMouseoutSquare: handleMouseoutSquare,
+      onSquareClick: handleSquareClick,
+      orientation: playerColor
+    });
+
+    async function apiNewGame() {
+      await fetch('/newgame', { method: 'POST' });
+    }
+
+    async function apiMove(move) {
+      return fetch('/move', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ move })
+      });
+    }
+
+    async function apiEngine(depth) {
+      const res = await fetch('/engine', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ depth })
+      });
+      if (!res.ok) {
+        return null;
+      }
+      return res.json();
+    }
+
+    async function apiFen() {
+      const res = await fetch('/fen');
+      const data = await res.json();
+      return data.fen;
+    }
+
+    function clearHighlights() {
+      document.querySelectorAll('.square-55d63').forEach((el) => {
+        el.classList.remove('square-check', 'square-mate');
+      });
+    }
+
+    function clearMoveDots() {
+      document.querySelectorAll('.square-55d63').forEach((el) => {
+        el.classList.remove('move-dot', 'capture-dot');
+      });
+    }
+
+    function findKingSquare(fen, side) {
+      const rows = fen.split(' ')[0].split('/');
+      for (let r = 0; r < rows.length; r++) {
+        let file = 0;
+        for (const ch of rows[r]) {
+          if (ch >= '1' && ch <= '8') {
+            file += parseInt(ch, 10);
+            continue;
+          }
+          if ((side === 'white' && ch === 'K') || (side === 'black' && ch === 'k')) {
+            const rank = 8 - r;
+            return String.fromCharCode(97 + file) + rank;
+          }
+          file++;
+        }
+      }
+      return null;
+    }
+
+    function highlightKing(side, checkmate, fen) {
+      clearHighlights();
+      const sq = findKingSquare(fen, side);
+      if (!sq) {
+        return;
+      }
+      const el = document.querySelector(`[data-square="${sq}"]`);
+      if (!el) {
+        return;
+      }
+      el.classList.add(checkmate ? 'square-mate' : 'square-check');
+    }
+
+    function updateEvalBar(score) {
+      const clamped = Math.max(-1000, Math.min(1000, score || 0));
+      const percent = (clamped + 1000) / 2000 * 100;
+      const fill = document.querySelector('.eval-fill');
+      if (fill) {
+        fill.style.height = percent + '%';
+      }
+    }
+
+    function updateEngineInfo(data, sideToMove) {
+      const depthEl = document.getElementById('engine-depth');
+      const scoreEl = document.getElementById('engine-score');
+      const nodesEl = document.getElementById('engine-nodes');
+      const sideEl = document.getElementById('engine-side');
+
+      if (depthEl) depthEl.textContent = `Depth: ${data.depth ?? '-'}`;
+      if (nodesEl) nodesEl.textContent = `Nodes: ${data.nodes ?? '-'}`;
+      if (sideEl) sideEl.textContent = `Turn: ${sideToMove === 'white' ? 'White' : 'Black'}`;
+
+      let scoreText = '-';
+      let scoreClass = '';
+      if (typeof data.score === 'number') {
+        if (Math.abs(data.score) >= 31000) {
+          scoreText = 'Mate';
+        } else {
+          const val = (data.score / 100).toFixed(2);
+          scoreText = (data.score > 0 ? '+' : '') + val;
+          scoreClass = data.score >= 0 ? 'engine-score-pos' : 'engine-score-neg';
+        }
+      }
+      if (scoreEl) {
+        scoreEl.textContent = `Score: ${scoreText}`;
+        scoreEl.classList.remove('engine-score-pos', 'engine-score-neg');
+        if (scoreClass) scoreEl.classList.add(scoreClass);
+      }
+    }
+
+    function updateEngineSide(sideToMove) {
+      const sideEl = document.getElementById('engine-side');
+      if (sideEl) {
+        sideEl.textContent = `Turn: ${sideToMove === 'white' ? 'White' : 'Black'}`;
+      }
+    }
+
+    async function refreshBoard() {
+      const res = await fetch('/fen');
+      const data = await res.json();
+      latestFenData = data;
+      if (data.fen) {
+        board.position(data.fen);
+      }
+      updateEngineSide(data.side_to_move);
+      clearMoveDots();
+      selectedSquare = null;
+      if (data.checkmate) {
+        setStatus(data.side_to_move === 'white' ? 'White is Checkmated' : 'Black is Checkmated');
+        highlightKing(data.side_to_move, true, data.fen);
+        return;
+      }
+      if (data.in_check) {
+        setStatus(data.side_to_move === 'white' ? 'White King in Check' : 'Black King in Check');
+        highlightKing(data.side_to_move, false, data.fen);
+        return;
+      }
+      setStatus('');
+      clearHighlights();
+    }
+
+    function setStatus(message) {
+      const el = document.getElementById('status');
+      if (el) {
+        el.textContent = message || '';
+      }
+    }
+
+    let moveCount = 0;
+
+    function resetHistory() {
+      moveCount = 0;
+      const el = document.getElementById('move-history');
+      if (el) {
+        el.textContent = '';
+      }
+    }
+
+    function addMoveToHistory(move, sidePlayed) {
+      const el = document.getElementById('move-history');
+      if (!el) return;
+      if (sidePlayed === 'white') {
+        moveCount++;
+        const row = document.createElement('div');
+        row.className = 'move-row';
+        row.innerHTML = `
+          <div class="move-number">${moveCount}.</div>
+          <div class="move-white">${move}</div>
+          <div class="move-black"></div>
+        `;
+        el.appendChild(row);
+      } else {
+        const rows = el.getElementsByClassName('move-row');
+        if (rows.length === 0) return;
+        const lastRow = rows[rows.length - 1];
+        const blackCell = lastRow.querySelector('.move-black');
+        if (blackCell && blackCell.textContent.trim() === '') {
+          blackCell.textContent = move;
+        }
+      }
+      el.scrollTop = el.scrollHeight;
+    }
+
+    async function init() {
+      await apiNewGame();
+      resetHistory();
+      await refreshBoard();
+      if (playerColor === 'black') {
+        const engineData = await apiEngine(4);
+        if (engineData) {
+          updateEngineInfo(engineData, latestFenData ? latestFenData.side_to_move : 'white');
+          updateEvalBar(engineData.score);
+          if (engineData.bestmove) {
+            addMoveToHistory(engineData.bestmove, 'black');
+          }
+        }
+        await refreshBoard();
+      }
+    }
+
+    function handleDragStart(source, piece, position, orientation) {
+      if (!latestFenData || latestFenData.side_to_move !== playerColor) {
+        return false;
+      }
+      const isWhitePiece = piece && piece[0] === 'w';
+      if (playerColor === 'white' && !isWhitePiece) {
+        return false;
+      }
+      if (playerColor === 'black' && isWhitePiece) {
+        return false;
+      }
+      return true;
+    }
+
+    async function handleDrop(source, target, piece, newPos, oldPos, orientation) {
+      if (source === target) {
+        return;
+      }
+      if (!latestFenData || latestFenData.side_to_move !== playerColor) {
+        await refreshBoard();
+        return;
+      }
+      clearMoveDots();
+      selectedSquare = null;
+      let move = source + target;
+      if (piece === 'wP' && target[1] === '8') {
+        move += 'q';
+      }
+      if (piece === 'bP' && target[1] === '1') {
+        move += 'q';
+      }
+      const response = await fetch('/move', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ move })
+      });
+      if (!response.ok) {
+        setStatus('Illegal move');
+        await refreshBoard();
+        return;
+      }
+      setStatus('');
+      addMoveToHistory(move, 'white');
+      const engineData = await apiEngine(4);
+      if (engineData) {
+        updateEngineInfo(engineData, latestFenData ? latestFenData.side_to_move : 'white');
+        updateEvalBar(engineData.score);
+        if (engineData.bestmove) {
+          addMoveToHistory(engineData.bestmove, 'black');
+        }
+      }
+      await refreshBoard();
+    }
+
+    function handleMouseoverSquare(square, piece) {}
+
+    function handleMouseoutSquare(square, piece) {}
+
+    function handleSquareClick(square, piece) {
+      if (!latestFenData || !latestFenData.legal_moves) {
+        return;
+      }
+      if (!piece) {
+        selectedSquare = null;
+        clearMoveDots();
+        return;
+      }
+      const isWhitePiece = piece[0] === 'w';
+      if ((playerColor === 'white' && !isWhitePiece) || (playerColor === 'black' && isWhitePiece)) {
+        selectedSquare = null;
+        clearMoveDots();
+        return;
+      }
+      if (selectedSquare === square) {
+        selectedSquare = null;
+        clearMoveDots();
+        return;
+      }
+      selectedSquare = square;
+      clearMoveDots();
+      const moves = latestFenData.legal_moves;
+      const occupied = parseOccupancy(latestFenData.fen);
+      for (let i = 0; i < moves.length; i++) {
+        const m = moves[i];
+        if (m.slice(0, 2) !== square) {
+          continue;
+        }
+        const to = m.slice(2, 4);
+        const el = document.querySelector(`[data-square="${to}"]`);
+        if (!el) {
+          continue;
+        }
+        if (occupied.has(to)) {
+          el.classList.add('capture-dot');
+        } else {
+          el.classList.add('move-dot');
+        }
+      }
+    }
+
+    function parseOccupancy(fen) {
+      const occupied = new Set();
+      if (!fen) {
+        return occupied;
+      }
+      const rows = fen.split(' ')[0].split('/');
+      for (let r = 0; r < rows.length; r++) {
+        let file = 0;
+        for (const ch of rows[r]) {
+          if (ch >= '1' && ch <= '8') {
+            file += parseInt(ch, 10);
+            continue;
+          }
+          const rank = 8 - r;
+          const sq = String.fromCharCode(97 + file) + rank;
+          occupied.add(sq);
+          file++;
+        }
+      }
+      return occupied;
+    }
+
+    init();
+  </script>
+</body>
+</html>
