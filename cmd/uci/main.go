@@ -43,8 +43,7 @@ func main() {
 		case "position":
 			game = handlePosition(fields, game)
 		case "go":
-			depth := parseDepth(fields)
-			timeLimit := parseTimeLimit(fields, game.Board.SideToMove)
+			depth, timeLimit := parseSearchLimits(fields, game.Board.SideToMove)
 			if searching.Load() {
 				game.Search.Stop.Store(true)
 				if searchDone != nil {
@@ -138,15 +137,42 @@ func handlePosition(fields []string, game *api.Game) *api.Game {
 	return game
 }
 
+func parseSearchLimits(fields []string, side int) (int, time.Duration) {
+	timeLimit := parseTimeLimit(fields, side)
+	if depth, ok := parseExplicitDepth(fields); ok {
+		return depth, timeLimit
+	}
+	if timeLimit > 0 || hasGoToken(fields, "infinite") {
+		return search.MaxDepth - 1, timeLimit
+	}
+	return 4, 0
+}
+
 func parseDepth(fields []string) int {
+	if depth, ok := parseExplicitDepth(fields); ok {
+		return depth
+	}
+	return 4
+}
+
+func parseExplicitDepth(fields []string) (int, bool) {
 	for i := 0; i+1 < len(fields); i++ {
 		if fields[i] == "depth" {
 			if d, err := strconv.Atoi(fields[i+1]); err == nil {
-				return d
+				return d, true
 			}
 		}
 	}
-	return 4
+	return 0, false
+}
+
+func hasGoToken(fields []string, token string) bool {
+	for i := 1; i < len(fields); i++ {
+		if fields[i] == token {
+			return true
+		}
+	}
+	return false
 }
 
 func parseTimeLimit(fields []string, side int) time.Duration {

@@ -5,12 +5,53 @@ import (
 	"time"
 
 	"EquinoxChess/internal/board"
+	"EquinoxChess/internal/search"
 )
 
 func TestParseTimeLimitMovetime(t *testing.T) {
 	got := parseTimeLimit([]string{"go", "movetime", "123"}, board.White)
 	if got != 123*time.Millisecond {
 		t.Fatalf("got %s want 123ms", got)
+	}
+}
+
+func TestParseSearchLimitsDefaultsToDepthFourWithoutClock(t *testing.T) {
+	depth, limit := parseSearchLimits([]string{"go"}, board.White)
+	if depth != 4 {
+		t.Fatalf("depth = %d, want 4", depth)
+	}
+	if limit != 0 {
+		t.Fatalf("limit = %s, want 0", limit)
+	}
+}
+
+func TestParseSearchLimitsKeepsExplicitDepth(t *testing.T) {
+	depth, limit := parseSearchLimits([]string{"go", "depth", "6", "movetime", "123"}, board.White)
+	if depth != 6 {
+		t.Fatalf("depth = %d, want 6", depth)
+	}
+	if limit != 123*time.Millisecond {
+		t.Fatalf("limit = %s, want 123ms", limit)
+	}
+}
+
+func TestParseSearchLimitsUsesMaxDepthForMovetime(t *testing.T) {
+	depth, limit := parseSearchLimits([]string{"go", "movetime", "123"}, board.White)
+	if depth != search.MaxDepth-1 {
+		t.Fatalf("depth = %d, want %d", depth, search.MaxDepth-1)
+	}
+	if limit != 123*time.Millisecond {
+		t.Fatalf("limit = %s, want 123ms", limit)
+	}
+}
+
+func TestParseSearchLimitsUsesMaxDepthForClock(t *testing.T) {
+	depth, limit := parseSearchLimits([]string{"go", "wtime", "60000", "btime", "60000", "winc", "100", "binc", "100"}, board.White)
+	if depth != search.MaxDepth-1 {
+		t.Fatalf("depth = %d, want %d", depth, search.MaxDepth-1)
+	}
+	if limit != 50*time.Millisecond {
+		t.Fatalf("limit = %s, want 50ms", limit)
 	}
 }
 
