@@ -7,11 +7,12 @@ const (
 )
 
 type TTEntry struct {
-	Key   uint64
-	Depth int
-	Score int
-	Flag  uint8
-	Move  uint32
+	Key           uint64
+	HalfmoveClock int
+	Depth         int
+	Score         int
+	Flag          uint8
+	Move          uint32
 }
 
 type TranspositionTable struct {
@@ -30,7 +31,10 @@ func NewTT(size int) *TranspositionTable {
 	}
 }
 
-func (tt *TranspositionTable) Probe(key uint64, depth int, alpha int, beta int, ply int, mateThreshold int) (score int, move uint32, cutoff bool) {
+// Probe returns the stored move for ordering whenever key matches. A stored
+// score is eligible for a cutoff only when halfmoveClock also matches, because
+// the Zobrist key deliberately does not include the fifty-move counter.
+func (tt *TranspositionTable) Probe(key uint64, halfmoveClock int, depth int, alpha int, beta int, ply int, mateThreshold int) (score int, move uint32, cutoff bool) {
 	if tt == nil || len(tt.Entries) == 0 {
 		return 0, 0, false
 	}
@@ -39,6 +43,9 @@ func (tt *TranspositionTable) Probe(key uint64, depth int, alpha int, beta int, 
 		return 0, 0, false
 	}
 	move = entry.Move
+	if entry.HalfmoveClock != halfmoveClock {
+		return 0, move, false
+	}
 	if entry.Depth < depth {
 		return 0, move, false
 	}
@@ -66,7 +73,7 @@ func (tt *TranspositionTable) Probe(key uint64, depth int, alpha int, beta int, 
 	return 0, move, false
 }
 
-func (tt *TranspositionTable) Store(key uint64, depth int, score int, flag uint8, move uint32, ply int, mateThreshold int) {
+func (tt *TranspositionTable) Store(key uint64, halfmoveClock int, depth int, score int, flag uint8, move uint32, ply int, mateThreshold int) {
 	if tt == nil || len(tt.Entries) == 0 {
 		return
 	}
@@ -84,6 +91,7 @@ func (tt *TranspositionTable) Store(key uint64, depth int, score int, flag uint8
 	}
 
 	entry.Key = key
+	entry.HalfmoveClock = halfmoveClock
 	entry.Depth = depth
 	entry.Score = adjustedScore
 	entry.Flag = flag

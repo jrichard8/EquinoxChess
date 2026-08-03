@@ -42,7 +42,7 @@ func (s *Search) Negamax(b *board.Board, depth int, alpha int, beta int) int {
 	originalBeta := beta
 	var ttMove uint32
 	if s.TT != nil {
-		score, move, cutoff := s.TT.Probe(b.ZobristKey, depth, alpha, beta, s.Ply, MateThreshold)
+		score, move, cutoff := s.TT.Probe(b.ZobristKey, b.HalfmoveClock, depth, alpha, beta, s.Ply, MateThreshold)
 		if move != 0 {
 			ttMove = move
 		}
@@ -173,7 +173,7 @@ func (s *Search) Negamax(b *board.Board, depth int, alpha int, beta int) int {
 				s.PVMove[0] = m
 			}
 			if s.TT != nil {
-				s.TT.Store(b.ZobristKey, depth, beta, tt.TTBeta, m, currentPly, MateThreshold)
+				s.TT.Store(b.ZobristKey, b.HalfmoveClock, depth, beta, tt.TTBeta, m, currentPly, MateThreshold)
 			}
 			updateKillers(s, m)
 			return beta
@@ -208,7 +208,7 @@ func (s *Search) Negamax(b *board.Board, depth int, alpha int, beta int) int {
 		} else {
 			flag = tt.TTExact
 		}
-		s.TT.Store(b.ZobristKey, depth, finalScore, flag, bestMove, s.Ply, MateThreshold)
+		s.TT.Store(b.ZobristKey, b.HalfmoveClock, depth, finalScore, flag, bestMove, s.Ply, MateThreshold)
 	}
 	return finalScore
 }

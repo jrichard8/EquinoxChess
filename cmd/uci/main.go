@@ -13,7 +13,6 @@ import (
 	"EquinoxChess/internal/board"
 	"EquinoxChess/internal/movegen"
 	"EquinoxChess/internal/search"
-	"EquinoxChess/internal/tt"
 	"EquinoxChess/internal/uci"
 )
 
@@ -114,7 +113,9 @@ func handlePosition(fields []string, game *api.Game) *api.Game {
 	}
 	idx := 1
 	if fields[idx] == "startpos" {
-		game.NewGame()
+		// "position" replaces the board, not the game. Keep search state so TT,
+		// history, and killers remain useful until "ucinewgame" resets them.
+		game.Board = board.NewBoard()
 		idx++
 	} else if fields[idx] == "fen" {
 		if len(fields) < idx+7 {
@@ -124,7 +125,6 @@ func handlePosition(fields []string, game *api.Game) *api.Game {
 		b, err := board.FromFEN(fen)
 		if err == nil {
 			game.Board = b
-			game.Search = search.Search{TT: tt.NewTT(1 << 20)}
 		}
 		idx += 7
 	}
@@ -215,9 +215,17 @@ func parseTimeLimit(fields []string, side int) time.Duration {
 		return 0
 	}
 	if inc > 0 {
-		allocationMs := inc / 2
-		if remaining < 150 {
-			allocationMs = inc / 4
+		const (
+			movesHorizon      int64 = 40
+			incrementShareNum int64 = 3
+			incrementShareDen int64 = 4
+			clockCapDivisor   int64 = 10
+		)
+
+		// Spread the clock over the horizon while keeping a 10% anti-flag cap.
+		allocationMs := remaining/movesHorizon + incrementShareNum*inc/incrementShareDen
+		if clockCapMs := remaining / clockCapDivisor; allocationMs > clockCapMs {
+			allocationMs = clockCapMs
 		}
 		if allocationMs < 1 {
 			allocationMs = 1
