@@ -1,5 +1,64 @@
 # EquinoxChess — Status
 
+## Update 2026-07-31
+
+- Harness Elo apparie ajoute : `32` EPD fixes, deux parties par ouverture avec
+  couleurs inversees, PGN valide structurellement, statistiques par paire et
+  manifeste SHA-256 (`tools/elo/`).
+- Trois changements de recherche ont ete rejetes apres mesure isolee : priorite
+  TT/PV dure, priorite PV racine seule et comptage des coups legaux pour le LMR.
+- Correction UCI retenue techniquement : `position` conserve maintenant TT,
+  history et killers jusqu'a `ucinewgame`. Un garde-fou TT sur
+  `HalfmoveClock` interdit les cutoffs issus d'un autre compteur 50-coups tout
+  en conservant le coup TT pour l'ordering.
+- A/B long combine vs baseline, `64` parties a `1+0.1` : `34-6-24`, score
+  `57.81%`, estimation `+54.7 Elo` (Hoeffding 95% encore inconclusif).
+- A/B causal combine vs garde-fou seul, deux lots de `64` : total
+  `61-23-44`, score `56.64%`, estimation `+46.4 Elo`. Les deux lots sont
+  positifs, mais l'intervalle conservateur contient encore zero : signal
+  reproductible, pas preuve Elo definitive.
+- Cout connu : le garde-fou TT fait repasser Game09 de `-342` a `-128`; le
+  canari anti-blunder revient donc de `3/13` a `2/13`. Ce recul reste visible et
+  devra etre compense, pas masque.
+- Gestion du temps UCI avec increment corrigee et retenue : budget
+  `remaining/40 + 3*increment/4`, plafonne a `remaining/10` et borne a `1 ms`.
+  `movetime` et le chemin sans increment restent inchanges. A `1+0.1`, le
+  budget nominal passe de `50 ms` a `100 ms`.
+- Deux A/B complets contre l'ancien budget, `64` parties chacun a `1+0.1` :
+  `43-6-15` puis `42-11-11`. Agregat principal `85-17-26`, score `73.05%`,
+  estimation `+173.2 Elo`; intervalle Hoeffding 95% conservateur
+  `[+42.4, +382.1] Elo`. Le gain est positif dans les deux repetitions et dans
+  l'intervalle agrege : changement accepte.
+- Le temps moyen par coup passe bien de `49.9 ms` a `99.8 ms`; sur les deux
+  lots, la profondeur moyenne hors marqueurs terminaux passe de `5.95` a `6.58`,
+  la mediane de `6` a `7` et le p90 de `8` a `9`. Aucun forfait au temps, crash
+  ou coup illegal sur les `128` parties principales (ni sur le gate initial de
+  `32` parties).
+- Validation : tests UCI/TT/matchstats cibles, `go test -race ./cmd/uci` et
+  `go vet ./...` verts. `go test ./...` reste rouge uniquement sur les `11/13`
+  cas deja connus du canari anti-blunder.
+- Infrastructure externe durcie : options UCI propres a chaque moteur tracees
+  dans le manifeste, terminaisons anormales ventilees par moteur, et suite v2
+  de `64` ouvertures legales/uniques (`128` parties avec couleurs inversees).
+- Gate externe vs Stockfish 18 limite a 1600, `32` parties a `1+0.1` :
+  `20-1-11`, score `64.06%`, `+100.4 Elo` indicatifs, zero incident. Ce gate
+  chevauche la suite longue et n'est pas additionne au resultat final.
+- Calibration externe principale vs SF18-1600, `128` parties / `64` paires :
+  `78-4-46`, score `62.50%`, estimation `+88.7 +/- 61.8 Elo` (LOS `99.8%`).
+  L'intervalle Hoeffding apparie, plus conservateur, reste inconclusif :
+  `[-31.2, +235.2] Elo`.
+- Forte asymetrie couleur au TC ultra-court : Equinox blanc `47-3-14`
+  (`75.8%`), Equinox noir `31-1-32` (`49.2%`); score global des Blancs
+  `63.3%`. Le pairage controle ce biais dans le score total.
+- Cinq forfaits au temps dans le lot long : `3` pour Equinox, `2` pour
+  Stockfish. Aucun crash, coup illegal, disconnect ou stall. Le gain de force
+  de la nouvelle allocation reste etabli par l'A/B interne, mais sa marge
+  anti-flag est insuffisante pour declarer la gestion du temps terminee.
+- Bilan niveau : calibration nominale Equinox autour de `1689` a `1+0.1`
+  (intervalle usuel environ `[1627, 1751]`), nettement meilleure que le snapshot
+  historique mais non comparable causalement a run6 (SF/protocole/suite
+  differents). Le niveau `1800` n'est pas encore demontre.
+
 ## Snapshot 2026-04-29
 
 - Moteur fonctionnel, parties completes, scores PGN propres (mate notation, plus de bornes d'aspiration trompeuses)
@@ -24,7 +83,7 @@ Plateau `40-46%` dans le bruit (`+/- 133` Elo). La phase comptable est terminee,
 
 - `13` FEN extraites du run6 : `7` balanced_blunder + `2` unclassified + `4` conversion_blunder courtes
 - Chaque sous-test : `SearchRoot` a profondeur `6` doit retourner score `<= -300cp` ou mate-against
-- **Etat : `2/13` verts** (Game06, Game09, Game21). Sur certains rouges, le score reste meme positif a depth `6` : G16 `+288`, G25 `+442`, G28 `+120`
+- **Etat : `2/13` verts** (Game06, Game21). Sur certains rouges, le score reste meme positif a depth `6` : G16 `+288`, G25 `+453`, G28 `+120`
 - Definition of done : `>= 10/13` verts avant de relancer un match
 
 ## Canari Phase 1 (anti-stalemate, vert)
@@ -65,7 +124,7 @@ Cout : `~42 min` wall-time cumulees pour les `5` positions a depth `12` (G17 seu
 | 1. Remettre sur des rails | Stopper les regressions Elo et les bugs de score | Close |
 | 2. Nettoyer la recherche | Ordering, quiescence, pruning. Canari anti-blunder au vert | Pause (canari `2/13`, diagnostic dit "pas un pb de profondeur") |
 | 3. Faire grandir l'evaluation | King safety, threat awareness, tapered eval, structure de pions | **En cours** (anticipee suite diagnostic 2026-04-29) |
-| 4. Infrastructure Elo | Gauntlet reproductible, baselines SF1400/1600/1800, seuils de rejet | A venir |
+| 4. Infrastructure Elo | Gauntlet reproductible, baselines SF1400/1600/1800, seuils de rejet | **En cours** (A/B apparie disponible) |
 | 5. Viser 2000 Elo | Battre SF1400 -> tenir SF1600 -> depasser SF1600 | A venir |
 
 ## Cibles Phase 3 prioritaires
@@ -88,6 +147,9 @@ Les `5` positions rouges du diagnostic partagent un theme dominant : roi adverse
 
 ## Prochaine etape
 
-Implementer **king safety renforcee** isolee, mesurer son effet sur le canari anti-blunder. Si gain (>= `+2` verts), garder ; sinon revert et passer au levier suivant (threat awareness ou tapered eval). Meme protocole que les fixes Phase 2 : un levier a la fois, mesure isolee avant tout autre changement.
-
-Pas de match SF1600 tant que le canari n'atteint pas `>= 10/13` verts.
+Corriger de facon isolee la marge anti-flag de la gestion du temps, sans toucher
+a la recherche ni a l'evaluation. Premiere candidate recommandee : soustraire un
+overhead fixe de `10 ms` au budget calcule (apres le plafond, avant le plancher
+de `1 ms`), ce qui donne `90 ms` au lieu de `100 ms` a `1+0.1`. L'accepter
+seulement si un A/B apparie sur la suite v2 conserve l'essentiel du gain Elo et
+si une validation externe longue ne produit plus aucun forfait Equinox.

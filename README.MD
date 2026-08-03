@@ -4,13 +4,18 @@ UCI chess engine written in Go, with a built-in HTTP server and a small web UI t
 
 ## Current strength
 
-Measured on `30`-game gauntlets at `1+0.1` time control vs Stockfish capped at the named Elo:
+Measured at `1+0.1` against Stockfish capped at the named Elo:
 
 | Opponent | Score | W-D-L | Elo estimate |
 |----------|-------|-------|--------------|
+| SF18-1600 (paired v2, 128 games, 2026-07-31) | `62.5%` | `78-4-46` | `+88.7 +/- 61.8` |
 | SF1600 (run6, 2026-04-29) | `40.0%` | `12-0-18` | `-70.4 +/- 133.7` |
 
-So the engine is currently a bit below `SF1600` strength, somewhere in the `~1400-1550` Elo range. The detailed trajectory across runs and current development priorities are in [status.md](status.md).
+The current nominal calibration is therefore around `1690` at this very fast
+time control. That is an estimate, not a certified absolute rating: the paired
+Hoeffding interval remains inconclusive, and the run contained three Equinox
+time forfeits versus two for Stockfish. The detailed protocol, uncertainty and
+current development priorities are in [status.md](status.md).
 
 ## What's implemented
 
@@ -123,6 +128,10 @@ env GOCACHE=/tmp/go-build GOMODCACHE=/tmp/go-mod-cache go test ./...
 ```
 
 ## Reference gauntlet
+
+For candidate-vs-baseline validation, use the fixed, color-swapped opening
+protocol in [tools/elo/README.md](tools/elo/README.md). The Stockfish commands
+below remain useful for absolute strength calibration.
 
 Short regression run :
 
