@@ -131,49 +131,61 @@ func TestParseTimeLimitClockWithIncrement(t *testing.T) {
 			name:   "white 1s plus 100ms",
 			fields: []string{"go", "wtime", "1000", "btime", "60000", "winc", "100", "binc", "250"},
 			side:   board.White,
-			want:   100 * time.Millisecond,
+			want:   85 * time.Millisecond,
 		},
 		{
 			name:   "black 1s plus 100ms",
 			fields: []string{"go", "wtime", "60000", "btime", "1000", "winc", "250", "binc", "100"},
 			side:   board.Black,
-			want:   100 * time.Millisecond,
+			want:   85 * time.Millisecond,
 		},
 		{
 			name:   "white 60s plus 100ms",
 			fields: []string{"go", "wtime", "60000", "btime", "20", "winc", "100", "binc", "500"},
 			side:   board.White,
-			want:   1575 * time.Millisecond,
+			want:   1560 * time.Millisecond,
 		},
 		{
 			name:   "black 60s plus 100ms",
 			fields: []string{"go", "wtime", "20", "btime", "60000", "winc", "500", "binc", "100"},
 			side:   board.Black,
-			want:   1575 * time.Millisecond,
+			want:   1560 * time.Millisecond,
 		},
 		{
 			name:   "white 100ms cap",
 			fields: []string{"go", "wtime", "100", "btime", "60000", "winc", "100", "binc", "500"},
 			side:   board.White,
-			want:   10 * time.Millisecond,
+			want:   time.Millisecond,
 		},
 		{
 			name:   "black 100ms cap",
 			fields: []string{"go", "wtime", "60000", "btime", "100", "winc", "500", "binc", "100"},
 			side:   board.Black,
-			want:   10 * time.Millisecond,
+			want:   time.Millisecond,
+		},
+		{
+			name:   "white 16ms pre-overhead boundary",
+			fields: []string{"go", "wtime", "160", "btime", "60000", "winc", "100", "binc", "500"},
+			side:   board.White,
+			want:   time.Millisecond,
+		},
+		{
+			name:   "black 17ms pre-overhead boundary",
+			fields: []string{"go", "wtime", "60000", "btime", "170", "winc", "500", "binc", "100"},
+			side:   board.Black,
+			want:   2 * time.Millisecond,
 		},
 		{
 			name:   "white 20ms cap",
 			fields: []string{"go", "wtime", "20", "btime", "60000", "winc", "100", "binc", "500"},
 			side:   board.White,
-			want:   2 * time.Millisecond,
+			want:   time.Millisecond,
 		},
 		{
 			name:   "black 20ms cap",
 			fields: []string{"go", "wtime", "60000", "btime", "20", "winc", "500", "binc", "100"},
 			side:   board.Black,
-			want:   2 * time.Millisecond,
+			want:   time.Millisecond,
 		},
 		{
 			name:   "white exhausted clock floor",
@@ -240,8 +252,8 @@ func TestParseSearchLimitsUsesMaxDepthForClock(t *testing.T) {
 	if depth != search.MaxDepth-1 {
 		t.Fatalf("depth = %d, want %d", depth, search.MaxDepth-1)
 	}
-	if limit != 1575*time.Millisecond {
-		t.Fatalf("limit = %s, want 1575ms", limit)
+	if limit != 1560*time.Millisecond {
+		t.Fatalf("limit = %s, want 1560ms", limit)
 	}
 }
 

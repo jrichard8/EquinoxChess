@@ -220,13 +220,15 @@ func parseTimeLimit(fields []string, side int) time.Duration {
 			incrementShareNum int64 = 3
 			incrementShareDen int64 = 4
 			clockCapDivisor   int64 = 10
+			moveOverheadMs    int64 = 15
 		)
 
-		// Spread the clock over the horizon while keeping a 10% anti-flag cap.
+		// Spread the clock over the horizon, then reserve anti-flag headroom.
 		allocationMs := remaining/movesHorizon + incrementShareNum*inc/incrementShareDen
 		if clockCapMs := remaining / clockCapDivisor; allocationMs > clockCapMs {
 			allocationMs = clockCapMs
 		}
+		allocationMs -= moveOverheadMs
 		if allocationMs < 1 {
 			allocationMs = 1
 		}
