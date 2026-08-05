@@ -21,6 +21,20 @@
 - Decision : **overhead fixe de 15 ms accepte**. Il totalise zero forfait sur
   le gate `32`, le long A/B `128` et l'externe `128`, sans perte de force
   detectee. Ne plus tester les constantes `10/20 ms`.
+- Changement fige dans le commit `182aae5 Add UCI move overhead margin`.
+  Binaire propre reconstruit depuis ce commit, SHA-256
+  `ae1d10278a8ec18a8fd42d7a5bd8ec5f08cc67fa74024084f215f6f5fd3bc5ba`.
+- Calibration contre Stockfish 18 limite a `1800 Elo`, `128` parties /
+  `64` ouvertures : `59-7-62`, score `48.83%`, estimation `-8.1 Elo`,
+  intervalle Hoeffding 95% `[-132.1, +113.7] Elo`. Equinox ne subit aucune
+  anomalie; Stockfish abandonne une partie au temps.
+- Sensibilite sans ce forfait Stockfish : `58-7-62` sur `127`, score `48.43%`,
+  estimation `-10.9 Elo`, soit une calibration nominale autour de `1789`.
+  Equinox tient donc approximativement SF18-1800 a ce controle, mais
+  l'objectif `1800+` n'est ni prouve ni exclu par cet echantillon.
+- Recherche temporisee : `75/6013` coups Equinox (`1.25%`) n'ont qu'une
+  annotation temps, compatibles avec un retour `bestDepth=0`. La profondeur
+  moyenne annotee est `5.91`; zero forfait Equinox.
 
 ## Update 2026-08-04
 
@@ -246,10 +260,12 @@ Les `5` positions rouges du diagnostic partagent un theme dominant : roi adverse
 
 ## Prochaine etape
 
-Committer l'overhead `15 ms`, ses tests et ce bilan afin de rendre le binaire
-reproductible. Construire ensuite une nouvelle baseline immuable depuis ce
-commit et mesurer `128` parties contre Stockfish 18 limite a `1800 Elo`, avec
-les memes ouvertures, le meme controle et les memes options techniques. Cette
-calibration doit estimer l'ecart restant vers l'objectif `1800+`; elle ne doit
-pas etre presentee comme un Elo absolu. Conserver comme piste separee la
-reduction des `depth 0` en recherche temporisee.
+Tester isolement un fallback racine base sur le coup TT lorsqu'aucune
+profondeur n'est completee. Si la TT contient pour la cle racine un coup non
+nul present dans la liste legale, l'utiliser a la place du premier coup legal;
+sinon conserver exactement le fallback actuel. Ne modifier ni cutoff, ni move
+ordering, ni pruning, ni budget temps. Ajouter des tests pour un coup TT legal,
+un coup stale/illegal et l'absence de TT, puis mesurer la couverture sur les
+cas `bestDepth=0` avant un A/B v2. Si le hit TT est rare ou si l'A/B est
+neutre/negatif, retirer le patch et reprendre la piste king-zone attack
+pressure.
