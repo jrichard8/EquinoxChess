@@ -1,5 +1,90 @@
 # EquinoxChess — Status
 
+## Update 2026-08-24
+
+- Instrumentation hors recherche ajoutee sous `tools/kingzone/`. Elle rejoue le
+  PGN annote avec le POV du joueur, separe les scores finis des mats et mesure,
+  avant/apres le coup Equinox, les fous, tours et dames ennemis touchant
+  geometriquement l'anneau du roi. Aucun fichier moteur, recherche ou
+  evaluation n'a ete modifie.
+- Source analysee : `sf1600-run6-1+0.1-30.pgn`, SHA-256
+  `1c98886a75d26560326cbfae249742af76ea7dfe813e3d8e3fd66fa74cf0d4dc`.
+  Le replay couvre 30 parties, 3281 plies, 1530 decisions Equinox exploitables,
+  417 swings severes et retrouve exactement les 13/13 canaris.
+- Variable primaire : score Equinox au POV Equinox plus score de la reponse
+  Stockfish au POV Stockfish. Un mat positif Stockfish ou un ecart fini d'au
+  moins 300 cp est severe; aucun mat n'est transforme en cp dans l'analyse
+  primaire. Les intervalles reposent sur 10000 bootstraps par blocs de parties,
+  seed `20260824`.
+- Sous le gate prefixe milieu de partie/hors echec (`nonPawnMaterial > 2000`),
+  la dame adverse touche l'anneau sur 184/921 lignes dans 24/30 parties. Le
+  taux severe vaut 51.09% expose contre 13.30% non expose, soit +37.79 points;
+  l'intervalle bootstrap 95% est `[+20.00, +50.83]` points. Le swing fini
+  median vaut 249 contre 109 cp, difference +140 cp, intervalle `[+9, +248]`.
+- Le signal dame ne depend pas des cibles historiques : apres retrait des
+  canaris, le risque reste a +37.14 points, intervalle `[+18.56, +50.77]`, et
+  la difference mediane a +141.5 cp. Le placebo symetrique (dame Equinox vers
+  le roi adverse) tombe a +4.70 points, intervalle `[-7.67, +20.65]`, et
+  +38 cp de mediane.
+- Couverture canaris : dame `4/13`, fou `1/13`, tour `2/13`. Le fou et la tour
+  echouent donc le seuil prefixe de couverture; la tour a aussi une correlation
+  globale de signe negatif. Ne pas combiner les trois types malgre le cas
+  Game09.
+- Golden Game09 confirme avant et apres `64.Ra7` : un fou adverse touche deux
+  cases, une tour trois, aucune dame; total deux attaquants, cinq hits et quatre
+  cases distinctes, hors echec. La pression est preexistante et inchangee par
+  le coup : un futur terme dame ne corrigera pas directement ce canari.
+- Decision : **seul candidat causal retenu pour l'experience suivante :
+  `QueenZone20`**, penalite de 20 cp par dame adverse distincte touchant au
+  moins une case de l'anneau, comptee une seule fois et sous le gate de phase
+  existant. Les multiplicites de cases, fous, tours, synergies et cap du stash
+  restent exclus. Le signal historique justifie un A/B isole, pas un gain Elo.
+- Validation outil : 8 tests unitaires, compilation Python et `diff --check`
+  verts. Rapport final SHA-256
+  `972560ded3cfa1b7584964f1e37db0adff72a80cd614e64a09116e42606e0151`;
+  CSV final SHA-256
+  `77c0dfe103bcd92cf9e9dccf7b7da436a861102ef1c840fb627c4d3109f47dda`.
+
+## Update 2026-08-21
+
+- Le stash `wip king zone safety experiment` a ete audite sans etre depile. Son
+  patch complet melangeait cavaliers, fous, tours et dames, multiplicite des
+  cases attaquees, synergie multi-attaquants et cap `250 cp`; il n'a pas ete
+  restaure tel quel.
+- Hypothese minimale testee isolement : dans le gate de securite du roi deja
+  existant (`nonPawnMaterial > 2000`), penalite de `20 cp` par cavalier ennemi
+  touchant au moins une case de l'anneau du roi. Chaque cavalier ne compte
+  qu'une fois; aucune attaque glissante, occupation, recherche ou gestion du
+  temps n'a ete modifiee.
+- Canaris valides : `0/1/2` attaquants, multi-hit compte une fois, couleur
+  adverse, roi absent, symetrie des couleurs et signe selon le trait. Le score
+  reste celui de la baseline sous le gate de phase et varie exactement de
+  `20 cp` au-dessus. Tests cibles, race detector, `go vet ./...` et revue
+  independante verts.
+- La suite complete conserve exactement les `11/13` echecs anti-blunder
+  historiques, donc `2/13` positions passent toujours. Les variations sont
+  mixtes : Game02 et Game25 s'ameliorent de `20 cp`, Game17 recule de `10 cp`,
+  Game27 s'ameliore de `2 cp`; Game09 reste a `-128`.
+- Gate `32` parties / `16` ouvertures a `1+0.1` : `14-8-10`, score `56.25%`,
+  estimation `+43.7 Elo`, intervalle Hoeffding 95% `[-216.9, +385.6] Elo`,
+  zero incident. Ce signal court a satisfait le critere de poursuite.
+- Validation longue du meme binaire, `128` parties / `64` ouvertures :
+  `46-28-54`, score `46.88%`, estimation `-21.7 Elo`, intervalle Hoeffding 95%
+  `[-148.0, +98.8] Elo`. Le candidat fait `24-14-26` avec les Blancs et
+  `22-14-28` avec les Noirs; zero forfait, crash, coup illegal, disconnect,
+  stall ou terminaison inconnue pour les deux moteurs.
+- Les commentaires temps-seul restent rares mais un peu plus frequents pour le
+  candidat : `32/8424` (`0.38%`) contre `25/8427` (`0.30%`). Profondeur moyenne
+  annotee `7.27` contre `7.20`, temps moyen identique `93.8 ms`.
+- Decision : **rejet de KnightZone20 pour absence de gain long**. Le point
+  estime ne depasse pas la baseline, meme si aucune regression statistique ou
+  pratique n'est demontree. Le patch moteur et ses tests ont ete retires; le
+  stash original reste intact. Ne pas interpoler immediatement a `10 cp`.
+- Prochaine etape recommandee : instrumenter hors recherche la distribution
+  des menaces glissantes (fou/tour/dame) sur l'anneau du roi et leur correlation
+  avec les swings des canaris/PGN, avant de choisir un unique terme d'evaluation
+  causal. Ne pas restaurer le terme multi-pieces du stash sans cette mesure.
+
 ## Update 2026-08-05
 
 - Validation externe du meme binaire `Overhead15ms` contre Stockfish 18 limite
@@ -35,6 +120,22 @@
 - Recherche temporisee : `75/6013` coups Equinox (`1.25%`) n'ont qu'une
   annotation temps, compatibles avec un retour `bestDepth=0`. La profondeur
   moyenne annotee est `5.91`; zero forfait Equinox.
+- Hypothese de fallback racine TT testee sans modifier le binaire accepte :
+  instrumentation passive sur `32` parties / `16` ouvertures a `1+0.1`, avec
+  capture de la case TT racine avant la recherche puis journalisation des seuls
+  retours `bestDepth=0`.
+- Couverture nulle : `16/16` retours `bestDepth=0` etaient non terminaux avec
+  des coups legaux, mais aucun n'avait une entree TT de meme cle, donc
+  `0/16` coup TT legal et `0/16` fallback qui aurait change. Le PV d'une
+  profondeur completee est reste separe du diagnostic et vaut necessairement
+  zero sur cet echantillon `bestDepth=0`.
+- Decision : **rejet avant gate de force**. Le patch candidat, pourtant valide
+  par tests cibles, race detector, vet et revue independante, a ete retire car
+  l'hypothese n'est pas exercee dans le regime mesure. Aucun A/B Elo n'est
+  interpretable ni lance; le code moteur reste identique au commit accepte.
+- Prochaine piste : reprendre l'experience de pression de zone du roi depuis
+  un diff audite du stash, en isolant d'abord le plus petit terme d'evaluation
+  et ses positions canaris avant tout gate Elo.
 
 ## Update 2026-08-04
 
