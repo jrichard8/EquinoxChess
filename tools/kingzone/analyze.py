@@ -32,6 +32,22 @@ NON_PAWN_VALUES = {
 }
 BOOTSTRAP_REPLICATIONS = 10_000
 BOOTSTRAP_SEED = 20260824
+TACTICAL_REPLY_FIELDS = (
+    "reply_is_capture",
+    "reply_is_check",
+    "reply_is_capture_check",
+    "reply_is_quiet_check",
+    "reply_is_promotion",
+    "reply_qsearch_visible",
+    "reply_qsearch_invisible",
+    "reply_is_quiet_check_qsearch_invisible",
+    "reply_is_quiet_noncheck",
+)
+TACTICAL_STAT_FIELDS = ("reply_position_in_check", *TACTICAL_REPLY_FIELDS)
+TACTICAL_MIN_ROWS = 20
+TACTICAL_MIN_GAMES = 10
+TACTICAL_QUIET_CHECK_MAJORITY_MIN_EXCLUSIVE = 0.50
+TACTICAL_QUIET_CHECK_EXCESS_MIN = 0.15
 SCORE_RE = re.compile(
     r"^\s*(?P<sign>[+-]?)(?:(?P<mate>[Mm])(?P<distance>\d+)|(?P<cp>\d+(?:\.\d+)?))(?=/|\s|,|$)"
 )
@@ -140,6 +156,43 @@ def _player_for_turn(headers: chess.pgn.Headers, turn: chess.Color) -> str:
     return headers.get("White" if turn == chess.WHITE else "Black", "")
 
 
+def classify_tactical_reply(board: chess.Board, move: chess.Move) -> dict[str, Any]:
+    """Classify a legal immediate reply and its current qsearch eligibility.
+
+    Equinox's quiescence admits every legal evasion when already in check.
+    Otherwise it admits captures only before delta pruning; its later promotion
+    exception does not rescue non-capturing promotions from the preceding
+    capture filter.
+    """
+    if not board.is_legal(move):
+        raise ValueError(f"illegal tactical reply {move.uci()} in {board.fen()}")
+    position_in_check = board.is_check()
+    is_capture = board.is_capture(move)
+    is_check = board.gives_check(move)
+    is_promotion = move.promotion is not None
+    qsearch_visible = position_in_check or is_capture
+    if position_in_check:
+        visibility_reason = "evasion"
+    elif is_capture:
+        visibility_reason = "capture"
+    else:
+        visibility_reason = "filtered_non_capture"
+    is_quiet_check = is_check and not is_capture and not is_promotion
+    return {
+        "reply_position_in_check": position_in_check,
+        "reply_is_capture": is_capture,
+        "reply_is_check": is_check,
+        "reply_is_capture_check": is_capture and is_check,
+        "reply_is_quiet_check": is_quiet_check,
+        "reply_is_promotion": is_promotion,
+        "reply_qsearch_visible": qsearch_visible,
+        "reply_qsearch_invisible": not qsearch_visible,
+        "reply_qsearch_visibility_reason": visibility_reason,
+        "reply_is_quiet_check_qsearch_invisible": is_quiet_check and not qsearch_visible,
+        "reply_is_quiet_noncheck": not is_capture and not is_check and not is_promotion,
+    }
+
+
 def analyze_pgn(
     pgn_path: Path,
     canaries: dict[str, str],
@@ -206,6 +259,8 @@ def analyze_pgn(
                             post_board = board.copy(stack=False)
                             post_board.push(move)
                             post_features = king_zone_features(post_board, board.turn)
+                            reply_move = nodes[index + 1].move
+                            reply_features = classify_tactical_reply(post_board, reply_move)
                             row: dict[str, Any] = {
                                 "game_index": game_index,
                                 "round": game.headers.get("Round", ""),
@@ -214,6 +269,8 @@ def analyze_pgn(
                                 "fen": fen,
                                 "move_uci": move.uci(),
                                 "move_san": board.san(move),
+                                "reply_move_uci": reply_move.uci(),
+                                "reply_move_san": post_board.san(reply_move),
                                 "engine_cp": engine_score.cp,
                                 "adverse_cp": response_score.cp,
                                 "ref_is_mate": response_score.is_mate,
@@ -233,6 +290,11 @@ def analyze_pgn(
                                     row[f"delta_{key}"] = int(value) - int(pre_features[key])
                             for key, value in placebo_features.items():
                                 row[f"placebo_{key}"] = value
+                            row["queen_net_danger"] = (
+                                int(row["queen_attackers"])
+                                - int(row["placebo_queen_attackers"])
+                            )
+                            row.update(reply_features)
                             rows.append(row)
                             counts["rows"] += 1
                             counts["severe"] += int(row["severe"])
@@ -459,6 +521,143 @@ def sensitivity_stats(
     return result
 
 
+def tactical_reply_group_stats(rows: Sequence[dict[str, Any]]) -> dict[str, Any]:
+    counts = {
+        field: sum(bool(row[field]) for row in rows)
+        for field in TACTICAL_STAT_FIELDS
+    }
+    visibility_reasons = ("evasion", "capture", "filtered_non_capture")
+    reason_counts = {
+        reason: sum(row["reply_qsearch_visibility_reason"] == reason for row in rows)
+        for reason in visibility_reasons
+    }
+    return {
+        "rows": len(rows),
+        "games": len({row["game_index"] for row in rows}),
+        "severe_rows": sum(bool(row["severe"]) for row in rows),
+        "counts": counts,
+        "rates": {
+            field: _rounded(count / len(rows) if rows else None)
+            for field, count in counts.items()
+        },
+        "games_by_feature": {
+            field: len({row["game_index"] for row in rows if row[field]})
+            for field in TACTICAL_STAT_FIELDS
+        },
+        "qsearch_visibility_reason_counts": reason_counts,
+        "qsearch_visibility_reason_rates": {
+            reason: _rounded(count / len(rows) if rows else None)
+            for reason, count in reason_counts.items()
+        },
+    }
+
+
+def tactical_reply_section(rows: Sequence[dict[str, Any]]) -> dict[str, Any]:
+    net_danger = [row for row in rows if row["queen_net_danger"] > 0]
+    non_net_danger = [row for row in rows if row["queen_net_danger"] <= 0]
+    return {
+        "all": tactical_reply_group_stats(rows),
+        "net_queen_danger": tactical_reply_group_stats(net_danger),
+        "non_net_queen_danger": tactical_reply_group_stats(non_net_danger),
+        "severe_net_queen_danger": tactical_reply_group_stats(
+            [row for row in net_danger if row["severe"]]
+        ),
+        "severe_non_net_queen_danger": tactical_reply_group_stats(
+            [row for row in non_net_danger if row["severe"]]
+        ),
+    }
+
+
+def tactical_reply_decision(rows: Sequence[dict[str, Any]]) -> dict[str, Any]:
+    primary = [
+        row for row in rows
+        if row["severe"] and row["queen_net_danger"] > 0
+    ]
+    control = [
+        row for row in rows
+        if row["severe"] and row["queen_net_danger"] <= 0
+    ]
+    feature = "reply_is_quiet_check_qsearch_invisible"
+    primary_count = sum(bool(row[feature]) for row in primary)
+    control_count = sum(bool(row[feature]) for row in control)
+    primary_rate = primary_count / len(primary) if primary else None
+    control_rate = control_count / len(control) if control else None
+    rate_excess = (
+        primary_rate - control_rate
+        if primary_rate is not None and control_rate is not None
+        else None
+    )
+    primary_games = len({row["game_index"] for row in primary})
+    coverage_pass = len(primary) >= TACTICAL_MIN_ROWS and primary_games >= TACTICAL_MIN_GAMES
+    majority_pass = (
+        primary_rate is not None
+        and primary_rate > TACTICAL_QUIET_CHECK_MAJORITY_MIN_EXCLUSIVE
+    )
+    excess_pass = (
+        rate_excess is not None
+        and rate_excess >= TACTICAL_QUIET_CHECK_EXCESS_MIN
+    )
+    recommend = coverage_pass and majority_pass and excess_pass
+    return {
+        "primary_definition": (
+            "severe PRE midgame/non-check rows without canaries and with "
+            "queen_net_danger > 0"
+        ),
+        "control_definition": (
+            "severe PRE midgame/non-check rows without canaries and with "
+            "queen_net_danger <= 0"
+        ),
+        "target_feature": feature,
+        "primary_rows": len(primary),
+        "primary_games": primary_games,
+        "primary_feature_count": primary_count,
+        "primary_feature_rate": _rounded(primary_rate),
+        "control_rows": len(control),
+        "control_games": len({row["game_index"] for row in control}),
+        "control_feature_count": control_count,
+        "control_feature_rate": _rounded(control_rate),
+        "rate_excess_vs_control": _rounded(rate_excess),
+        "thresholds": {
+            "minimum_primary_rows": TACTICAL_MIN_ROWS,
+            "minimum_primary_games": TACTICAL_MIN_GAMES,
+            "primary_rate_min_exclusive": TACTICAL_QUIET_CHECK_MAJORITY_MIN_EXCLUSIVE,
+            "rate_excess_vs_control_min_inclusive": TACTICAL_QUIET_CHECK_EXCESS_MIN,
+        },
+        "criteria": {
+            "coverage_pass": coverage_pass,
+            "strict_majority_pass": majority_pass,
+            "excess_vs_control_pass": excess_pass,
+        },
+        "recommend_targeted_quiet_check_search_experiment": recommend,
+        "interpretation_limit": (
+            "Immediate reply eligibility under qsearch rules; not evidence that "
+            "the recorded search reached a qsearch frontier at this position."
+        ),
+    }
+
+
+def tactical_canaries(rows: Sequence[dict[str, Any]]) -> list[dict[str, Any]]:
+    fields = (
+        "canary_name",
+        "game_index",
+        "ply",
+        "move_san",
+        "reply_move_san",
+        "loss_swing_cp",
+        "loss_mate",
+        "severe",
+        "queen_net_danger",
+        "reply_position_in_check",
+        *TACTICAL_REPLY_FIELDS,
+        "reply_qsearch_visibility_reason",
+    )
+    return [
+        {field: row[field] for field in fields}
+        for row in rows
+        if row["canary_name"]
+    ]
+
+
 def canary_coverage(rows: Sequence[dict[str, Any]], canaries: dict[str, str]) -> dict[str, Any]:
     matched = sorted({row["canary_name"] for row in rows if row["canary_name"]})
     all_names = sorted(canaries.values())
@@ -538,9 +737,13 @@ def sha256_file(path: Path) -> str:
 def write_csv(path: Path, rows: Sequence[dict[str, Any]]) -> None:
     fieldnames = [
         "game_index", "round", "engine_color", "ply", "fen", "move_uci", "move_san",
+        "reply_move_uci", "reply_move_san",
         "engine_cp", "adverse_cp", "ref_is_mate", "ref_mate_distance", "ref_mate_sign",
         "loss_swing_cp", "loss_mate", "optimism_gap_cp", "severe",
-        "non_pawn_material", "king_in_check", "post_king_in_check",
+        "non_pawn_material", "queen_net_danger",
+        "king_in_check", "post_king_in_check", "reply_position_in_check",
+        *TACTICAL_REPLY_FIELDS,
+        "reply_qsearch_visibility_reason",
         "bishop_attackers", "bishop_hit_sum", "bishop_union_hits",
         "rook_attackers", "rook_hit_sum", "rook_union_hits",
         "queen_attackers", "queen_hit_sum", "queen_union_hits",
@@ -582,7 +785,7 @@ def build_report(
         row for row in midgame_noncheck if not row["canary_name"]
     ]
     return {
-        "schema_version": 1,
+        "schema_version": 2,
         "inputs": {
             "pgn": {"path": str(pgn_path), "sha256": sha256_file(pgn_path)},
             "canaries": {"path": str(canary_path), "sha256": sha256_file(canary_path)},
@@ -595,6 +798,13 @@ def build_report(
             "midgame_non_pawn_material_min_exclusive": 2000,
             "bootstrap_replications": BOOTSTRAP_REPLICATIONS,
             "bootstrap_seed": BOOTSTRAP_SEED,
+            "queen_net_danger_definition": (
+                "queen_attackers - placebo_queen_attackers in PRE position"
+            ),
+            "qsearch_visibility_definition": (
+                "all legal evasions when reply position is in check; otherwise captures "
+                "admitted before delta pruning"
+            ),
         },
         "counts": counts,
         "canary_coverage": canary_coverage(rows, canaries),
@@ -615,6 +825,15 @@ def build_report(
             "global_delta": descriptive_stats(rows, "delta_"),
             "midgame_noncheck_post": descriptive_stats(midgame_noncheck, "post_"),
             "midgame_noncheck_delta": descriptive_stats(midgame_noncheck, "delta_"),
+        },
+        "tactical_replies": {
+            "global": tactical_reply_section(rows),
+            "midgame_noncheck": tactical_reply_section(midgame_noncheck),
+            "midgame_noncheck_without_canaries": tactical_reply_section(
+                midgame_noncheck_without_canaries
+            ),
+            "canaries": tactical_canaries(rows),
+            "decision": tactical_reply_decision(midgame_noncheck_without_canaries),
         },
         "mate_cap_sensitivity": sensitivity_stats(
             rows, swing_threshold_cp, (1500, 3000, mate_cap_cp)

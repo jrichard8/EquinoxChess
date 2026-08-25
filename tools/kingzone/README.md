@@ -76,6 +76,42 @@ only if all of these hold in the PRE midgame/non-check analysis:
 These thresholds guard against tiny or phase-confounded samples; meeting them
 still does not establish that adding an evaluation term will improve Elo.
 
+## Tactical reply diagnostic
+
+Each retained Equinox decision also records the opponent's immediate PGN reply
+from the POST position: UCI/SAN, capture, check, capture-check, quiet check,
+promotion, and whether the reply position was already in check. Categories may
+overlap; a `quiet check` is specifically a non-capture, non-promotion check so
+that promotions remain independently visible.
+
+`queen_net_danger` is fixed as PRE `queen_attackers -
+placebo_queen_attackers`; positive values mean that more opposing queens touch
+Equinox's king ring than Equinox queens touch the opposing ring. The primary
+tactical subset remains midgame (`non_pawn_material > 2000`), PRE non-check,
+with exact canary rows excluded, and then selects severe rows with positive net
+queen danger.
+
+The qsearch flag is theoretical eligibility, not a search trace. It mirrors the
+current implementation: all legal evasions are eligible when the side to reply
+is already in check; otherwise only captures pass the first filter. A
+non-promotion capture may still be delta-pruned depending on alpha and the
+stand-pat, which the PGN cannot reconstruct. Consequently a non-capturing
+promotion is currently filtered before the later promotion exception, and an
+ordinary quiet check is invisible. This does not prove that the recorded search
+reached a quiescence frontier at the POST position.
+
+Before inspecting the run6 result, the gate for proposing one targeted
+quiet-check search experiment is fixed as all of:
+
+- at least 20 primary severe/net-danger rows from at least 10 games;
+- invisible quiet checks form a strict majority (more than 50%) of that subset;
+- their rate exceeds the severe non-net-danger control by at least 15 percentage
+  points.
+
+Failure means no quiet-check search change is justified from this corpus. A
+pass permits one isolated search experiment; it is still observational rather
+than causal evidence.
+
 ## Tests
 
 ```bash

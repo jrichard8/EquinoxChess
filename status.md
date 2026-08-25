@@ -1,5 +1,175 @@
 # EquinoxChess — Status
 
+## Update 2026-08-25
+
+- Candidat causal `QueenZone20` implemente puis teste isolement depuis la
+  baseline `a26755e` : penalite de 20 cp par dame adverse distincte touchant
+  geometriquement l'anneau du roi, une fois par dame, sous le gate strict
+  `nonPawnMaterial > 2000`. Aucun fou, tour, multiplicite de cases, synergie,
+  cap ou changement de recherche n'a ete ajoute.
+- Semantique validee : rayons occupancy-aware, premiere case occupee incluse
+  puis arret, pins ignores, roi absent, blockers des deux couleurs, deux dames,
+  dame propre, multi-hit, symetrie des couleurs, signe/POV et integration
+  exacte dans `Evaluate`. Tests cibles et race detector verts, `go vet ./...`
+  vert, revue independante sans defaut fonctionnel.
+- Canaris profondeur 6 : toujours exactement `2/13` passages (Game06 et
+  Game21). Game09 reste exactement a `-128`, comme attendu : aucune dame et
+  gate ferme a 1660 de materiel non-pion. Variations principales : Game02
+  `-7 -> +17`, Game03 `-157 -> -175`, Game25 `+453 -> +436`, Game26
+  `-36 -> -56`, Game27 `+73 -> +88`; aucun nouveau passage ni echec.
+- Nuance mesuree avant A/B : quatre canaris ont une dame adverse sur l'anneau,
+  mais les menaces des deux dames s'annulent statiquement sur Game02, Game06 et
+  Game28. L'ajustement net vaut seulement `-20` sur Game25, `+20` sur Game30 et
+  zero sur les onze autres. Sur le corpus large hors canaris, le danger dame
+  net conserve toutefois un signal exploratoire positif : risque severe
+  `+35.9` points, intervalle bootstrap 95% `[+13.7, +51.4]`.
+- Premier gate interrompu et exclu : un forfait baseline a la partie 4 avait
+  invalide le critere dur; l'interruption n'a pris effet qu'apres 30 parties
+  completes. Ce fichier partiel, sans sidecar valide, n'est utilise dans aucun
+  resultat ni agregat.
+- Gate valide, 32 parties / 16 ouvertures appariees v2 : `12-6-14`, score
+  `46.88%`, estimation `-21.7 Elo`, Hoeffding 95%
+  `[-331.4, +250.0]`. Zero forfait, crash, coup illegal, disconnect, stall ou
+  terminaison inconnue pour les deux moteurs. Le seuil prefixe de poursuite
+  (`>= -40 Elo`) est franchi.
+- Au gate, commentaires temps-seul/depth0 : candidat `15/1969` (`0.76%`),
+  baseline `19/1970` (`0.96%`). Profondeur moyenne `7.31` contre `7.37`, temps
+  moyen identique `93.74 ms`. Les hashes des binaires et entrees correspondent
+  au manifeste.
+- Validation longue autonome, memes binaires, 128 parties / 64 ouvertures v2 :
+  `46-32-50`, score `48.44%`, estimation `-10.9 Elo`, Hoeffding 95%
+  `[-135.3, +110.7]`. Premiere moitie `23-15-26` (`47.66%`), seconde moitie
+  sur les 32 ouvertures absentes du gate `23-17-24` (`49.22%`) : les deux
+  segments restent de signe negatif.
+- Securite longue parfaite pour les deux moteurs. Les depth0 sont exactement
+  symetriques : `44/9090` (`0.484%`) candidat contre `44/9098` (`0.484%`)
+  baseline. Temps moyen `94.28` contre `94.25 ms`; profondeur moyenne `7.02`
+  contre `7.14`.
+- Couleurs : candidat blanc `31-15-18` (`60.16%`), candidat noir `15-17-32`
+  (`36.72%`). La forte prime aux Blancs vient surtout du lot : la baseline
+  marque respectivement `63.28%` avec les Blancs et `39.84%` avec les Noirs;
+  la perte candidat est donc identique de `3.12` points dans chaque couleur.
+- Binaires figes : baseline SHA-256
+  `7a7c18bf755f3048c63621070d5268050607cf0e8818eec26815c19cb211532b`,
+  candidat SHA-256
+  `d1887ec08fc371a8575f0207eb600ab955bd53cd113d30a83da8fbe2ad98eed1`.
+  PGN long SHA-256
+  `b45010669eca5bb5c92d1f1c525cd6b6296793c8b34a61d23c08febca4bcab58`.
+- Decision : **rejet de QueenZone20**, car le point long est negatif et le
+  candidat n'apporte aucun benefice Elo ou operationnel compensatoire. Le patch
+  moteur et ses tests ont ete retires; ne pas interpoler immediatement a 10 cp
+  ni restaurer la combinaison multi-pieces du stash. La correlation historique
+  identifie un symptome tactique, pas un terme statique causal valide.
+- Instrumentation tactique ajoutee uniquement a l'analyseur offline : chaque
+  reponse adverse immediate est classee capture, echec, echec calme,
+  promotion, position deja en echec et eligibilite par la quiescence actuelle.
+  Cette eligibilite est theorique : toutes les evasions si le camp adverse est
+  deja en echec, sinon captures admises avant delta pruning; elle ne prouve pas
+  que la recherche a atteint cette position a sa frontiere de quiescence, ni
+  qu'une capture non promotionnelle n'y serait pas ensuite elaguee.
+- Definition prefixee du danger dame net : `queen_attackers -
+  placebo_queen_attackers > 0` en PRE, avec analyse primaire mi-partie,
+  hors echec et hors canaris. Gate prefixe avant rejeu : au moins 20 swings
+  severes / 10 parties, majorite stricte d'echecs calmes invisibles et exces
+  d'au moins 15 points sur le controle severe sans danger dame net.
+- Rejeu run6 inchange : 30 parties, 1530 lignes, 417 severes et 13/13 canaris.
+  Dans le sous-ensemble primaire severe a danger dame net : 78 lignes / 11
+  parties; 9 captures (`11.5%`), 21 echecs (`26.9%`) dont 19 echecs calmes
+  invisibles (`24.4%`), zero promotion et 50 coups calmes sans echec (`64.1%`).
+  La quiescence actuelle serait eligible pour 22/78 (`28.2%`) : 14 evasions
+  et 8 captures hors echec; 56/78 (`71.8%`) sont filtres comme non-captures.
+- Controle severe sans danger dame net : 109 lignes / 23 parties, 25 captures
+  (`22.9%`), 12 echecs (`11.0%`) dont 9 echecs calmes invisibles (`8.3%`),
+  zero promotion et 76 reponses invisibles (`69.7%`). Les echecs calmes sont
+  enrichis de `+16.1` points avec danger dame net, mais restent loin d'une
+  majorite; les 19 cas sont concentres dans 6 parties.
+- Le gate tactique echoue donc uniquement sur le critere causal central de
+  majorite (`24.4% <= 50%`) : **ne pas lancer une extension de quiescence aux
+  echecs calmes sur ce seul signal**, et ne pas revenir a un terme statique.
+  Nuance canaris, volontairement separee : 7 des 9 canaris severes recoivent un
+  echec calme invisible (dont Game09), mais un seul a un danger dame net
+  positif (Game25); cet echantillon selectionne ne renverse pas le gate large.
+- Artefacts : CSV `/tmp/equinox-kingzone-tactical-run6-20260825.csv` SHA-256
+  `7fa89590629317332ad5ebdaf032e38448f74fd9e4946f5c104e380b9348fce7`;
+  JSON `/tmp/equinox-kingzone-tactical-run6-20260825.json` SHA-256
+  `fa9c5f489cfeedf0f7443beb12ae270494826cd2d155c0b1390554305dc178b7`;
+  analyseur SHA-256
+  `e4d8535ce6e1ae5131bd3511b0fffb9cf4ac4f932b3ca4d8d938db753320a6ea`.
+  Les 14 tests unitaires Python, `compileall` et `git diff --check` passent;
+  a cette etape, aucun fichier moteur ou recherche n'etait modifie.
+- Traceur de recherche reel ajoute en mode diagnostique opt-in sous
+  `internal/search/trace.go` et `cmd/search_trace/`. `Search.Trace == nil` par
+  defaut; aucune formule d'evaluation, regle de quiescence, priorite, coupure ou
+  reduction n'est changee. Les hooks sont compiles seulement avec le tag
+  `searchtrace` et elimines des builds moteur ordinaires. Les evenements
+  publient profondeur iterative, passe
+  aspiration/recherche pleine, indices pseudo-legal/ordonne/legal, TT/PV/killer,
+  futility, null move, beta cutoff, LMR/recherche pleine, terminal et qsearch.
+- Corpus fige : les 19 echecs calmes invisibles primaires plus les 13 canaris,
+  chacun rejoue a profondeur 4 et 6 avec une TT fraiche de 65536 entrees, soit
+  64 recherches tracees. Chaque recherche est repetee sans trace : `64/64`
+  donnent exactement le meme meilleur coup, score, profondeur terminee et
+  nombre de noeuds. Le traceur est donc observationnel sur tout le corpus.
+- Verification qsearch a profondeur iterative 1 : les 19 reponses primaires
+  atteignent toutes le noeud de quiescence; 14 sont generees puis filtrees
+  comme non-captures et 5 sont arretees avant parcours par stand-pat. Cette
+  observation confirme la semantique du filtre, mais pas sa causalite aux
+  profondeurs utiles.
+- Passe decisive profondeur 4, primaire : les 19/19 reponses sont generees,
+  legales, ordonnees et recherchees dans le Negamax principal. Ventilation
+  exclusive : 8 recherchees seulement a profondeur pleine, 8 seulement avec
+  LMR, 2 avec une visite LMR et une visite pleine separee, 1 avec LMR puis
+  re-recherche pleine. Le coup historique reste meilleur dans 18/19 cas.
+- Passe decisive profondeur 6, primaire : 7/19 reponses sont recherchees a
+  profondeur pleine, 7/19 subissent une reduction LMR de 1 ply (`depth 5 ->
+  child depth 3`) sans aucune re-recherche pleine, 3/19 noeuds coupent sur TT
+  et 2/19 sur un autre coup avant la reponse cible. Zero futility prune et zero
+  null-move cutoff dans la passe decisive. Le coup historique reste meilleur
+  dans 10/19 cas : 6/7 lorsque la reponse est LMR-only, contre 4/7 lorsqu'elle
+  est pleine et 0/5 dans les raccourcis TT/beta; echantillon trop petit et
+  selectionne pour conclure causalement.
+- Les trois TT cutoffs primaires exclusifs a profondeur 6 sont des bornes beta
+  avec cle, halfmove clock et profondeur compatibles (`entry depth >= node
+  depth`). Leur coup TT est different de l'echec calme cible : un autre coup
+  adverse suffit deja a prouver la coupure. Les deux beta cutoffs restants sont
+  egalement produits par un autre coup recherche avant la cible. TT et beta ne
+  constituent donc pas une disparition fautive de la reponse.
+- Priorites : la PV n'est appliquee qu'a la racine dans le moteur actuel. Sur
+  les 19 cas primaires, le mauvais coup racine est prioritaire PV dans 15 cas a
+  profondeur 4 puis 8 a profondeur 6; la TT le priorise respectivement dans 12
+  puis 8 cas. Au noeud de reponse, la TT priorise la cible dans 5 cas et un
+  killer dans 6 cas a profondeur 4, puis respectivement 4 et 7 cas a profondeur
+  6; les echecs calmes tardifs restants sont les candidats a LMR.
+- Canaris profondeur 6 : 10/13 reponses sont explicitement recherchees et 3/13
+  servies par une TT valide; aucune n'est perdue. Pour les 7 canaris severes a
+  echec calme : Game02 est reconnu comme terminal, Game06/Game09/Game21/Game26
+  sont recherches a profondeur pleine, Game25 declenche LMR puis re-recherche
+  pleine, et Game28 est le coup TT lui-meme. Game09 : `h2+` est ordonne en
+  premier comme killer et recherche a profondeur pleine; son score reste
+  `-128`, donc son echec n'est masque ni par qsearch ni par LMR.
+- Distinction canari importante : le coup historique fautif n'est plus choisi
+  dans 10/13 positions a profondeur 6, alors que le test existant n'en declare
+  que 2/13 verts parce qu'il exige un score global `<= -300`. Il mesure donc la
+  reconnaissance d'une position perdante, pas directement l'evitement du coup
+  fautif. Game09 illustre l'ecart : `Ra7` est evite, mais le score `-128` laisse
+  le test rouge. Conserver les deux indicateurs separement dans les prochains
+  gates.
+- Decision : **ne pas etendre la qsearch aux echecs calmes** sur ce diagnostic.
+  La seule hypothese de recherche isolee encore compatible avec les traces est
+  d'exempter de LMR les coups qui donnent echec, sans toucher TT, futility,
+  qsearch ou evaluation. Les 7 cas primaires LMR-only fournissent un gate
+  counterfactuel court; le signal est prometteur mais non causal et les canaris
+  a echec calme ne le confirment pas directement.
+- Artefacts recherche : binaire diagnostique
+  `/tmp/equinox-search-trace-a26755e-20260825` SHA-256
+  `1d1665abb617fdd9289791827220ca6b9610d06891845b619b2e6f06da02db12`;
+  rapport `/tmp/equinox-search-trace-depth4-6-run6-20260825.json` SHA-256
+  `17d89b7b04e5760fcb23cd2ff2bc37530fbf4318c67be1cf4397860d7779faea`.
+  Tests cibles du traceur, tests du resume de passe decisive et `go vet` verts.
+  `go test ./...` ne conserve que les 11 echecs anti-blunder historiques avec
+  exactement les scores baseline; aucun nouvel echec. Le stash
+  `wip king zone safety experiment` reste intact.
+
 ## Update 2026-08-24
 
 - Instrumentation hors recherche ajoutee sous `tools/kingzone/`. Elle rejoue le

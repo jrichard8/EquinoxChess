@@ -79,6 +79,50 @@ class KingZoneFeatureTests(unittest.TestCase):
         self.assertEqual(analyze.king_zone_features(board, chess.WHITE), pre)
 
 
+class TacticalReplyTests(unittest.TestCase):
+    def classify(self, fen, uci):
+        board = chess.Board(fen)
+        move = chess.Move.from_uci(uci)
+        self.assertTrue(board.is_legal(move))
+        return analyze.classify_tactical_reply(board, move)
+
+    def test_capture_check_is_visible_outside_check(self):
+        result = self.classify("r6k/8/8/8/8/8/8/R6K w - - 0 1", "a1a8")
+        self.assertTrue(result["reply_is_capture"])
+        self.assertTrue(result["reply_is_check"])
+        self.assertTrue(result["reply_is_capture_check"])
+        self.assertFalse(result["reply_is_quiet_check"])
+        self.assertTrue(result["reply_qsearch_visible"])
+        self.assertEqual(result["reply_qsearch_visibility_reason"], "capture")
+
+    def test_quiet_check_is_filtered_outside_check(self):
+        result = self.classify("7k/8/8/8/8/8/8/R6K w - - 0 1", "a1a8")
+        self.assertFalse(result["reply_is_capture"])
+        self.assertTrue(result["reply_is_quiet_check"])
+        self.assertTrue(result["reply_qsearch_invisible"])
+        self.assertTrue(result["reply_is_quiet_check_qsearch_invisible"])
+
+    def test_non_capture_promotion_is_filtered_even_when_it_checks(self):
+        result = self.classify("7k/P7/8/8/8/8/8/7K w - - 0 1", "a7a8q")
+        self.assertTrue(result["reply_is_promotion"])
+        self.assertTrue(result["reply_is_check"])
+        self.assertFalse(result["reply_is_quiet_check"])
+        self.assertTrue(result["reply_qsearch_invisible"])
+
+    def test_capture_promotion_is_visible(self):
+        result = self.classify("1r6/P6k/8/8/8/8/8/7K w - - 0 1", "a7b8q")
+        self.assertTrue(result["reply_is_capture"])
+        self.assertTrue(result["reply_is_promotion"])
+        self.assertTrue(result["reply_qsearch_visible"])
+
+    def test_quiet_evasion_is_visible_when_already_in_check(self):
+        result = self.classify("4r2k/8/8/8/8/8/8/4K3 w - - 0 1", "e1d1")
+        self.assertTrue(result["reply_position_in_check"])
+        self.assertFalse(result["reply_is_capture"])
+        self.assertTrue(result["reply_qsearch_visible"])
+        self.assertEqual(result["reply_qsearch_visibility_reason"], "evasion")
+
+
 class ReplayTests(unittest.TestCase):
     PGN = """[Event \"synthetic\"]
 [White \"EquinoxChess\"]
@@ -109,6 +153,10 @@ class ReplayTests(unittest.TestCase):
         self.assertEqual(rows[0]["optimism_gap_cp"], 350)
         self.assertTrue(rows[0]["severe"])
         self.assertEqual(rows[0]["canary_name"], "start-exact")
+        self.assertEqual(rows[0]["reply_move_san"], "e5")
+        self.assertEqual(rows[0]["queen_net_danger"], 0)
+        self.assertTrue(rows[0]["reply_is_quiet_noncheck"])
+        self.assertTrue(rows[0]["reply_qsearch_invisible"])
         self.assertEqual(rows[1]["engine_color"], "black")
         self.assertIsNone(rows[1]["loss_swing_cp"])
         self.assertTrue(rows[1]["loss_mate"])
@@ -133,6 +181,31 @@ class StatisticsTests(unittest.TestCase):
         second = analyze.cluster_bootstrap(rows, "exposure", replications=50, seed=7)
         self.assertEqual(first, second)
         self.assertEqual(analyze._effect(rows, "exposure"), (0.5, 325.0))
+
+    def test_tactical_decision_requires_prespecified_majority_and_excess(self):
+        rows = []
+        for index in range(20):
+            rows.append({
+                "game_index": index % 10,
+                "severe": True,
+                "queen_net_danger": 1,
+                "reply_is_quiet_check_qsearch_invisible": index < 11,
+            })
+            rows.append({
+                "game_index": 10 + index % 10,
+                "severe": True,
+                "queen_net_danger": 0,
+                "reply_is_quiet_check_qsearch_invisible": index < 4,
+            })
+        decision = analyze.tactical_reply_decision(rows)
+        self.assertEqual(decision["primary_feature_rate"], 0.55)
+        self.assertEqual(decision["control_feature_rate"], 0.2)
+        self.assertTrue(decision["recommend_targeted_quiet_check_search_experiment"])
+
+        rows[10]["reply_is_quiet_check_qsearch_invisible"] = False
+        decision = analyze.tactical_reply_decision(rows)
+        self.assertEqual(decision["primary_feature_rate"], 0.5)
+        self.assertFalse(decision["criteria"]["strict_majority_pass"])
 
 
 if __name__ == "__main__":

@@ -28,6 +28,7 @@ type Search struct {
 	PVMove      [MaxDepth]uint32
 	StartTime   time.Time
 	TimeLimit   time.Duration
+	Trace       *SearchTrace
 }
 
 func InCheck(b *board.Board) bool {
