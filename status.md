@@ -1,5 +1,43 @@
 # EquinoxChess — Status
 
+## Update 2026-08-27
+
+- Le contrat canari separe a ete committe sous `8a66d1b` puis pousse sur
+  `origin/main`, avec le commit diagnostique precedent `0d2650b`. La baseline
+  de l'experience `CheckNoLMR` est donc un HEAD propre, synchronise et marque
+  `vcs.modified=false`.
+- Experience isolee : ajout temporaire d'une seule condition a l'eligibilite
+  LMR, `!InCheck(b)` apres le coup legal. Les coups donnant echec sont ainsi
+  recherches a profondeur pleine; TT, PV, futility, null move, qsearch,
+  evaluation, reductions et seuils LMR restent inchanges.
+- Gate fixe avant resultat : les 7 reponses primaires LMR-only doivent devenir
+  full-depth; canaris au moins `10/13` evitements et `2/13` reconnaissances,
+  sans nouveau coup historique; au moins un des 6 mauvais choix affectes doit
+  disparaitre; cout profondeur 6 sur 32 cas, median `<=10%`, total `<=15%` et
+  aucun cas individuel `>50%`.
+- Mecanisme valide : les 7/7 reponses ciblees ne sont plus reduites et passent
+  full-depth. Les canaris restent exactement a `10/13` evitements et `2/13`
+  reconnaissances; Game09 evite toujours `Ra7` et reste a `-128`.
+- Efficacite mixte : deux mauvais choix affectes disparaissent
+  (Game25_ply69 et Game30_ply52), mais Game25_ply35 recommence a selectionner
+  son coup historique `d2b4`. Le sous-ensemble affecte passe donc seulement de
+  `6/7` a `5/7` mauvais choix, avec une regression individuelle interdite par
+  le gate.
+- Cout global acceptable mais queue excessive : median `+1.20%`, total
+  `+2.86%`; Game25_ply59 monte de `+55.34%` et Game25_ply75 de `+103.81%`.
+  Les deux caps individuels depassent le seuil prefixe.
+- Verdict : **rejet de CheckNoLMR global**. Aucun match Elo n'a ete lance. Le
+  patch moteur et son test candidat ont ete retires apres validation de la
+  suite complete. La prochaine etape doit instrumenter la continuation et
+  l'horizon apres les echecs calmes affectes, plutot que desactiver LMR pour
+  tous les echecs ou elargir la qsearch.
+- Artefacts : baseline trace SHA-256
+  `6ec5507d2ebfbef9e85e45e33858151c336790f2273bdc02ac8f61618e39f35a`;
+  candidat trace SHA-256
+  `f22b37b9448a5ee8a356dd5b4b08ae9e943ab0c0afdd46d7e8868d8cabb5ceb3`;
+  patch candidat SHA-256
+  `49fa11f262be4eda082e3e0653a8e2bf931ce69cd06b6d3065e57cb6993e6eaf`.
+
 ## Update 2026-08-26
 
 - Le contrat des 13 canaris tactiques est maintenant separe en deux metriques
