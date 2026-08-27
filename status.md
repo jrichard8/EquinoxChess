@@ -1,5 +1,32 @@
 # EquinoxChess — Status
 
+## Update 2026-08-26
+
+- Le contrat des 13 canaris tactiques est maintenant separe en deux metriques
+  independantes, calculees sur une seule recherche fraiche a profondeur 6 par
+  position. `BadMoveAvoidance` compare le meilleur coup au coup historique
+  fautif; `LossRecognition` conserve sans changement le seuil `score <= -300`
+  depuis le POV du camp au trait.
+- Baseline formalisee : evitement `10/13`; Game03, Game17 et Game21 rejouent
+  encore le coup historique. Reconnaissance `2/13`; seuls Game06 et Game21
+  voient la perte sous le seuil. Game09 evite bien `Ra7` tout en restant a
+  `-128`, ce qui illustre pourquoi les deux verdicts ne sont pas
+  interchangeables.
+- Garde-fous : les dix evitements et les deux reconnaissances deja acquis sont
+  proteges individuellement, en plus des planchers agreges `>=10/13` et
+  `>=2/13`. Une amelioration sur un cas ne peut donc pas masquer une regression
+  sur un autre.
+- Le rapport `search_trace` passe en schema 2 et publie separement
+  `bad_move_avoided`, `historical_bad_move_selected` et `loss_recognized` a
+  chaque profondeur. Le champ historique `root_move_best` reste disponible.
+  Le rejeu complet confirme profondeur 4 : `5/13` evitements et `0/13`
+  reconnaissances; profondeur 6 : `10/13` et `2/13`. Rapport
+  `/tmp/equinox-search-trace-metrics-depth4-6-20260826.json` SHA-256
+  `f92cc92990456290e431c7e89b29e8e03db75e466c09d264270d04ca73ce5116`;
+  binaire SHA-256
+  `3f74a83e903064ee59a4a3deae81eb0df66ba4333b7891e1dc4181e34816460d`.
+  Aucun comportement du moteur n'est modifie par cette etape.
+
 ## Update 2026-08-25
 
 - Candidat causal `QueenZone20` implemente puis teste isolement depuis la
@@ -463,12 +490,18 @@ Plateau `40-46%` dans le bruit (`+/- 133` Elo). La phase comptable est terminee,
 
 ## Canari Phase 2 actif (anti-blunder)
 
-`TestSearchSeesLossingTacticAtSwingPly` dans [internal/search/search_anti_blunder_test.go](internal/search/search_anti_blunder_test.go).
+`TestSearchTacticalCanaryMetrics` dans [internal/search/search_anti_blunder_test.go](internal/search/search_anti_blunder_test.go).
 
 - `13` FEN extraites du run6 : `7` balanced_blunder + `2` unclassified + `4` conversion_blunder courtes
-- Chaque sous-test : `SearchRoot` a profondeur `6` doit retourner score `<= -300cp` ou mate-against
-- **Etat : `2/13` verts** (Game06, Game21). Sur certains rouges, le score reste meme positif a depth `6` : G16 `+288`, G25 `+453`, G28 `+120`
-- Definition of done : `>= 10/13` verts avant de relancer un match
+- Metrique evitement : le meilleur coup profondeur 6 doit differer du coup
+  historique fautif. **Etat : `10/13`**, avec chaque succes protege.
+- Metrique reconnaissance : le score profondeur 6 doit rester `<= -300 cp` ou
+  mate-against. **Etat : `2/13`** (Game06, Game21), avec les deux succes
+  proteges. Sur certains cas non reconnus, le score reste positif : G16 `+288`,
+  G25 `+453`, G28 `+120`.
+- Un gate de recherche doit conserver au minimum `10/13` evitements et `2/13`
+  reconnaissances, sans nouvelle selection d'un coup historique fautif. Ces
+  planchers de securite ne constituent pas a eux seuls une preuve de gain Elo.
 
 ## Canari Phase 1 (anti-stalemate, vert)
 

@@ -42,3 +42,40 @@ func TestParseDepthsSortsAndDeduplicates(t *testing.T) {
 		t.Fatalf("depths = %v", depths)
 	}
 }
+
+func TestBuildAggregatesSeparatesAvoidanceFromLossRecognition(t *testing.T) {
+	cases := []corpusCase{
+		{
+			Cohort: "canary",
+			Runs: []run{{
+				RequestedDepth: 6,
+				RootMoveBest:   false,
+				Score:          -128,
+			}},
+		},
+		{
+			Cohort: "canary",
+			Runs: []run{{
+				RequestedDepth: 6,
+				RootMoveBest:   true,
+				Score:          -31994,
+			}},
+		},
+	}
+
+	result := buildAggregates(cases, []int{6})["6"]["canary"]
+	if result.Cases != 2 {
+		t.Fatalf("Cases = %d, want 2", result.Cases)
+	}
+	if result.BadMoveAvoided != 1 || result.HistoricalBadMoveSelected != 1 {
+		t.Fatalf("avoidance split = %d avoided/%d selected, want 1/1",
+			result.BadMoveAvoided, result.HistoricalBadMoveSelected)
+	}
+	if result.LossRecognized != 1 {
+		t.Fatalf("LossRecognized = %d, want 1", result.LossRecognized)
+	}
+	if result.RootMoveBest != result.HistoricalBadMoveSelected {
+		t.Fatalf("legacy RootMoveBest = %d, selected = %d",
+			result.RootMoveBest, result.HistoricalBadMoveSelected)
+	}
+}

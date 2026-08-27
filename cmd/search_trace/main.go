@@ -81,9 +81,12 @@ type runSummary struct {
 }
 
 type aggregate struct {
-	Cases        int            `json:"cases"`
-	RootMoveBest int            `json:"root_move_best"`
-	Metrics      map[string]int `json:"metrics"`
+	Cases                     int            `json:"cases"`
+	RootMoveBest              int            `json:"root_move_best"`
+	HistoricalBadMoveSelected int            `json:"historical_bad_move_selected"`
+	BadMoveAvoided            int            `json:"bad_move_avoided"`
+	LossRecognized            int            `json:"loss_recognized"`
+	Metrics                   map[string]int `json:"metrics"`
 }
 
 type report struct {
@@ -94,6 +97,8 @@ type report struct {
 	Aggregates    map[string]map[string]aggregate `json:"aggregates_by_depth_and_cohort"`
 	Cases         []corpusCase                    `json:"cases"`
 }
+
+const lossRecognitionThresholdCP = -300
 
 func main() {
 	input := flag.String("input", "", "king-zone tactical CSV")
@@ -148,19 +153,22 @@ func main() {
 		fatal(err)
 	}
 	r := report{
-		SchemaVersion: 1,
+		SchemaVersion: 2,
 		Inputs: map[string]map[string]string{
 			"csv":        {"path": *input, "sha256": inputHash},
 			"executable": {"path": executable, "sha256": executableHash},
 		},
 		Parameters: map[string]any{
-			"depths":                      depths,
-			"tt_entries":                  *ttSize,
-			"fresh_search_and_tt_per_run": true,
-			"non_interference_check":      "traced and untraced best move, score, completed depth, and nodes must match",
-			"go_version":                  runtime.Version(),
-			"primary_selection":           "midgame PRE non-check, no canary, severe, queen_net_danger > 0, invisible quiet-check reply",
-			"canary_selection":            "every exact canary row",
+			"depths":                        depths,
+			"tt_entries":                    *ttSize,
+			"fresh_search_and_tt_per_run":   true,
+			"non_interference_check":        "traced and untraced best move, score, completed depth, and nodes must match",
+			"go_version":                    runtime.Version(),
+			"primary_selection":             "midgame PRE non-check, no canary, severe, queen_net_danger > 0, invisible quiet-check reply",
+			"canary_selection":              "every exact canary row",
+			"bad_move_avoidance_definition": "best move differs from the historical Equinox root move",
+			"loss_recognition_definition":   "root score from side-to-move POV is <= loss_recognition_threshold_cp",
+			"loss_recognition_threshold_cp": lossRecognitionThresholdCP,
 		},
 		Counts: map[string]int{
 			"cases":         len(cases),
@@ -407,6 +415,12 @@ func buildAggregates(cases []corpusCase, depths []int) map[string]map[string]agg
 					entry.Cases++
 					if replay.RootMoveBest {
 						entry.RootMoveBest++
+						entry.HistoricalBadMoveSelected++
+					} else {
+						entry.BadMoveAvoided++
+					}
+					if replay.Score <= lossRecognitionThresholdCP {
+						entry.LossRecognized++
 					}
 					addMetric := func(name string, condition bool) {
 						if condition {

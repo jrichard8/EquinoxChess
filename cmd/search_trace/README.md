@@ -19,6 +19,13 @@ command repeats the same search without tracing and aborts unless best move,
 score, completed depth, and node count match exactly. The JSON pins both input
 CSV and executable hashes.
 
+Schema 2 reports the two canary outcomes independently at every replay depth:
+`bad_move_avoided` means the selected move differs from the historical
+Equinox move stored in the corpus; `loss_recognized` means the root score is
+at most `-300 cp` from the side-to-move POV. `historical_bad_move_selected`
+is the complement of avoidance. The legacy `root_move_best` field is retained
+and has the same value as `historical_bad_move_selected`.
+
 Events distinguish root and reply moves and record iterative depth, aspiration
 or full-window pass, pseudo-legal and ordered indices, legal index, TT/PV/killer
 priority, futility, null-move and beta cutoffs, LMR reduction/full re-search,

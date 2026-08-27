@@ -70,7 +70,7 @@ current development priorities are in [status.md](status.md).
 - Perft suite for movegen correctness
 - Two regression canaries on real PGN positions :
   - `TestSearchAvoidsKnownStalematingMoves` : `6` FEN where Equinox used to play stalemating moves with a winning eval (Phase 1 fix, all green)
-  - `TestSearchSeesLossingTacticAtSwingPly` : `13` FEN where Equinox missed a tactic in run6 (Phase 2 work in progress)
+  - `TestSearchTacticalCanaryMetrics` : `13` FEN where Equinox missed a tactic in run6; reports bad-move avoidance (`10/13`) separately from loss recognition at `<= -300 cp` (`2/13`)
 
 ## Build
 
