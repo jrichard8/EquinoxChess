@@ -1,5 +1,100 @@
 # EquinoxChess — Status
 
+## Update 2026-08-28 — TargetReply+1
+
+- Le diagnostic `searchtrace` passe en schema 4. Les contre-factuels utilisent
+  desormais une allowlist de cas exacte et publient, pour tous les coups racine
+  de la passe decisive, score, fenetre alpha-beta et nature de la valeur
+  (`exact`, borne haute ou borne basse). La marge publiee compare ainsi le
+  mauvais coup historique a son meilleur concurrent sans convertir les
+  fail-low en faux scores exacts.
+- `TargetReply+1` a ete limite aux 7 paires precedemment identifiees LMR-only,
+  a l'iteration finale de profondeur 6. Le mecanisme passe bien les 7/7
+  reponses de profondeur enfant normale 4 a 5; aucune extension ne fuit dans
+  les iterations 1 a 5. Les 7 doubles rejeux contre-factuels sont identiques et
+  les 25 autres cas reproduisent exactement la recherche non tracee.
+- Les canaris restent strictement inchanges : `10/13` mauvais coups evites et
+  `2/13` pertes reconnues. Game09 garde `d6c5`, score `-128` et `16 772`
+  noeuds. Sur les 19 cas primaires, l'evitement progresse de `9/19` a `11/19`;
+  la reconnaissance de perte reste `7/19`.
+- Signal causal fort sur Game25_ply69 : le score racine de la reponse cible
+  passe de `-644` a `-754 cp`; `a3a4` est remplace par `d1d3` et sa marge
+  devient au plus `-26 cp` contre ce concurrent. La continuation exploree est
+  `a4 Qc7+ Kb3 Qc3+ Ka2 b3+ cxb3 Qxb3#` et atteint une feuille
+  `qsearch_checkmate`. Le ply ajoute place `b3+` puis `cxb3` dans la recherche
+  principale avant que la qsearch voie `Qxb3#`. La sensibilite a l'horizon est
+  donc reelle, mais la trace actuelle ne dit pas encore si la branche
+  full-depth perdait `b3+` par futility de profondeur 1, fenetre, TT ou ordre.
+- Game07_ply183 evite aussi `h2h1` au profit de `g6f7`, avec une marge exacte
+  de `-4 cp`, mais le score de la reponse cible reste `-309`. Ce second effet
+  vient donc de l'etat TT/ordering et de l'exactification du concurrent, pas
+  d'une degradation de la branche cible. Les cinq autres choix racine ne
+  changent pas; Game30_ply52 revient meme de `+11` full-depth a `+19 cp` avec
+  le ply supplementaire.
+- Cout diagnostique : sur les 7 cas, `525 303 -> 599 446` noeuds par rapport au
+  contre-factuel full-depth (`+14.11%`, mediane `+10.29%`), avec deux queues a
+  `+53.44%` et `+76.29%`. Sur les 32 cas, `8 838 032 -> 8 912 175`
+  (`+0.84%`), les 25 cas non cibles etant bit-a-bit identiques hors etiquette
+  de mode.
+- Verdict : **TargetReply+1 confirme une sensibilite causale locale a l'horizon
+  sur un cas, mais ne justifie pas une extension globale**. Aucun changement du
+  moteur normal n'est propose. La prochaine experience devra tracer la branche
+  exacte jusqu'a `b3+`, puis exempter seulement ce coup de la cause observee
+  (notamment futility profondeur 1 si elle est confirmee), sans ajouter de ply
+  global, avant de chercher un predicat generalisable.
+- Artefacts finaux : binaire SHA-256
+  `ba5c9448705cab98d5eed4d8389350e6fea4722ae2fa1eb8197f40a97dabf60c`;
+  rapport observationnel
+  `18b781cfde68abd61283220fbd57d4f818dc65eff5b218a7c4d28cb5a2b2dd59`;
+  rapport full-depth cible
+  `75a590c587881d8c8409510a2dc24b2cb6750c9e7e8de8972d6fee251209293d`;
+  rapport TargetReply+1
+  `b4100557a659313de4fd7fffea95fbd7e86f0da3a2d254326fa7becf34f89623`.
+
+## Update 2026-08-28
+
+- Instrumentation `searchtrace` etendue sans changement du moteur normal :
+  chaque recherche effective de la reponse cible publie maintenant sa meilleure
+  continuation exploree, mode LMR/full, profondeur et fenetres enfant, score de
+  branche, ligne UCI et feuille qsearch/terminale propagee. Le rapport
+  passe en schema 3.
+- Contre-factuel strict : seule la paire exacte `RootMove/ReplyMove`, au ply 1
+  de l'iteration finale demandee, peut etre forcee full-depth; elle doit etre
+  normalement eligible LMR et donner reellement echec. Les iterations 1 a 5,
+  tous les autres echecs et toutes les reponses non-check restent inchanges.
+  Chaque rejeu contre-factuel est execute deux fois avec recherche et TT
+  fraiches et doit etre identique.
+- Non-interference validee : le rejeu observationnel profondeur 6 retrouve sur
+  les 32/32 cas exactement les anciens meilleur coup, score, profondeur et
+  nombre de noeuds. Les 32 verifications traced/untraced et les 32 repetitions
+  contre-factuelles passent.
+- Sur les 7 cas primaires LMR-only, le mecanisme cible passe `7/7` de profondeur
+  enfant 3 a 4. Toutes les lignes atteignent encore un stand-pat de qsearch :
+  le contre-factuel decale donc bien l'horizon principal d'un ply, sans perdre
+  la reponse. Game25_ply69 conserve meme exactement `Kb3 Rf8 g5 Qxc2+ Rxc2` :
+  `Qxc2+` migre simplement de la qsearch vers la recherche principale.
+- Resultat causal : six scores de la reponse cible restent strictement
+  identiques (Game07_ply149/177/183, Game17_ply95, Game25_ply35/69). Seul
+  Game30_ply52 passe de `+19` a `+11 cp` depuis le POV racine; sa ligne diverge
+  apres `Rf5 Qh4+ Kg8`, de `Nxd5 exd5` vers `Rxc7 Bd4 Be3`. Les 8 cp ne
+  suffisent pas : le mauvais coup historique `Rf5` reste choisi.
+- Aucun meilleur coup ne change sur les 32 cas. Les canaris restent a
+  `10/13` evitements et `2/13` reconnaissances; Game09 reste a `-128`. Le cout
+  des 7 cas affectes est `+1.21%` de noeuds au total, maximum `+2.69%` sur
+  Game30_ply52; sur les 32 cas, `+0.071%`.
+- Verdict : **la reponse calme observee ne disparait pas dans LMR**. La chercher
+  un ply plus tot produit la meme borne dans 6/7 cas et un ajustement mineur
+  dans le septieme. Les effets mixtes du precedent `CheckNoLMR` global venaient
+  donc d'autres echecs de l'arbre et de leurs interactions TT/ordering, pas de
+  la reponse cible elle-meme. Aucun changement de recherche n'est propose a ce
+  stade.
+- Artefacts finaux : binaire diagnostique SHA-256
+  `68985f000037f204862ad671ec16cd76f3aebc79b96e569e364500ada8532cca`;
+  rapport observationnel SHA-256
+  `141c491f7402a52aa2876013bf277124ddc14b5fe72fbfba3a8c0dcf389a2fdb`;
+  rapport contre-factuel SHA-256
+  `a2a1a0267e69f91f69b177c911c6c17fb90b97190210bfbbba37211007e637d4`.
+
 ## Update 2026-08-27
 
 - Le contrat canari separe a ete committe sous `8a66d1b` puis pousse sur

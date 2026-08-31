@@ -11,6 +11,7 @@ import (
 
 func (s *Search) Negamax(b *board.Board, depth int, alpha int, beta int) int {
 	s.Nodes++
+	s.resetTracePVAt(s.Ply, false)
 	if event, ok := s.newTraceEvent("negamax", "enter", depth, alpha, beta); ok {
 		s.appendTrace(event)
 	}
@@ -24,17 +25,22 @@ func (s *Search) Negamax(b *board.Board, depth int, alpha int, beta int) int {
 		return alpha
 	}
 	if s.Ply >= MaxDepth-1 {
-		return Evaluate(b)
+		score := Evaluate(b)
+		s.setTraceLeafAt(s.Ply, score, "max_ply_eval")
+		return score
 	}
 
 	// Draw detection: must be done before expanding node
 	if b.HalfmoveClock >= 100 {
+		s.setTraceLeafAt(s.Ply, DrawScore, "fifty_move_draw")
 		return DrawScore
 	}
 	if s.Ply > 0 && b.IsRepetition() {
+		s.setTraceLeafAt(s.Ply, DrawScore, "repetition_draw")
 		return DrawScore
 	}
 	if b.IsInsufficientMaterial() {
+		s.setTraceLeafAt(s.Ply, DrawScore, "insufficient_material")
 		return DrawScore
 	}
 
@@ -74,6 +80,7 @@ func (s *Search) Negamax(b *board.Board, depth int, alpha int, beta int) int {
 			if s.Ply == 0 && move != 0 {
 				s.PVMove[0] = move
 			}
+			s.setTraceLeafAt(s.Ply, score, "tt_cutoff")
 			return score
 		}
 	}
@@ -104,6 +111,7 @@ func (s *Search) Negamax(b *board.Board, depth int, alpha int, beta int) int {
 						event.Score = verify
 						s.appendTrace(event)
 					}
+					s.setTraceLeafAt(s.Ply, beta, "null_cutoff")
 					return beta
 				}
 			}
@@ -125,8 +133,11 @@ func (s *Search) Negamax(b *board.Board, depth int, alpha int, beta int) int {
 	}
 	if count == 0 {
 		if InCheck(b) {
-			return -MateScore + s.Ply
+			score := -MateScore + s.Ply
+			s.setTraceLeafAt(s.Ply, score, "checkmate")
+			return score
 		}
+		s.setTraceLeafAt(s.Ply, DrawScore, "stalemate")
 		return 0
 	}
 
@@ -227,9 +238,17 @@ func (s *Search) Negamax(b *board.Board, depth int, alpha int, beta int) int {
 		legalSeen++
 		foundLegal = true
 		s.pushTraceMove(currentPly, m)
+		s.resetTracePVAt(currentPly+1, false)
 		score := -Infinity
+		traceMode := "terminal_child"
+		traceChildDepth := -1
+		traceReduction := 0
+		traceExtension := 0
+		traceChildAlpha := 0
+		traceChildBeta := 0
 		if terminalScore, terminal := s.scoreTerminalChild(b); terminal {
 			score = terminalScore
+			s.setTraceLeafAt(currentPly+1, -score, "terminal_child")
 			if event, ok := s.newTraceEventAt(currentPly, "negamax", "terminal_child", depth, alpha, beta); ok && m == event.TargetMove {
 				event.InCheck = inCheck
 				event.CurrentMove = m
@@ -240,52 +259,118 @@ func (s *Search) Negamax(b *board.Board, depth int, alpha int, beta int) int {
 				targetProcessed = true
 				s.appendTrace(event)
 			}
-		} else if depth >= 3 && i >= 3 && !inCheck && !move.IsCapture(m) && !move.IsPromotion(m) && m != killer1 && m != killer2 && (beta-alpha) > 1 {
-			reduction := 1
-			if depth >= 6 {
-				reduction = 2
-			}
-			if depth >= 10 {
-				reduction = 3
-			}
-			reducedDepth := depth - 1 - reduction
-			if reducedDepth < 1 {
-				reducedDepth = 1
-			}
-			if event, ok := s.newTraceEventAt(currentPly, "negamax", "lmr_reduced", depth, alpha, beta); ok && m == event.TargetMove {
-				event.InCheck = inCheck
-				event.CurrentMove = m
-				event.OrderIndex = i
-				event.LegalIndex = legalSeen - 1
-				event.Reduction = reduction
-				event.ChildDepth = reducedDepth
-				event.TargetIsKiller = killer1 == m || killer2 == m
-				s.appendTrace(event)
-			}
-			score = -s.Negamax(b, reducedDepth, -alpha-1, -alpha)
-			if score > alpha {
-				if event, ok := s.newTraceEventAt(currentPly, "negamax", "lmr_full_research", depth, alpha, beta); ok && m == event.TargetMove {
+		} else {
+			lmrEligible := depth >= 3 && i >= 3 && !inCheck && !move.IsCapture(m) &&
+				!move.IsPromotion(m) && m != killer1 && m != killer2 && (beta-alpha) > 1
+			targetDepthRequested, targetExtraPlies := s.traceTargetReplyDepthAdjustment(currentPly, m)
+			forceTargetFullDepth := targetDepthRequested && InCheck(b) &&
+				(lmrEligible || targetExtraPlies == 1)
+			if lmrEligible && !forceTargetFullDepth {
+				reduction := 1
+				if depth >= 6 {
+					reduction = 2
+				}
+				if depth >= 10 {
+					reduction = 3
+				}
+				reducedDepth := depth - 1 - reduction
+				if reducedDepth < 1 {
+					reducedDepth = 1
+				}
+				traceMode = "lmr_reduced"
+				traceChildDepth = reducedDepth
+				traceReduction = reduction
+				traceChildAlpha = -alpha - 1
+				traceChildBeta = -alpha
+				if event, ok := s.newTraceEventAt(currentPly, "negamax", "lmr_reduced", depth, alpha, beta); ok && m == event.TargetMove {
 					event.InCheck = inCheck
 					event.CurrentMove = m
 					event.OrderIndex = i
 					event.LegalIndex = legalSeen - 1
-					event.ChildDepth = depth - 1
-					event.Score = score
+					event.Reduction = reduction
+					event.ChildDepth = reducedDepth
+					event.TargetIsKiller = killer1 == m || killer2 == m
 					s.appendTrace(event)
 				}
-				score = -s.Negamax(b, depth-1, -beta, -alpha)
+				score = -s.Negamax(b, reducedDepth, traceChildAlpha, traceChildBeta)
+				if score > alpha {
+					if event, ok := s.newTraceEventAt(currentPly, "negamax", "lmr_full_research", depth, alpha, beta); ok && m == event.TargetMove {
+						event.InCheck = inCheck
+						event.CurrentMove = m
+						event.OrderIndex = i
+						event.LegalIndex = legalSeen - 1
+						event.ChildDepth = depth - 1
+						event.Score = score
+						s.appendTrace(event)
+					}
+					traceMode = "lmr_full_research"
+					traceChildDepth = depth - 1
+					traceChildAlpha = -beta
+					traceChildBeta = -alpha
+					score = -s.Negamax(b, traceChildDepth, traceChildAlpha, traceChildBeta)
+				}
+			} else {
+				traceMode = "full_depth"
+				if forceTargetFullDepth {
+					traceMode = "target_reply_forced_full_depth"
+					traceExtension = targetExtraPlies
+					if traceExtension == 1 {
+						traceMode = "target_reply_plus_one"
+					}
+				}
+				traceChildDepth = depth - 1 + traceExtension
+				traceChildAlpha = -beta
+				traceChildBeta = -alpha
+				traceStage := "full_depth"
+				if forceTargetFullDepth {
+					traceStage = "target_reply_forced_full_depth"
+					if traceExtension == 1 {
+						traceStage = "target_reply_plus_one"
+					}
+				}
+				if event, ok := s.newTraceEventAt(currentPly, "negamax", traceStage, depth, alpha, beta); ok && m == event.TargetMove {
+					event.InCheck = inCheck
+					event.CurrentMove = m
+					event.OrderIndex = i
+					event.LegalIndex = legalSeen - 1
+					event.ChildDepth = traceChildDepth
+					event.Extension = traceExtension
+					s.appendTrace(event)
+				}
+				score = -s.Negamax(b, traceChildDepth, traceChildAlpha, traceChildBeta)
 			}
-		} else {
-			if event, ok := s.newTraceEventAt(currentPly, "negamax", "full_depth", depth, alpha, beta); ok && m == event.TargetMove {
-				event.InCheck = inCheck
-				event.CurrentMove = m
-				event.OrderIndex = i
-				event.LegalIndex = legalSeen - 1
-				event.ChildDepth = depth - 1
-				s.appendTrace(event)
-			}
-			score = -s.Negamax(b, depth-1, -beta, -alpha)
 		}
+		s.considerTracePV(currentPly, m, score)
+		s.recordTraceContinuation(
+			currentPly,
+			m,
+			traceMode,
+			depth,
+			traceChildDepth,
+			traceReduction,
+			traceExtension,
+			alpha,
+			beta,
+			traceChildAlpha,
+			traceChildBeta,
+			score,
+		)
+		s.recordTraceRootMoveResult(
+			currentPly,
+			m,
+			i,
+			legalSeen-1,
+			traceMode,
+			depth,
+			traceChildDepth,
+			traceReduction,
+			traceExtension,
+			alpha,
+			beta,
+			traceChildAlpha,
+			traceChildBeta,
+			score,
+		)
 		if event, ok := s.newTraceEventAt(currentPly, "negamax", "search_complete", depth, alpha, beta); ok && m == event.TargetMove {
 			event.InCheck = inCheck
 			event.CurrentMove = m
@@ -340,8 +425,11 @@ func (s *Search) Negamax(b *board.Board, depth int, alpha int, beta int) int {
 
 	if !foundLegal {
 		if InCheck(b) {
-			return -MateScore + s.Ply
+			score := -MateScore + s.Ply
+			s.setTraceLeafAt(s.Ply, score, "checkmate")
+			return score
 		}
+		s.setTraceLeafAt(s.Ply, DrawScore, "stalemate")
 		return 0
 	}
 
@@ -433,6 +521,7 @@ func rootFallback(b *board.Board) (uint32, int) {
 
 func (s *Search) Quiescence(b *board.Board, alpha int, beta int) int {
 	s.Nodes++
+	s.resetTracePVAt(s.Ply, true)
 	if s.TimeLimit > 0 && (s.Nodes&255) == 0 {
 		if time.Since(s.StartTime) >= s.TimeLimit {
 			s.Stop.Store(true)
@@ -443,7 +532,9 @@ func (s *Search) Quiescence(b *board.Board, alpha int, beta int) int {
 		return alpha
 	}
 	if s.Ply >= MaxDepth-1 {
-		return Evaluate(b)
+		score := Evaluate(b)
+		s.setTraceLeafAt(s.Ply, score, "qsearch_max_ply_eval")
+		return score
 	}
 	inCheck := InCheck(b)
 	s.traceTargetLineQuiescence(alpha, beta, inCheck)
@@ -464,12 +555,14 @@ func (s *Search) Quiescence(b *board.Board, alpha int, beta int) int {
 	}
 
 	if !inCheck && !hasAnyLegalMove(b, &moves, count) {
+		s.setTraceLeafAt(s.Ply, DrawScore, "qsearch_stalemate")
 		return DrawScore
 	}
 
 	// When in check, we must search all evasions and cannot use stand-pat
 	if !inCheck {
 		standPat := Evaluate(b)
+		s.considerTraceStandPat(s.Ply, standPat)
 		if standPat >= beta {
 			if event, ok := s.newTraceEvent("quiescence", "stand_pat_cutoff", 0, alpha, beta); ok {
 				event.InCheck = inCheck
@@ -557,6 +650,7 @@ func (s *Search) Quiescence(b *board.Board, alpha int, beta int) int {
 		foundLegal = true
 		s.pushTraceMove(currentPly, m)
 		score := -s.Quiescence(b, -beta, -alpha)
+		s.considerTracePV(currentPly, m, score)
 		if event, ok := s.newTraceEventAt(currentPly, "quiescence", "search_complete", 0, alpha, beta); ok && m == event.TargetMove {
 			event.InCheck = inCheck
 			event.CurrentMove = m
@@ -597,7 +691,9 @@ func (s *Search) Quiescence(b *board.Board, alpha int, beta int) int {
 
 	// If in check and no legal moves found, it's checkmate
 	if inCheck && !foundLegal {
-		return -MateScore + s.Ply
+		score := -MateScore + s.Ply
+		s.setTraceLeafAt(s.Ply, score, "qsearch_checkmate")
+		return score
 	}
 
 	return alpha

@@ -12,6 +12,7 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"reflect"
 	"runtime"
 	"sort"
 	"strconv"
@@ -39,21 +40,51 @@ type corpusCase struct {
 }
 
 type run struct {
-	RequestedDepth          int                `json:"requested_depth"`
-	CompletedDepth          int                `json:"completed_depth"`
-	BestMoveUCI             string             `json:"best_move_uci"`
-	Score                   int                `json:"score"`
-	Nodes                   uint64             `json:"nodes"`
-	RootMoveBest            bool               `json:"root_move_best"`
-	NonInterferenceVerified bool               `json:"non_interference_verified"`
-	Summary                 runSummary         `json:"summary"`
-	Events                  []traceEventOutput `json:"events"`
+	RequestedDepth                    int                  `json:"requested_depth"`
+	CompletedDepth                    int                  `json:"completed_depth"`
+	BestMoveUCI                       string               `json:"best_move_uci"`
+	Score                             int                  `json:"score"`
+	Nodes                             uint64               `json:"nodes"`
+	RootMoveBest                      bool                 `json:"root_move_best"`
+	CounterfactualMode                string               `json:"counterfactual_mode"`
+	CounterfactualApplied             bool                 `json:"counterfactual_applied"`
+	Verification                      string               `json:"verification"`
+	NonInterferenceVerified           bool                 `json:"non_interference_verified"`
+	CounterfactualDeterminismVerified bool                 `json:"counterfactual_determinism_verified"`
+	Summary                           runSummary           `json:"summary"`
+	Continuations                     []continuationOutput `json:"continuations"`
+	FinalContinuation                 *continuationOutput  `json:"final_continuation"`
+	FinalRootMoveResults              []rootMoveOutput     `json:"final_root_move_results"`
+	RootMargin                        *rootMarginOutput    `json:"root_margin"`
+	Events                            []traceEventOutput   `json:"events"`
 }
 
 type traceEventOutput struct {
 	search.TraceEvent
 	TargetMoveUCI  string `json:"target_move_uci"`
 	CurrentMoveUCI string `json:"current_move_uci"`
+}
+
+type continuationOutput struct {
+	search.TraceContinuation
+	LineUCI           []string `json:"line_uci"`
+	AfterReplyUCI     []string `json:"after_reply_uci"`
+	ScoreRootPOV      int      `json:"score_root_pov"`
+	LeafAfterReplyPly int      `json:"leaf_after_reply_ply"`
+	LeafScoreRootPOV  int      `json:"leaf_score_root_pov"`
+}
+
+type rootMoveOutput struct {
+	search.TraceRootMoveResult
+	MoveUCI string `json:"move_uci"`
+}
+
+type rootMarginOutput struct {
+	HistoricalMove                  rootMoveOutput `json:"historical_move"`
+	BestCompetitor                  rootMoveOutput `json:"best_competitor"`
+	HistoricalMinusBestCompetitorCP int            `json:"historical_minus_best_competitor_cp"`
+	MarginBound                     string         `json:"margin_bound"`
+	BoundMeaning                    string         `json:"bound_meaning"`
 }
 
 type roleOutcome struct {
@@ -107,6 +138,16 @@ func main() {
 	ttSize := flag.Int("tt-size", 1<<16, "fresh transposition-table entries per replay")
 	expectedPrimary := flag.Int("expected-primary", 19, "required primary quiet-check cases")
 	expectedCanaries := flag.Int("expected-canaries", 13, "required exact canary cases")
+	counterfactualMode := flag.String(
+		"counterfactual-mode",
+		"observational",
+		"target reply mode: observational, full-depth, or plus-one",
+	)
+	counterfactualCaseText := flag.String(
+		"counterfactual-cases",
+		"",
+		"comma-separated exact case names affected by a non-observational mode",
+	)
 	flag.Parse()
 	if !search.SearchTraceCompiled() {
 		fatal(errors.New("binary must be built with -tags searchtrace"))
@@ -129,10 +170,30 @@ func main() {
 			primary, canaries, *expectedPrimary, *expectedCanaries,
 		))
 	}
+	counterfactualExtraPlies, err := parseCounterfactualMode(*counterfactualMode)
+	if err != nil {
+		fatal(err)
+	}
+	counterfactualCases, counterfactualCaseNames, err := parseCounterfactualCases(
+		*counterfactualCaseText,
+		*counterfactualMode,
+		cases,
+	)
+	if err != nil {
+		fatal(err)
+	}
 
 	for caseIndex := range cases {
 		for _, depth := range depths {
-			result, err := replay(&cases[caseIndex], depth, *ttSize)
+			targeted := counterfactualCases[cases[caseIndex].Name]
+			result, err := replay(
+				&cases[caseIndex],
+				depth,
+				*ttSize,
+				*counterfactualMode,
+				targeted,
+				counterfactualExtraPlies,
+			)
 			if err != nil {
 				fatal(fmt.Errorf("%s depth %d: %w", cases[caseIndex].Name, depth, err))
 			}
@@ -153,7 +214,7 @@ func main() {
 		fatal(err)
 	}
 	r := report{
-		SchemaVersion: 2,
+		SchemaVersion: 4,
 		Inputs: map[string]map[string]string{
 			"csv":        {"path": *input, "sha256": inputHash},
 			"executable": {"path": executable, "sha256": executableHash},
@@ -169,6 +230,11 @@ func main() {
 			"bad_move_avoidance_definition": "best move differs from the historical Equinox root move",
 			"loss_recognition_definition":   "root score from side-to-move POV is <= loss_recognition_threshold_cp",
 			"loss_recognition_threshold_cp": lossRecognitionThresholdCP,
+			"counterfactual_mode":           *counterfactualMode,
+			"counterfactual_cases":          counterfactualCaseNames,
+			"counterfactual_scope":          "only named RootMove/ReplyMove pairs at ply 1 of the requested final iteration that give check; full-depth requires current LMR eligibility, plus-one cases are baseline-LMR preselected and remain extended if their killer/order state changes causally",
+			"continuation_definition":       "best explored continuation after the exact reply, with propagated qsearch/terminal horizon",
+			"root_margin_definition":        "historical root move score minus best competitor in the decisive pass; alpha-beta score bounds are retained",
 		},
 		Counts: map[string]int{
 			"cases":         len(cases),
@@ -187,8 +253,9 @@ func main() {
 	if err := os.WriteFile(*output, encoded, 0o644); err != nil {
 		fatal(err)
 	}
-	fmt.Printf("search_trace: %d cases (%d primary, %d canaries), %d runs -> %s\n",
-		len(cases), primary, canaries, len(cases)*len(depths), *output)
+	fmt.Printf("search_trace: %d cases (%d primary, %d canaries), %d runs, mode=%s targets=%d -> %s\n",
+		len(cases), primary, canaries, len(cases)*len(depths), *counterfactualMode,
+		len(counterfactualCaseNames), *output)
 }
 
 func loadCorpus(path string) ([]corpusCase, error) {
@@ -273,7 +340,14 @@ func loadCorpus(path string) ([]corpusCase, error) {
 	return cases, nil
 }
 
-func replay(tc *corpusCase, depth, ttSize int) (run, error) {
+func replay(
+	tc *corpusCase,
+	depth int,
+	ttSize int,
+	counterfactualMode string,
+	counterfactualApplied bool,
+	targetReplyExtraPlies int,
+) (run, error) {
 	position, err := board.FromFEN(tc.FEN)
 	if err != nil {
 		return run{}, err
@@ -297,21 +371,55 @@ func replay(tc *corpusCase, depth, ttSize int) (run, error) {
 	position.UnmakeMove()
 	position.UnmakeMove()
 
-	trace := &search.SearchTrace{RootMove: rootMove, ReplyMove: replyMove}
+	trace := &search.SearchTrace{
+		RootMove:                  rootMove,
+		ReplyMove:                 replyMove,
+		ForceTargetReplyFullDepth: counterfactualApplied,
+		TargetReplyExtraPlies:     targetReplyExtraPlies,
+		ForceTargetReplyIteration: depth,
+	}
 	worker := search.Search{TT: tt.NewTT(ttSize), Trace: trace}
 	best, score, completedDepth, nodes := worker.SearchRoot(position, depth)
-	plainPosition, err := board.FromFEN(tc.FEN)
+	verification := "observational trace equals untraced search"
+	nonInterferenceVerified := false
+	counterfactualDeterminismVerified := false
+	verificationPosition, err := board.FromFEN(tc.FEN)
 	if err != nil {
-		return run{}, fmt.Errorf("plain FromFEN: %w", err)
+		return run{}, fmt.Errorf("verification FromFEN: %w", err)
 	}
-	plain := search.Search{TT: tt.NewTT(ttSize)}
-	plainBest, plainScore, plainDepth, plainNodes := plain.SearchRoot(plainPosition, depth)
-	if best != plainBest || score != plainScore || completedDepth != plainDepth || nodes != plainNodes {
-		return run{}, fmt.Errorf(
-			"trace interference: traced=(%s,%d,%d,%d) plain=(%s,%d,%d,%d)",
-			moveUCI(best), score, completedDepth, nodes,
-			moveUCI(plainBest), plainScore, plainDepth, plainNodes,
-		)
+	if counterfactualApplied {
+		verification = "two independent targeted counterfactual traces match exactly"
+		verificationTrace := &search.SearchTrace{
+			RootMove:                  rootMove,
+			ReplyMove:                 replyMove,
+			ForceTargetReplyFullDepth: true,
+			TargetReplyExtraPlies:     targetReplyExtraPlies,
+			ForceTargetReplyIteration: depth,
+		}
+		verificationWorker := search.Search{TT: tt.NewTT(ttSize), Trace: verificationTrace}
+		verificationBest, verificationScore, verificationDepth, verificationNodes :=
+			verificationWorker.SearchRoot(verificationPosition, depth)
+		if best != verificationBest || score != verificationScore || completedDepth != verificationDepth ||
+			nodes != verificationNodes || !reflect.DeepEqual(trace.Continuations, verificationTrace.Continuations) ||
+			!reflect.DeepEqual(trace.RootMoveResults, verificationTrace.RootMoveResults) {
+			return run{}, fmt.Errorf(
+				"counterfactual nondeterminism: first=(%s,%d,%d,%d) second=(%s,%d,%d,%d)",
+				moveUCI(best), score, completedDepth, nodes,
+				moveUCI(verificationBest), verificationScore, verificationDepth, verificationNodes,
+			)
+		}
+		counterfactualDeterminismVerified = true
+	} else {
+		plain := search.Search{TT: tt.NewTT(ttSize)}
+		plainBest, plainScore, plainDepth, plainNodes := plain.SearchRoot(verificationPosition, depth)
+		if best != plainBest || score != plainScore || completedDepth != plainDepth || nodes != plainNodes {
+			return run{}, fmt.Errorf(
+				"trace interference: traced=(%s,%d,%d,%d) plain=(%s,%d,%d,%d)",
+				moveUCI(best), score, completedDepth, nodes,
+				moveUCI(plainBest), plainScore, plainDepth, plainNodes,
+			)
+		}
+		nonInterferenceVerified = true
 	}
 	events := make([]traceEventOutput, 0, len(trace.Events))
 	for _, event := range trace.Events {
@@ -321,17 +429,165 @@ func replay(tc *corpusCase, depth, ttSize int) (run, error) {
 			CurrentMoveUCI: moveUCI(event.CurrentMove),
 		})
 	}
+	continuations := make([]continuationOutput, 0, len(trace.Continuations))
+	for _, continuation := range trace.Continuations {
+		continuations = append(continuations, formatContinuation(continuation))
+	}
+	summary := summarize(trace.Events, depth)
+	finalContinuation := selectFinalContinuation(continuations, depth, summary.FinalPass)
+	finalRootMoveResults := selectFinalRootMoveResults(trace.RootMoveResults, depth, summary.FinalPass)
+	rootMargin := buildRootMargin(finalRootMoveResults, tc.RootMoveUCI, moveUCI(best))
 	return run{
-		RequestedDepth:          depth,
-		CompletedDepth:          completedDepth,
-		BestMoveUCI:             moveUCI(best),
-		Score:                   score,
-		Nodes:                   nodes,
-		RootMoveBest:            best == rootMove,
-		NonInterferenceVerified: true,
-		Summary:                 summarize(trace.Events, depth),
-		Events:                  events,
+		RequestedDepth:                    depth,
+		CompletedDepth:                    completedDepth,
+		BestMoveUCI:                       moveUCI(best),
+		Score:                             score,
+		Nodes:                             nodes,
+		RootMoveBest:                      best == rootMove,
+		CounterfactualMode:                counterfactualMode,
+		CounterfactualApplied:             counterfactualApplied,
+		Verification:                      verification,
+		NonInterferenceVerified:           nonInterferenceVerified,
+		CounterfactualDeterminismVerified: counterfactualDeterminismVerified,
+		Summary:                           summary,
+		Continuations:                     continuations,
+		FinalContinuation:                 finalContinuation,
+		FinalRootMoveResults:              finalRootMoveResults,
+		RootMargin:                        rootMargin,
+		Events:                            events,
 	}, nil
+}
+
+func selectFinalRootMoveResults(
+	results []search.TraceRootMoveResult,
+	iteration int,
+	pass string,
+) []rootMoveOutput {
+	selected := []rootMoveOutput{}
+	for _, result := range results {
+		if result.Iteration == iteration && result.Pass == pass {
+			selected = append(selected, rootMoveOutput{
+				TraceRootMoveResult: result,
+				MoveUCI:             moveUCI(result.Move),
+			})
+		}
+	}
+	return selected
+}
+
+func buildRootMargin(results []rootMoveOutput, historicalMoveUCI, bestMoveUCI string) *rootMarginOutput {
+	var historical *rootMoveOutput
+	for index := range results {
+		if results[index].MoveUCI == historicalMoveUCI {
+			historical = &results[index]
+			break
+		}
+	}
+	if historical == nil {
+		return nil
+	}
+
+	var competitor *rootMoveOutput
+	if bestMoveUCI != historicalMoveUCI {
+		for index := range results {
+			if results[index].MoveUCI == bestMoveUCI {
+				competitor = &results[index]
+				break
+			}
+		}
+	} else {
+		for index := range results {
+			candidate := &results[index]
+			if candidate.MoveUCI == historicalMoveUCI {
+				continue
+			}
+			if competitor == nil || candidate.Score > competitor.Score {
+				competitor = candidate
+			}
+		}
+	}
+	if competitor == nil {
+		return nil
+	}
+
+	marginBound := scoreDifferenceBound(historical.ScoreBound, competitor.ScoreBound)
+	boundMeaning := "recorded score difference is not a formal bound"
+	switch marginBound {
+	case "exact":
+		boundMeaning = "historical-minus-competitor margin is exact"
+	case "lower":
+		boundMeaning = "true historical-minus-competitor margin is at least the reported value"
+	case "upper":
+		boundMeaning = "true historical-minus-competitor margin is at most the reported value"
+	}
+	return &rootMarginOutput{
+		HistoricalMove:                  *historical,
+		BestCompetitor:                  *competitor,
+		HistoricalMinusBestCompetitorCP: historical.Score - competitor.Score,
+		MarginBound:                     marginBound,
+		BoundMeaning:                    boundMeaning,
+	}
+}
+
+func scoreDifferenceBound(leftBound, rightBound string) string {
+	leftHasLower := leftBound == "exact" || leftBound == "lower"
+	leftHasUpper := leftBound == "exact" || leftBound == "upper"
+	rightHasLower := rightBound == "exact" || rightBound == "lower"
+	rightHasUpper := rightBound == "exact" || rightBound == "upper"
+	hasLower := leftHasLower && rightHasUpper
+	hasUpper := leftHasUpper && rightHasLower
+	if hasLower && hasUpper {
+		return "exact"
+	}
+	if hasLower {
+		return "lower"
+	}
+	if hasUpper {
+		return "upper"
+	}
+	return "indeterminate"
+}
+
+func formatContinuation(continuation search.TraceContinuation) continuationOutput {
+	lineUCI := make([]string, 0, len(continuation.Line))
+	for _, m := range continuation.Line {
+		lineUCI = append(lineUCI, moveUCI(m))
+	}
+	afterReply := []string{}
+	if len(lineUCI) > 2 {
+		afterReply = append(afterReply, lineUCI[2:]...)
+	}
+	leafScoreRootPOV := continuation.LeafScore
+	if continuation.LeafPly >= 0 && continuation.LeafPly%2 != 0 {
+		leafScoreRootPOV = -leafScoreRootPOV
+	}
+	leafAfterReplyPly := -1
+	if continuation.LeafPly >= 0 {
+		leafAfterReplyPly = continuation.LeafPly - 2
+	}
+	return continuationOutput{
+		TraceContinuation: continuation,
+		LineUCI:           lineUCI,
+		AfterReplyUCI:     afterReply,
+		ScoreRootPOV:      -continuation.Score,
+		LeafAfterReplyPly: leafAfterReplyPly,
+		LeafScoreRootPOV:  leafScoreRootPOV,
+	}
+}
+
+func selectFinalContinuation(
+	continuations []continuationOutput,
+	iteration int,
+	pass string,
+) *continuationOutput {
+	var selected *continuationOutput
+	for index := range continuations {
+		continuation := &continuations[index]
+		if continuation.Iteration == iteration && continuation.Pass == pass {
+			selected = continuation
+		}
+	}
+	return selected
 }
 
 func summarize(events []search.TraceEvent, finalIteration int) runSummary {
@@ -487,6 +743,57 @@ func parseDepths(value string) ([]int, error) {
 	}
 	sort.Ints(depths)
 	return depths, nil
+}
+
+func parseCounterfactualMode(mode string) (int, error) {
+	switch mode {
+	case "observational":
+		return 0, nil
+	case "full-depth":
+		return 0, nil
+	case "plus-one":
+		return 1, nil
+	default:
+		return 0, fmt.Errorf("invalid counterfactual mode %q", mode)
+	}
+}
+
+func parseCounterfactualCases(
+	value string,
+	mode string,
+	cases []corpusCase,
+) (map[string]bool, []string, error) {
+	selected := map[string]bool{}
+	for _, part := range strings.Split(value, ",") {
+		name := strings.TrimSpace(part)
+		if name != "" {
+			selected[name] = true
+		}
+	}
+	if mode == "observational" {
+		if len(selected) != 0 {
+			return nil, nil, errors.New("observational mode cannot name counterfactual cases")
+		}
+		return selected, []string{}, nil
+	}
+	if len(selected) == 0 {
+		return nil, nil, fmt.Errorf("counterfactual mode %q requires -counterfactual-cases", mode)
+	}
+	available := make(map[string]bool, len(cases))
+	for _, tc := range cases {
+		available[tc.Name] = true
+	}
+	for name := range selected {
+		if !available[name] {
+			return nil, nil, fmt.Errorf("counterfactual case %q is not in the selected corpus", name)
+		}
+	}
+	names := make([]string, 0, len(selected))
+	for name := range selected {
+		names = append(names, name)
+	}
+	sort.Strings(names)
+	return selected, names, nil
 }
 
 func cohortCounts(cases []corpusCase) (primary, canaries int) {
