@@ -694,9 +694,8 @@ func (s *Search) Quiescence(b *board.Board, alpha int, beta int) int {
 			event.OrderIndex = i
 			s.appendTrace(event)
 		}
-		// When not in check, only consider captures
-		// When in check, consider all evasions (king moves, captures, blocks)
-		if !inCheck && !move.IsCapture(m) {
+		// Search captures and promotions outside check, and all evasions in check.
+		if !inCheck && !move.IsCapture(m) && !move.IsPromotion(m) {
 			if event, ok := s.newTraceEvent("quiescence", "capture_filtered", 0, alpha, beta); ok && m == event.TargetMove {
 				event.InCheck = inCheck
 				event.CurrentMove = m
