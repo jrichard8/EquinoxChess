@@ -45,6 +45,6 @@ go test -tags searchtrace ./...
 ```
 
 - [Guide de développement](docs/developpement.md) — architecture, conventions et contrôles à exécuter selon le changement.
-- [Validation tactique indépendante](tools/tactics/README.md) — rejouer la référence de septembre sur 32 positions hors run6.
+- [Lot tactique v1](tools/tactics/README.md) pour les régressions et [lot v2](tools/tactics/v2/README.md) pour les coups calmes difficiles. Chaque lot comprend 32 positions avec une référence de septembre à profondeur 6.
 - [Protocole Elo](tools/elo/README.md) — comparer deux binaires sur les mêmes ouvertures, couleurs inversées.
 - [Analyse des parties](tools/kingzone/README.md) et [traceur de recherche](cmd/search_trace/README.md) — reconstruire les positions diagnostiques depuis le PGN et examiner les décisions du moteur.

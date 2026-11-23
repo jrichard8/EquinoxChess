@@ -1,6 +1,6 @@
 # EquinoxChess · bilan de reprise du 23 novembre 2026
 
-Le moteur est jouable en UCI et dans le navigateur. Le progrès le mieux établi vient de l’allocation du temps de recherche. Les limites tactiques sont mesurables. À profondeur 6, Equinox évite 10 des 13 erreurs historiques du jeu de régression, mais n’évalue que 2 de ces positions à −300 centipions ou moins. Sur le nouveau lot indépendant, la même révision choisit les 32 coups de référence et reconnaît 15 des 16 positions classées perdantes par Stockfish. Les critères de sélection des deux lots diffèrent.
+Le moteur est jouable en UCI et dans le navigateur. Le progrès le mieux établi vient de l’allocation du temps de recherche. Les limites tactiques sont mesurables. À profondeur 6, Equinox évite 10 des 13 erreurs historiques du jeu de régression, mais n’évalue que 2 de ces positions à −300 centipions ou moins. Sur le lot de régression v1, la même révision choisit les 32 coups de référence et reconnaît 15 des 16 positions classées perdantes par Stockfish. Sur le lot v2, qui exige un premier coup calme difficile, elle trouve 13 des 32 solutions.
 
 ## Où reprendre le code
 
@@ -41,11 +41,15 @@ Le rejeu du PGN run6 retrouve les 30 parties, les 1 530 décisions exploitables 
 
 Le lot v1 a été figé dans `850def5` avant de mesurer `819a8d5`. Ses 32 positions proviennent de 32 nouvelles parties Stockfish et de 32 ouvertures distinctes. Aucune ne se retrouve parmi les 3 108 positions distinctes du run6, même en ignorant les compteurs FEN. À profondeur 6, le moteur retrouve **16/16 coups en position tenable et 16/16 en position perdante**. Il reconnaît **15/16 pertes**, sans fausse alerte sur les 16 positions tenables. Deux passages avec processus neufs donnent exactement les mêmes résultats, pour 1 480 222 nœuds par passage. [Lot, protocole et limites](tools/tactics/README.md) · [Résultats par position](tools/tactics/v1/septembre.json)
 
+## Coups calmes difficiles · lot v2
+
+Le lot v2 a été publié dans `1b97ed9` avant toute mesure du moteur de septembre. Sur 32 problèmes issus de 32 autres parties, sans position commune avec le run6 ni les parties sources de v1, `819a8d5` trouve **13/32 premiers coups** à profondeur 6 (8/16 avec les Blancs, 5/16 avec les Noirs). Deux passages concordent sur chaque position et comptent chacun 3 289 616 nœuds. Le même binaire reproduit à l’octet près son rapport v1. [Sélection et résultats v2](tools/tactics/v2/README.md)
+
 ## Analyse critique et ordre de reprise proposé
 
 | Priorité | Constat | Action et critère de décision |
 |---|---|---|
-| 1 · Comparer les changements aux références figées | Le lot indépendant plafonne déjà à 32/32 sur le choix du coup. Les 13 canaris historiques du run6 restent plus difficiles pour cette révision. | Rejouer les deux lots à profondeur 6 et relever les régressions par position, les pertes reconnues, les fausses alertes et les nœuds. Si l’objectif est de mesurer davantage de coups justes, préparer un autre lot aveugle de décisions plus difficiles. |
+| 1 · Comparer les changements aux références figées | La référence de septembre trouve 32/32 coups sur v1 et 13/32 sur les coups calmes de v2. | Rejouer les deux lots à profondeur 6. Sur v2, compter les gains parmi les 19 écarts et les régressions parmi les 13 succès. Sur v1, suivre également les 15/16 pertes reconnues. Comparer le coût en nœuds et garder les canaris du run6 comme contrôle historique. |
 | 2 · Conserver les preuves des prochains matchs | Le traceur est versionné. Pour les matchs d’août, le dépôt contient les résultats et les empreintes, mais les PGN et leurs manifestes manquent. | Pour le prochain match, conserver ensemble la révision, les empreintes des binaires, le PGN, le manifeste et le résumé. Vérifier que le score peut être recalculé à partir de ces fichiers. |
 | 3 · Tester une seule correction tactique | Hors échec, la quiétude filtre les coups sans prise avant de tester la promotion. Une promotion sans prise peut donc disparaître à la frontière. C’est une hypothèse plus circonscrite qu’une nouvelle série de règles D5. | Commencer par une finale où la promotion change le résultat à l’horizon et un témoin avec promotion par prise. Si l’effet est reproduit, isoler le changement, mesurer choix, score et nœuds, puis appliquer le protocole de match apparié. [Filtre de quiétude](internal/search/search.go) |
 | 4 · Couvrir les usages réels | Les tests UCI exercent surtout les fonctions de gestion de position et d’horloge. Le serveur HTTP partage un objet de partie mutable entre requêtes et son paquet ne contient aucun test. | Ajouter un scénario UCI complet allant de la position au meilleur coup puis à la partie suivante. Côté HTTP, vérifier la cohérence du plateau lors de requêtes simultanées et sérialiser les accès à la partie partagée. Valider les scénarios sous `-race`. |

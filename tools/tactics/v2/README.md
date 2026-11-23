@@ -9,6 +9,22 @@ Cette suite mesure le choix du **premier coup** sur 32 problèmes provenant de 3
 3. **Difficulté et arbitrage.** Stockfish 18 doit d’abord manquer la solution à 512 nœuds. À profondeur 14 puis 18, il doit retrouver le coup Lichess à chaque recherche et le créditer d’au moins 150 centipions d’avance sur le deuxième. Les deux coups sont évalués à la profondeur demandée avec MultiPV 2, un thread, 16 Mio de table, scores numériques sans indication de borne et état neuf à chaque recherche. Les 16 premiers cas admissibles par couleur constituent le [lot figé](positions.json). Chaque cas garde le coup du contrôle court et les deux analyses profondes.
 4. **Mesure.** L’indicateur principal est le nombre de coups de référence trouvés à profondeur 6. Un processus UCI neuf est lancé deux fois par position, sans horloge. Les deux passages doivent rendre le même coup légal, le même score et le même nombre de nœuds à profondeur 6. On conserve les résultats individuels pour comparer les gains et les régressions d’un candidat. L’échantillonnage cible les positions où un coup calme se détache et échappe à la recherche courte de Stockfish.
 
+## Référence de septembre · 23 novembre 2026
+
+Le commit `1b97ed9` a été publié sur `origin/main` avant la première mesure du lot. Le binaire de `819a8d5` est identique à celui de la mesure v1 (SHA-256 `46caaa986c5e4ab0610790b012cad658c6578d6f3bf187fe29222111c1b0642b`). Les 32 problèmes ont des cotes Lichess de 2 048 à 2 747, de médiane 2 345. La reconstruction depuis le réservoir a reproduit le fichier des références à l’octet près.
+
+| Trait | Premier coup de référence trouvé | Nœuds sur un passage |
+|---|---:|---:|
+| Blancs | 8/16 | 1 166 903 |
+| Noirs | 5/16 | 2 122 713 |
+| **Ensemble** | **13/32 (40,6 %)** | **3 289 616** |
+
+Les deux recherches neuves par position concordent. Sur les 19 écarts de choix, 11 reproduisent le coup du contrôle Stockfish à 512 nœuds. À profondeur 18, Stockfish évalue les 32 positions en faveur du camp au trait. Equinox en évalue trois à −300 cp ou moins, y compris `0afCF`, où il trouve pourtant le coup de référence. [Rapport par position](septembre.json)
+
+Le problème `00Nhl` illustre le type de décision recherché. Equinox prend immédiatement la tour en h7 (`h8h7`). Stockfish classe cette prise deuxième, à −176 cp. Son premier choix, le coup de cavalier `g6f4`, vaut +316 cp et invite la dame blanche à prendre le cavalier en f4, où le pion e5 peut reprendre. [Position sur l’échiquier](https://lichess.org/training/00Nhl)
+
+Lors d’une comparaison, compter séparément les solutions nouvellement trouvées et celles perdues parmi les 13 déjà acquises. Le lot v1 reste la référence pour les régressions, avec 32/32 coups et 15/16 pertes reconnues. La comparaison des deux scores décrit la difficulté des deux sélections pour le même binaire à profondeur 6.
+
 ## Rejouer une mesure
 
 Depuis la racine du dépôt, passer le binaire UCI et un chemin de sortie libre. Le [protocole de compilation](../README.md#relire-la-mesure-ou-comparer-un-candidat) précise comment reconstruire le moteur de septembre avec son identifiant Git.
