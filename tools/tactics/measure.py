@@ -20,6 +20,7 @@ from build_corpus import (
     positions,
     tactical_line,
 )
+from quiet import validate as validate_quiet
 
 DEPTH = 6
 REPEATS = 2
@@ -27,6 +28,10 @@ REPEATS = 2
 
 def load_fixture(path):
     data = json.loads(path.read_text())
+    if data["version"] == 2:
+        return validate_quiet(path, data)
+    if data["version"] != 1:
+        raise ValueError("Unsupported fixture version")
     source = path.with_name("source.pgn")
     for file, field in (
         (source, "source_sha256"),
@@ -171,7 +176,8 @@ def main():
             }
         )
     summary = {}
-    for cohort in ("tactic", "loss", "all"):
+    cohorts = sorted({case["cohort"] for case in cases}, reverse=True)
+    for cohort in [*cohorts, "all"]:
         subset = [r for r in results if cohort == "all" or r["cohort"] == cohort]
         summary[cohort] = {
             "n": len(subset),
