@@ -1,0 +1,1326 @@
+{
+  "version": 1,
+  "reference_engine": "Stockfish 18",
+  "reference_sha256": "ae4c93fa9676ca7750d0714342fd8a5b1d018000fc6e0f6cedf112067b5ef374",
+  "python_chess": "1.11.2",
+  "opening_sha256": "a56eceebbed6b6735f67cebba3aeae81ee8d96eeda19da193f7d92c7a444b739",
+  "run6_sha256": "1c98886a75d26560326cbfae249742af76ea7dfe813e3d8e3fd66fa74cf0d4dc",
+  "run6_games": 30,
+  "run6_unique_positions": 3108,
+  "source_games": 128,
+  "source_sha256": "2009309954c5ee5c863a80da411afee0180652b554a77b735aa991c4c6ec3315",
+  "positions": [
+    {
+      "id": "G01-p44",
+      "cohort": "tactic",
+      "game": 1,
+      "ply": 44,
+      "opening": "01 Ruy Lopez",
+      "fen": "r3nrk1/3q3p/4np2/1p1Q2B1/p3P3/3P3P/PPP3P1/R4R1K b - - 2 22",
+      "played": "d7d5",
+      "reference": [
+        {
+          "nodes_budget": 24000,
+          "depth": 14,
+          "best": "d7d5",
+          "cp": 428,
+          "second": "a8d8",
+          "second_cp": 69,
+          "pv": [
+            "d7d5",
+            "e4d5",
+            "e6g5",
+            "b2b3",
+            "g5f7"
+          ]
+        },
+        {
+          "nodes_budget": 120000,
+          "depth": 16,
+          "best": "d7d5",
+          "cp": 427,
+          "second": "a8d8",
+          "second_cp": 62,
+          "pv": [
+            "d7d5",
+            "e4d5",
+            "e6g5",
+            "c2c4",
+            "b5c4"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "G02-p57",
+      "cohort": "tactic",
+      "game": 2,
+      "ply": 57,
+      "opening": "02 Italian Game",
+      "fen": "8/1pk2rp1/p1pbrnNp/3n4/1PBP3P/P5P1/3B1PK1/4R3 w - - 0 29",
+      "played": "e1e6",
+      "reference": [
+        {
+          "nodes_budget": 24000,
+          "depth": 12,
+          "best": "e1e6",
+          "cp": 254,
+          "second": "c4d5",
+          "second_cp": -289,
+          "pv": [
+            "e1e6",
+            "f7d7",
+            "c4b3",
+            "d7d8",
+            "e6e2"
+          ]
+        },
+        {
+          "nodes_budget": 120000,
+          "depth": 15,
+          "best": "e1e6",
+          "cp": 252,
+          "second": "c4d5",
+          "second_cp": -306,
+          "pv": [
+            "e1e6",
+            "f6g4",
+            "e6e2",
+            "g4f6",
+            "c4b3"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "G04-p38",
+      "cohort": "tactic",
+      "game": 4,
+      "ply": 38,
+      "opening": "04 Four Knights",
+      "fen": "3r2k1/1pp2pp1/p2b1q2/3Pr2p/8/P1BP3Q/1P3PPP/R3R1K1 b - - 0 19",
+      "played": "e5e1",
+      "reference": [
+        {
+          "nodes_budget": 24000,
+          "depth": 9,
+          "best": "e5e1",
+          "cp": 0,
+          "second": "g7g6",
+          "second_cp": -194,
+          "pv": [
+            "e5e1",
+            "a1e1",
+            "f6g5",
+            "h3f3",
+            "d6c5"
+          ]
+        },
+        {
+          "nodes_budget": 120000,
+          "depth": 14,
+          "best": "e5e1",
+          "cp": -37,
+          "second": "b7b5",
+          "second_cp": -195,
+          "pv": [
+            "e5e1",
+            "a1e1",
+            "f6g5",
+            "h3f3",
+            "d6f8"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "G05-p37",
+      "cohort": "tactic",
+      "game": 5,
+      "ply": 37,
+      "opening": "05 Petrov Defense",
+      "fen": "2k4r/ppp3pp/5p2/2bp4/3N2n1/2BP4/PPP2PPP/4rK1R w - - 0 19",
+      "played": "f1e1",
+      "reference": [
+        {
+          "nodes_budget": 24000,
+          "depth": 11,
+          "best": "f1e1",
+          "cp": -40,
+          "second": "c3e1",
+          "second_cp": -446,
+          "pv": [
+            "f1e1",
+            "h8e8",
+            "e1f1",
+            "c5d4",
+            "c3d4"
+          ]
+        },
+        {
+          "nodes_budget": 120000,
+          "depth": 13,
+          "best": "f1e1",
+          "cp": -34,
+          "second": "c3e1",
+          "second_cp": -447,
+          "pv": [
+            "f1e1",
+            "h8e8",
+            "e1f1",
+            "c8d7",
+            "h2h3"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "G07-p56",
+      "cohort": "tactic",
+      "game": 7,
+      "ply": 56,
+      "opening": "07 Sicilian Najdorf",
+      "fen": "r1r3k1/5pp1/1qbQ3p/4pPb1/1p2P1P1/1B6/PPP1R3/1KNR4 b - - 0 28",
+      "played": "c8d8",
+      "reference": [
+        {
+          "nodes_budget": 24000,
+          "depth": 12,
+          "best": "c8d8",
+          "cp": 264,
+          "second": "g5f6",
+          "second_cp": 9,
+          "pv": [
+            "c8d8",
+            "b3f7",
+            "g8h8",
+            "d6g6",
+            "d8d1"
+          ]
+        },
+        {
+          "nodes_budget": 120000,
+          "depth": 16,
+          "best": "c8d8",
+          "cp": 353,
+          "second": "b6b7",
+          "second_cp": -62,
+          "pv": [
+            "c8d8",
+            "b3f7",
+            "g8h8",
+            "d6g6",
+            "d8d1"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "G08-p43",
+      "cohort": "tactic",
+      "game": 8,
+      "ply": 43,
+      "opening": "08 Sicilian Accelerated Dragon",
+      "fen": "2b2rk1/p4p1p/2p3pq/3pR3/5P2/8/PrP1NQ1P/2KR1B2 w - - 0 22",
+      "played": "c1b2",
+      "reference": [
+        {
+          "nodes_budget": 24000,
+          "depth": 14,
+          "best": "c1b2",
+          "cp": 486,
+          "second": "d1d5",
+          "second_cp": 250,
+          "pv": [
+            "c1b2",
+            "c8g4",
+            "b2c1",
+            "f8b8",
+            "c1d2"
+          ]
+        },
+        {
+          "nodes_budget": 120000,
+          "depth": 16,
+          "best": "c1b2",
+          "cp": 493,
+          "second": "e2d4",
+          "second_cp": 216,
+          "pv": [
+            "c1b2",
+            "c8g4",
+            "b2a1",
+            "f8b8",
+            "f2d4"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "G09-p21",
+      "cohort": "tactic",
+      "game": 9,
+      "ply": 21,
+      "opening": "09 Sicilian Dragon",
+      "fen": "r1b1k2r/pp2pp1p/1qNp2p1/6B1/4n3/2b5/PPP2PPP/2KRQB1R w kq - 0 11",
+      "played": "b2c3",
+      "reference": [
+        {
+          "nodes_budget": 24000,
+          "depth": 12,
+          "best": "b2c3",
+          "cp": -87,
+          "second": "e1c3",
+          "second_cp": -362,
+          "pv": [
+            "b2c3",
+            "b6c6",
+            "g5e7",
+            "e8e7",
+            "f1d3"
+          ]
+        },
+        {
+          "nodes_budget": 120000,
+          "depth": 15,
+          "best": "b2c3",
+          "cp": -83,
+          "second": "e1c3",
+          "second_cp": -457,
+          "pv": [
+            "b2c3",
+            "b6c6",
+            "g5e7",
+            "c8e6",
+            "d1d4"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "G11-p20",
+      "cohort": "tactic",
+      "game": 11,
+      "ply": 20,
+      "opening": "11 French Advance",
+      "fen": "r1b1k2r/pp1n1ppp/1qn1p3/2bpP3/N2N3P/4B3/PPP2PP1/R2QKB1R b KQkq - 2 10",
+      "played": "b6a5",
+      "reference": [
+        {
+          "nodes_budget": 24000,
+          "depth": 11,
+          "best": "b6a5",
+          "cp": 97,
+          "second": "b6c7",
+          "second_cp": -176,
+          "pv": [
+            "b6a5",
+            "c2c3",
+            "c5d4",
+            "e3d4",
+            "d7e5"
+          ]
+        },
+        {
+          "nodes_budget": 120000,
+          "depth": 15,
+          "best": "b6a5",
+          "cp": 101,
+          "second": "b6c7",
+          "second_cp": -175,
+          "pv": [
+            "b6a5",
+            "c2c3",
+            "c5d4",
+            "e3d4",
+            "d7e5"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "G12-p67",
+      "cohort": "tactic",
+      "game": 12,
+      "ply": 67,
+      "opening": "12 French Tarrasch",
+      "fen": "6k1/1b6/1p2p2p/pP2P1p1/P1pPn1P1/2N3KP/8/2B3R1 w - - 2 34",
+      "played": "c3e4",
+      "reference": [
+        {
+          "nodes_budget": 24000,
+          "depth": 15,
+          "best": "c3e4",
+          "cp": 531,
+          "second": "g3h2",
+          "second_cp": 161,
+          "pv": [
+            "c3e4",
+            "b7e4",
+            "d4d5",
+            "e4d5",
+            "g3f2"
+          ]
+        },
+        {
+          "nodes_budget": 120000,
+          "depth": 17,
+          "best": "c3e4",
+          "cp": 558,
+          "second": "g3h2",
+          "second_cp": 150,
+          "pv": [
+            "c3e4",
+            "b7e4",
+            "d4d5",
+            "e4d5",
+            "c1e3"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "G14-p36",
+      "cohort": "loss",
+      "game": 14,
+      "ply": 36,
+      "opening": "14 Caro-Kann Advance",
+      "fen": "r3Qb1r/1pkn1N2/p1n4p/2ppP3/3P4/2P1B3/PP3PPP/R4RK1 b - - 0 18",
+      "played": "a8e8",
+      "reference": [
+        {
+          "nodes_budget": 24000,
+          "depth": 12,
+          "best": "a8e8",
+          "cp": -469,
+          "second": "c5d4",
+          "second_cp": -682,
+          "pv": [
+            "a8e8",
+            "f7h8",
+            "e8e6",
+            "h8f7",
+            "d7b6"
+          ]
+        },
+        {
+          "nodes_budget": 120000,
+          "depth": 13,
+          "best": "a8e8",
+          "cp": -518,
+          "second": "c5d4",
+          "second_cp": -693,
+          "pv": [
+            "a8e8",
+            "f7h8",
+            "c5d4",
+            "c3d4",
+            "d7e5"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "G15-p33",
+      "cohort": "loss",
+      "game": 15,
+      "ply": 33,
+      "opening": "15 Scandinavian",
+      "fen": "r1bq1rk1/pp4pp/3bp3/1Pp1N2n/5p1B/3B4/1PP2PPP/R3R1K1 w - - 0 17",
+      "played": "h4d8",
+      "reference": [
+        {
+          "nodes_budget": 24000,
+          "depth": 13,
+          "best": "h4d8",
+          "cp": -328,
+          "second": "d3h7",
+          "second_cp": -490,
+          "pv": [
+            "h4d8",
+            "f8d8",
+            "e5c4",
+            "d6f8",
+            "d3e4"
+          ]
+        },
+        {
+          "nodes_budget": 120000,
+          "depth": 15,
+          "best": "h4d8",
+          "cp": -336,
+          "second": "d3h7",
+          "second_cp": -503,
+          "pv": [
+            "h4d8",
+            "f8d8",
+            "e5c4",
+            "h5f6",
+            "b5b6"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "G16-p56",
+      "cohort": "loss",
+      "game": 16,
+      "ply": 56,
+      "opening": "16 Pirc Defense",
+      "fen": "4rrk1/p1R1P2R/1p3bp1/5p2/2B2P2/5bP1/PP5P/2K5 b - - 0 28",
+      "played": "f8f7",
+      "reference": [
+        {
+          "nodes_budget": 24000,
+          "depth": 13,
+          "best": "f8f7",
+          "cp": -652,
+          "second": "f3d5",
+          "second_cp": -915,
+          "pv": [
+            "f8f7",
+            "c4f7",
+            "g8h7",
+            "f7e8",
+            "h7g7"
+          ]
+        },
+        {
+          "nodes_budget": 120000,
+          "depth": 13,
+          "best": "f8f7",
+          "cp": -667,
+          "second": "f3d5",
+          "second_cp": -980,
+          "pv": [
+            "f8f7",
+            "c4f7",
+            "g8h7",
+            "f7e8",
+            "h7g7"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "G17-p52",
+      "cohort": "tactic",
+      "game": 17,
+      "ply": 52,
+      "opening": "17 Modern Defense",
+      "fen": "5rk1/1p4bp/1r2p1pn/8/pQ3pP1/2RR3P/1PP1N3/1KB5 b - - 0 26",
+      "played": "b6b4",
+      "reference": [
+        {
+          "nodes_budget": 24000,
+          "depth": 12,
+          "best": "b6b4",
+          "cp": 208,
+          "second": "g7c3",
+          "second_cp": -502,
+          "pv": [
+            "b6b4",
+            "c3c5",
+            "h6g4",
+            "h3g4",
+            "f4f3"
+          ]
+        },
+        {
+          "nodes_budget": 120000,
+          "depth": 15,
+          "best": "b6b4",
+          "cp": 274,
+          "second": "b6c6",
+          "second_cp": -588,
+          "pv": [
+            "b6b4",
+            "c3c7",
+            "f4f3",
+            "e2g3",
+            "h6g4"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "G18-p26",
+      "cohort": "loss",
+      "game": 18,
+      "ply": 26,
+      "opening": "18 Alekhine Defense",
+      "fen": "r1b2rk1/ppp1pNPp/2n2qp1/3n2N1/3P4/8/PPP2PP1/R1BQKB1R b KQ - 0 13",
+      "played": "f8f7",
+      "reference": [
+        {
+          "nodes_budget": 24000,
+          "depth": 13,
+          "best": "f8f7",
+          "cp": -345,
+          "second": "f6g7",
+          "second_cp": -523,
+          "pv": [
+            "f8f7",
+            "g5f7",
+            "f6f7",
+            "f1c4",
+            "e7e5"
+          ]
+        },
+        {
+          "nodes_budget": 120000,
+          "depth": 16,
+          "best": "f8f7",
+          "cp": -330,
+          "second": "f6g7",
+          "second_cp": -553,
+          "pv": [
+            "f8f7",
+            "g5f7",
+            "f6f7",
+            "f1c4",
+            "e7e5"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "G19-p39",
+      "cohort": "loss",
+      "game": 19,
+      "ply": 39,
+      "opening": "19 Queen's Gambit Declined",
+      "fen": "2r2rk1/pp2qpp1/1n2bb1p/8/PP2p3/2pBPN2/2Q2PPP/2RR2K1 w - - 0 20",
+      "played": "d3e4",
+      "reference": [
+        {
+          "nodes_budget": 24000,
+          "depth": 14,
+          "best": "d3e4",
+          "cp": -526,
+          "second": "f3d4",
+          "second_cp": -735,
+          "pv": [
+            "d3e4",
+            "f8d8",
+            "d1d8",
+            "c8d8",
+            "f3d4"
+          ]
+        },
+        {
+          "nodes_budget": 120000,
+          "depth": 17,
+          "best": "d3e4",
+          "cp": -508,
+          "second": "d3e2",
+          "second_cp": -739,
+          "pv": [
+            "d3e4",
+            "b6c4",
+            "f3d4",
+            "f6d4",
+            "d1d4"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "G20-p17",
+      "cohort": "tactic",
+      "game": 20,
+      "ply": 17,
+      "opening": "20 Slav Defense",
+      "fen": "rnb1kb1r/p4ppp/1qp1pn2/8/1ppPP2P/1PN2N2/P1Q2PP1/R1B1KB1R w KQkq - 0 9",
+      "played": "c3a4",
+      "reference": [
+        {
+          "nodes_budget": 24000,
+          "depth": 12,
+          "best": "c3a4",
+          "cp": 168,
+          "second": "c3d1",
+          "second_cp": -26,
+          "pv": [
+            "c3a4",
+            "b6c7",
+            "f1c4",
+            "h7h6",
+            "e1g1"
+          ]
+        },
+        {
+          "nodes_budget": 120000,
+          "depth": 17,
+          "best": "c3a4",
+          "cp": 173,
+          "second": "e4e5",
+          "second_cp": 12,
+          "pv": [
+            "c3a4",
+            "b6d8",
+            "b3c4",
+            "d8a5",
+            "c1d2"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "G21-p56",
+      "cohort": "tactic",
+      "game": 21,
+      "ply": 56,
+      "opening": "21 Semi-Slav Defense",
+      "fen": "2R5/1p2k1pp/8/5p2/2P1p3/6bP/r3B1P1/5K1R b - - 0 28",
+      "played": "a2a1",
+      "reference": [
+        {
+          "nodes_budget": 24000,
+          "depth": 12,
+          "best": "a2a1",
+          "cp": 591,
+          "second": "f5f4",
+          "second_cp": 231,
+          "pv": [
+            "a2a1",
+            "e2d1",
+            "a1d1",
+            "f1e2",
+            "d1h1"
+          ]
+        },
+        {
+          "nodes_budget": 120000,
+          "depth": 13,
+          "best": "a2a1",
+          "cp": 599,
+          "second": "g7g6",
+          "second_cp": 189,
+          "pv": [
+            "a2a1",
+            "e2d1",
+            "a1d1",
+            "f1e2",
+            "d1h1"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "G22-p63",
+      "cohort": "tactic",
+      "game": 22,
+      "ply": 63,
+      "opening": "22 Nimzo-Indian",
+      "fen": "2r3k1/3r1ppp/4qnb1/B7/1P2P3/P1Qp3P/3N2P1/3R1BK1 w - - 0 32",
+      "played": "c3c8",
+      "reference": [
+        {
+          "nodes_budget": 24000,
+          "depth": 14,
+          "best": "c3c8",
+          "cp": 398,
+          "second": "c3b3",
+          "second_cp": -316,
+          "pv": [
+            "c3c8",
+            "f6e8",
+            "c8c3",
+            "e8f6",
+            "f1d3"
+          ]
+        },
+        {
+          "nodes_budget": 120000,
+          "depth": 15,
+          "best": "c3c8",
+          "cp": 422,
+          "second": "c3b3",
+          "second_cp": -308,
+          "pv": [
+            "c3c8",
+            "f6e8",
+            "g1h1",
+            "h7h5",
+            "d1c1"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "G24-p41",
+      "cohort": "tactic",
+      "game": 24,
+      "ply": 41,
+      "opening": "24 King's Indian",
+      "fen": "r3nrk1/pN1q1pbp/R5p1/3Pp3/1p2P1PP/1b2B3/1P2BP2/2Q1K2R w K - 4 21",
+      "played": "b7c5",
+      "reference": [
+        {
+          "nodes_budget": 24000,
+          "depth": 16,
+          "best": "b7c5",
+          "cp": 482,
+          "second": "c1c6",
+          "second_cp": 251,
+          "pv": [
+            "b7c5",
+            "d7d8",
+            "c5b3",
+            "e8d6",
+            "b3c5"
+          ]
+        },
+        {
+          "nodes_budget": 120000,
+          "depth": 17,
+          "best": "b7c5",
+          "cp": 471,
+          "second": "c1c6",
+          "second_cp": 268,
+          "pv": [
+            "b7c5",
+            "d7d8",
+            "c5b3",
+            "e8d6",
+            "b3c5"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "G25-p17",
+      "cohort": "tactic",
+      "game": 25,
+      "ply": 17,
+      "opening": "25 Grunfeld Defense",
+      "fen": "rn1qkb1r/1p1bpp1p/p5p1/1Bp5/Q2PP3/2P5/P4PPP/R1B1K1NR w KQkq - 0 9",
+      "played": "b5d7",
+      "reference": [
+        {
+          "nodes_budget": 24000,
+          "depth": 11,
+          "best": "b5d7",
+          "cp": -5,
+          "second": "a1b1",
+          "second_cp": -174,
+          "pv": [
+            "b5d7",
+            "b8d7",
+            "g1f3",
+            "b7b5",
+            "a4b3"
+          ]
+        },
+        {
+          "nodes_budget": 120000,
+          "depth": 14,
+          "best": "b5d7",
+          "cp": 8,
+          "second": "a1b1",
+          "second_cp": -197,
+          "pv": [
+            "b5d7",
+            "d8d7",
+            "a4d7",
+            "b8d7",
+            "e1e2"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "G27-p22",
+      "cohort": "tactic",
+      "game": 27,
+      "ply": 22,
+      "opening": "27 Dutch Defense",
+      "fen": "r3k2r/pp1nq1pp/2pBbn2/3p1p2/Q2P3P/2N1PNP1/PP3P2/R3KB1R b KQkq - 0 11",
+      "played": "e7d6",
+      "reference": [
+        {
+          "nodes_budget": 24000,
+          "depth": 12,
+          "best": "e7d6",
+          "cp": -45,
+          "second": "e7d8",
+          "second_cp": -509,
+          "pv": [
+            "e7d6",
+            "c3e2",
+            "e6f7",
+            "e2f4",
+            "f7h5"
+          ]
+        },
+        {
+          "nodes_budget": 120000,
+          "depth": 14,
+          "best": "e7d6",
+          "cp": -64,
+          "second": "e7d8",
+          "second_cp": -517,
+          "pv": [
+            "e7d6",
+            "f1d3",
+            "g7g6",
+            "e1g1",
+            "e6f7"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "G29-p41",
+      "cohort": "loss",
+      "game": 29,
+      "ply": 41,
+      "opening": "29 Symmetrical English",
+      "fen": "2rq1rk1/3bppbp/6p1/p1p5/3n3P/1PpP2P1/PQ1BPPB1/1R1R2K1 w - - 0 21",
+      "played": "d2c3",
+      "reference": [
+        {
+          "nodes_budget": 24000,
+          "depth": 14,
+          "best": "d2c3",
+          "cp": -490,
+          "second": "b2a3",
+          "second_cp": -707,
+          "pv": [
+            "d2c3",
+            "d4e2",
+            "b2e2",
+            "g7c3",
+            "b1c1"
+          ]
+        },
+        {
+          "nodes_budget": 120000,
+          "depth": 17,
+          "best": "d2c3",
+          "cp": -436,
+          "second": "b2a3",
+          "second_cp": -693,
+          "pv": [
+            "d2c3",
+            "d4e2",
+            "b2e2",
+            "g7c3",
+            "d3d4"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "G36-p22",
+      "cohort": "loss",
+      "game": 36,
+      "ply": 22,
+      "opening": "36 Slav Main Line",
+      "fen": "1Q2kb1r/p2b1ppp/2n2n2/3pp3/3P4/5N2/PP2PPPP/R1B1KB1R b KQk - 0 11",
+      "played": "c6b8",
+      "reference": [
+        {
+          "nodes_budget": 24000,
+          "depth": 15,
+          "best": "c6b8",
+          "cp": -455,
+          "second": "e8e7",
+          "second_cp": -669,
+          "pv": [
+            "c6b8",
+            "f3e5",
+            "b8a6",
+            "a2a3",
+            "d7a4"
+          ]
+        },
+        {
+          "nodes_budget": 120000,
+          "depth": 14,
+          "best": "c6b8",
+          "cp": -455,
+          "second": "e8e7",
+          "second_cp": -669,
+          "pv": [
+            "c6b8",
+            "f3e5",
+            "b8a6",
+            "a2a3",
+            "d7a4"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "G38-p64",
+      "cohort": "loss",
+      "game": 38,
+      "ply": 64,
+      "opening": "38 Catalan",
+      "fen": "1n1R2k1/r5p1/2p1r2p/1p5P/pB6/P5P1/1P3P2/2R3K1 b - - 1 32",
+      "played": "g8h7",
+      "reference": [
+        {
+          "nodes_budget": 24000,
+          "depth": 13,
+          "best": "g8h7",
+          "cp": -453,
+          "second": "e6e8",
+          "second_cp": -687,
+          "pv": [
+            "g8h7",
+            "d8b8",
+            "a7f7",
+            "b8f8",
+            "f7f8"
+          ]
+        },
+        {
+          "nodes_budget": 120000,
+          "depth": 14,
+          "best": "g8h7",
+          "cp": -490,
+          "second": "e6e8",
+          "second_cp": -756,
+          "pv": [
+            "g8h7",
+            "d8b8",
+            "a7d7",
+            "b8f8",
+            "d7d5"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "G47-p31",
+      "cohort": "loss",
+      "game": 47,
+      "ply": 31,
+      "opening": "47 London System",
+      "fen": "r4rk1/5ppp/bpn1pn2/p2p4/3P4/PN1Q1NP1/2P2PBP/Rq4K1 w - - 0 16",
+      "played": "a1b1",
+      "reference": [
+        {
+          "nodes_budget": 24000,
+          "depth": 14,
+          "best": "a1b1",
+          "cp": -497,
+          "second": "d3f1",
+          "second_cp": -674,
+          "pv": [
+            "a1b1",
+            "a6d3",
+            "c2d3",
+            "f8c8",
+            "b3c1"
+          ]
+        },
+        {
+          "nodes_budget": 120000,
+          "depth": 15,
+          "best": "a1b1",
+          "cp": -475,
+          "second": "d3f1",
+          "second_cp": -671,
+          "pv": [
+            "a1b1",
+            "a6d3",
+            "c2d3",
+            "f8c8",
+            "g1f1"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "G50-p44",
+      "cohort": "loss",
+      "game": 50,
+      "ply": 44,
+      "opening": "50 Ruy Lopez Schliemann",
+      "fen": "8/pbp1bkp1/2r2B1p/3p4/8/3P1QP1/PPP2P1P/4R1K1 b - - 0 22",
+      "played": "c6f6",
+      "reference": [
+        {
+          "nodes_budget": 24000,
+          "depth": 15,
+          "best": "c6f6",
+          "cp": -556,
+          "second": "e7f6",
+          "second_cp": -747,
+          "pv": [
+            "c6f6",
+            "f3e2",
+            "e7f8",
+            "d3d4",
+            "f7g8"
+          ]
+        },
+        {
+          "nodes_budget": 120000,
+          "depth": 16,
+          "best": "c6f6",
+          "cp": -559,
+          "second": "e7f6",
+          "second_cp": -723,
+          "pv": [
+            "c6f6",
+            "f3h5",
+            "f7f8",
+            "h5e2",
+            "d5d4"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "G52-p24",
+      "cohort": "loss",
+      "game": 52,
+      "ply": 24,
+      "opening": "52 Caro-Kann Panov",
+      "fen": "2r1kb1r/Qp3ppp/1nB1p3/4N3/3q2b1/2N5/PP3PPP/R1B1K2R b KQk - 0 12",
+      "played": "c8c6",
+      "reference": [
+        {
+          "nodes_budget": 24000,
+          "depth": 13,
+          "best": "c8c6",
+          "cp": -448,
+          "second": "e8d8",
+          "second_cp": -634,
+          "pv": [
+            "c8c6",
+            "e5c6",
+            "b7c6",
+            "c1e3",
+            "d4c4"
+          ]
+        },
+        {
+          "nodes_budget": 120000,
+          "depth": 15,
+          "best": "c8c6",
+          "cp": -471,
+          "second": "e8d8",
+          "second_cp": -692,
+          "pv": [
+            "c8c6",
+            "e5c6",
+            "b7c6",
+            "c1e3",
+            "d4c4"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "G57-p59",
+      "cohort": "loss",
+      "game": 57,
+      "ply": 59,
+      "opening": "57 Center Game",
+      "fen": "2k5/2p2ppp/6b1/pp6/5NPP/P4P2/5K2/4r3 w - - 0 30",
+      "played": "f2e1",
+      "reference": [
+        {
+          "nodes_budget": 24000,
+          "depth": 12,
+          "best": "f2e1",
+          "cp": -429,
+          "second": "f4h5",
+          "second_cp": -611,
+          "pv": [
+            "f2e1",
+            "h7h6",
+            "f4e2",
+            "c7c6",
+            "e2d4"
+          ]
+        },
+        {
+          "nodes_budget": 120000,
+          "depth": 15,
+          "best": "f2e1",
+          "cp": -416,
+          "second": "f4g6",
+          "second_cp": -601,
+          "pv": [
+            "f2e1",
+            "c8d7",
+            "h4h5",
+            "g6b1",
+            "f4e2"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "G61-p57",
+      "cohort": "loss",
+      "game": 61,
+      "ply": 57,
+      "opening": "61 Sicilian Alapin",
+      "fen": "1k1r1r2/pp6/4R3/1BbN1p1p/PnP2q2/7P/1P4P1/7K w - - 0 29",
+      "played": "d5f4",
+      "reference": [
+        {
+          "nodes_budget": 24000,
+          "depth": 13,
+          "best": "d5f4",
+          "cp": -629,
+          "second": "e6e3",
+          "second_cp": -928,
+          "pv": [
+            "d5f4",
+            "a7a6",
+            "f4h5",
+            "f5f4",
+            "h1h2"
+          ]
+        },
+        {
+          "nodes_budget": 120000,
+          "depth": 17,
+          "best": "d5f4",
+          "cp": -624,
+          "second": "e6e1",
+          "second_cp": -1005,
+          "pv": [
+            "d5f4",
+            "a7a6",
+            "e6g6",
+            "a6b5",
+            "a4b5"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "G62-p66",
+      "cohort": "loss",
+      "game": 62,
+      "ply": 66,
+      "opening": "62 Sicilian Rossolimo",
+      "fen": "5Rk1/1r2p2p/2N3p1/8/3p4/3P1P1P/1PP1KP2/R7 b - - 0 33",
+      "played": "g8f8",
+      "reference": [
+        {
+          "nodes_budget": 24000,
+          "depth": 13,
+          "best": "g8f8",
+          "cp": -586,
+          "second": "g8g7",
+          "second_cp": -778,
+          "pv": [
+            "g8f8",
+            "c6d4",
+            "b7b2",
+            "e2e3",
+            "b2b8"
+          ]
+        },
+        {
+          "nodes_budget": 120000,
+          "depth": 15,
+          "best": "g8f8",
+          "cp": -597,
+          "second": "g8g7",
+          "second_cp": -828,
+          "pv": [
+            "g8f8",
+            "f3f4",
+            "b7b2",
+            "c6d4",
+            "f8f7"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "G70-p29",
+      "cohort": "loss",
+      "game": 70,
+      "ply": 29,
+      "opening": "06 Vienna Gambit",
+      "fen": "r1b2rk1/ppp3pp/4P3/3p4/1b1nq3/2N1B3/PPP3NP/R2QKn1R w KQ - 0 15",
+      "played": "d1d4",
+      "reference": [
+        {
+          "nodes_budget": 24000,
+          "depth": 16,
+          "best": "d1d4",
+          "cp": -364,
+          "second": "h1f1",
+          "second_cp": -635,
+          "pv": [
+            "d1d4",
+            "f1e3",
+            "d4e4",
+            "d5e4",
+            "g2e3"
+          ]
+        },
+        {
+          "nodes_budget": 120000,
+          "depth": 18,
+          "best": "d1d4",
+          "cp": -407,
+          "second": "h1f1",
+          "second_cp": -652,
+          "pv": [
+            "d1d4",
+            "f1e3",
+            "d4e4",
+            "d5e4",
+            "g2e3"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "G77-p66",
+      "cohort": "loss",
+      "game": 77,
+      "ply": 66,
+      "opening": "13 Caro-Kann Classical",
+      "fen": "k2r4/p4pp1/1n5p/7P/8/4PQq1/P1R3PN/4R1K1 b - - 6 33",
+      "played": "g3f3",
+      "reference": [
+        {
+          "nodes_budget": 24000,
+          "depth": 15,
+          "best": "g3f3",
+          "cp": -626,
+          "second": "d8d5",
+          "second_cp": -854,
+          "pv": [
+            "g3f3",
+            "h2f3",
+            "a8b8",
+            "e3e4",
+            "d8d7"
+          ]
+        },
+        {
+          "nodes_budget": 120000,
+          "depth": 17,
+          "best": "g3f3",
+          "cp": -630,
+          "second": "d8d5",
+          "second_cp": -892,
+          "pv": [
+            "g3f3",
+            "h2f3",
+            "d8d5",
+            "c2c7",
+            "d5h5"
+          ]
+        }
+      ]
+    }
+  ]
+}
