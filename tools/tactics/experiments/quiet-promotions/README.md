@@ -26,6 +26,8 @@ La régression de v2 se situe sur **`0JLoe`**. Septembre trouvait `h5h6` (+38 cp
 
 Le surcoût est concentré. Sur **`Game17_W_ply17`**, les deux moteurs jouent l’erreur historique `d1f3` et annoncent +67 cp. Le candidat explore 7 041 277 nœuds contre 2 788 051, soit **90,1 % du surcoût du run6** à lui seul. Dans v1, `G18-p26` ajoute 81 075 nœuds sur les 94 719 supplémentaires du lot. Les nombres de nœuds mesurent le travail à profondeur fixe. Aucun match Elo n’a été joué pour cette expérience.
 
+Le diagnostic des deux positions retrace les promotions noires responsables du surcoût sur Game17 et la coupure à profondeur réduite sur 0JLoe. [Traces, contre-épreuve et reproduction](diagnostic.md)
+
 ## Provenance et reproduction
 
 - Les révisions UCI `819a8d5` et `81fdfe3` ont été compilées depuis des arbres propres sous Go 1.26.2, macOS arm64. Les empreintes des exécutables, des entrées et les 77 paires de résultats sont conservées dans [paired.json](paired.json). Les champs `cp` et `mate` sont au point de vue du camp au trait.

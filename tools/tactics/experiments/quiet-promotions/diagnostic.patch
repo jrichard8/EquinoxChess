@@ -1,0 +1,304 @@
+diff --git a/internal/search/diagnosis.go b/internal/search/diagnosis.go
+new file mode 100644
+index 0000000..18a780e
+--- /dev/null
++++ b/internal/search/diagnosis.go
+@@ -0,0 +1,138 @@
++package search
++
++import (
++	"crypto/sha256"
++	"encoding/binary"
++	"fmt"
++	"hash"
++	"io"
++	"strings"
++
++	"EquinoxChess/internal/board"
++	"EquinoxChess/internal/move"
++	"EquinoxChess/internal/uci"
++)
++
++// Offline, single-search probe. A shadow search uses a separate report and state.
++type searchDiagnosis struct {
++	out                                                                      io.Writer
++	puzzle                                                                   bool
++	mainDigest                                                               hash.Hash
++	main, quiet, frontiers                                                   uint64
++	promotions, firstPromotions, promotedNodes, capturesBelow, evasionsBelow uint64
++	byMove                                                                   map[string]uint64
++	longestQ, qStart, activePromotions, iteration                            int
++	path                                                                     [MaxDepth]uint32
++	largest                                                                  uint64
++	largestPath                                                              string
++	largestStart                                                             int
++}
++
++var report *searchDiagnosis
++
++func newDiagnosis(out io.Writer, puzzle bool) *searchDiagnosis {
++	return &searchDiagnosis{out: out, puzzle: puzzle, mainDigest: sha256.New(), byMove: make(map[string]uint64)}
++}
++
++func diagMove(m uint32) string {
++	if m == 0 {
++		return "null"
++	}
++	return uci.MoveToUCI(m)
++}
++
++func (r *searchDiagnosis) line(n int) string {
++	a := make([]string, n)
++	for i := range a {
++		a[i] = diagMove(r.path[i])
++	}
++	return strings.Join(a, " ")
++}
++
++func (r *searchDiagnosis) log(values ...any) { fmt.Fprintln(r.out, values...) }
++
++func (r *searchDiagnosis) mainNode(b *board.Board, ply, depth, alpha, beta int) {
++	r.main++
++	var buf [48]byte
++	for i, value := range [...]uint64{b.ZobristKey, uint64(b.HalfmoveClock), uint64(ply), uint64(depth), uint64(alpha), uint64(beta)} {
++		binary.LittleEndian.PutUint64(buf[i*8:], value)
++	}
++	r.mainDigest.Write(buf[:])
++}
++
++func (r *searchDiagnosis) enterQuietMove(m uint32, added, inCheck bool) {
++	if added {
++		r.activePromotions++
++		r.promotions++
++	}
++	if r.activePromotions > 0 {
++		if move.IsCapture(m) {
++			r.capturesBelow++
++		}
++		if inCheck {
++			r.evasionsBelow++
++		}
++	}
++}
++
++func (r *searchDiagnosis) leaveQuietMove(m uint32, added, first bool, ply, score int, nodes uint64) {
++	if added {
++		r.activePromotions--
++	}
++	if first {
++		r.firstPromotions++
++		r.promotedNodes += nodes
++		r.byMove[diagMove(m)] += nodes
++		if nodes > r.largest {
++			r.largest = nodes
++			r.largestPath = r.line(ply + 1)
++			r.largestStart = r.qStart
++		}
++	}
++	if r.puzzle && r.iteration == 1 && diagMove(r.path[0]) == "g5g6" {
++		r.log("q-move", r.line(ply+1), "score", score)
++	}
++}
++
++func (r *searchDiagnosis) order(s *Search, remaining []uint32, index int) {
++	if !r.puzzle || s.Ply != 0 || index < 4 || index > 5 {
++		return
++	}
++	for _, m := range remaining {
++		u := diagMove(m)
++		if u == "h5h6" || u == "f5f6" || u == "g5g6" {
++			r.log("order", r.iteration, index, u, scoreMove(s, m))
++		}
++	}
++}
++
++func isPuzzlePush(m uint32) bool {
++	u := diagMove(m)
++	return u == "h5h6" || u == "f5f6"
++}
++
++func (r *searchDiagnosis) tableProbe(s *Search, b *board.Board, depth, alpha, beta int, cutoff bool) {
++	if !r.puzzle || s.Ply != 1 || !isPuzzlePush(r.path[0]) || !cutoff {
++		return
++	}
++	e := s.TT.Entries[b.ZobristKey&s.TT.Mask]
++	r.log("tt-cut", r.iteration, diagMove(r.path[0]), depth, alpha, beta, "stored", e.Depth, e.Score, traceTTFlag(e.Flag), diagMove(e.Move))
++}
++
++func (r *searchDiagnosis) fullDepthProbe(s *Search, b *board.Board, ply int, m uint32, depth int) {
++	if !r.puzzle || ply != 0 || !isPuzzlePush(m) {
++		return
++	}
++	shadow := cloneTraceSearch(s, nil)
++	position := *b
++	report = newDiagnosis(io.Discard, false)
++	defer func() { report = r }()
++	score := -shadow.Negamax(&position, depth-1, -Infinity, Infinity)
++	r.log("full-window-copy", depth, diagMove(m), depth-1, score, shadow.Nodes)
++}
++
++func (r *searchDiagnosis) rootMove(m uint32, depth, index int, mode string, childDepth, alpha, score int, nodes uint64) {
++	if r.puzzle {
++		r.log("root-move", depth, index, diagMove(m), mode, childDepth, alpha, score, nodes)
++	}
++}
+diff --git a/internal/search/diagnosis_test.go b/internal/search/diagnosis_test.go
+new file mode 100644
+index 0000000..632cd07
+--- /dev/null
++++ b/internal/search/diagnosis_test.go
+@@ -0,0 +1,41 @@
++package search
++
++import (
++	"fmt"
++	"os"
++	"testing"
++
++	"EquinoxChess/internal/board"
++	"EquinoxChess/internal/tt"
++)
++
++func TestQuietPromotionDiagnosis(t *testing.T) {
++	cases := []struct {
++		name, fen string
++		entries   int
++		puzzle    bool
++	}{
++		{"Game17_W_ply17", "rn1q1rk1/pb2bppp/1p2pn2/2ppN3/3P4/2NBP3/PPPB1PPP/R2Q1RK1 w - - 2 9", 1 << 16, false},
++		{"0JLoe", "8/P3kpp1/8/4KPPP/8/5b2/8/8 w - - 1 55", 1 << 20, true},
++	}
++	for _, c := range cases {
++		t.Run(c.name, func(t *testing.T) {
++			b, err := board.FromFEN(c.fen)
++			if err != nil {
++				t.Fatal(err)
++			}
++			report = newDiagnosis(os.Stdout, c.puzzle)
++			s := Search{TT: tt.NewTT(c.entries)}
++			m, score, d, n := s.SearchRoot(b, 6)
++			r := report
++			r.log("result", diagMove(m), score, d, n)
++			if r.main+r.quiet != n || r.activePromotions != 0 {
++				t.Fatal("unbalanced counters")
++			}
++			r.log("main", r.main, "quiet", r.quiet, "frontiers", r.frontiers, "main-sha256", fmt.Sprintf("%x", r.mainDigest.Sum(nil)))
++			r.log("promotions", r.promotions, "first", r.firstPromotions, "subtree", r.promotedNodes, "captures", r.capturesBelow, "evasions", r.evasionsBelow)
++			r.log("first-promotion-subtree-by-move", r.byMove)
++			r.log("max-quiet-plies", r.longestQ, "largest-first-subtree", r.largest, "frontier-at-ply", r.largestStart, "line", r.largestPath)
++		})
++	}
++}
+diff --git a/internal/search/search.go b/internal/search/search.go
+index 3f6c1df..76a332d 100644
+--- a/internal/search/search.go
++++ b/internal/search/search.go
+@@ -12,6 +12,7 @@ import (
+ func (s *Search) Negamax(b *board.Board, depth int, alpha int, beta int) int {
+ 	s.Nodes++
+ 	s.resetTracePVAt(s.Ply, false)
++	report.mainNode(b, s.Ply, depth, alpha, beta)
+ 	if event, ok := s.newTraceEvent("negamax", "enter", depth, alpha, beta); ok {
+ 		s.appendTrace(event)
+ 	}
+@@ -45,6 +46,8 @@ func (s *Search) Negamax(b *board.Board, depth int, alpha int, beta int) int {
+ 	}
+ 
+ 	if depth == 0 {
++		report.frontiers++
++		report.qStart = s.Ply
+ 		if event, ok := s.newTraceEvent("negamax", "depth_zero_to_qsearch", depth, alpha, beta); ok {
+ 			s.appendTrace(event)
+ 		}
+@@ -59,6 +62,7 @@ func (s *Search) Negamax(b *board.Board, depth int, alpha int, beta int) int {
+ 			traceEntry = s.TT.Entries[b.ZobristKey&s.TT.Mask]
+ 		}
+ 		score, move, cutoff := s.TT.Probe(b.ZobristKey, b.HalfmoveClock, depth, alpha, beta, s.Ply, MateThreshold)
++		report.tableProbe(s, b, depth, alpha, beta, cutoff)
+ 		if move != 0 {
+ 			ttMove = move
+ 		}
+@@ -96,6 +100,7 @@ func (s *Search) Negamax(b *board.Board, depth int, alpha int, beta int) int {
+ 				s.appendTrace(event)
+ 			}
+ 			b.MakeNullMove()
++			report.path[s.Ply] = 0
+ 			s.Ply++
+ 			score := -s.Negamax(b, depth-1-R, -beta, -beta+1)
+ 			s.Ply--
+@@ -169,6 +174,7 @@ func (s *Search) Negamax(b *board.Board, depth int, alpha int, beta int) int {
+ 	legalSeen := 0
+ 	targetProcessed := false
+ 	for i := 0; i < count; i++ {
++		report.order(s, moves[i:count], i)
+ 		bestIdx := selectBestMove(s, &moves, i, count)
+ 		moves[i], moves[bestIdx] = moves[bestIdx], moves[i]
+ 
+@@ -254,6 +260,8 @@ func (s *Search) Negamax(b *board.Board, depth int, alpha int, beta int) int {
+ 		legalSeen++
+ 		foundLegal = true
+ 		s.pushTraceMove(currentPly, m)
++		report.path[currentPly] = m
++		beforeNodes := s.Nodes
+ 		s.resetTracePVAt(currentPly+1, false)
+ 		score := -Infinity
+ 		traceMode := "terminal_child"
+@@ -360,6 +368,7 @@ func (s *Search) Negamax(b *board.Board, depth int, alpha int, beta int) int {
+ 					event.TargetIsKiller = killer1 == m || killer2 == m
+ 					s.appendTrace(event)
+ 				}
++				report.fullDepthProbe(s, b, currentPly, m, depth)
+ 				score = -s.Negamax(b, reducedDepth, traceChildAlpha, traceChildBeta)
+ 				if score > alpha {
+ 					if event, ok := s.newTraceEventAt(currentPly, "negamax", "lmr_full_research", depth, alpha, beta); ok && m == event.TargetMove {
+@@ -447,6 +456,9 @@ func (s *Search) Negamax(b *board.Board, depth int, alpha int, beta int) int {
+ 			}
+ 		}
+ 		s.considerTracePV(currentPly, m, score)
++		if currentPly == 0 {
++			report.rootMove(m, depth, i, traceMode, traceChildDepth, alpha, score, s.Nodes-beforeNodes)
++		}
+ 		s.recordTraceContinuation(
+ 			currentPly,
+ 			m,
+@@ -586,6 +598,7 @@ func (s *Search) SearchRoot(b *board.Board, maxDepth int) (uint32, int, int, uin
+ 			pass = "initial_full_window"
+ 		}
+ 		s.startTracePass(depth, pass)
++		report.iteration = depth
+ 		score := s.Negamax(b, depth, alpha, beta)
+ 		if !s.Stop.Load() && (score <= alpha || score >= beta) {
+ 			s.startTracePass(depth, "full_window_research")
+@@ -598,6 +611,7 @@ func (s *Search) SearchRoot(b *board.Board, maxDepth int) (uint32, int, int, uin
+ 		}
+ 
+ 		prevScore = score
++		report.log("iteration", depth, diagMove(s.PVMove[0]), score, s.Nodes)
+ 		bestScore = score
+ 		bestDepth = depth
+ 		if s.PVMove[0] != 0 {
+@@ -628,6 +642,10 @@ func rootFallback(b *board.Board) (uint32, int) {
+ func (s *Search) Quiescence(b *board.Board, alpha int, beta int) int {
+ 	s.Nodes++
+ 	s.resetTracePVAt(s.Ply, true)
++	report.quiet++
++	if s.Ply-report.qStart > report.longestQ {
++		report.longestQ = s.Ply - report.qStart
++	}
+ 	if s.TimeLimit > 0 && (s.Nodes&255) == 0 {
+ 		if time.Since(s.StartTime) >= s.TimeLimit {
+ 			s.Stop.Store(true)
+@@ -755,7 +773,13 @@ func (s *Search) Quiescence(b *board.Board, alpha int, beta int) int {
+ 		legalSeen++
+ 		foundLegal = true
+ 		s.pushTraceMove(currentPly, m)
++		report.path[currentPly] = m
++		added := !inCheck && !move.IsCapture(m) && move.IsPromotion(m)
++		first := added && report.activePromotions == 0
++		report.enterQuietMove(m, added, inCheck)
++		beforeNodes := s.Nodes
+ 		score := -s.Quiescence(b, -beta, -alpha)
++		report.leaveQuietMove(m, added, first, currentPly, score, s.Nodes-beforeNodes)
+ 		s.considerTracePV(currentPly, m, score)
+ 		if event, ok := s.newTraceEventAt(currentPly, "quiescence", "search_complete", 0, alpha, beta); ok && m == event.TargetMove {
+ 			event.InCheck = inCheck
