@@ -1,5 +1,371 @@
 # EquinoxChess — Status
 
+## Update 2026-09-09 — D5ReducedFullShadow
+
+- Le traceur passe en schema 11 et ajoute `-probe-d5-reduced-full`, une sonde
+  strictement observationnelle et sans allowlist. Pour chaque echec calme
+  reellement eligible LMR a profondeur restante 5 dans l'iteration finale,
+  elle part du meme plateau, de la meme TT et des memes killers/historiques,
+  puis compare trois vues isolees : recherche reduite `child 3` a fenetre
+  nulle, recherche full-depth fraiche `child 4`, et sequence normale reduite
+  puis re-recherche pleine seulement si le score depasse alpha. Elle publie
+  scores/PV, franchissements d'alpha, TT/ordre/heuristiques et chaines D3→D1.
+- Securite validee : les 32 traces ont ete reproduites avec recherche et TT
+  fraiches, avec egalite exacte de leurs 107 enregistrements shadow. Les 32
+  resultats principaux egalent aussi bit-a-bit une troisieme recherche non
+  tracee (coup, score, profondeur et noeuds). Les gates restent donc primaires
+  `9/19` evitements et `7/19` pertes reconnues, canaris `10/13` et `2/13`.
+  Game25_ply35 reste sain avec `d1e2`, `+146`, `155 300` noeuds; Game09 reste
+  `d6c5`, `-128`, `16 772` noeuds.
+- Portee : `107` D5 uniques sur 23 cas. Les recherches reduites depassent alpha
+  6 fois, les full fraiches 11 fois; 14 scores different et 5 franchissements
+  d'alpha divergent. La sonde trouve 229 D3 et 385 chaines D3→D1 sur 17 cas.
+  Ses `74 894` noeuds representent `0.848%` des `8 831 770` noeuds principaux
+  et ne sont jamais reinjectes dans la recherche reelle.
+- TT/ordre : 103/107 positions enfant avaient deja une entree TT, dont 13
+  coupaient a profondeur reduite mais aucune a profondeur pleine. Reduced et
+  full laissent une entree TT enfant differente dans 107/107 cas et different
+  sur 2 068 slots TT au total; la full fraiche ecrit davantage (`3 541` slots
+  contre `2 159`). Pourtant leur premier coup ordonne reste identique dans
+  107/107 cas. Les killers divergent dans 26 cas et l'historique dans 17 :
+  l'effet d'etat existe donc surtout plus bas dans les sous-arbres, pas sur le
+  premier coup enfant.
+- La branche regressive est maintenant expliquee localement. Sur
+  `Qe2 Qh1+`, alpha vaut `-146`; le reduced rend exactement `-146` et ne
+  declenche donc pas de re-recherche, tandis que le full frais rend `-145` et
+  franchit alpha de 1 cp. La sequence normale reste a `-146`. La voie de
+  substitution `Qe2 Ng3+` vaut `-146` dans les deux profondeurs. Les deux ont
+  des chaines D3→D1 (respectivement 5 et 8).
+- Aucun predicat structurel D5 propre n'emerge. Parmi les six pre-requis
+  positifs, cinq ont des scores reduced/full identiques; seul
+  Game30_ply52 `Rf5 Qh4+` franchit alpha (`-19 -> -11`). Ce dernier ressemble
+  donc a la regression `Qe2 Qh1+`, tandis que le positif Game25_ply69
+  `a4 Qc7+` et la regression substituable `Qe2 Ng3+` ont tous deux un score
+  inchange. Les six positifs comme les deux regressifs possedent au moins une
+  chaine D3→D1; les deltas TT, killers et historique se recouvrent aussi.
+- Verdict : **progres d'attribution, mais D5D3D1 reste rejete**. La sonde
+  falsifie l'idee qu'un seuil de delta, le seul franchissement d'alpha, la
+  presence d'une chaine D3→D1 ou un changement d'ordre local puisse separer
+  les gains de Game25_ply35. Aucun nouveau predicat D5 ne doit etre formule a
+  partir de ces observations.
+- Prochaine experience minimale recommandee : `D5D3D1ScoreOnlyShadow`. Garder
+  D3→D1 general, calculer chaque D5 full-depth dans une copie complete de la
+  TT et des heuristiques, reinjecter uniquement son score puis jeter tout son
+  etat. Cette unique ablation dira si les six gains et la regression passent
+  par la valeur retournee ou par la contamination TT/killers/history, sans
+  allowlist et sans modifier evaluation, profondeur, qsearch ou predicats.
+- Artefacts : corpus SHA-256
+  `7fa89590629317332ad5ebdaf032e38448f74fd9e4946f5c104e380b9348fce7`;
+  binaire schema 11
+  `53462bf4c8ad14abd42a99f048db5effcc91e577628f4d9d8310a3552e3d8532`;
+  rapport
+  `9bdc9181c7c08a985346aa2b2798db2914a2c703a109f170dbfb570033870dd4`.
+
+## Update 2026-09-09 — D5BranchAblation
+
+- Le traceur passe en schema 10. `-d5-ablation-case` et
+  `-d5-ablation-line` retirent du candidat D5D3D1 une seule exemption D5 sur
+  un chemin exact racine/reponse. La ligne doit contenir deux coups legaux et
+  finir par un echec calme. Le coup ablate conserve le LMR normal
+  `depth 5 -> child 3`, sa recherche nulle et son eventuelle re-recherche
+  pleine; tous les autres D5 et tout le couplage D3→D1 restent actifs. Un
+  evenement `d5_check_ablation_lmr_preserved` prouve l'application exacte.
+- La trace candidate de Game25_ply35 contenait quatre D5 : `Bb4 Qh1+`,
+  `Bb4 Ng3+`, `Bb4 Nd2+` et `Qe2 Qh1+`. Chacun a ete ablate seul sur un rejeu
+  complet des 32 cas. Les quatre variantes conservent pourtant le mauvais
+  `d2b4`, score `+135`; `d1e2` reste seulement une borne haute `+135` et la
+  marge du coup historique reste une borne basse nulle. L'hypothese d'une
+  exemption D5 unique est donc falsifiee.
+- Details Game25_ply35 : candidat intact `133 665` noeuds; ablation
+  `Qe2 Qh1+` `147 082` (`+10.04%`), `Bb4 Qh1+` `131 803` (`-1.39%`),
+  `Bb4 Ng3+` `133 612` (`-0.04%`) et `Bb4 Nd2+` `133 642` (`-0.02%`). Chaque
+  rapport contient exactement une ablation. Les 31 autres cas reproduisent
+  exactement coup, score et noeuds du candidat intact; les 32 doubles rejeux
+  de chaque variante sont deterministes. Les gates restent donc primaires
+  `11/19` evitements et `8/19` pertes reconnues, canaris `10/13` et `2/13`.
+- Le controle factoriel localise l'interaction. Ablater les quatre chemins
+  initiaux ensemble ne suffit pas : Game25 conserve `d2b4`, `+135`,
+  `150 561` noeuds, car la recherche modifiee expose alors un cinquieme D5,
+  `Qe2 Ng3+`, absent de la trace candidate initiale. L'exploration des 32
+  sous-ensembles des cinq chemins restaure `d1e2` si et seulement si les deux
+  alternatives sous le concurrent sont retirees : `Qe2 Qh1+` et
+  `Qe2 Ng3+`. Cette paire seule donne `d1e2`, `+145`, `145 619` noeuds; le
+  controle D3→D1 sans aucun D5 donne le meme coup/score (`148 952` noeuds).
+- Verdict : **la regression n'est causee par aucun des quatre D5 pris
+  isolement, mais par deux voies D5 substituables sous la branche concurrente
+  `Qe2`**. Retirer `Qh1+` fait apparaitre `Ng3+`; les trois exemptions sous le
+  mauvais `Bb4` ne determinent pas le choix. D5D3D1 reste rejete pour promotion
+  moteur et match Elo, et aucune allowlist issue de cette ablation ne doit
+  devenir une regle de production.
+- Prochaine experience minimale recommandee : `D5ReducedFullShadow`. Pour
+  chaque echec calme D5 du corpus, enregistrer dans une copie isolee le score
+  reduit, le score full-depth, le franchissement d'alpha, les effets TT/ordre
+  et la presence d'une chaine D3→D1 en aval. Comparer ensuite les six
+  pre-requis positifs aux deux voies regressives `Qe2 Qh1+/Ng3+` avant de
+  formuler un unique predicat structurel D5.
+- Artefacts : corpus SHA-256
+  `7fa89590629317332ad5ebdaf032e38448f74fd9e4946f5c104e380b9348fce7`;
+  binaire schema 10
+  `453a29ee70f7436d58c962dce736dd652091c6e5863cf9645ac0c85c2dd9600f`;
+  candidat intact
+  `63890845a50c7ee44bc57862416fc4ea3a3041ab4840d5e4605ce8ff6df92ea4`;
+  ablation `Qe2 Qh1+`
+  `5638446c4cd43ad2db02df1dee282d175a460b9887efe4b18d9913dfa2010253`;
+  ablations `Bb4 Qh1+`, `Bb4 Ng3+`, `Bb4 Nd2+`
+  `d61ea4a2a34402b7bbb9d9984e42e3a85f6ce22228867a8780d6dcae83badd8f`,
+  `e2de950cfabd9aeeee7b86d94887ff0430c8bfd2be29cb40b3b6821c5ce3d180`,
+  `3eae3e5f22fd27c37002e22f7cd32244fbe151d4447edc3f9c2918feef9a3c94`.
+
+## Update 2026-09-04 — D5D3D1CheckChain sans allowlist
+
+- Le traceur passe en schema 9 et ajoute `-general-d5-d3-d1-checks`. Le mode
+  refuse explicitement toute allowlist, tout bridge/probe et l'ancien candidat.
+  A l'iteration finale, tout echec calme normalement eligible LMR a profondeur
+  restante 5 ou 3 est recherche a sa profondeur normale (`child 4` ou
+  `child 2`). L'exemption futility D1 reste strictement limitee aux echecs
+  calmes legaux situes deux plies sous un D3 effectivement force par le meme
+  candidat. Aucun ply, TT, qsearch ou terme d'evaluation n'est modifie.
+- Le cas causal Game25_ply69 passe sans pre-requis code par le corpus : `Qc7+`
+  est force full-depth a D5, `Qc3+` l'est a D3 et toutes les exemptions D1
+  observees ont un parent D3 exact. Le resultat reste `c4d3`, `-741`, a
+  profondeur 6 (`78 659` noeuds). Le test unitaire fige le resultat et verifie
+  iteration, profondeurs et couplage de chaque evenement D1.
+- Portee mesuree sur les 32 cas : `127` applications D5 (`127` chemins uniques)
+  sur 23 cas, `1 081` D3 (`1 006` uniques) sur 28 cas et `2 092` D1 (`1 972`
+  uniques) sur 25 cas. Les 32 rejeux candidats sont strictement deterministes
+  avec recherches et TT fraiches; les 32 baselines tracees egalent exactement
+  leurs recherches non tracees.
+- Face a la recherche normale, les primaires progressent de `9/19` a `11/19`
+  mauvais coups evites et de `7/19` a `8/19` pertes reconnues. Les gains
+  d'evitement sont Game07_ply177 (`g1h2 -> g6f5`), Game25_ply69
+  (`a3a4 -> c4d3`) et Game30_ply52 (`f8f5 -> c5d6`); Game17_ply103 reconnait
+  maintenant la perte (`-130 -> -582`). Les canaris restent exactement a
+  `10/13` evitements et `2/13` reconnaissances. Game09 reste `d6c5`, `-128`.
+- Un gate de non-regression primaire echoue : Game25_ply35 evitait `d2b4` avec
+  `d1e2`, `+146`, dans la baseline et `d1e2`, `+145`, avec le precedent
+  candidat. La regle D5 sans allowlist recherche aussi `Qh1+` apres le
+  concurrent `d1e2`; celui-ci ne depasse plus `+135` et le moteur reselectionne
+  le coup historique `d2b4`, `+135`. Le nouveau candidat reproduit donc 6 des
+  7 anciens pre-requis cibles, mais passe de `12/19` a `11/19` evitements face
+  au candidat precedent; la reconnaissance reste `8/19`.
+- Cout face a la recherche normale : `8 831 770 -> 8 991 901` noeuds,
+  `+1.813%`; mediane par cas `+0.751%`. Trois queues depassent `+50%` :
+  Game17_ply103 `+68.41%`, Game25_ply59 `+55.16%` et Game25_ply75 `+86.36%`.
+  Face au precedent candidat D3→D1 avec 7 pre-requis, le total baisse de
+  `0.072%`, mais cette quasi-egalite agregee ne compense pas la regression de
+  choix sur Game25_ply35.
+- Verdict : **signal structurel et tactique confirme, mais candidat rejete pour
+  promotion moteur et match Elo a cause d'une regression primaire**. La
+  prochaine experience minimale recommandee est `D5BranchAblation` : conserver
+  D3→D1 global, puis desactiver un par un les quatre D5 exacts observes dans
+  Game25_ply35, en commencant par `d1e2 Qh1+`, afin de prouver quel chemin fait
+  basculer le choix. Une nouvelle regle D5 ne devra etre formulee que si un
+  predicat structurel separe ce chemin regressif des six pre-requis positifs;
+  aucune nouvelle allowlist ne sera candidate a la production.
+- Artefacts : corpus SHA-256
+  `7fa89590629317332ad5ebdaf032e38448f74fd9e4946f5c104e380b9348fce7`;
+  binaire schema 9
+  `e66a1a9cc40b91e73f952f3571b3292b32c0a438ba261e03943a609067c4b639`;
+  baseline normale
+  `d0af24eff28e96959cd3c7a7f1e76f0212bade099cec2c48631c0380f2b45d91`;
+  precedent candidat remesure avec le meme binaire
+  `4400b741b3ce23dad549942e31105ceb30953e736117f32335dca566ae5213ee`;
+  candidat D5D3D1
+  `e985b67e3f6f3a55d851be640a51840c152c7d14f3a85e031e501758a9ab8439`.
+
+## Update 2026-09-04 — D3→D1 structural probe and generalized candidate
+
+- Le traceur passe en schema 8. Pour chaque echec calme reellement eligible LMR
+  a profondeur restante 3 dans l'iteration finale, une recherche full-depth
+  est executee sur des copies du plateau, de la TT et des heuristiques. Les
+  noeuds, scores, TT, killers et historiques shadow ne reviennent jamais dans
+  la recherche principale. Deux plies plus bas, la sonde enregistre uniquement
+  les echecs calmes legaux que le predicat futility profondeur 1 elimine.
+- Un premier controle purement observationnel a revele un motif tres frequent,
+  mais ne retrouvait pas `Qc3+ -> b3+` : cette branche exige d'abord le
+  pre-requis causal `Qc7+` full-depth. Ce lot preliminaire a donc ete exclu du
+  choix du candidat. Le protocole final conserve les 7 paires RootMove/ReplyMove
+  LMR deja figees en full-depth et sonde ensuite les 32 cas.
+- Instrumentation finale : `830` probes D3 (`772` chemins uniques) sur 28 cas;
+  `1 770` chaines D3→D1 (`1 626` uniques) sur 25 cas. Le motif existe donc tres
+  largement au-dela de Game25. Les shadows totalisent `22 075` noeuds contre
+  `8 838 032` noeuds principaux (`0.250%`). Les 25 recherches non ciblees sont
+  strictement non interferentes; les 7 recherches ciblees et leurs shadows
+  sont identiques sur deux recherches/TT fraiches.
+- Le cas temoin est retrouve exactement. Apres `a4 Qc7+ Kb3`, `Qc3+` est
+  baseline-LMR `child 1` et son shadow full-depth `child 2` remonte `+644` en
+  7 noeuds. Six echecs calmes D1 satisfont la futility dans ce shadow, dont
+  `b3+` apres `Ka2`, avec `staticEval 480`, alpha `644` et la ligne exacte
+  `a4 Qc7+ Kb3 Qc3+ Ka2 b3+`.
+- La condition de generalisation etant satisfaite, le candidat couple
+  `D3CheckNoLMR+D1CheckNoFutility` a ete mesure a l'iteration finale. Toute
+  exemption D1 reste limitee a deux plies sous un echec D3 que le meme candidat
+  vient de passer full-depth. Il applique `870` NoLMR D3 (`795` chemins uniques)
+  et `1 862` NoFutility D1 (`1 742` uniques), sur respectivement 28 et 24 cas.
+- Resultat fonctionnel positif : les primaires passent de `9/19` a `12/19`
+  mauvais coups evites et de `7/19` a `8/19` pertes reconnues. Trois mauvais
+  choix disparaissent sans regression d'evitement : Game07_ply177
+  (`g1h2 -> g6f5`, `-302 -> -326`), Game25_ply69
+  (`a3a4 -> c4d3`, `-644 -> -741`) et Game30_ply52
+  (`f8f5 -> c5d6`, `+11 -> +18`). Game25_ply75 change aussi de coup, mais
+  evitait deja son coup historique.
+- Les canaris restent exactement `10/13` evitements et `2/13` reconnaissances.
+  Game09 conserve `d6c5`, `-128`; Game06 conserve `d1d4` mais voit maintenant
+  le mat (`-603 -> -31994`). Les 32 rejeux candidats sont deterministes avec
+  recherches et TT independantes.
+- Cout : `8 838 032 -> 8 998 390` noeuds, soit `+1.814%`; mediane par cas
+  `+0.420%`. Trois queues depassent `+50%` : Game17_ply103 `+68.41%`,
+  Game25_ply59 `+54.92%` et Game25_ply75 `+85.10%`. Game25_ply69 vaut
+  `+43.14%`, tandis que Game07_ply177 baisse de `12.30%`.
+- Verdict : **signal general positif au gate profondeur 6, mais pas encore de
+  promotion moteur ni de match Elo**. Le candidat imbrique reste precede de 7
+  exemptions RootMove/ReplyMove codees par le corpus; applique seul dans le
+  moteur normal, il ne garantirait donc pas l'acces a `Qc3+` sur Game25. La
+  prochaine experience minimale est `D5D3D1CheckChain` : generaliser aussi le
+  pre-requis externe aux echecs calmes LMR a depth 5, conserver le couplage D3
+  puis D1, supprimer toute allowlist de cas et remesurer les memes gates avant
+  d'envisager un A/B Elo.
+- Artefacts : corpus SHA-256
+  `7fa89590629317332ad5ebdaf032e38448f74fd9e4946f5c104e380b9348fce7`;
+  binaire sonde ciblee
+  `4c82b16e800e80ae0fd643df3f52e79eb4dff383d5a55f0800a956e264c04daa`;
+  rapport sonde ciblee
+  `1866096f199f79a3bdb5eb965cbce5e57b632b9a5c719440512f0e4f045cb6fa`;
+  binaire candidat general
+  `9526e617852ddfa5cde352276a7040fb418d9a49da2d8c7316b558daeeb64d4c`;
+  rapport baseline candidat
+  `6f4b47da6658107b09f7b5b8541d576121d110b01cb2a96457e6f70cda701e65`;
+  rapport candidat
+  `0814f12ccc9718d8a3002a04a2fd740cdc1caeb5adf0d1e1f96328fd62c32c5c`.
+
+## Update 2026-09-03 — TargetNestedCheckNoLMR+BridgeNoFutility
+
+- Le schema `searchtrace` passe a 7 avec un second gate exact. La baseline
+  conserve `Qc3+` sans LMR sur `a4 Qc7+ Kb3`; le candidat ajoute uniquement
+  l'exemption de futility de `b3+` apres le prefixe complet
+  `a4 Qc7+ Kb3 Qc3+ Ka2`. Le coup final doit etre celui de la ligne validee,
+  legal, calme et donnant echec; aucune profondeur ou fenetre n'est changee.
+- Dans la passe aspiration, le predicat normal de futility est bien actif a
+  profondeur 1 (`staticEval 480 + marge 150 <= alpha 644`). Le gate s'applique
+  une fois, puis `b3+` devient legal et est recherche a profondeur enfant 0.
+  La qsearch en echec voit `cxb3`, puis la capture `Qxb3#`; la feuille propagee
+  est `qsearch_checkmate` a `-31992`.
+- Ce nouveau score fait echouer la fenetre aspiration et declenche la recherche
+  pleine. Dans cette seconde passe, `Qc3+` est encore exactement exempte de LMR
+  mais `b3+` ne requiert plus d'exception : avec alpha `498`, le predicat de
+  futility est faux et le coup est recherche normalement. Il n'y a donc qu'une
+  exemption de futility effective, et deux applications NoLMR sur les deux
+  passes de la seule iteration 6.
+- Le gate causal passe : Game25_ply69 abandonne le mauvais `a4` (`-644`) pour
+  `d1d3` (`-728`). Dans la passe decisive, la branche historique `a4` remonte
+  au plus `-754`; sa marge face a `d1d3` est donc au plus `-26 cp`. La ligne
+  tactique obtenue est exactement
+  `a4 Qc7+ Kb3 Qc3+ Ka2 b3+ cxb3 Qxb3#`, sans ply supplementaire.
+- Les primaires progressent de `9/19` a `10/19` mauvais coups evites; les pertes
+  reconnues restent `7/19`. Les canaris restent strictement `10/13` evitements
+  et `2/13` reconnaissances; Game09 reste `d6c5`, `-128`, `16 772` noeuds.
+  Les 31 cas non cibles reproduisent exactement leur recherche non tracee et le
+  cas cible est deterministe sur deux recherches avec TT fraiches.
+- Cout mesure : `54 331 -> 91 546` noeuds sur Game25 (`+68.50%`) et
+  `8 831 785 -> 8 869 000` sur les 32 cas (`+0.421%`), mediane globale nulle.
+  La hausse locale comprend la recherche pleine rendue necessaire par la
+  correction du score, mais reste trop concentree pour extrapoler un cout
+  global depuis ce seul cas.
+- Verdict : **validation causale positive du couple exact LMR/futility, sans
+  promotion moteur**. Le chemin code en dur n'est pas une regle generalisable
+  et aucun match Elo n'est justifie. La prochaine etape recommandee est
+  d'instrumenter, sur tout le corpus, les paires structurelles « echec calme
+  reduit par LMR a depth 3 » puis « echec calme elague par futility a depth 1 ».
+  Un candidat general `D3CheckNoLMR+D1CheckNoFutility` ne devra etre formule que
+  si le motif existe au-dela de cette position unique.
+- Artefacts : corpus SHA-256
+  `7fa89590629317332ad5ebdaf032e38448f74fd9e4946f5c104e380b9348fce7`;
+  binaire schema 7
+  `1e56c75614b78065fd210609147e81403dc00c6aaff446797f98afe660644136`;
+  rapport baseline NoLMR
+  `0544c4a197ed4ef4dcbd491201cea05376a92c6bdeecf536b5d3f44a66f9e5cb`;
+  rapport candidat combine
+  `316d5928fbae4aace866cbe4ff6e37c9676fc1cb6ae96fe6725e36cc8675aee1`.
+
+## Update 2026-09-03 — TargetNestedCheckNoLMR
+
+- Le contre-factuel `TargetNestedCheckNoLMR` a ete ajoute uniquement au
+  binaire `searchtrace` schema 6. Il exige la ligne exacte
+  `a4 Qc7+ Kb3 Qc3+ Ka2 b3+`, le coup intermediaire unique `Qc3+`, sa legalite
+  et son caractere calme/echec, ainsi que l'iteration finale demandee. Aucun
+  changement n'atteint le moteur normal.
+- Mecanisme valide sans fuite : dans Game25_ply69, passe decisive profondeur 6,
+  `Qc3+` passe une seule fois de LMR `depth 3 -> child depth 1` a la profondeur
+  normale `child depth 2`, sans extension. Les iterations precedentes, les 31
+  autres cas, les autres coups et les autres chemins restent inchanges.
+- Le nouveau ply traverse l'ancienne coupure TT sur `Ka2`, mais revele le
+  verrou suivant : `b3+` est maintenant genere et ordonne en index 3 a
+  profondeur 1, puis elague par futility avant legalite/recherche. La valeur
+  statique publiee est `+480`, sous alpha `+644`; `Qc3+` remonte donc seulement
+  a alpha `+644`.
+- Le gate d'efficacite echoue : Game25_ply69 conserve `a4`, score `-644`, et
+  sa marge racine ne s'ameliore pas. Les primaires restent a `9/19` mauvais
+  coups evites et `7/19` pertes reconnues; aucun des 32 meilleurs coups ou
+  scores ne change.
+- Securite exacte : les canaris restent `10/13` evitements et `2/13`
+  reconnaissances. Game09 reste `d6c5`, `-128`, `16 772` noeuds. Les 31 cas
+  non cibles egalent leur recherche non tracee et le cas cible est identique
+  sur deux recherches/TT fraiches.
+- Cout negligeable mais sans benefice : `8 831 770 -> 8 831 785` noeuds sur les
+  32 cas, soit `+15` (`+0.00017%`); Game25 seul fait
+  `54 316 -> 54 331` (`+0.0276%`), mediane globale nulle.
+- Verdict : **rejet de TargetNestedCheckNoLMR seul**. Il isole neanmoins une
+  chaine causale sequentielle LMR/TT puis futility. La prochaine experience
+  minimale est `TargetNestedCheckNoLMR+BridgeNoFutility` : conserver seulement
+  l'exemption exacte de `Qc3+`, puis exempter uniquement `b3+` de la futility
+  profondeur 1 sur le meme prefixe, sans ply supplementaire ni changement TT,
+  qsearch ou regle globale.
+- Artefacts : corpus SHA-256
+  `7fa89590629317332ad5ebdaf032e38448f74fd9e4946f5c104e380b9348fce7`;
+  binaire schema 6
+  `bdc1fdf83f93a310d0cb44d56e71ee6df6a21d27fed5a5eef9afa7e4faff9f94`;
+  rapport baseline
+  `5b6877da2f3c87d9e9d64924df23215a5d631e686b99ae5e6e6c195b4dd312c8`;
+  rapport candidat
+  `20d4191cb2d4e3d74b3ffe9fc921055b9200c200d644e7e99aa98e2f5200bbb2`.
+
+## Update 2026-08-31 — TargetBridgeNoFutility
+
+- Le lot TargetReply+1 a ete fige dans le commit `7e56aff` avant cette nouvelle
+  experience. Aucun push n'a ete effectue et le stash historique reste intact.
+- Le schema `searchtrace` passe a 5 et accepte une ligne UCI exacte. Chaque
+  etape apres la paire racine/reponse est tracee seulement si tout le prefixe
+  precedent correspond. La ligne Game25_ply69 validee est
+  `a4 Qc7+ Kb3 Qc3+ Ka2 b3+`; `b3+` est verifie legal, calme et donnant echec.
+- Le pre-gate `TargetBridgeNoFutility` echoue : dans la passe decisive
+  profondeur 6, la branche n'atteint jamais `b3+`, donc aucune futility sur ce
+  coup ne peut etre la cause et aucune exemption n'a ete implementee.
+- Chemin exact dans la passe decisive : `Kb3` est TT/killer, premier coup et
+  full-depth. `Qc3+` est genere et legal mais seulement cinquieme coup ordonne;
+  il subit LMR `depth 3 -> child depth 1` avec reduction 1. Au noeud `Ka2`, la
+  recherche reduite rencontre une entree TT `exact`, cle/halfmove valides,
+  profondeur `1`, score `-480`, puis coupe immediatement. `Qc3+` remonte a
+  `+480`, sous alpha `+644`, et ne declenche donc aucune recherche pleine.
+- A l'iteration 5 seulement, la meme ligne atteint la qsearch hors echec avant
+  `b3+`; le coup est genere en index 0 puis filtre comme non-capture. Cette
+  observation est reelle mais non decisive et ne justifie pas d'elargir la
+  qsearch.
+- La recherche reste exactement la baseline full-depth cible : Game25_ply69
+  choisit `a4`, score `-644`, `54 316` noeuds. Les 31 cas non cibles egalent
+  leur recherche non tracee; les canaris restent `10/13` evitements et `2/13`
+  reconnaissances. Game09 reste `d6c5`, `-128`, `16 772` noeuds.
+- Verdict : **rejet de TargetBridgeNoFutility avant contre-factuel**. Le point
+  causal suivant est le LMR imbrique de `Qc3+` combine a la coupure TT peu
+  profonde. La prochaine experience minimale est `TargetNestedCheckNoLMR` :
+  exempter uniquement `Qc3+` de LMR sur ce prefixe exact, sans modifier TT,
+  qsearch, futility ni profondeur globale.
+- Artefacts : binaire observationnel SHA-256
+  `a7872e0f2df59c5db998e39ba0617c4f7b0abefc6328814f29c53f89c131f53a`;
+  rapport schema 5 SHA-256
+  `8e7605a8454f93fb975627c7e4883992821ee8335470cf74b75c34324e194141`;
+  corpus regenere identique au SHA-256 historique
+  `7fa89590629317332ad5ebdaf032e38448f74fd9e4946f5c104e380b9348fce7`.
+
 ## Update 2026-08-28 — TargetReply+1
 
 - Le diagnostic `searchtrace` passe en schema 4. Les contre-factuels utilisent

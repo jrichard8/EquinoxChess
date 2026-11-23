@@ -197,18 +197,34 @@ func (s *Search) Negamax(b *board.Board, depth int, alpha int, beta int) int {
 				isKiller := false
 				isKiller = killer1 == m || killer2 == m
 				if !isKiller && staticEval+150 <= alpha {
-					if event, ok := s.newTraceEvent("negamax", "futility_pruned", depth, alpha, beta); ok && m == event.TargetMove {
+					s.recordTraceD1FutilityCheck(b, currentPly, m, i, alpha, beta, staticEval)
+					forceBridgeNoFutility := s.traceBridgeNoFutility(currentPly, m)
+					forceGeneralNoFutility := s.traceGeneralD1NoFutility(
+						b, currentPly, m, i, alpha, beta, staticEval,
+					)
+					forceNoFutility := forceBridgeNoFutility || forceGeneralNoFutility
+					traceStage := "futility_pruned"
+					if forceBridgeNoFutility {
+						traceStage = "bridge_move_forced_no_futility"
+					} else if forceGeneralNoFutility {
+						traceStage = "d1_check_forced_no_futility"
+					}
+					if event, ok := s.newTraceEvent("negamax", traceStage, depth, alpha, beta); ok && m == event.TargetMove {
 						event.InCheck = inCheck
 						event.CurrentMove = m
 						event.OrderIndex = i
 						event.MoveScore = scoreMove(s, m)
 						event.TargetIsKiller = isKiller
 						event.Score = staticEval
-						event.TargetProcessed = true
-						targetProcessed = true
+						if !forceNoFutility {
+							event.TargetProcessed = true
+							targetProcessed = true
+						}
 						s.appendTrace(event)
 					}
-					continue
+					if !forceNoFutility {
+						continue
+					}
 				}
 			}
 		}
@@ -265,7 +281,15 @@ func (s *Search) Negamax(b *board.Board, depth int, alpha int, beta int) int {
 			targetDepthRequested, targetExtraPlies := s.traceTargetReplyDepthAdjustment(currentPly, m)
 			forceTargetFullDepth := targetDepthRequested && InCheck(b) &&
 				(lmrEligible || targetExtraPlies == 1)
-			if lmrEligible && !forceTargetFullDepth {
+			forceBridgeStepFullDepth := lmrEligible && s.traceBridgeStepNoLMR(currentPly, m) &&
+				InCheck(b)
+			forceGeneralD3FullDepth := lmrEligible && depth == 3 && s.traceGeneralD3D1Enabled() &&
+				InCheck(b)
+			generalD5Eligible := lmrEligible && depth == 5 && s.traceGeneralD5Enabled() && InCheck(b)
+			generalD5Ablated := generalD5Eligible && s.traceGeneralD5Ablated(currentPly, m)
+			forceGeneralD5FullDepth := generalD5Eligible && !generalD5Ablated
+			if lmrEligible && !forceTargetFullDepth && !forceBridgeStepFullDepth &&
+				!forceGeneralD3FullDepth && !forceGeneralD5FullDepth {
 				reduction := 1
 				if depth >= 6 {
 					reduction = 2
@@ -282,6 +306,50 @@ func (s *Search) Negamax(b *board.Board, depth int, alpha int, beta int) int {
 				traceReduction = reduction
 				traceChildAlpha = -alpha - 1
 				traceChildBeta = -alpha
+				if generalD5Ablated {
+					s.recordTraceGeneralD5Ablation(
+						currentPly,
+						m,
+						i,
+						legalSeen-1,
+						alpha,
+						beta,
+						reducedDepth,
+						reduction,
+					)
+				}
+				if depth == 5 && s.traceD5ReducedFullProbeEnabled() && InCheck(b) {
+					var parentPVMove uint32
+					if currentPly == 0 {
+						parentPVMove = s.PVMove[0]
+					}
+					s.runTraceD5ReducedFullProbe(
+						b,
+						currentPly,
+						m,
+						i,
+						legalSeen-1,
+						alpha,
+						beta,
+						reduction,
+						reducedDepth,
+						ttMove,
+						parentPVMove,
+					)
+				}
+				if depth == 3 && s.traceD3CheckProbeEnabled() && InCheck(b) {
+					s.runTraceD3CheckProbe(
+						b,
+						currentPly,
+						m,
+						i,
+						legalSeen-1,
+						alpha,
+						beta,
+						reduction,
+						reducedDepth,
+					)
+				}
 				if event, ok := s.newTraceEventAt(currentPly, "negamax", "lmr_reduced", depth, alpha, beta); ok && m == event.TargetMove {
 					event.InCheck = inCheck
 					event.CurrentMove = m
@@ -317,6 +385,12 @@ func (s *Search) Negamax(b *board.Board, depth int, alpha int, beta int) int {
 					if traceExtension == 1 {
 						traceMode = "target_reply_plus_one"
 					}
+				} else if forceBridgeStepFullDepth {
+					traceMode = "bridge_step_forced_full_depth"
+				} else if forceGeneralD5FullDepth {
+					traceMode = "d5_check_forced_full_depth"
+				} else if forceGeneralD3FullDepth {
+					traceMode = "d3_check_forced_full_depth"
 				}
 				traceChildDepth = depth - 1 + traceExtension
 				traceChildAlpha = -beta
@@ -327,6 +401,12 @@ func (s *Search) Negamax(b *board.Board, depth int, alpha int, beta int) int {
 					if traceExtension == 1 {
 						traceStage = "target_reply_plus_one"
 					}
+				} else if forceBridgeStepFullDepth {
+					traceStage = "bridge_step_forced_full_depth"
+				} else if forceGeneralD5FullDepth {
+					traceStage = "d5_check_forced_full_depth"
+				} else if forceGeneralD3FullDepth {
+					traceStage = "d3_check_forced_full_depth"
 				}
 				if event, ok := s.newTraceEventAt(currentPly, "negamax", traceStage, depth, alpha, beta); ok && m == event.TargetMove {
 					event.InCheck = inCheck
@@ -337,7 +417,33 @@ func (s *Search) Negamax(b *board.Board, depth int, alpha int, beta int) int {
 					event.Extension = traceExtension
 					s.appendTrace(event)
 				}
+				previousD3Ply := -1
+				if forceGeneralD3FullDepth {
+					previousD3Ply = s.beginTraceGeneralD3Check(
+						currentPly,
+						m,
+						i,
+						legalSeen-1,
+						alpha,
+						beta,
+						traceChildDepth,
+					)
+				}
+				if forceGeneralD5FullDepth {
+					s.recordTraceGeneralD5Check(
+						currentPly,
+						m,
+						i,
+						legalSeen-1,
+						alpha,
+						beta,
+						traceChildDepth,
+					)
+				}
 				score = -s.Negamax(b, traceChildDepth, traceChildAlpha, traceChildBeta)
+				if forceGeneralD3FullDepth {
+					s.endTraceGeneralD3Check(previousD3Ply)
+				}
 			}
 		}
 		s.considerTracePV(currentPly, m, score)

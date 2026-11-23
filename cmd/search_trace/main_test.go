@@ -150,6 +150,193 @@ func TestParseCounterfactualCasesRequiresExactKnownNames(t *testing.T) {
 	}
 }
 
+func TestD5D3D1SelectionRejectsEveryAllowlistMechanism(t *testing.T) {
+	if err := validateGeneralD5D3D1Selection(true, "observational", nil, "", false, false); err != nil {
+		t.Fatalf("valid selection rejected: %v", err)
+	}
+	tests := []struct {
+		name        string
+		mode        string
+		cases       []string
+		bridge      string
+		probe       bool
+		generalD3D1 bool
+	}{
+		{name: "mode", mode: "full-depth"},
+		{name: "case allowlist", mode: "observational", cases: []string{"Game25_ply69"}},
+		{name: "bridge", mode: "observational", bridge: "Game25_ply69"},
+		{name: "probe", mode: "observational", probe: true},
+		{name: "old candidate", mode: "observational", generalD3D1: true},
+	}
+	for _, tc := range tests {
+		t.Run(tc.name, func(t *testing.T) {
+			if err := validateGeneralD5D3D1Selection(
+				true,
+				tc.mode,
+				tc.cases,
+				tc.bridge,
+				tc.probe,
+				tc.generalD3D1,
+			); err == nil {
+				t.Fatal("invalid allowlist-bearing selection accepted")
+			}
+		})
+	}
+}
+
+func TestD5AblationSelectionRequiresOneExactCaseAndTwoMoveLine(t *testing.T) {
+	cases := []corpusCase{{Name: "Game25_ply35"}}
+	valid := []string{"d1e2", "h3h1"}
+	if err := validateD5AblationSelection(true, "Game25_ply35", valid, cases); err != nil {
+		t.Fatalf("valid ablation rejected: %v", err)
+	}
+	tests := []struct {
+		name     string
+		general  bool
+		caseName string
+		line     []string
+	}{
+		{name: "candidate disabled", caseName: "Game25_ply35", line: valid},
+		{name: "missing case", general: true, line: valid},
+		{name: "missing line", general: true, caseName: "Game25_ply35"},
+		{name: "short line", general: true, caseName: "Game25_ply35", line: []string{"d1e2"}},
+		{name: "unknown case", general: true, caseName: "missing", line: valid},
+	}
+	for _, tc := range tests {
+		t.Run(tc.name, func(t *testing.T) {
+			if err := validateD5AblationSelection(tc.general, tc.caseName, tc.line, cases); err == nil {
+				t.Fatal("invalid D5 ablation accepted")
+			}
+		})
+	}
+}
+
+func TestD5ReducedFullSelectionIsObservationOnlyAndExclusive(t *testing.T) {
+	if err := validateD5ReducedFullSelection(
+		true, "observational", nil, "", false, false, false, "", nil,
+	); err != nil {
+		t.Fatalf("valid D5 shadow rejected: %v", err)
+	}
+	tests := []struct {
+		name       string
+		mode       string
+		cases      []string
+		bridge     string
+		d3Probe    bool
+		generalD3  bool
+		generalD5  bool
+		ablateCase string
+		ablateLine []string
+	}{
+		{name: "counterfactual", mode: "full-depth"},
+		{name: "case allowlist", mode: "observational", cases: []string{"Game25_ply35"}},
+		{name: "bridge", mode: "observational", bridge: "Game25_ply35"},
+		{name: "D3 probe", mode: "observational", d3Probe: true},
+		{name: "D3 candidate", mode: "observational", generalD3: true},
+		{name: "D5 candidate", mode: "observational", generalD5: true},
+		{name: "ablation case", mode: "observational", ablateCase: "Game25_ply35"},
+		{name: "ablation line", mode: "observational", ablateLine: []string{"d1e2", "h3h1"}},
+	}
+	for _, tc := range tests {
+		t.Run(tc.name, func(t *testing.T) {
+			if err := validateD5ReducedFullSelection(
+				true, tc.mode, tc.cases, tc.bridge, tc.d3Probe, tc.generalD3,
+				tc.generalD5, tc.ablateCase, tc.ablateLine,
+			); err == nil {
+				t.Fatal("invalid mixed D5 shadow accepted")
+			}
+		})
+	}
+}
+
+func TestParseAndValidateD5AblationLine(t *testing.T) {
+	tc := &corpusCase{
+		Name: "Game25_ply35",
+		FEN:  "r5k1/p1bn2pp/8/8/3Pn3/4P2q/PPPB1PR1/R2Q1K2 w - - 5 18",
+	}
+	line, err := parseAndValidateD5AblationLine(tc, []string{"d1e2", "h3h1"})
+	if err != nil || len(line) != 2 {
+		t.Fatalf("valid line=%v err=%v", line, err)
+	}
+	if _, err := parseAndValidateD5AblationLine(tc, []string{"d1e2"}); err == nil {
+		t.Fatal("one-move ablation line accepted")
+	}
+	if _, err := parseAndValidateD5AblationLine(tc, []string{"d1e2", "a8b8"}); err == nil {
+		t.Fatal("non-checking ablation reply accepted")
+	}
+}
+
+func TestBuildGeneralD3D1SummaryIncludesD5Stage(t *testing.T) {
+	cases := []corpusCase{
+		{
+			Name: "Game25_ply69",
+			Runs: []run{{
+				GeneralD3D1Events: []generalD3D1Output{
+					{TraceGeneralD3D1Event: search.TraceGeneralD3D1Event{Stage: "d5_check_forced_full_depth"}, LineUCI: []string{"a3a4", "b7c7"}},
+					{TraceGeneralD3D1Event: search.TraceGeneralD3D1Event{Stage: "d5_check_ablation_lmr_preserved"}, LineUCI: []string{"d1e2", "h3h1"}},
+					{TraceGeneralD3D1Event: search.TraceGeneralD3D1Event{Stage: "d3_check_forced_full_depth"}, LineUCI: []string{"a3a4", "b7c7", "c4b3", "c7c3"}},
+					{TraceGeneralD3D1Event: search.TraceGeneralD3D1Event{Stage: "d1_check_forced_no_futility"}, LineUCI: []string{"a3a4", "b7c7", "c4b3", "c7c3", "b3a2", "b4b3"}},
+				},
+			}},
+		},
+	}
+
+	result := buildGeneralD3D1Summary(cases, true)
+	if !result.Applied || result.D5Applications != 1 || result.D5Ablations != 1 ||
+		result.D3Applications != 1 || result.D1Applications != 1 || result.CasesWithD5 != 1 ||
+		result.CasesWithD5Ablation != 1 || result.CasesWithD3 != 1 || result.CasesWithD1 != 1 ||
+		result.UniqueD5Paths != 1 || result.UniqueD5AblationPaths != 1 || result.UniqueD3Paths != 1 ||
+		result.UniqueD1Paths != 1 || !reflect.DeepEqual(result.D5CaseNames, []string{"Game25_ply69"}) ||
+		!reflect.DeepEqual(result.D5AblationCaseNames, []string{"Game25_ply69"}) ||
+		!reflect.DeepEqual(result.D1CaseNames, []string{"Game25_ply69"}) {
+		t.Fatalf("summary = %#v", result)
+	}
+}
+
+func TestBuildD5ReducedFullSummary(t *testing.T) {
+	cases := []corpusCase{{
+		Name: "Game25_ply35",
+		Runs: []run{{
+			D5ReducedFullShadowNodes: 42,
+			D5ReducedFullProbes: []d5ReducedFullOutput{
+				{
+					TraceD5ReducedFullProbe: search.TraceD5ReducedFullProbe{
+						ReducedExceedsAlpha:       true,
+						AlphaCrossingDisagrees:    true,
+						FullMinusReduced:          -20,
+						SequentialDidFullResearch: true,
+						SequentialMinusFreshFull:  5,
+						ParentMoveIsTT:            true,
+						ChildTTKeyMatch:           true,
+						ChildTTReducedCutoff:      true,
+						ChildTTEntryChanged:       true,
+						FirstOrderedMoveChanged:   true,
+						ReducedKillersChanged:     true,
+						ReducedHistoryChanged:     true,
+						D3ProbeCount:              2,
+						D3D1ChainCount:            1,
+					},
+					LineUCI: []string{"d1e2", "h3h1"},
+				},
+			},
+		}},
+	}}
+	result := buildD5ReducedFullSummary(cases, true)
+	if !result.Applied || result.Occurrences != 1 || result.UniquePaths != 1 ||
+		result.CasesWithProbes != 1 || result.ReducedCrossesAlpha != 1 ||
+		result.FreshFullCrossesAlpha != 0 || result.AlphaCrossingDisagreements != 1 ||
+		result.FullScoreDifferences != 1 || result.SequentialFullResearches != 1 ||
+		result.SequentialFreshDifferences != 1 || result.ParentTTMoves != 1 ||
+		result.InitialChildTTHits != 1 || result.InitialReducedTTCutoffs != 1 ||
+		result.ChildTTEntriesChanged != 1 || result.FirstOrderedMovesChanged != 1 ||
+		result.ReducedKillersChanged != 1 || result.ReducedHistoryChanged != 1 || result.D3Probes != 2 ||
+		result.D3D1Chains != 1 || result.CasesWithD3D1Chains != 1 ||
+		!reflect.DeepEqual(result.D3D1ChainCaseNames, []string{"Game25_ply35"}) ||
+		result.ShadowNodes != 42 {
+		t.Fatalf("summary = %#v", result)
+	}
+}
+
 func TestScoreDifferenceBound(t *testing.T) {
 	tests := []struct {
 		left  string
@@ -167,5 +354,69 @@ func TestScoreDifferenceBound(t *testing.T) {
 		if got := scoreDifferenceBound(tc.left, tc.right); got != tc.want {
 			t.Errorf("scoreDifferenceBound(%q,%q)=%q, want %q", tc.left, tc.right, got, tc.want)
 		}
+	}
+}
+
+func TestBridgeSelectionAndLineValidation(t *testing.T) {
+	const fen = "1r4k1/1q4pp/8/3Pb3/1pK1P1P1/P7/2P3R1/3R4 w - - 0 35"
+	tc := corpusCase{
+		Name:         "Game25_ply69",
+		FEN:          fen,
+		RootMoveUCI:  "a3a4",
+		ReplyMoveUCI: "b7c7",
+	}
+	line, err := parseBridgeLineText("a3a4, b7c7,c4b3,c7c3,b3a2,b4b3")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if err := validateBridgeSelection(
+		tc.Name,
+		line,
+		"full-depth",
+		map[string]bool{tc.Name: true},
+		[]corpusCase{tc},
+	); err != nil {
+		t.Fatal(err)
+	}
+	path, bridgeMove, err := parseAndValidateBridgeLine(&tc, line)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(path) != 5 || moveUCI(bridgeMove) != "b4b3" {
+		t.Fatalf("bridge path/move = %d/%s, want 5/b4b3", len(path), moveUCI(bridgeMove))
+	}
+	if err := validateBridgeNoLMRSelection("c7c3", tc.Name, line); err != nil {
+		t.Fatal(err)
+	}
+	noLMRPly, err := validateBridgeNoLMRMove(&tc, line, "c7c3")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if noLMRPly != 3 {
+		t.Fatalf("bridge NoLMR ply=%d, want 3", noLMRPly)
+	}
+	if err := validateBridgeNoLMRSelection("b4b3", tc.Name, line); err == nil {
+		t.Fatal("bridge NoLMR selection accepted the final bridge move")
+	}
+	if _, err := validateBridgeNoLMRMove(&tc, line, "c4b3"); err == nil {
+		t.Fatal("bridge NoLMR validation accepted a non-checking move")
+	}
+	if err := validateBridgeNoFutilitySelection("b4b3", "c7c3", tc.Name, line); err != nil {
+		t.Fatal(err)
+	}
+	if err := validateBridgeNoFutilitySelection("b4b3", "", tc.Name, line); err == nil {
+		t.Fatal("bridge NoFutility selection accepted a missing NoLMR dependency")
+	}
+	if err := validateBridgeNoFutilitySelection("c7c3", "c7c3", tc.Name, line); err == nil {
+		t.Fatal("bridge NoFutility selection accepted a non-final move")
+	}
+	if err := validateBridgeSelection(
+		tc.Name,
+		line,
+		"plus-one",
+		map[string]bool{tc.Name: true},
+		[]corpusCase{tc},
+	); err == nil {
+		t.Fatal("bridge selection accepted plus-one mode")
 	}
 }
