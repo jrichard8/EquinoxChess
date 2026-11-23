@@ -45,5 +45,6 @@ go test -tags searchtrace ./...
 ```
 
 - [Guide de développement](docs/developpement.md) — architecture, conventions et contrôles à exécuter selon le changement.
+- [Validation tactique indépendante](tools/tactics/README.md) — rejouer la référence de septembre sur 32 positions hors run6.
 - [Protocole Elo](tools/elo/README.md) — comparer deux binaires sur les mêmes ouvertures, couleurs inversées.
 - [Analyse des parties](tools/kingzone/README.md) et [traceur de recherche](cmd/search_trace/README.md) — reconstruire les positions diagnostiques depuis le PGN et examiner les décisions du moteur.

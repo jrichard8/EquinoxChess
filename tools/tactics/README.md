@@ -2,6 +2,20 @@
 
 Le lot contient une décision par partie et par ouverture. Le fichier à conserver pour comparer deux versions du moteur est [positions.json](v1/positions.json). Chaque entrée donne la FEN, le numéro de partie et le demi-coup dans le [PGN source](v1/source.pgn), le coup joué en partie et les deux analyses de référence.
 
+## Référence de septembre à profondeur 6
+
+Le lot a été figé dans le commit `850def5`. Le binaire UCI provient d’un clone propre de `819a8d5` (Go 1.26.2, macOS arm64). Une régénération complète a reproduit à l’octet près le PGN des 128 parties et le fichier des 32 positions. Pour les 32 positions, les deux recherches concordent sur le coup, le score, la profondeur et les nœuds. [Rapport par position et empreintes](v1/septembre.json)
+
+| Groupe | Coup de référence trouvé | Évaluation Equinox ≤ −300 cp | Nœuds sur un passage |
+|---|---:|---:|---:|
+| 16 positions tenables ou favorables | 16/16 | 0/16 fausse alerte | 993 345 |
+| 16 pertes selon Stockfish | 16/16 | 15/16 pertes reconnues | 486 877 |
+| Ensemble | 32/32 | 15 pertes signalées | 1 480 222 |
+
+Sur **G57-p59**, Equinox trouve `Kxe1` (`f2e1`) et évalue la position à −277 cp. Stockfish choisit ce même coup et donne −429 puis −416 cp. L’écart porte donc sur l’évaluation de la position après le meilleur choix.
+
+L’accord sur les coups atteint déjà le maximum. Les 32 coups de référence avaient tous été joués dans les parties sources et 25 sont des prises immédiates. Ce lot est sensible à une régression sur ces décisions et permet de suivre le coût de recherche et la détection des pertes. Une mesure de progression sur des choix tactiques plus difficiles demande un autre échantillon aveugle. Le run6 sélectionnait des erreurs historiques d’Equinox ; les deux taux portent sur des populations différentes.
+
 ## Constitution du lot
 
 Les parties sont produites par Stockfish 18 depuis les 64 positions à huit demi-coups de la suite [openings-v2.epd](../elo/openings-v2.epd). Une partie oppose deux budgets de 180 et 5 000 nœuds par décision. Les couleurs sont inversées pour la seconde partie de chaque ouverture. La génération s’arrête après 80 demi-coups supplémentaires ou en fin de partie. Le PGN peut donc contenir des parties inachevées. Les annotations servent à repérer des positions candidates.
