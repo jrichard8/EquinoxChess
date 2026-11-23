@@ -1,0 +1,1568 @@
+{
+  "depth": 6,
+  "tt_entries": {
+    "v1": 1048576,
+    "v2": 1048576,
+    "run6": 65536
+  },
+  "binaries": {
+    "base": {
+      "sha256": "46caaa986c5e4ab0610790b012cad658c6578d6f3bf187fe29222111c1b0642b",
+      "go": "go1.26.2",
+      "revision": "819a8d5b12995e2daf68d374d8e667ec06c33fcf",
+      "modified": false,
+      "os": "darwin",
+      "arch": "arm64",
+      "trace_sha256": "d054401b6c51c299239f8fa35ec35d93136fc638bb469c0ebcb2e2d654e30d82"
+    },
+    "candidate": {
+      "sha256": "a61da4d39a4293f936c41f0bd65f61016f36853f2db2f0e6500d47c1e58e02ff",
+      "go": "go1.26.2",
+      "revision": "81fdfe368c87b16d091cdd2cc842dca56680c839",
+      "modified": false,
+      "os": "darwin",
+      "arch": "arm64",
+      "trace_sha256": "4a15a57959ae5203c5d5e967d31b0dfafcb35f12e4e71202bb629dcd2b1a59bb"
+    }
+  },
+  "fixture_sha256": {
+    "v1": "48c8d552911f14c44b9cab08de4b7beb8113a545567ffd07adfc455e6a50545f",
+    "v2": "9fa139fb0f623ce7ed5c6052ded2df9ffa0598b14642072699c1660485305d22",
+    "run6": "1db1ea628d54f8c37cf591740e1a1f78a379ddc87a06573efe8a05f000073b3d"
+  },
+  "cases": {
+    "v1": [
+      {
+        "id": "G01-p44",
+        "cohort": "tactic",
+        "reference_move": "d7d5",
+        "base": {
+          "move": "d7d5",
+          "cp": 168,
+          "mate": null,
+          "nodes": 20843,
+          "calls_loss": false
+        },
+        "candidate": {
+          "move": "d7d5",
+          "cp": 168,
+          "mate": null,
+          "nodes": 20895,
+          "calls_loss": false
+        },
+        "delta_nodes": 52
+      },
+      {
+        "id": "G02-p57",
+        "cohort": "tactic",
+        "reference_move": "e1e6",
+        "base": {
+          "move": "e1e6",
+          "cp": 108,
+          "mate": null,
+          "nodes": 126855,
+          "calls_loss": false
+        },
+        "candidate": {
+          "move": "e1e6",
+          "cp": 108,
+          "mate": null,
+          "nodes": 126858,
+          "calls_loss": false
+        },
+        "delta_nodes": 3
+      },
+      {
+        "id": "G04-p38",
+        "cohort": "tactic",
+        "reference_move": "e5e1",
+        "base": {
+          "move": "e5e1",
+          "cp": -102,
+          "mate": null,
+          "nodes": 33215,
+          "calls_loss": false
+        },
+        "candidate": {
+          "move": "e5e1",
+          "cp": -102,
+          "mate": null,
+          "nodes": 33275,
+          "calls_loss": false
+        },
+        "delta_nodes": 60
+      },
+      {
+        "id": "G05-p37",
+        "cohort": "tactic",
+        "reference_move": "f1e1",
+        "base": {
+          "move": "f1e1",
+          "cp": -23,
+          "mate": null,
+          "nodes": 24200,
+          "calls_loss": false
+        },
+        "candidate": {
+          "move": "f1e1",
+          "cp": -23,
+          "mate": null,
+          "nodes": 24200,
+          "calls_loss": false
+        },
+        "delta_nodes": 0
+      },
+      {
+        "id": "G07-p56",
+        "cohort": "tactic",
+        "reference_move": "c8d8",
+        "base": {
+          "move": "c8d8",
+          "cp": 185,
+          "mate": null,
+          "nodes": 125949,
+          "calls_loss": false
+        },
+        "candidate": {
+          "move": "c8d8",
+          "cp": 185,
+          "mate": null,
+          "nodes": 127560,
+          "calls_loss": false
+        },
+        "delta_nodes": 1611
+      },
+      {
+        "id": "G08-p43",
+        "cohort": "tactic",
+        "reference_move": "c1b2",
+        "base": {
+          "move": "c1b2",
+          "cp": 606,
+          "mate": null,
+          "nodes": 84337,
+          "calls_loss": false
+        },
+        "candidate": {
+          "move": "c1b2",
+          "cp": 606,
+          "mate": null,
+          "nodes": 84337,
+          "calls_loss": false
+        },
+        "delta_nodes": 0
+      },
+      {
+        "id": "G09-p21",
+        "cohort": "tactic",
+        "reference_move": "b2c3",
+        "base": {
+          "move": "b2c3",
+          "cp": -130,
+          "mate": null,
+          "nodes": 84690,
+          "calls_loss": false
+        },
+        "candidate": {
+          "move": "b2c3",
+          "cp": -130,
+          "mate": null,
+          "nodes": 84690,
+          "calls_loss": false
+        },
+        "delta_nodes": 0
+      },
+      {
+        "id": "G11-p20",
+        "cohort": "tactic",
+        "reference_move": "b6a5",
+        "base": {
+          "move": "b6a5",
+          "cp": 79,
+          "mate": null,
+          "nodes": 63117,
+          "calls_loss": false
+        },
+        "candidate": {
+          "move": "b6a5",
+          "cp": 79,
+          "mate": null,
+          "nodes": 64950,
+          "calls_loss": false
+        },
+        "delta_nodes": 1833
+      },
+      {
+        "id": "G12-p67",
+        "cohort": "tactic",
+        "reference_move": "c3e4",
+        "base": {
+          "move": "c3e4",
+          "cp": 508,
+          "mate": null,
+          "nodes": 4459,
+          "calls_loss": false
+        },
+        "candidate": {
+          "move": "c3e4",
+          "cp": 508,
+          "mate": null,
+          "nodes": 4459,
+          "calls_loss": false
+        },
+        "delta_nodes": 0
+      },
+      {
+        "id": "G14-p36",
+        "cohort": "loss",
+        "reference_move": "a8e8",
+        "base": {
+          "move": "a8e8",
+          "cp": -566,
+          "mate": null,
+          "nodes": 47799,
+          "calls_loss": true
+        },
+        "candidate": {
+          "move": "a8e8",
+          "cp": -566,
+          "mate": null,
+          "nodes": 50378,
+          "calls_loss": true
+        },
+        "delta_nodes": 2579
+      },
+      {
+        "id": "G15-p33",
+        "cohort": "loss",
+        "reference_move": "h4d8",
+        "base": {
+          "move": "h4d8",
+          "cp": -342,
+          "mate": null,
+          "nodes": 38849,
+          "calls_loss": true
+        },
+        "candidate": {
+          "move": "h4d8",
+          "cp": -342,
+          "mate": null,
+          "nodes": 39731,
+          "calls_loss": true
+        },
+        "delta_nodes": 882
+      },
+      {
+        "id": "G16-p56",
+        "cohort": "loss",
+        "reference_move": "f8f7",
+        "base": {
+          "move": "f8f7",
+          "cp": -719,
+          "mate": null,
+          "nodes": 12622,
+          "calls_loss": true
+        },
+        "candidate": {
+          "move": "f8f7",
+          "cp": -719,
+          "mate": null,
+          "nodes": 14164,
+          "calls_loss": true
+        },
+        "delta_nodes": 1542
+      },
+      {
+        "id": "G17-p52",
+        "cohort": "tactic",
+        "reference_move": "b6b4",
+        "base": {
+          "move": "b6b4",
+          "cp": 215,
+          "mate": null,
+          "nodes": 54018,
+          "calls_loss": false
+        },
+        "candidate": {
+          "move": "b6b4",
+          "cp": 215,
+          "mate": null,
+          "nodes": 53610,
+          "calls_loss": false
+        },
+        "delta_nodes": -408
+      },
+      {
+        "id": "G18-p26",
+        "cohort": "loss",
+        "reference_move": "f8f7",
+        "base": {
+          "move": "f8f7",
+          "cp": -438,
+          "mate": null,
+          "nodes": 97169,
+          "calls_loss": true
+        },
+        "candidate": {
+          "move": "f8f7",
+          "cp": -438,
+          "mate": null,
+          "nodes": 178244,
+          "calls_loss": true
+        },
+        "delta_nodes": 81075
+      },
+      {
+        "id": "G19-p39",
+        "cohort": "loss",
+        "reference_move": "d3e4",
+        "base": {
+          "move": "d3e4",
+          "cp": -504,
+          "mate": null,
+          "nodes": 44061,
+          "calls_loss": true
+        },
+        "candidate": {
+          "move": "d3e4",
+          "cp": -504,
+          "mate": null,
+          "nodes": 44914,
+          "calls_loss": true
+        },
+        "delta_nodes": 853
+      },
+      {
+        "id": "G20-p17",
+        "cohort": "tactic",
+        "reference_move": "c3a4",
+        "base": {
+          "move": "c3a4",
+          "cp": 56,
+          "mate": null,
+          "nodes": 62544,
+          "calls_loss": false
+        },
+        "candidate": {
+          "move": "c3a4",
+          "cp": 56,
+          "mate": null,
+          "nodes": 64150,
+          "calls_loss": false
+        },
+        "delta_nodes": 1606
+      },
+      {
+        "id": "G21-p56",
+        "cohort": "tactic",
+        "reference_move": "a2a1",
+        "base": {
+          "move": "a2a1",
+          "cp": 636,
+          "mate": null,
+          "nodes": 12084,
+          "calls_loss": false
+        },
+        "candidate": {
+          "move": "a2a1",
+          "cp": 636,
+          "mate": null,
+          "nodes": 12084,
+          "calls_loss": false
+        },
+        "delta_nodes": 0
+      },
+      {
+        "id": "G22-p63",
+        "cohort": "tactic",
+        "reference_move": "c3c8",
+        "base": {
+          "move": "c3c8",
+          "cp": 395,
+          "mate": null,
+          "nodes": 31008,
+          "calls_loss": false
+        },
+        "candidate": {
+          "move": "c3c8",
+          "cp": 395,
+          "mate": null,
+          "nodes": 31173,
+          "calls_loss": false
+        },
+        "delta_nodes": 165
+      },
+      {
+        "id": "G24-p41",
+        "cohort": "tactic",
+        "reference_move": "b7c5",
+        "base": {
+          "move": "b7c5",
+          "cp": 431,
+          "mate": null,
+          "nodes": 53799,
+          "calls_loss": false
+        },
+        "candidate": {
+          "move": "b7c5",
+          "cp": 431,
+          "mate": null,
+          "nodes": 54058,
+          "calls_loss": false
+        },
+        "delta_nodes": 259
+      },
+      {
+        "id": "G25-p17",
+        "cohort": "tactic",
+        "reference_move": "b5d7",
+        "base": {
+          "move": "b5d7",
+          "cp": 33,
+          "mate": null,
+          "nodes": 44106,
+          "calls_loss": false
+        },
+        "candidate": {
+          "move": "b5d7",
+          "cp": 33,
+          "mate": null,
+          "nodes": 44190,
+          "calls_loss": false
+        },
+        "delta_nodes": 84
+      },
+      {
+        "id": "G27-p22",
+        "cohort": "tactic",
+        "reference_move": "e7d6",
+        "base": {
+          "move": "e7d6",
+          "cp": -18,
+          "mate": null,
+          "nodes": 168121,
+          "calls_loss": false
+        },
+        "candidate": {
+          "move": "e7d6",
+          "cp": -18,
+          "mate": null,
+          "nodes": 169689,
+          "calls_loss": false
+        },
+        "delta_nodes": 1568
+      },
+      {
+        "id": "G29-p41",
+        "cohort": "loss",
+        "reference_move": "d2c3",
+        "base": {
+          "move": "d2c3",
+          "cp": -368,
+          "mate": null,
+          "nodes": 24905,
+          "calls_loss": true
+        },
+        "candidate": {
+          "move": "d2c3",
+          "cp": -368,
+          "mate": null,
+          "nodes": 24905,
+          "calls_loss": true
+        },
+        "delta_nodes": 0
+      },
+      {
+        "id": "G36-p22",
+        "cohort": "loss",
+        "reference_move": "c6b8",
+        "base": {
+          "move": "c6b8",
+          "cp": -370,
+          "mate": null,
+          "nodes": 15690,
+          "calls_loss": true
+        },
+        "candidate": {
+          "move": "c6b8",
+          "cp": -370,
+          "mate": null,
+          "nodes": 15728,
+          "calls_loss": true
+        },
+        "delta_nodes": 38
+      },
+      {
+        "id": "G38-p64",
+        "cohort": "loss",
+        "reference_move": "g8h7",
+        "base": {
+          "move": "g8h7",
+          "cp": -358,
+          "mate": null,
+          "nodes": 15846,
+          "calls_loss": true
+        },
+        "candidate": {
+          "move": "g8h7",
+          "cp": -358,
+          "mate": null,
+          "nodes": 15846,
+          "calls_loss": true
+        },
+        "delta_nodes": 0
+      },
+      {
+        "id": "G47-p31",
+        "cohort": "loss",
+        "reference_move": "a1b1",
+        "base": {
+          "move": "a1b1",
+          "cp": -343,
+          "mate": null,
+          "nodes": 14415,
+          "calls_loss": true
+        },
+        "candidate": {
+          "move": "a1b1",
+          "cp": -343,
+          "mate": null,
+          "nodes": 14421,
+          "calls_loss": true
+        },
+        "delta_nodes": 6
+      },
+      {
+        "id": "G50-p44",
+        "cohort": "loss",
+        "reference_move": "c6f6",
+        "base": {
+          "move": "c6f6",
+          "cp": -485,
+          "mate": null,
+          "nodes": 39200,
+          "calls_loss": true
+        },
+        "candidate": {
+          "move": "c6f6",
+          "cp": -485,
+          "mate": null,
+          "nodes": 39200,
+          "calls_loss": true
+        },
+        "delta_nodes": 0
+      },
+      {
+        "id": "G52-p24",
+        "cohort": "loss",
+        "reference_move": "c8c6",
+        "base": {
+          "move": "c8c6",
+          "cp": -539,
+          "mate": null,
+          "nodes": 50487,
+          "calls_loss": true
+        },
+        "candidate": {
+          "move": "c8c6",
+          "cp": -539,
+          "mate": null,
+          "nodes": 50487,
+          "calls_loss": true
+        },
+        "delta_nodes": 0
+      },
+      {
+        "id": "G57-p59",
+        "cohort": "loss",
+        "reference_move": "f2e1",
+        "base": {
+          "move": "f2e1",
+          "cp": -277,
+          "mate": null,
+          "nodes": 7555,
+          "calls_loss": false
+        },
+        "candidate": {
+          "move": "f2e1",
+          "cp": -277,
+          "mate": null,
+          "nodes": 7555,
+          "calls_loss": false
+        },
+        "delta_nodes": 0
+      },
+      {
+        "id": "G61-p57",
+        "cohort": "loss",
+        "reference_move": "d5f4",
+        "base": {
+          "move": "d5f4",
+          "cp": -553,
+          "mate": null,
+          "nodes": 22994,
+          "calls_loss": true
+        },
+        "candidate": {
+          "move": "d5f4",
+          "cp": -553,
+          "mate": null,
+          "nodes": 22994,
+          "calls_loss": true
+        },
+        "delta_nodes": 0
+      },
+      {
+        "id": "G62-p66",
+        "cohort": "loss",
+        "reference_move": "g8f8",
+        "base": {
+          "move": "g8f8",
+          "cp": -619,
+          "mate": null,
+          "nodes": 11612,
+          "calls_loss": true
+        },
+        "candidate": {
+          "move": "g8f8",
+          "cp": -619,
+          "mate": null,
+          "nodes": 11626,
+          "calls_loss": true
+        },
+        "delta_nodes": 14
+      },
+      {
+        "id": "G70-p29",
+        "cohort": "loss",
+        "reference_move": "d1d4",
+        "base": {
+          "move": "d1d4",
+          "cp": -428,
+          "mate": null,
+          "nodes": 34552,
+          "calls_loss": true
+        },
+        "candidate": {
+          "move": "d1d4",
+          "cp": -428,
+          "mate": null,
+          "nodes": 35449,
+          "calls_loss": true
+        },
+        "delta_nodes": 897
+      },
+      {
+        "id": "G77-p66",
+        "cohort": "loss",
+        "reference_move": "g3f3",
+        "base": {
+          "move": "g3f3",
+          "cp": -497,
+          "mate": null,
+          "nodes": 9121,
+          "calls_loss": true
+        },
+        "candidate": {
+          "move": "g3f3",
+          "cp": -497,
+          "mate": null,
+          "nodes": 9121,
+          "calls_loss": true
+        },
+        "delta_nodes": 0
+      }
+    ],
+    "v2": [
+      {
+        "id": "00Nhl",
+        "cohort": "black",
+        "reference_move": "g6f4",
+        "base": {
+          "move": "h8h7",
+          "cp": -185,
+          "mate": null,
+          "nodes": 20590,
+          "calls_loss": false
+        },
+        "candidate": {
+          "move": "h8h7",
+          "cp": -185,
+          "mate": null,
+          "nodes": 20590,
+          "calls_loss": false
+        },
+        "delta_nodes": 0
+      },
+      {
+        "id": "0Np2W",
+        "cohort": "black",
+        "reference_move": "g2g5",
+        "base": {
+          "move": "g2g3",
+          "cp": 114,
+          "mate": null,
+          "nodes": 20340,
+          "calls_loss": false
+        },
+        "candidate": {
+          "move": "f3f2",
+          "cp": 107,
+          "mate": null,
+          "nodes": 24560,
+          "calls_loss": false
+        },
+        "delta_nodes": 4220
+      },
+      {
+        "id": "0N0N9",
+        "cohort": "white",
+        "reference_move": "f4g4",
+        "base": {
+          "move": "h3d3",
+          "cp": -221,
+          "mate": null,
+          "nodes": 95846,
+          "calls_loss": false
+        },
+        "candidate": {
+          "move": "h3d3",
+          "cp": -221,
+          "mate": null,
+          "nodes": 95848,
+          "calls_loss": false
+        },
+        "delta_nodes": 2
+      },
+      {
+        "id": "0CxjC",
+        "cohort": "black",
+        "reference_move": "c7e7",
+        "base": {
+          "move": "f2e2",
+          "cp": -14,
+          "mate": null,
+          "nodes": 23633,
+          "calls_loss": false
+        },
+        "candidate": {
+          "move": "f2e2",
+          "cp": 52,
+          "mate": null,
+          "nodes": 17936,
+          "calls_loss": false
+        },
+        "delta_nodes": -5697
+      },
+      {
+        "id": "0MtiM",
+        "cohort": "black",
+        "reference_move": "d7e5",
+        "base": {
+          "move": "d7e5",
+          "cp": -37,
+          "mate": null,
+          "nodes": 97271,
+          "calls_loss": false
+        },
+        "candidate": {
+          "move": "d7e5",
+          "cp": -37,
+          "mate": null,
+          "nodes": 96809,
+          "calls_loss": false
+        },
+        "delta_nodes": -462
+      },
+      {
+        "id": "0YrIF",
+        "cohort": "black",
+        "reference_move": "h5h4",
+        "base": {
+          "move": "e4e3",
+          "cp": -12,
+          "mate": null,
+          "nodes": 11631,
+          "calls_loss": false
+        },
+        "candidate": {
+          "move": "e4e3",
+          "cp": -12,
+          "mate": null,
+          "nodes": 12915,
+          "calls_loss": false
+        },
+        "delta_nodes": 1284
+      },
+      {
+        "id": "00Ksk",
+        "cohort": "white",
+        "reference_move": "d2d3",
+        "base": {
+          "move": "d2b2",
+          "cp": 107,
+          "mate": null,
+          "nodes": 16057,
+          "calls_loss": false
+        },
+        "candidate": {
+          "move": "d2b2",
+          "cp": 107,
+          "mate": null,
+          "nodes": 16057,
+          "calls_loss": false
+        },
+        "delta_nodes": 0
+      },
+      {
+        "id": "01Qnk",
+        "cohort": "black",
+        "reference_move": "h4g4",
+        "base": {
+          "move": "d6f4",
+          "cp": -507,
+          "mate": null,
+          "nodes": 131402,
+          "calls_loss": true
+        },
+        "candidate": {
+          "move": "d6f4",
+          "cp": -507,
+          "mate": null,
+          "nodes": 132318,
+          "calls_loss": true
+        },
+        "delta_nodes": 916
+      },
+      {
+        "id": "0LUmS",
+        "cohort": "white",
+        "reference_move": "c3e4",
+        "base": {
+          "move": "c3e4",
+          "cp": 151,
+          "mate": null,
+          "nodes": 56710,
+          "calls_loss": false
+        },
+        "candidate": {
+          "move": "c3e4",
+          "cp": 151,
+          "mate": null,
+          "nodes": 56710,
+          "calls_loss": false
+        },
+        "delta_nodes": 0
+      },
+      {
+        "id": "0X38g",
+        "cohort": "white",
+        "reference_move": "g4g5",
+        "base": {
+          "move": "g4g5",
+          "cp": 34,
+          "mate": null,
+          "nodes": 72707,
+          "calls_loss": false
+        },
+        "candidate": {
+          "move": "g4g5",
+          "cp": 34,
+          "mate": null,
+          "nodes": 73438,
+          "calls_loss": false
+        },
+        "delta_nodes": 731
+      },
+      {
+        "id": "0bZsE",
+        "cohort": "black",
+        "reference_move": "e5e4",
+        "base": {
+          "move": "e5e4",
+          "cp": 74,
+          "mate": null,
+          "nodes": 1103498,
+          "calls_loss": false
+        },
+        "candidate": {
+          "move": "e5e4",
+          "cp": 74,
+          "mate": null,
+          "nodes": 1157820,
+          "calls_loss": false
+        },
+        "delta_nodes": 54322
+      },
+      {
+        "id": "0WoMT",
+        "cohort": "white",
+        "reference_move": "e3f4",
+        "base": {
+          "move": "e3f3",
+          "cp": -185,
+          "mate": null,
+          "nodes": 123079,
+          "calls_loss": false
+        },
+        "candidate": {
+          "move": "e3f3",
+          "cp": -185,
+          "mate": null,
+          "nodes": 124553,
+          "calls_loss": false
+        },
+        "delta_nodes": 1474
+      },
+      {
+        "id": "08xLb",
+        "cohort": "black",
+        "reference_move": "f8d7",
+        "base": {
+          "move": "f8d7",
+          "cp": -77,
+          "mate": null,
+          "nodes": 49372,
+          "calls_loss": false
+        },
+        "candidate": {
+          "move": "f8d7",
+          "cp": -77,
+          "mate": null,
+          "nodes": 49416,
+          "calls_loss": false
+        },
+        "delta_nodes": 44
+      },
+      {
+        "id": "0ImFe",
+        "cohort": "white",
+        "reference_move": "g3e5",
+        "base": {
+          "move": "g5e7",
+          "cp": -168,
+          "mate": null,
+          "nodes": 35076,
+          "calls_loss": false
+        },
+        "candidate": {
+          "move": "g5e7",
+          "cp": -168,
+          "mate": null,
+          "nodes": 35076,
+          "calls_loss": false
+        },
+        "delta_nodes": 0
+      },
+      {
+        "id": "0YJcm",
+        "cohort": "white",
+        "reference_move": "h3h4",
+        "base": {
+          "move": "e4f5",
+          "cp": 152,
+          "mate": null,
+          "nodes": 1593,
+          "calls_loss": false
+        },
+        "candidate": {
+          "move": "e4f5",
+          "cp": 152,
+          "mate": null,
+          "nodes": 1593,
+          "calls_loss": false
+        },
+        "delta_nodes": 0
+      },
+      {
+        "id": "00MBF",
+        "cohort": "white",
+        "reference_move": "d1b3",
+        "base": {
+          "move": "g3g4",
+          "cp": -88,
+          "mate": null,
+          "nodes": 83821,
+          "calls_loss": false
+        },
+        "candidate": {
+          "move": "g3g4",
+          "cp": -88,
+          "mate": null,
+          "nodes": 84449,
+          "calls_loss": false
+        },
+        "delta_nodes": 628
+      },
+      {
+        "id": "03Cdz",
+        "cohort": "white",
+        "reference_move": "e2f3",
+        "base": {
+          "move": "e2f3",
+          "cp": -18,
+          "mate": null,
+          "nodes": 212586,
+          "calls_loss": false
+        },
+        "candidate": {
+          "move": "e2f3",
+          "cp": -18,
+          "mate": null,
+          "nodes": 212570,
+          "calls_loss": false
+        },
+        "delta_nodes": -16
+      },
+      {
+        "id": "0S9s5",
+        "cohort": "white",
+        "reference_move": "a4a5",
+        "base": {
+          "move": "f1d1",
+          "cp": -393,
+          "mate": null,
+          "nodes": 183019,
+          "calls_loss": true
+        },
+        "candidate": {
+          "move": "f1d1",
+          "cp": -393,
+          "mate": null,
+          "nodes": 183089,
+          "calls_loss": true
+        },
+        "delta_nodes": 70
+      },
+      {
+        "id": "03xt2",
+        "cohort": "white",
+        "reference_move": "c2e2",
+        "base": {
+          "move": "c2e2",
+          "cp": 364,
+          "mate": null,
+          "nodes": 46306,
+          "calls_loss": false
+        },
+        "candidate": {
+          "move": "c2e2",
+          "cp": 364,
+          "mate": null,
+          "nodes": 46306,
+          "calls_loss": false
+        },
+        "delta_nodes": 0
+      },
+      {
+        "id": "0JLoe",
+        "cohort": "white",
+        "reference_move": "h5h6",
+        "base": {
+          "move": "h5h6",
+          "cp": 38,
+          "mate": null,
+          "nodes": 4593,
+          "calls_loss": false
+        },
+        "candidate": {
+          "move": "f5f6",
+          "cp": 26,
+          "mate": null,
+          "nodes": 5126,
+          "calls_loss": false
+        },
+        "delta_nodes": 533
+      },
+      {
+        "id": "07dIM",
+        "cohort": "white",
+        "reference_move": "g2d5",
+        "base": {
+          "move": "d7a4",
+          "cp": 15,
+          "mate": null,
+          "nodes": 25606,
+          "calls_loss": false
+        },
+        "candidate": {
+          "move": "d7a4",
+          "cp": 15,
+          "mate": null,
+          "nodes": 25612,
+          "calls_loss": false
+        },
+        "delta_nodes": 6
+      },
+      {
+        "id": "0BwJ2",
+        "cohort": "black",
+        "reference_move": "e6a2",
+        "base": {
+          "move": "b4b3",
+          "cp": 190,
+          "mate": null,
+          "nodes": 6739,
+          "calls_loss": false
+        },
+        "candidate": {
+          "move": "b4b3",
+          "cp": 194,
+          "mate": null,
+          "nodes": 5896,
+          "calls_loss": false
+        },
+        "delta_nodes": -843
+      },
+      {
+        "id": "0afCF",
+        "cohort": "white",
+        "reference_move": "c2a2",
+        "base": {
+          "move": "c2a2",
+          "cp": -406,
+          "mate": null,
+          "nodes": 83943,
+          "calls_loss": true
+        },
+        "candidate": {
+          "move": "c2a2",
+          "cp": -406,
+          "mate": null,
+          "nodes": 84388,
+          "calls_loss": true
+        },
+        "delta_nodes": 445
+      },
+      {
+        "id": "0SEVH",
+        "cohort": "white",
+        "reference_move": "f3e4",
+        "base": {
+          "move": "f3e4",
+          "cp": 275,
+          "mate": null,
+          "nodes": 21826,
+          "calls_loss": false
+        },
+        "candidate": {
+          "move": "f3e4",
+          "cp": 275,
+          "mate": null,
+          "nodes": 22126,
+          "calls_loss": false
+        },
+        "delta_nodes": 300
+      },
+      {
+        "id": "0e34j",
+        "cohort": "white",
+        "reference_move": "d4c6",
+        "base": {
+          "move": "d4c6",
+          "cp": 43,
+          "mate": null,
+          "nodes": 104135,
+          "calls_loss": false
+        },
+        "candidate": {
+          "move": "d4c6",
+          "cp": 43,
+          "mate": null,
+          "nodes": 104135,
+          "calls_loss": false
+        },
+        "delta_nodes": 0
+      },
+      {
+        "id": "0Pfb0",
+        "cohort": "black",
+        "reference_move": "c5c4",
+        "base": {
+          "move": "h7h6",
+          "cp": -6,
+          "mate": null,
+          "nodes": 442630,
+          "calls_loss": false
+        },
+        "candidate": {
+          "move": "h7h6",
+          "cp": -6,
+          "mate": null,
+          "nodes": 495325,
+          "calls_loss": false
+        },
+        "delta_nodes": 52695
+      },
+      {
+        "id": "08mtC",
+        "cohort": "black",
+        "reference_move": "h8d8",
+        "base": {
+          "move": "c8d7",
+          "cp": 9,
+          "mate": null,
+          "nodes": 40131,
+          "calls_loss": false
+        },
+        "candidate": {
+          "move": "c8d7",
+          "cp": 9,
+          "mate": null,
+          "nodes": 40131,
+          "calls_loss": false
+        },
+        "delta_nodes": 0
+      },
+      {
+        "id": "0WHs3",
+        "cohort": "black",
+        "reference_move": "b6b5",
+        "base": {
+          "move": "b6b5",
+          "cp": -34,
+          "mate": null,
+          "nodes": 46502,
+          "calls_loss": false
+        },
+        "candidate": {
+          "move": "b6b5",
+          "cp": -34,
+          "mate": null,
+          "nodes": 46502,
+          "calls_loss": false
+        },
+        "delta_nodes": 0
+      },
+      {
+        "id": "0SdBk",
+        "cohort": "black",
+        "reference_move": "b6b5",
+        "base": {
+          "move": "b6a5",
+          "cp": 75,
+          "mate": null,
+          "nodes": 2259,
+          "calls_loss": false
+        },
+        "candidate": {
+          "move": "b6a5",
+          "cp": 75,
+          "mate": null,
+          "nodes": 2256,
+          "calls_loss": false
+        },
+        "delta_nodes": -3
+      },
+      {
+        "id": "0eK7q",
+        "cohort": "black",
+        "reference_move": "g8h8",
+        "base": {
+          "move": "g8h8",
+          "cp": -216,
+          "mate": null,
+          "nodes": 47135,
+          "calls_loss": false
+        },
+        "candidate": {
+          "move": "g8h8",
+          "cp": -216,
+          "mate": null,
+          "nodes": 47197,
+          "calls_loss": false
+        },
+        "delta_nodes": 62
+      },
+      {
+        "id": "03eQP",
+        "cohort": "black",
+        "reference_move": "b6a5",
+        "base": {
+          "move": "g7h6",
+          "cp": -149,
+          "mate": null,
+          "nodes": 25089,
+          "calls_loss": false
+        },
+        "candidate": {
+          "move": "g7h6",
+          "cp": -149,
+          "mate": null,
+          "nodes": 25660,
+          "calls_loss": false
+        },
+        "delta_nodes": 571
+      },
+      {
+        "id": "0XsPS",
+        "cohort": "black",
+        "reference_move": "c8f8",
+        "base": {
+          "move": "d6d5",
+          "cp": -38,
+          "mate": null,
+          "nodes": 54491,
+          "calls_loss": false
+        },
+        "candidate": {
+          "move": "d6d5",
+          "cp": -38,
+          "mate": null,
+          "nodes": 54491,
+          "calls_loss": false
+        },
+        "delta_nodes": 0
+      }
+    ],
+    "run6": [
+      {
+        "id": "Game02_B_ply40",
+        "historical_bad_move": "h7h6",
+        "base": {
+          "move": "g7g6",
+          "cp": -7,
+          "mate": null,
+          "nodes": 426048,
+          "calls_loss": false
+        },
+        "candidate": {
+          "move": "g7g6",
+          "cp": -7,
+          "mate": null,
+          "nodes": 599844,
+          "calls_loss": false
+        },
+        "delta_nodes": 173796
+      },
+      {
+        "id": "Game03_W_ply29",
+        "historical_bad_move": "d4e5",
+        "base": {
+          "move": "d4e5",
+          "cp": -157,
+          "mate": null,
+          "nodes": 421678,
+          "calls_loss": false
+        },
+        "candidate": {
+          "move": "d4e5",
+          "cp": -157,
+          "mate": null,
+          "nodes": 436772,
+          "calls_loss": false
+        },
+        "delta_nodes": 15094
+      },
+      {
+        "id": "Game06_B_ply46",
+        "historical_bad_move": "g7g6",
+        "base": {
+          "move": "d1d4",
+          "cp": -603,
+          "mate": null,
+          "nodes": 79342,
+          "calls_loss": true
+        },
+        "candidate": {
+          "move": "d1d4",
+          "cp": -603,
+          "mate": null,
+          "nodes": 132725,
+          "calls_loss": true
+        },
+        "delta_nodes": 53383
+      },
+      {
+        "id": "Game09_W_ply127",
+        "historical_bad_move": "a6a7",
+        "base": {
+          "move": "d6c5",
+          "cp": -128,
+          "mate": null,
+          "nodes": 16772,
+          "calls_loss": false
+        },
+        "candidate": {
+          "move": "d6c5",
+          "cp": -128,
+          "mate": null,
+          "nodes": 18288,
+          "calls_loss": false
+        },
+        "delta_nodes": 1516
+      },
+      {
+        "id": "Game16_B_ply62",
+        "historical_bad_move": "c4c3",
+        "base": {
+          "move": "e6e5",
+          "cp": 288,
+          "mate": null,
+          "nodes": 15640,
+          "calls_loss": false
+        },
+        "candidate": {
+          "move": "e6e5",
+          "cp": 288,
+          "mate": null,
+          "nodes": 16604,
+          "calls_loss": false
+        },
+        "delta_nodes": 964
+      },
+      {
+        "id": "Game17_W_ply17",
+        "historical_bad_move": "d1f3",
+        "base": {
+          "move": "d1f3",
+          "cp": 67,
+          "mate": null,
+          "nodes": 2788051,
+          "calls_loss": false
+        },
+        "candidate": {
+          "move": "d1f3",
+          "cp": 67,
+          "mate": null,
+          "nodes": 7041277,
+          "calls_loss": false
+        },
+        "delta_nodes": 4253226
+      },
+      {
+        "id": "Game21_W_ply87",
+        "historical_bad_move": "h1h2",
+        "base": {
+          "move": "h1h2",
+          "cp": null,
+          "mate": -3,
+          "nodes": 2443,
+          "calls_loss": true
+        },
+        "candidate": {
+          "move": "h1h2",
+          "cp": null,
+          "mate": -3,
+          "nodes": 2473,
+          "calls_loss": true
+        },
+        "delta_nodes": 30
+      },
+      {
+        "id": "Game22_B_ply36",
+        "historical_bad_move": "c5f2",
+        "base": {
+          "move": "e4f2",
+          "cp": -32,
+          "mate": null,
+          "nodes": 247171,
+          "calls_loss": false
+        },
+        "candidate": {
+          "move": "e4f2",
+          "cp": -32,
+          "mate": null,
+          "nodes": 253904,
+          "calls_loss": false
+        },
+        "delta_nodes": 6733
+      },
+      {
+        "id": "Game25_W_ply49",
+        "historical_bad_move": "d4d5",
+        "base": {
+          "move": "g1g2",
+          "cp": 453,
+          "mate": null,
+          "nodes": 88032,
+          "calls_loss": false
+        },
+        "candidate": {
+          "move": "g1g2",
+          "cp": 453,
+          "mate": null,
+          "nodes": 88292,
+          "calls_loss": false
+        },
+        "delta_nodes": 260
+      },
+      {
+        "id": "Game26_B_ply30",
+        "historical_bad_move": "g2h2",
+        "base": {
+          "move": "g2g1",
+          "cp": -36,
+          "mate": null,
+          "nodes": 52464,
+          "calls_loss": false
+        },
+        "candidate": {
+          "move": "g2g1",
+          "cp": -36,
+          "mate": null,
+          "nodes": 52709,
+          "calls_loss": false
+        },
+        "delta_nodes": 245
+      },
+      {
+        "id": "Game27_W_ply29",
+        "historical_bad_move": "a2a3",
+        "base": {
+          "move": "e1e2",
+          "cp": 73,
+          "mate": null,
+          "nodes": 1938418,
+          "calls_loss": false
+        },
+        "candidate": {
+          "move": "e1e2",
+          "cp": 73,
+          "mate": null,
+          "nodes": 1971794,
+          "calls_loss": false
+        },
+        "delta_nodes": 33376
+      },
+      {
+        "id": "Game28_B_ply48",
+        "historical_bad_move": "h7h6",
+        "base": {
+          "move": "e8e5",
+          "cp": 120,
+          "mate": null,
+          "nodes": 63200,
+          "calls_loss": false
+        },
+        "candidate": {
+          "move": "e8e5",
+          "cp": 120,
+          "mate": null,
+          "nodes": 80436,
+          "calls_loss": false
+        },
+        "delta_nodes": 17236
+      },
+      {
+        "id": "Game30_B_ply26",
+        "historical_bad_move": "e7h4",
+        "base": {
+          "move": "c6e5",
+          "cp": 12,
+          "mate": null,
+          "nodes": 1633530,
+          "calls_loss": false
+        },
+        "candidate": {
+          "move": "c6e5",
+          "cp": 12,
+          "mate": null,
+          "nodes": 1799884,
+          "calls_loss": false
+        },
+        "delta_nodes": 166354
+      }
+    ]
+  }
+}
