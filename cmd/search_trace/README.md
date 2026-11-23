@@ -6,10 +6,12 @@ invisible quiet-check replies selected by `tools/kingzone/analyze.py` plus all
 trace hooks do not change evaluation, ordering, pruning, reductions, or qsearch
 rules.
 
+Generate the input CSV from the versioned run6 PGN using the [king-zone analyzer](../../tools/kingzone/README.md#setup-and-run). The examples below read its default example output path.
+
 ```bash
 go build -tags searchtrace -o /tmp/equinox-search-trace ./cmd/search_trace
 /tmp/equinox-search-trace \
-  -input /tmp/equinox-kingzone-tactical-run6-20260825.csv \
+  -input /tmp/kingzone-run6.csv \
   -output /tmp/equinox-search-trace-depth4-6-run6-20260825.json \
   -depths 4,6
 ```
@@ -19,7 +21,7 @@ Targeted counterfactuals require an explicit mode and exact case allowlist:
 ```bash
 target_cases=Game07_ply149,Game07_ply177,Game07_ply183,Game17_ply95,Game25_ply35,Game25_ply69,Game30_ply52
 /tmp/equinox-search-trace \
-  -input /tmp/equinox-kingzone-tactical-run6-20260825.csv \
+  -input /tmp/kingzone-run6.csv \
   -output /tmp/equinox-target-reply-plus-one.json \
   -depths 6 \
   -counterfactual-mode plus-one \
@@ -50,7 +52,7 @@ bridge case must also be the sole or one of the explicitly selected
 
 ```bash
 /tmp/equinox-search-trace \
-  -input /tmp/equinox-kingzone-tactical-run6-20260825.csv \
+  -input /tmp/kingzone-run6.csv \
   -output /tmp/equinox-target-bridge.json \
   -depths 6 \
   -counterfactual-mode full-depth \
@@ -72,7 +74,7 @@ an additional explicit flag:
 
 ```bash
 /tmp/equinox-search-trace \
-  -input /tmp/equinox-kingzone-tactical-run6-20260825.csv \
+  -input /tmp/kingzone-run6.csv \
   -output /tmp/equinox-target-nested-check-nolmr.json \
   -depths 6 \
   -counterfactual-mode full-depth \
@@ -98,7 +100,7 @@ observed links of one causal chain and nothing else:
 
 ```bash
 /tmp/equinox-search-trace \
-  -input /tmp/equinox-kingzone-tactical-run6-20260825.csv \
+  -input /tmp/kingzone-run6.csv \
   -output /tmp/equinox-target-nested-bridge-nofutility.json \
   -depths 6 \
   -counterfactual-mode full-depth \
@@ -123,7 +125,7 @@ normal depth in an isolated shadow:
 ```bash
 target_cases=Game07_ply149,Game07_ply177,Game07_ply183,Game17_ply95,Game25_ply35,Game25_ply69,Game30_ply52
 /tmp/equinox-search-trace \
-  -input /tmp/equinox-kingzone-tactical-run6-20260825.csv \
+  -input /tmp/kingzone-run6.csv \
   -output /tmp/equinox-d3-d1-chain-probe.json \
   -depths 6 \
   -counterfactual-mode full-depth \
@@ -143,7 +145,7 @@ coupled final-iteration candidate can be measured with:
 
 ```bash
 /tmp/equinox-search-trace \
-  -input /tmp/equinox-kingzone-tactical-run6-20260825.csv \
+  -input /tmp/kingzone-run6.csv \
   -output /tmp/equinox-general-d3-d1.json \
   -depths 6 \
   -counterfactual-mode full-depth \
@@ -163,7 +165,7 @@ The allowlist-free `D5D3D1CheckChain` experiment adds the outer depth-5 stage:
 
 ```bash
 /tmp/equinox-search-trace \
-  -input /tmp/equinox-kingzone-tactical-run6-20260825.csv \
+  -input /tmp/kingzone-run6.csv \
   -output /tmp/equinox-general-d5-d3-d1.json \
   -depths 6 \
   -general-d5-d3-d1-checks
@@ -184,7 +186,7 @@ diagnostic leave-one-out run:
 
 ```bash
 /tmp/equinox-search-trace \
-  -input /tmp/equinox-kingzone-tactical-run6-20260825.csv \
+  -input /tmp/kingzone-run6.csv \
   -output /tmp/equinox-d5-ablation-qe2-qh1.json \
   -depths 6 \
   -general-d5-d3-d1-checks \
@@ -207,7 +209,7 @@ that the normal final-iteration search really reduces at remaining depth 5:
 
 ```bash
 /tmp/equinox-search-trace \
-  -input /tmp/equinox-kingzone-tactical-run6-20260909.csv \
+  -input /tmp/kingzone-run6.csv \
   -output /tmp/equinox-d5-reduced-full-shadow.json \
   -depths 6 \
   -probe-d5-reduced-full
