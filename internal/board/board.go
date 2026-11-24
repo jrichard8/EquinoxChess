@@ -142,14 +142,8 @@ func NewBoard() *Board {
 }
 
 func (b *Board) updateOccupancies() {
-	var white Bitboard
-	for i := WhitePawn; i <= WhiteKing; i++ {
-		white |= b.Pieces[i]
-	}
-	var black Bitboard
-	for i := BlackPawn; i <= BlackKing; i++ {
-		black |= b.Pieces[i]
-	}
+	white := b.Pieces[WhitePawn] | b.Pieces[WhiteKnight] | b.Pieces[WhiteBishop] | b.Pieces[WhiteRook] | b.Pieces[WhiteQueen] | b.Pieces[WhiteKing]
+	black := b.Pieces[BlackPawn] | b.Pieces[BlackKnight] | b.Pieces[BlackBishop] | b.Pieces[BlackRook] | b.Pieces[BlackQueen] | b.Pieces[BlackKing]
 	b.OccupancyWhite = white
 	b.OccupancyBlack = black
 	b.OccupancyBoth = white | black

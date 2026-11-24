@@ -1,6 +1,7 @@
 package main
 
 import (
+	"strings"
 	"testing"
 	"time"
 
@@ -284,5 +285,22 @@ func TestFormatScoreUsesMateNotationForMateScores(t *testing.T) {
 				t.Fatalf("formatScore(%d) = %q, want %q", tt.score, got, tt.want)
 			}
 		})
+	}
+}
+
+func TestIterationBudgets(t *testing.T) {
+	for _, tc := range []struct {
+		fields             string
+		budget, soft, hard time.Duration
+	}{
+		{"go depth 6", 0, 0, 0},
+		{"go movetime 85", 85, 0, 85},
+		{"go wtime 12", 1, 0, 1},
+		{"go wtime 1000 winc 100", 85, 85, 170},
+	} {
+		soft, hard := iterationBudgets(strings.Fields(tc.fields), tc.budget*time.Millisecond)
+		if soft != tc.soft*time.Millisecond || hard != tc.hard*time.Millisecond {
+			t.Errorf("%s got %v/%v", tc.fields, soft, hard)
+		}
 	}
 }

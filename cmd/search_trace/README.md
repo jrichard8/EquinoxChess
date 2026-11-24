@@ -6,6 +6,15 @@ invisible quiet-check replies selected by `tools/kingzone/analyze.py` plus all
 trace hooks do not change evaluation, ordering, pruning, reductions, or qsearch
 rules.
 
+The current traversal tries the transposition-table move first below the root.
+Run both suites when changing the tracer. The second build reproduces the 1850
+move ordering for the archived run6 paths and their exact scores and node counts.
+
+```sh
+go test -tags searchtrace ./...
+go test -tags 'searchtrace trace1850' ./...
+```
+
 Generate the input CSV from the versioned run6 PGN using the [king-zone analyzer](../../tools/kingzone/README.md#setup-and-run). The examples below read its default example output path.
 
 ```bash

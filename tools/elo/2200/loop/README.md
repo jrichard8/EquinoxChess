@@ -1,6 +1,19 @@
 # Recherche du palier 2200+
 
-Référence de jeu `baseline-1850` (binaire UCI `e5daafe`, SHA-256 `1df5969e78f2ee42a7f980fb4b5043426dd928f527847e7af9cbe763bb8364ab`). Son repère indépendant à 2200 est de 51,43 % sur 384 parties. [Mesure et diagnostic précédents](../README.md)
+Référence au départ de la boucle : `baseline-1850` (binaire UCI `e5daafe`, SHA-256 `1df5969e78f2ee42a7f980fb4b5043426dd928f527847e7af9cbe763bb8364ab`). Son repère indépendant à 2200 est de 51,43 % sur 384 parties. [Mesure et diagnostic précédents](../README.md)
+
+## Confirmation du palier 2200+
+
+**60,16 % contre Stockfish 18 limité à 2200** sur les 384 ouvertures figées de `confirm-01.epd` à couleurs inversées (768 parties). Le score est de **430 V, 64 N, 274 D**. L’intervalle bilatéral de Hoeffding à 95 % par paire est de **53,23 % à 67,09 %**, soit un écart de **+71,6 Elo [+22,4 à +123,7]** par rapport au réglage adverse. Le critère annoncé avant les parties est franchi. Cette calibration concerne la cadence 1 s + 0,1 s, le matériel utilisé et cette distribution d’ouvertures. Le tag de qualification est `baseline-2200`.
+
+| Couleur du candidat | Victoires | Nulles | Défaites | Score |
+|---|---:|---:|---:|---:|
+| Blancs | 218 | 34 | 132 | 61,20 % |
+| Noirs | 212 | 30 | 142 | 59,11 % |
+
+Toutes les paires et tous les départs concordent avec l’EPD. Le candidat gagne les deux parties sur 116 ouvertures et perd les deux sur 45. Les deux moteurs terminent sans forfait, coup illégal, déconnexion ni plantage. Le binaire est identique à celui sélectionné face à la base 1850. L’essai utilise un Apple M4 Pro, cutechess-cli 1.4.0 et huit parties simultanées pour la confirmation. Au plus deux autres parties de développement tournaient en parallèle. Stockfish utilise un thread et 16 Mio de table. [768 parties](../../../../matches/elo2200/loop/interior-sf2200-confirm.pgn) · [Manifeste avec commandes et empreintes](../../../../matches/elo2200/loop/interior-sf2200-confirm.pgn.meta.json) · [Audit des paires](confirmation-audit.json)
+
+Les tests Go passent pour le moteur normal, le traceur de la version actuelle et le rejeu des mesures historiques avec les tags `searchtrace trace1850`. Le contrôle de concurrence UCI et `go vet` passent. Les deux constructions normales `13800c8` et `84b4d38` (intégration des tests historiques) reproduisent coup, score et nœuds sur les 77 positions en UCI.
 
 ## Décision
 

@@ -1,6 +1,7 @@
 package search
 
 import (
+	"math/bits"
 	"time"
 
 	"EquinoxChess/internal/board"
@@ -169,8 +170,11 @@ func (s *Search) Negamax(b *board.Board, depth int, alpha int, beta int) int {
 	legalSeen := 0
 	targetProcessed := false
 	for i := 0; i < count; i++ {
-		bestIdx := selectBestMove(s, &moves, i, count)
-		moves[i], moves[bestIdx] = moves[bestIdx], moves[i]
+		preferred := !trace1850Ordering && i == 0 && s.Ply > 0 && ttMove != 0 && moves[i] == ttMove
+		if !preferred {
+			bestIdx := selectBestMove(s, &moves, i, count)
+			moves[i], moves[bestIdx] = moves[bestIdx], moves[i]
+		}
 
 		m := moves[i]
 		// Store current ply before incrementing for child search
@@ -572,6 +576,7 @@ func (s *Search) SearchRoot(b *board.Board, maxDepth int) (uint32, int, int, uin
 	}
 
 	prevScore := -Infinity
+	stableIterations := 0
 	for depth := 1; depth <= maxDepth; depth++ {
 		alpha := -Infinity
 		beta := Infinity
@@ -597,6 +602,11 @@ func (s *Search) SearchRoot(b *board.Board, maxDepth int) (uint32, int, int, uin
 			break
 		}
 
+		if s.PVMove[0] == bestMove && score >= prevScore-40 && score <= prevScore+40 {
+			stableIterations++
+		} else {
+			stableIterations = 0
+		}
 		prevScore = score
 		bestScore = score
 		bestDepth = depth
@@ -604,6 +614,15 @@ func (s *Search) SearchRoot(b *board.Board, maxDepth int) (uint32, int, int, uin
 			bestMove = s.PVMove[0]
 		}
 		s.DecayHistory()
+		if s.SoftTimeLimit > 0 {
+			budget := s.SoftTimeLimit
+			if stableIterations >= 2 {
+				budget = budget * 2 / 3
+			}
+			if time.Since(s.StartTime) >= budget {
+				break
+			}
+		}
 	}
 
 	return bestMove, bestScore, bestDepth, s.Nodes
@@ -648,6 +667,17 @@ func (s *Search) Quiescence(b *board.Board, alpha int, beta int) int {
 		event.InCheck = inCheck
 		s.appendTrace(event)
 	}
+	// Outside check, an unpinned pawn push rules out stalemate. A fail-high
+	// then needs neither move generation nor a make/unmake legality probe.
+	// Traces still enumerate every move so their generated indices stay exact.
+	pawnPush := !inCheck && hasUnpinnedPawnPush(b)
+	standPat := 0
+	if pawnPush && (!searchTraceCompiled || s.Trace == nil) {
+		standPat = Evaluate(b)
+		if standPat >= beta {
+			return beta
+		}
+	}
 	var moves [movegen.MaxMoves]uint32
 	count := movegen.GeneratePseudoLegalMoves(b, &moves)
 	targetPseudoIndex := -1
@@ -662,15 +692,16 @@ func (s *Search) Quiescence(b *board.Board, alpha int, beta int) int {
 		s.appendTrace(event)
 	}
 
-	if !inCheck && !hasAnyLegalMove(b, &moves, count) {
+	if !inCheck && !pawnPush && !hasAnyLegalMove(b, &moves, count) {
 		s.setTraceLeafAt(s.Ply, DrawScore, "qsearch_stalemate")
 		return DrawScore
 	}
 
 	// When in check, we must search all evasions and cannot use stand-pat
-	standPat := 0
 	if !inCheck {
-		standPat = Evaluate(b)
+		if !pawnPush || (searchTraceCompiled && s.Trace != nil) {
+			standPat = Evaluate(b)
+		}
 		s.considerTraceStandPat(s.Ply, standPat)
 		if standPat >= beta {
 			if event, ok := s.newTraceEvent("quiescence", "stand_pat_cutoff", 0, alpha, beta); ok {
@@ -815,6 +846,9 @@ func (s *Search) Quiescence(b *board.Board, alpha int, beta int) int {
 }
 
 func (s *Search) scoreTerminalChild(b *board.Board) (int, bool) {
+	if hasUnpinnedPawnPush(b) && !InCheck(b) {
+		return 0, false
+	}
 	var childMoves [movegen.MaxMoves]uint32
 	childCount := movegen.GeneratePseudoLegalMoves(b, &childMoves)
 	if hasAnyLegalMove(b, &childMoves, childCount) {
@@ -824,6 +858,30 @@ func (s *Search) scoreTerminalChild(b *board.Board) (int, bool) {
 		return MateScore - s.Ply, true
 	}
 	return DrawScore, true
+}
+
+// Moving straight up the king's file cannot open that file. A pawn on
+// another rank and neither diagonal cannot expose an enemy slider either.
+var pawnPushSourceMask [64]board.Bitboard
+
+func init() {
+	for sq := range pawnPushSourceMask {
+		rank := board.Bitboard(0xff) << (sq &^ 7)
+		pawnPushSourceMask[sq] = ^(rank | board.BishopTargets(sq, 0))
+	}
+}
+
+// Callers separately verify that the moving king is not currently in check.
+func hasUnpinnedPawnPush(b *board.Board) bool {
+	pawns := b.Pieces[board.WhitePawn]
+	king := b.Pieces[board.WhiteKing]
+	destinations := ^b.OccupancyBoth >> 8
+	if b.SideToMove == board.Black {
+		pawns = b.Pieces[board.BlackPawn]
+		king = b.Pieces[board.BlackKing]
+		destinations = ^b.OccupancyBoth << 8
+	}
+	return king != 0 && pawns&destinations&pawnPushSourceMask[bits.TrailingZeros64(uint64(king))] != 0
 }
 
 func hasAnyLegalMove(b *board.Board, moves *[movegen.MaxMoves]uint32, count int) bool {

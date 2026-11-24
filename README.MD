@@ -1,8 +1,8 @@
 # EquinoxChess
 
-EquinoxChess est un moteur d’échecs classique écrit en Go. Il se joue dans une interface compatible UCI ou dans le navigateur. À 1 seconde + 0,1 seconde par coup, la version du 24 novembre 2026 obtient 74,09 % sur 384 parties contre Stockfish 18 réglé à 1850. Le bilan de reprise conserve la référence de septembre et les résultats des versions successives. [Calibration, intervalles et parties](tools/elo/1850/README.md) · [Bilan du projet](status.md)
+EquinoxChess est un moteur d’échecs classique écrit en Go, jouable en UCI et dans le navigateur. **La base `baseline-2200` marque 60,16 % contre Stockfish 18 réglé à 2200**, à 1 seconde + 0,1 seconde par coup. Sur 384 ouvertures indépendantes jouées dans les deux couleurs, elle obtient 430 victoires, 64 nulles et 274 défaites. L’écart estimé à cette cadence est de +71,6 Elo [IC 95 % +22,4 à +123,7]. [Qualification et parties](tools/elo/2200/loop/README.md#confirmation-du-palier-2200) · [Bilan du projet](status.md)
 
-La base de développement est `baseline-1850`. Sa première mesure indépendante contre Stockfish 2200 donne 51,43 % sur 384 parties à la même cadence. [Diagnostic des défaites et prochaine amélioration](tools/elo/2200/README.md)
+La version précédente `baseline-1850` reste disponible pour les comparaisons. Le match direct donne 69,01 % à la nouvelle base sur 384 parties. [Qualification 1850](tools/elo/1850/README.md) · [Première mesure à 2200](tools/elo/2200/README.md)
 
 ## Jouer dans le navigateur
 
@@ -44,6 +44,7 @@ Le moteur accepte aussi une position FEN, un temps par coup (`go movetime 500`) 
 ```sh
 go test ./...
 go test -tags searchtrace ./...
+go test -tags 'searchtrace trace1850' ./...
 ```
 
 - [Guide de développement](docs/developpement.md) — architecture, conventions et contrôles à exécuter selon le changement.

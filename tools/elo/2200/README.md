@@ -2,6 +2,8 @@
 
 Le tag `baseline-1850` pointe sur `536e375`, avec le code de jeu de `e5daafe`. La mesure emploie l’exécutable qualifié contre SF1850, SHA-256 `1df5969e78f2ee42a7f980fb4b5043426dd928f527847e7af9cbe763bb8364ab`. Septembre reste disponible à `819a8d5` pour les comparaisons historiques. [Qualification 1850+](../1850/README.md)
 
+La boucle suivante aboutit à la qualification de `baseline-2200`. [Essais, défaites et match indépendant](loop/README.md#confirmation-du-palier-2200)
+
 ## Mesure du 24 novembre 2026
 
 **51,43 % contre Stockfish 2200**, soit 182 victoires, 31 nulles et 171 défaites. L’écart est de **+10,0 Elo**, avec un intervalle bilatéral à 95 % de **−58,7 à +79,4**. La référence joue près de l’équilibre à cette cadence. La borne basse laisse le jalon 2200 ouvert. Le précédent repère sur les 64 ouvertures v2 donnait 56,25 %. Les deux lots sont lus séparément.
@@ -23,7 +25,7 @@ L’arbitrage trouve **92 défaites** avec un coup qui fait passer d’une posit
 - Dans **71 autres défaites**, on observe un franchissement du seuil −200 cp de moindre ampleur, sans bascule stricte. À ce premier passage, l’alternative vaut déjà moins de −100 cp dans 66 cas. En médiane, l’arbitre donne −152 cp au meilleur coup et −239 cp au coup joué.
 - Pour les **8 dernières**, l’arbitre évalue déjà la position à −200 cp ou moins lors d’au moins une décision, sans identifier un coup d’Equinox franchissant le seuil dans les conditions fixées. L’attribution à un coup unique reste ouverte. [Analyse par défaite, positions et variantes](losses.json)
 
-## Prochaine amélioration retenue
+## Hypothèse retenue après cette mesure
 
 **Essayer en match la priorité effective au coup mémorisé.** À la racine, la variante principale de l’itération précédente prime lorsqu’elle est disponible. Aux autres nœuds, le coup de la table de transposition prime lorsqu’il est disponible. Le changement consiste à essayer ce coup avant d’appliquer le tri habituel aux autres coups. Aujourd’hui le moteur le déplace en première case puis `selectBestMove` peut immédiatement le déloger. Dans 7 des 8 cas où la table de la racine contenait la défense de référence au dernier passage observé, cette défense a été essayée après un autre coup. [Ordre actuel dans Negamax](../../../internal/search/search.go)
 
