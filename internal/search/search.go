@@ -87,7 +87,7 @@ func (s *Search) Negamax(b *board.Board, depth int, alpha int, beta int) int {
 	}
 
 	inCheck := InCheck(b)
-	if depth >= 5 && !inCheck && hasNonPawnMaterial(b, b.SideToMove) && beta < MateScore-1000 {
+	if s.Ply > 0 && depth >= 5 && !inCheck && hasNonPawnMaterial(b, b.SideToMove) && beta < MateScore-1000 {
 		R := 2
 		if depth > R+1 {
 			if event, ok := s.newTraceEvent("negamax", "null_search", depth, alpha, beta); ok {
@@ -105,7 +105,12 @@ func (s *Search) Negamax(b *board.Board, depth int, alpha int, beta int) int {
 				return alpha
 			}
 			if score >= beta {
-				verify := -s.Negamax(b, depth-1, -beta, -alpha)
+				// Unmaking the null move restores our side to move. Verify
+				// the lower bound from that same perspective.
+				verify := s.Negamax(b, depth-1, beta-1, beta)
+				if s.Stop.Load() {
+					return alpha
+				}
 				if verify >= beta {
 					if event, ok := s.newTraceEvent("negamax", "null_cutoff", depth, alpha, beta); ok {
 						event.InCheck = inCheck
