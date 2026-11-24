@@ -327,38 +327,29 @@ func countMobility(b *board.Board, side int) int {
 	return mobility
 }
 
-func isPassedPawn(b *board.Board, sq int, side int) bool {
-	file := sq % 8
-	rank := sq / 8
-	var enemyPawns board.Bitboard
-	if side == board.White {
-		enemyPawns = b.Pieces[board.BlackPawn]
-		for r := rank + 1; r < 8; r++ {
-			for df := -1; df <= 1; df++ {
-				f := file + df
-				if f < 0 || f > 7 {
-					continue
-				}
-				checkSq := r*8 + f
-				if enemyPawns&(board.Bitboard(1)<<checkSq) != 0 {
-					return false
-				}
-			}
+// A passed pawn has no enemy pawn ahead on its own or either adjacent file.
+var passedPawnMasks [2][64]board.Bitboard
+
+func init() {
+	for square := 0; square < 64; square++ {
+		file := square % 8
+		files := uint64(0x0101010101010101) << file
+		if file > 0 {
+			files |= uint64(0x0101010101010101) << (file - 1)
 		}
-		return true
-	}
-	enemyPawns = b.Pieces[board.WhitePawn]
-	for r := rank - 1; r >= 0; r-- {
-		for df := -1; df <= 1; df++ {
-			f := file + df
-			if f < 0 || f > 7 {
-				continue
-			}
-			checkSq := r*8 + f
-			if enemyPawns&(board.Bitboard(1)<<checkSq) != 0 {
-				return false
-			}
+		if file < 7 {
+			files |= uint64(0x0101010101010101) << (file + 1)
 		}
+		rank := square / 8
+		passedPawnMasks[board.White][square] = board.Bitboard(files & (^uint64(0) << ((rank + 1) * 8)))
+		passedPawnMasks[board.Black][square] = board.Bitboard(files & ((uint64(1) << (rank * 8)) - 1))
 	}
-	return true
+}
+
+func isPassedPawn(b *board.Board, square, side int) bool {
+	enemy := board.BlackPawn
+	if side == board.Black {
+		enemy = board.WhitePawn
+	}
+	return b.Pieces[enemy]&passedPawnMasks[side][square] == 0
 }

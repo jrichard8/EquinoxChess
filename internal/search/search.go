@@ -666,8 +666,9 @@ func (s *Search) Quiescence(b *board.Board, alpha int, beta int) int {
 	}
 
 	// When in check, we must search all evasions and cannot use stand-pat
+	standPat := 0
 	if !inCheck {
-		standPat := Evaluate(b)
+		standPat = Evaluate(b)
 		s.considerTraceStandPat(s.Ply, standPat)
 		if standPat >= beta {
 			if event, ok := s.newTraceEvent("quiescence", "stand_pat_cutoff", 0, alpha, beta); ok {
@@ -710,7 +711,6 @@ func (s *Search) Quiescence(b *board.Board, alpha int, beta int) int {
 		}
 		if !inCheck && !move.IsPromotion(m) {
 			captured := move.CapturedPiece(m)
-			standPat := Evaluate(b)
 			optimisticScore := standPat + pieceValues[captured] + 200
 			if optimisticScore <= alpha {
 				if event, ok := s.newTraceEvent("quiescence", "delta_pruned", 0, alpha, beta); ok && m == event.TargetMove {
