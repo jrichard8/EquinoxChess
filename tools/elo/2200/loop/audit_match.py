@@ -27,6 +27,8 @@ def audit(pgn, openings):
     games = set()
     by_color = defaultdict(Counter)
     depths = defaultdict(list)
+    pair_points = Counter()
+    abnormal_rounds = set()
     with pgn.open() as stream:
         while (game := chess.pgn.read_game(stream)) is not None:
             round_no = int(game.headers["Round"])
@@ -43,6 +45,10 @@ def audit(pgn, openings):
             if result not in ("1-0", "0-1", "1/2-1/2"):
                 raise ValueError(f"Unfinished round {round_no}")
             by_color["white" if white == a else "black"][result] += 1
+            white_points = {"1-0": 1, "1/2-1/2": 0.5, "0-1": 0}[result]
+            pair_points[round_no] += white_points if white == a else 1 - white_points
+            if game.headers.get("Termination", "").strip().lower() not in ("", "normal"):
+                abnormal_rounds.add(round_no)
             for i, node in enumerate(game.mainline()):
                 # Cutechess writes {score/depth 0.123s}; depth is absent for book moves.
                 first = node.comment.split(maxsplit=1)
@@ -52,8 +58,11 @@ def audit(pgn, openings):
                         depths[white if i % 2 == 0 else black].append(int(depth))
     if len(games) != 2*count:
         raise ValueError("Missing games")
+    clean = [score for n, score in pair_points.items() if n not in abnormal_rounds]
     return dict(games=len(games), pairs=count, opening_order_and_colors_verified=True,
-                results_by_color_of_a=by_color, median_depth={k: median(v) for k, v in depths.items()})
+                results_by_color_of_a=by_color, pairs_by_points_of_a=dict(sorted(Counter(pair_points.values()).items())),
+                abnormal_rounds=sorted(abnormal_rounds), score_excluding_abnormal_pairs=sum(clean)/(2*len(clean)) if clean else None,
+                median_depth={k: median(v) for k, v in depths.items()})
 
 
 if __name__ == "__main__":
