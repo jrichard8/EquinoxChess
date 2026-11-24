@@ -8,6 +8,8 @@ Le seuil de travail est un score supérieur à 50 % contre Stockfish 18 réglé 
 - Vérifier v1, v2 et les 13 canaris du run6 à profondeur 6. Pour confirmer la configuration complète, exiger un gain direct contre septembre selon l’intervalle du projet, la conservation des coups de référence déjà trouvés et la réussite des tests.
 - Tester une seule configuration retenue sur les **192 nouvelles ouvertures** de ce dossier contre Stockfish 1850. Jouer les 384 parties et calculer l’intervalle sur les 192 paires, sans arrêt anticipé. Garder ce résultat distinct des matchs de sélection.
 
+Le duel du tri des prises contre la version déjà accélérée donne 66,41 % sur 64 paires, avec un intervalle de −4 à +280 Elo. Pour isoler sa contribution, un second duel utilise les **128 premières ouvertures** du nouveau lot (256 parties, arrêt fixé avant le premier coup). Les deux duels seront lus séparément. Le repère contre Stockfish 2200 reprend les 64 ouvertures v2.
+
 ## Origine des ouvertures
 
 La suite a été figée dans `b971f8c` avant sa première partie avec Equinox. Le générateur part de la position initiale, joue huit demi-coups et choisit parmi cinq variantes de Stockfish à 3 000 nœuds restant à 60 cp du meilleur coup. Une vérification à 16 000 nœuds garde les positions entre −60 et +60 cp. La graine est 18502200. Le générateur rejette les positions finales déjà présentes dans la suite précédente ou dans ce lot, en ignorant les deux compteurs FEN. Plusieurs lignes peuvent appartenir à la même famille d’ouvertures.
