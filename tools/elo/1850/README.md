@@ -13,6 +13,7 @@ Le seuil de travail est un score supérieur à 50 % contre Stockfish 18 réglé 
 | Évaluation accélérée – SF1850 | 64 | 90–4–34 | 71,88 % | +163,0 [+34,1 ; +360,6] |
 | Candidat complet – septembre | 64 | 111–14–3 | 92,19 % | +428,8 [+192,8 ; +∞] |
 | Candidat complet – évaluation accélérée | 64 | 66–38–24 | 66,41 % | +118,4 [−4,0 ; +280,2] |
+| Candidat complet – évaluation accélérée, confirmation | 128 | 144–70–42 | 69,92 % | +146,5 [+55,5 ; +262,5] |
 | **Candidat complet – SF1850, confirmation** | **192** | **277–15–92** | **74,09 %** | **+182,5 [+102,1 ; +286,6]** |
 | Candidat complet – SF2200 | 64 | 66–12–50 | 56,25 % | +43,7 [−75,7 ; +174,8] |
 
@@ -20,7 +21,7 @@ Dans le duel contre septembre, la profondeur médiane du premier coup hors ouver
 
 Les PGN et leurs manifestes contiennent les ouvertures, les noms, les résultats, la cadence et les empreintes vérifiées. Les révisions moteur sont `819a8d5` (septembre), `8a1a440` (mobilité seule, chronométrée), `4ac0eea` (évaluation accélérée) et `e5daafe` (candidat complet). Le commit `45f257e` adapte les compteurs de nœuds attendus par les tests du traceur et ajoute un test du tri des captures. Les assertions sur les coups, scores, profondeurs, chemins et non-interférence du traceur passent. [Parties et manifestes](../../../matches/elo1850/) · [PGN de confirmation à 1850](../../../matches/elo1850/capt-sf1850-holdout.pgn)
 
-Les matchs ont été joués sur un Apple M4 Pro, six parties simultanées pour les matchs principaux, trois pour le premier duel entre candidats et le repère 2200, avec un maximum de neuf simultanées entre les matchs. Le moteur Equinox cherche sur un thread. Chaque Stockfish utilise un thread et 16 Mio de table. Les intervalles sont ceux du calcul par paire du projet. La borne supérieure peut être infinie quand la borne de score atteint 100 %.
+Les huit matchs totalisent 1 408 parties, sans forfait au temps, coup illégal, déconnexion ni plantage. Les matchs ont été joués sur un Apple M4 Pro, six parties simultanées pour les matchs principaux, trois pour le premier duel entre candidats et le repère 2200, avec un maximum de neuf simultanées entre les matchs. Le moteur Equinox cherche sur un thread. Chaque Stockfish utilise un thread et 16 Mio de table. Les intervalles sont ceux du calcul par paire du projet. La borne supérieure peut être infinie quand la borne de score atteint 100 %.
 
 ## Sélection et confirmation
 
@@ -28,7 +29,7 @@ Les matchs ont été joués sur un Apple M4 Pro, six parties simultanées pour l
 - Vérifier v1, v2 et les 13 canaris du run6 à profondeur 6. Pour confirmer la configuration complète, exiger un gain direct contre septembre selon l’intervalle du projet, la conservation des coups de référence déjà trouvés et la réussite des tests.
 - Tester une seule configuration retenue sur les **192 nouvelles ouvertures** de ce dossier contre Stockfish 1850. Jouer les 384 parties et calculer l’intervalle sur les 192 paires, sans arrêt anticipé. Garder ce résultat distinct des matchs de sélection.
 
-Le duel du tri des prises contre la version déjà accélérée donne 66,41 % sur 64 paires, avec un intervalle de −4 à +280 Elo. Pour isoler sa contribution, un second duel utilise les **128 premières ouvertures** du nouveau lot (256 parties, arrêt fixé avant le premier coup). Les deux duels seront lus séparément. Le repère contre Stockfish 2200 reprend les 64 ouvertures v2.
+Le duel du tri des prises contre la version déjà accélérée donne 66,41 % sur 64 paires, avec un intervalle de −4 à +280 Elo. Pour isoler sa contribution, un second duel utilise les **128 premières ouvertures** du nouveau lot (256 parties, arrêt fixé avant le premier coup). Sur ce second duel, le tri apporte un gain confirmé de +146,5 Elo à cette cadence (IC 95 % de +55,5 à +262,5). Les deux duels sont analysés séparément. Le repère contre Stockfish 2200 reprend les 64 ouvertures v2.
 
 ## Origine des ouvertures
 
