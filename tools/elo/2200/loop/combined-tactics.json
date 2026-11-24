@@ -1,0 +1,628 @@
+{
+  "binary": {
+    "sha256": "6e88aadccf1b45554f08f08b569740ae50c978ae41f5436f80efb589fba63363",
+    "go": "go1.26.2",
+    "revision": "b1a844f4d5d98d4ef655f0ff47ced7951cb3e977",
+    "modified": false,
+    "os": "darwin",
+    "arch": "arm64"
+  },
+  "trace_sha256": "f7ff51f64410c2ffd73e12ef6eb49f87c611c34967c626522c3c8abb5253cfe3",
+  "fixtures_sha256": [
+    "48c8d552911f14c44b9cab08de4b7beb8113a545567ffd07adfc455e6a50545f",
+    "9fa139fb0f623ce7ed5c6052ded2df9ffa0598b14642072699c1660485305d22",
+    "1db1ea628d54f8c37cf591740e1a1f78a379ddc87a06573efe8a05f000073b3d"
+  ],
+  "depth": 6,
+  "cases": {
+    "v1": {
+      "G01-p44": {
+        "move": "d7d5",
+        "cp": 356,
+        "mate": null,
+        "nodes": 19539,
+        "matches_reference": true,
+        "calls_loss": false
+      },
+      "G02-p57": {
+        "move": "e1e6",
+        "cp": 113,
+        "mate": null,
+        "nodes": 76967,
+        "matches_reference": true,
+        "calls_loss": false
+      },
+      "G04-p38": {
+        "move": "e5e1",
+        "cp": -95,
+        "mate": null,
+        "nodes": 31004,
+        "matches_reference": true,
+        "calls_loss": false
+      },
+      "G05-p37": {
+        "move": "f1e1",
+        "cp": -61,
+        "mate": null,
+        "nodes": 18565,
+        "matches_reference": true,
+        "calls_loss": false
+      },
+      "G07-p56": {
+        "move": "c8d8",
+        "cp": 251,
+        "mate": null,
+        "nodes": 29083,
+        "matches_reference": true,
+        "calls_loss": false
+      },
+      "G08-p43": {
+        "move": "c1b2",
+        "cp": 520,
+        "mate": null,
+        "nodes": 43045,
+        "matches_reference": true,
+        "calls_loss": false
+      },
+      "G09-p21": {
+        "move": "b2c3",
+        "cp": -75,
+        "mate": null,
+        "nodes": 45560,
+        "matches_reference": true,
+        "calls_loss": false
+      },
+      "G11-p20": {
+        "move": "b6a5",
+        "cp": 42,
+        "mate": null,
+        "nodes": 47091,
+        "matches_reference": true,
+        "calls_loss": false
+      },
+      "G12-p67": {
+        "move": "c3e4",
+        "cp": 406,
+        "mate": null,
+        "nodes": 5296,
+        "matches_reference": true,
+        "calls_loss": false
+      },
+      "G14-p36": {
+        "move": "a8e8",
+        "cp": -381,
+        "mate": null,
+        "nodes": 40495,
+        "matches_reference": true,
+        "calls_loss": true
+      },
+      "G15-p33": {
+        "move": "h4d8",
+        "cp": -293,
+        "mate": null,
+        "nodes": 40001,
+        "matches_reference": true,
+        "calls_loss": false
+      },
+      "G16-p56": {
+        "move": "f8f7",
+        "cp": -583,
+        "mate": null,
+        "nodes": 9217,
+        "matches_reference": true,
+        "calls_loss": true
+      },
+      "G17-p52": {
+        "move": "b6b4",
+        "cp": 170,
+        "mate": null,
+        "nodes": 19598,
+        "matches_reference": true,
+        "calls_loss": false
+      },
+      "G18-p26": {
+        "move": "f8f7",
+        "cp": -293,
+        "mate": null,
+        "nodes": 45975,
+        "matches_reference": true,
+        "calls_loss": false
+      },
+      "G19-p39": {
+        "move": "d3e4",
+        "cp": -409,
+        "mate": null,
+        "nodes": 31609,
+        "matches_reference": true,
+        "calls_loss": true
+      },
+      "G20-p17": {
+        "move": "c3a4",
+        "cp": 132,
+        "mate": null,
+        "nodes": 47296,
+        "matches_reference": true,
+        "calls_loss": false
+      },
+      "G21-p56": {
+        "move": "a2a1",
+        "cp": 462,
+        "mate": null,
+        "nodes": 12373,
+        "matches_reference": true,
+        "calls_loss": false
+      },
+      "G22-p63": {
+        "move": "c3c8",
+        "cp": 311,
+        "mate": null,
+        "nodes": 16143,
+        "matches_reference": true,
+        "calls_loss": false
+      },
+      "G24-p41": {
+        "move": "b7c5",
+        "cp": 386,
+        "mate": null,
+        "nodes": 39306,
+        "matches_reference": true,
+        "calls_loss": false
+      },
+      "G25-p17": {
+        "move": "b5d7",
+        "cp": -4,
+        "mate": null,
+        "nodes": 26643,
+        "matches_reference": true,
+        "calls_loss": false
+      },
+      "G27-p22": {
+        "move": "e7d6",
+        "cp": -28,
+        "mate": null,
+        "nodes": 72937,
+        "matches_reference": true,
+        "calls_loss": false
+      },
+      "G29-p41": {
+        "move": "d2c3",
+        "cp": -291,
+        "mate": null,
+        "nodes": 36224,
+        "matches_reference": true,
+        "calls_loss": false
+      },
+      "G36-p22": {
+        "move": "c6b8",
+        "cp": -222,
+        "mate": null,
+        "nodes": 11379,
+        "matches_reference": true,
+        "calls_loss": false
+      },
+      "G38-p64": {
+        "move": "g8h7",
+        "cp": -330,
+        "mate": null,
+        "nodes": 12010,
+        "matches_reference": true,
+        "calls_loss": true
+      },
+      "G47-p31": {
+        "move": "a1b1",
+        "cp": -204,
+        "mate": null,
+        "nodes": 14311,
+        "matches_reference": true,
+        "calls_loss": false
+      },
+      "G50-p44": {
+        "move": "c6f6",
+        "cp": -396,
+        "mate": null,
+        "nodes": 28392,
+        "matches_reference": true,
+        "calls_loss": true
+      },
+      "G52-p24": {
+        "move": "c8c6",
+        "cp": -343,
+        "mate": null,
+        "nodes": 33677,
+        "matches_reference": true,
+        "calls_loss": true
+      },
+      "G57-p59": {
+        "move": "f2e1",
+        "cp": -145,
+        "mate": null,
+        "nodes": 5176,
+        "matches_reference": true,
+        "calls_loss": false
+      },
+      "G61-p57": {
+        "move": "d5f4",
+        "cp": -521,
+        "mate": null,
+        "nodes": 22048,
+        "matches_reference": true,
+        "calls_loss": true
+      },
+      "G62-p66": {
+        "move": "g8f8",
+        "cp": -467,
+        "mate": null,
+        "nodes": 8191,
+        "matches_reference": true,
+        "calls_loss": true
+      },
+      "G70-p29": {
+        "move": "d1d4",
+        "cp": -364,
+        "mate": null,
+        "nodes": 18359,
+        "matches_reference": true,
+        "calls_loss": true
+      },
+      "G77-p66": {
+        "move": "g3f3",
+        "cp": -450,
+        "mate": null,
+        "nodes": 11499,
+        "matches_reference": true,
+        "calls_loss": true
+      }
+    },
+    "v2": {
+      "00Nhl": {
+        "move": "h8h7",
+        "cp": -120,
+        "mate": null,
+        "nodes": 22077,
+        "matches_reference": false,
+        "calls_loss": false
+      },
+      "0Np2W": {
+        "move": "g2d2",
+        "cp": 143,
+        "mate": null,
+        "nodes": 12825,
+        "matches_reference": false,
+        "calls_loss": false
+      },
+      "0N0N9": {
+        "move": "h3d3",
+        "cp": -137,
+        "mate": null,
+        "nodes": 75902,
+        "matches_reference": false,
+        "calls_loss": false
+      },
+      "0CxjC": {
+        "move": "f2a2",
+        "cp": 17,
+        "mate": null,
+        "nodes": 21301,
+        "matches_reference": false,
+        "calls_loss": false
+      },
+      "0MtiM": {
+        "move": "d7e5",
+        "cp": -22,
+        "mate": null,
+        "nodes": 73146,
+        "matches_reference": true,
+        "calls_loss": false
+      },
+      "0YrIF": {
+        "move": "c1c2",
+        "cp": -49,
+        "mate": null,
+        "nodes": 13246,
+        "matches_reference": false,
+        "calls_loss": false
+      },
+      "00Ksk": {
+        "move": "d2b2",
+        "cp": 140,
+        "mate": null,
+        "nodes": 15901,
+        "matches_reference": false,
+        "calls_loss": false
+      },
+      "01Qnk": {
+        "move": "d6f4",
+        "cp": -361,
+        "mate": null,
+        "nodes": 97412,
+        "matches_reference": false,
+        "calls_loss": true
+      },
+      "0LUmS": {
+        "move": "c3e4",
+        "cp": 87,
+        "mate": null,
+        "nodes": 38737,
+        "matches_reference": true,
+        "calls_loss": false
+      },
+      "0X38g": {
+        "move": "f1f2",
+        "cp": 35,
+        "mate": null,
+        "nodes": 47801,
+        "matches_reference": false,
+        "calls_loss": false
+      },
+      "0bZsE": {
+        "move": "e5e4",
+        "cp": 209,
+        "mate": null,
+        "nodes": 30554,
+        "matches_reference": true,
+        "calls_loss": false
+      },
+      "0WoMT": {
+        "move": "h2g2",
+        "cp": -206,
+        "mate": null,
+        "nodes": 78842,
+        "matches_reference": false,
+        "calls_loss": false
+      },
+      "08xLb": {
+        "move": "f8d7",
+        "cp": 99,
+        "mate": null,
+        "nodes": 32895,
+        "matches_reference": true,
+        "calls_loss": false
+      },
+      "0ImFe": {
+        "move": "g5e7",
+        "cp": -58,
+        "mate": null,
+        "nodes": 26062,
+        "matches_reference": false,
+        "calls_loss": false
+      },
+      "0YJcm": {
+        "move": "e4f5",
+        "cp": 76,
+        "mate": null,
+        "nodes": 2504,
+        "matches_reference": false,
+        "calls_loss": false
+      },
+      "00MBF": {
+        "move": "g3g4",
+        "cp": 61,
+        "mate": null,
+        "nodes": 44280,
+        "matches_reference": false,
+        "calls_loss": false
+      },
+      "03Cdz": {
+        "move": "e2f3",
+        "cp": -80,
+        "mate": null,
+        "nodes": 112424,
+        "matches_reference": true,
+        "calls_loss": false
+      },
+      "0S9s5": {
+        "move": "e4c3",
+        "cp": -296,
+        "mate": null,
+        "nodes": 65681,
+        "matches_reference": false,
+        "calls_loss": false
+      },
+      "03xt2": {
+        "move": "c2e2",
+        "cp": 346,
+        "mate": null,
+        "nodes": 28760,
+        "matches_reference": true,
+        "calls_loss": false
+      },
+      "0JLoe": {
+        "move": "f5f6",
+        "cp": 32,
+        "mate": null,
+        "nodes": 4034,
+        "matches_reference": false,
+        "calls_loss": false
+      },
+      "07dIM": {
+        "move": "d7a4",
+        "cp": -12,
+        "mate": null,
+        "nodes": 20299,
+        "matches_reference": false,
+        "calls_loss": false
+      },
+      "0BwJ2": {
+        "move": "b4b3",
+        "cp": 148,
+        "mate": null,
+        "nodes": 6134,
+        "matches_reference": false,
+        "calls_loss": false
+      },
+      "0afCF": {
+        "move": "c2a2",
+        "cp": -292,
+        "mate": null,
+        "nodes": 40524,
+        "matches_reference": true,
+        "calls_loss": false
+      },
+      "0SEVH": {
+        "move": "f3e4",
+        "cp": 351,
+        "mate": null,
+        "nodes": 20589,
+        "matches_reference": true,
+        "calls_loss": false
+      },
+      "0e34j": {
+        "move": "d4c6",
+        "cp": 38,
+        "mate": null,
+        "nodes": 58296,
+        "matches_reference": true,
+        "calls_loss": false
+      },
+      "0Pfb0": {
+        "move": "e5g3",
+        "cp": 91,
+        "mate": null,
+        "nodes": 103784,
+        "matches_reference": false,
+        "calls_loss": false
+      },
+      "08mtC": {
+        "move": "h8d8",
+        "cp": -7,
+        "mate": null,
+        "nodes": 45042,
+        "matches_reference": true,
+        "calls_loss": false
+      },
+      "0WHs3": {
+        "move": "c4d2",
+        "cp": 13,
+        "mate": null,
+        "nodes": 30890,
+        "matches_reference": false,
+        "calls_loss": false
+      },
+      "0SdBk": {
+        "move": "b6a5",
+        "cp": -36,
+        "mate": null,
+        "nodes": 2163,
+        "matches_reference": false,
+        "calls_loss": false
+      },
+      "0eK7q": {
+        "move": "b8a7",
+        "cp": -80,
+        "mate": null,
+        "nodes": 33323,
+        "matches_reference": false,
+        "calls_loss": false
+      },
+      "03eQP": {
+        "move": "g7h6",
+        "cp": -142,
+        "mate": null,
+        "nodes": 32504,
+        "matches_reference": false,
+        "calls_loss": false
+      },
+      "0XsPS": {
+        "move": "a7a5",
+        "cp": -125,
+        "mate": null,
+        "nodes": 134759,
+        "matches_reference": false,
+        "calls_loss": false
+      }
+    },
+    "run6": {
+      "Game02_B_ply40": {
+        "move": "g7g6",
+        "score": -81,
+        "nodes": 139824,
+        "avoids": true,
+        "calls_loss": false
+      },
+      "Game03_W_ply29": {
+        "move": "d4e5",
+        "score": -249,
+        "nodes": 68873,
+        "avoids": false,
+        "calls_loss": false
+      },
+      "Game06_B_ply46": {
+        "move": "d1d4",
+        "score": -31994,
+        "nodes": 13080,
+        "avoids": true,
+        "calls_loss": true
+      },
+      "Game09_W_ply127": {
+        "move": "d6c5",
+        "score": -233,
+        "nodes": 10897,
+        "avoids": true,
+        "calls_loss": false
+      },
+      "Game16_B_ply62": {
+        "move": "a5a2",
+        "score": 104,
+        "nodes": 13885,
+        "avoids": true,
+        "calls_loss": false
+      },
+      "Game17_W_ply17": {
+        "move": "d1f3",
+        "score": -23,
+        "nodes": 119716,
+        "avoids": false,
+        "calls_loss": false
+      },
+      "Game21_W_ply87": {
+        "move": "h1h2",
+        "score": -31994,
+        "nodes": 1999,
+        "avoids": false,
+        "calls_loss": true
+      },
+      "Game22_B_ply36": {
+        "move": "e4f2",
+        "score": -88,
+        "nodes": 73679,
+        "avoids": true,
+        "calls_loss": false
+      },
+      "Game25_W_ply49": {
+        "move": "g1h1",
+        "score": 198,
+        "nodes": 81806,
+        "avoids": true,
+        "calls_loss": false
+      },
+      "Game26_B_ply30": {
+        "move": "g2g1",
+        "score": -190,
+        "nodes": 24423,
+        "avoids": true,
+        "calls_loss": false
+      },
+      "Game27_W_ply29": {
+        "move": "a1d1",
+        "score": -4,
+        "nodes": 100456,
+        "avoids": true,
+        "calls_loss": false
+      },
+      "Game28_B_ply48": {
+        "move": "e8e5",
+        "score": 122,
+        "nodes": 21385,
+        "avoids": true,
+        "calls_loss": false
+      },
+      "Game30_B_ply26": {
+        "move": "h7h5",
+        "score": 36,
+        "nodes": 136235,
+        "avoids": true,
+        "calls_loss": false
+      }
+    }
+  }
+}
