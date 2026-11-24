@@ -7,6 +7,7 @@ import random
 
 import chess
 import chess.engine
+import chess.pgn
 
 HERE = Path(__file__).resolve().parent
 SEED = 18502200
@@ -17,12 +18,26 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("stockfish", type=Path)
     parser.add_argument("output", type=Path)
+    parser.add_argument("--seed", type=int, default=SEED)
+    parser.add_argument("--exclude-epd", nargs="+", type=Path, default=[])
+    parser.add_argument("--exclude-pgn", nargs="+", type=Path, default=[])
     args = parser.parse_args()
     seen = {
         " ".join(line.split()[:4])
-        for line in (HERE.parent / "openings-v2.epd").read_text().splitlines()
+        for epd in [HERE.parent / "openings-v2.epd", *args.exclude_epd]
+        for line in epd.read_text().splitlines()
     }
-    rng = random.Random(SEED)
+    for path in args.exclude_pgn:
+        with path.open() as stream:
+            while (game := chess.pgn.read_game(stream)) is not None:
+                if game.errors:
+                    raise ValueError(f"Invalid game in {path}: {game.errors}")
+                board = game.board()
+                seen.add(board.epd())
+                for move in game.mainline_moves():
+                    board.push(move)
+                    seen.add(board.epd())
+    rng = random.Random(args.seed)
     positions = []
     with chess.engine.SimpleEngine.popen_uci(str(args.stockfish)) as engine:
         engine.configure({"Threads": 1, "Hash": 16})
