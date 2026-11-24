@@ -13,3 +13,16 @@ Le seuil de travail est un score supérieur à 50 % contre Stockfish 18 réglé 
 La suite a été figée dans `b971f8c` avant sa première partie avec Equinox. Le générateur part de la position initiale, joue huit demi-coups et choisit parmi cinq variantes de Stockfish à 3 000 nœuds restant à 60 cp du meilleur coup. Une vérification à 16 000 nœuds garde les positions entre −60 et +60 cp. La graine est 18502200. Le générateur rejette les positions finales déjà présentes dans la suite précédente ou dans ce lot, en ignorant les deux compteurs FEN. Plusieurs lignes peuvent appartenir à la même famille d’ouvertures.
 
 Stockfish utilise un thread et 16 Mio de table. L’empreinte SHA-256 du fichier EPD est `590061cbd1ff2801ffac0e97e872835d13afc2a02119e9b9398e81284f6bcfac`. [Générateur](build_holdout.py) · [Ouvertures](holdout.epd)
+
+## Travail à profondeur 6
+
+| Lot | Septembre et évaluation accélérée | Avec le tri des prises | Résultat tactique dans les trois versions |
+|---|---:|---:|---|
+| v1 | 1 480 222 nœuds | 897 840 | 32/32 coups, 15/16 pertes signalées |
+| v2 | 3 289 616 | 1 558 741 | 13/32 coups, 3 fausses alertes |
+| run6 | 7 772 789 | 1 245 101 | 10/13 erreurs évitées, 2 pertes signalées |
+| **Total** | **12 542 627** | **3 701 682** | **77 coups et 77 scores identiques** |
+
+La première configuration compte directement la mobilité sur les bitboards, réutilise les attaques des pièces à longue portée pour détecter les échecs et évite de recalculer la même évaluation pour chaque prise. La seconde cherche d’abord les captures de plus grande valeur en quiétude hors échec, avec l’attaquant le moins cher en premier en cas d’égalité de valeur de la victime. En échec, elle continue de rechercher toutes les évasions dans l’ordre de septembre. Les promotions sans prise restent filtrées hors échec. Sur Game17, le coût passe de 2 788 051 à 159 809 nœuds, toujours pour `d1f3` à +67 cp. Sur 0JLoe, les trois versions jouent `h5h6` à +38 cp. [Mesures par position et empreintes](tactics.json)
+
+Sur un sous-échantillon systématique de 12 positions de v1/v2, la médiane de quatre passages à profondeur 6 descend de **1,428 s** (septembre) à **0,398 s** (mobilité seule), **0,289 s** (évaluation accélérée complète) et **0,146 s** (avec le tri des prises). Chaque position est mesurée dans un processus UCI neuf, de la fin de `isready` au retour du meilleur coup. L’ordre des quatre moteurs alterne entre les passages. Ces temps ont été relevés sur le M4 Pro pendant un match, et servent à expliquer la performance à cadence fixe. [Mesures chronométrées](timings.json)
