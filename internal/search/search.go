@@ -10,6 +10,22 @@ import (
 	"EquinoxChess/internal/tt"
 )
 
+// Evaluate depends only on the position and the side to move, both covered
+// by ZobristKey. Reuse exact scores across transpositions and iterations.
+func (s *Search) staticScore(b *board.Board) int {
+	const entries = 1 << 16
+	if s.evaluationCache == nil {
+		s.evaluationCache = make([]evalEntry, entries)
+	}
+	entry := &s.evaluationCache[b.ZobristKey&(entries-1)]
+	if entry.key == b.ZobristKey && b.ZobristKey != 0 {
+		return entry.score
+	}
+	score := Evaluate(b)
+	*entry = evalEntry{key: b.ZobristKey, score: score}
+	return score
+}
+
 func (s *Search) Negamax(b *board.Board, depth int, alpha int, beta int) int {
 	s.Nodes++
 	s.resetTracePVAt(s.Ply, false)
@@ -26,7 +42,7 @@ func (s *Search) Negamax(b *board.Board, depth int, alpha int, beta int) int {
 		return alpha
 	}
 	if s.Ply >= MaxDepth-1 {
-		score := Evaluate(b)
+		score := s.staticScore(b)
 		s.setTraceLeafAt(s.Ply, score, "max_ply_eval")
 		return score
 	}
@@ -162,7 +178,7 @@ func (s *Search) Negamax(b *board.Board, depth int, alpha int, beta int) int {
 
 	staticEval := 0
 	if depth == 1 && !inCheck && (beta-alpha) > 1 {
-		staticEval = Evaluate(b)
+		staticEval = s.staticScore(b)
 	}
 
 	foundLegal := false
@@ -639,7 +655,7 @@ func (s *Search) Quiescence(b *board.Board, alpha int, beta int) int {
 		return alpha
 	}
 	if s.Ply >= MaxDepth-1 {
-		score := Evaluate(b)
+		score := s.staticScore(b)
 		s.setTraceLeafAt(s.Ply, score, "qsearch_max_ply_eval")
 		return score
 	}
@@ -655,7 +671,7 @@ func (s *Search) Quiescence(b *board.Board, alpha int, beta int) int {
 	pawnPush := !inCheck && hasUnpinnedPawnPush(b)
 	standPat := 0
 	if pawnPush && (!searchTraceCompiled || s.Trace == nil) {
-		standPat = Evaluate(b)
+		standPat = s.staticScore(b)
 		if standPat >= beta {
 			return beta
 		}
@@ -682,7 +698,7 @@ func (s *Search) Quiescence(b *board.Board, alpha int, beta int) int {
 	// When in check, we must search all evasions and cannot use stand-pat
 	if !inCheck {
 		if !pawnPush || (searchTraceCompiled && s.Trace != nil) {
-			standPat = Evaluate(b)
+			standPat = s.staticScore(b)
 		}
 		s.considerTraceStandPat(s.Ply, standPat)
 		if standPat >= beta {

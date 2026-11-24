@@ -17,18 +17,24 @@ const (
 	MaxDepth      = 256
 )
 
+type evalEntry struct {
+	key   uint64
+	score int
+}
+
 type Search struct {
-	Nodes       uint64
-	Ply         int
-	MaxDepth    int
-	KillerMoves [MaxDepth][2]uint32
-	History     [12][64]int
-	TT          *tt.TranspositionTable
-	Stop        atomic.Bool
-	PVMove      [MaxDepth]uint32
-	StartTime   time.Time
-	TimeLimit   time.Duration
-	Trace       *SearchTrace
+	evaluationCache []evalEntry
+	Nodes           uint64
+	Ply             int
+	MaxDepth        int
+	KillerMoves     [MaxDepth][2]uint32
+	History         [12][64]int
+	TT              *tt.TranspositionTable
+	Stop            atomic.Bool
+	PVMove          [MaxDepth]uint32
+	StartTime       time.Time
+	TimeLimit       time.Duration
+	Trace           *SearchTrace
 }
 
 func InCheck(b *board.Board) bool {
