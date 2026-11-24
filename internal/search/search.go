@@ -169,14 +169,18 @@ func (s *Search) Negamax(b *board.Board, depth int, alpha int, beta int) int {
 	bestMove := uint32(0)
 	legalSeen := 0
 	targetProcessed := false
-	for i := 0; i < count; i++ {
-		preferred := !trace1850Ordering && i == 0 && s.Ply > 0 && ttMove != 0 && moves[i] == ttMove
-		if !preferred {
-			bestIdx := selectBestMove(s, &moves, i, count)
-			moves[i], moves[bestIdx] = moves[bestIdx], moves[i]
+	var defense quietDefense
+	for i := 0; i < count || (verifyRootQuiet && i == count && defense.withinWindow(alpha)); i++ {
+		rechecking := verifyRootQuiet && i == count
+		m := defense.move
+		if !rechecking {
+			preferred := !trace1850Ordering && i == 0 && s.Ply > 0 && ttMove != 0 && moves[i] == ttMove
+			if !preferred {
+				bestIdx := selectBestMove(s, &moves, i, count)
+				moves[i], moves[bestIdx] = moves[bestIdx], moves[i]
+			}
+			m = moves[i]
 		}
-
-		m := moves[i]
 		// Store current ply before incrementing for child search
 		currentPly := s.Ply
 		killer1 := uint32(0)
@@ -280,7 +284,7 @@ func (s *Search) Negamax(b *board.Board, depth int, alpha int, beta int) int {
 				s.appendTrace(event)
 			}
 		} else {
-			lmrEligible := depth >= 3 && i >= 3 && !inCheck && !move.IsCapture(m) &&
+			lmrEligible := !rechecking && depth >= 3 && i >= 3 && !inCheck && !move.IsCapture(m) &&
 				!move.IsPromotion(m) && m != killer1 && m != killer2 && (beta-alpha) > 1
 			targetDepthRequested, targetExtraPlies := s.traceTargetReplyDepthAdjustment(currentPly, m)
 			forceTargetFullDepth := targetDepthRequested && InCheck(b) &&
@@ -364,7 +368,17 @@ func (s *Search) Negamax(b *board.Board, depth int, alpha int, beta int) int {
 					event.TargetIsKiller = killer1 == m || killer2 == m
 					s.appendTrace(event)
 				}
+				// A null window cannot rank rejected moves. Keep measured scores
+				// only inside a shallow band below the current root leader.
+				rankQuiet := verifyRootQuiet && currentPly == 0 && depth >= 5 &&
+					alpha > -MateThreshold && alpha < MateThreshold && !InCheck(b)
+				if rankQuiet {
+					traceChildBeta = -alpha + quietDefenseMargin
+				}
 				score = -s.Negamax(b, reducedDepth, traceChildAlpha, traceChildBeta)
+				if rankQuiet && score <= alpha && score > alpha-quietDefenseMargin && !s.Stop.Load() {
+					defense.consider(m, score)
+				}
 				if score > alpha {
 					if event, ok := s.newTraceEventAt(currentPly, "negamax", "lmr_full_research", depth, alpha, beta); ok && m == event.TargetMove {
 						event.InCheck = inCheck
@@ -383,6 +397,9 @@ func (s *Search) Negamax(b *board.Board, depth int, alpha int, beta int) int {
 				}
 			} else {
 				traceMode = "full_depth"
+				if rechecking {
+					traceMode = "root_quiet_verification"
+				}
 				if forceTargetFullDepth {
 					traceMode = "target_reply_forced_full_depth"
 					traceExtension = targetExtraPlies
