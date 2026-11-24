@@ -107,57 +107,43 @@ var passedPawnBonus = [8]int{
 	0,   // rank 7 (promotion)
 }
 
+const fullPhase = 24
+
+// Combine the original square values with the fitted correction at each phase.
+// Precomputing keeps interpolation out of the evaluation loop.
+var pieceSquareByPhase [fullPhase + 1][6][64]int16
+
+func init() {
+	base := [...]*[64]int{&pawnPSQT, &knightPSQT, &bishopPSQT, &rookPSQT, &queenPSQT, &kingPSQT}
+	for phase := 0; phase <= fullPhase; phase++ {
+		for kind, table := range base {
+			for sq, value := range table {
+				correction := (openingCorrection[kind][sq]*phase + endingCorrection[kind][sq]*(fullPhase-phase)) / fullPhase
+				pieceSquareByPhase[phase][kind][sq] = int16(pieceValues[kind] + value + correction)
+			}
+		}
+	}
+}
+
+func materialPhase(b *board.Board) int {
+	minors := b.Pieces[board.WhiteKnight] | b.Pieces[board.BlackKnight] | b.Pieces[board.WhiteBishop] | b.Pieces[board.BlackBishop]
+	rooks := b.Pieces[board.WhiteRook] | b.Pieces[board.BlackRook]
+	queens := b.Pieces[board.WhiteQueen] | b.Pieces[board.BlackQueen]
+	return min(fullPhase, bits.OnesCount64(uint64(minors))+2*bits.OnesCount64(uint64(rooks))+4*bits.OnesCount64(uint64(queens)))
+}
+
 func Evaluate(b *board.Board) int {
 	score := 0
 
-	for bb := b.Pieces[board.WhitePawn]; bb != 0; {
-		sq := popLSB(&bb)
-		score += PawnValue + pawnPSQT[sq]
-	}
-	for bb := b.Pieces[board.WhiteKnight]; bb != 0; {
-		sq := popLSB(&bb)
-		score += KnightValue + knightPSQT[sq]
-	}
-	for bb := b.Pieces[board.WhiteBishop]; bb != 0; {
-		sq := popLSB(&bb)
-		score += BishopValue + bishopPSQT[sq]
-	}
-	for bb := b.Pieces[board.WhiteRook]; bb != 0; {
-		sq := popLSB(&bb)
-		score += RookValue + rookPSQT[sq]
-	}
-	for bb := b.Pieces[board.WhiteQueen]; bb != 0; {
-		sq := popLSB(&bb)
-		score += QueenValue + queenPSQT[sq]
-	}
-	for bb := b.Pieces[board.WhiteKing]; bb != 0; {
-		sq := popLSB(&bb)
-		score += KingValue + kingPSQT[sq]
-	}
-
-	for bb := b.Pieces[board.BlackPawn]; bb != 0; {
-		sq := popLSB(&bb)
-		score -= PawnValue + pawnPSQT[sq^56]
-	}
-	for bb := b.Pieces[board.BlackKnight]; bb != 0; {
-		sq := popLSB(&bb)
-		score -= KnightValue + knightPSQT[sq^56]
-	}
-	for bb := b.Pieces[board.BlackBishop]; bb != 0; {
-		sq := popLSB(&bb)
-		score -= BishopValue + bishopPSQT[sq^56]
-	}
-	for bb := b.Pieces[board.BlackRook]; bb != 0; {
-		sq := popLSB(&bb)
-		score -= RookValue + rookPSQT[sq^56]
-	}
-	for bb := b.Pieces[board.BlackQueen]; bb != 0; {
-		sq := popLSB(&bb)
-		score -= QueenValue + queenPSQT[sq^56]
-	}
-	for bb := b.Pieces[board.BlackKing]; bb != 0; {
-		sq := popLSB(&bb)
-		score -= KingValue + kingPSQT[sq^56]
+	phase := materialPhase(b)
+	table := &pieceSquareByPhase[phase]
+	for kind := board.WhitePawn; kind <= board.WhiteKing; kind++ {
+		for bb := b.Pieces[kind]; bb != 0; {
+			score += int(table[kind][popLSB(&bb)])
+		}
+		for bb := b.Pieces[board.BlackPawn+kind]; bb != 0; {
+			score -= int(table[kind][popLSB(&bb)^56])
+		}
 	}
 
 	whiteBishops := bits.OnesCount64(uint64(b.Pieces[board.WhiteBishop]))
