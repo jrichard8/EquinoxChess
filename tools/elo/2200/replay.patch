@@ -1,0 +1,166 @@
+diff --git a/internal/search/loss_replay_test.go b/internal/search/loss_replay_test.go
+new file mode 100644
+index 0000000..f964af3
+--- /dev/null
++++ b/internal/search/loss_replay_test.go
+@@ -0,0 +1,92 @@
++package search
++
++import (
++	"encoding/json"
++	"os"
++	"testing"
++
++	"EquinoxChess/internal/board"
++	"EquinoxChess/internal/tt"
++	"EquinoxChess/internal/uci"
++)
++
++type lossPosition struct {
++	Fen, Opening string
++	Prefix       []string
++	GameDepth    int `json:"game_depth"`
++	Best         struct{ Move string }
++}
++type resultAtDepth struct {
++	Move           string
++	Depth, Score   int
++	Nodes          uint64
++	ReferenceVisit *rootVisit `json:",omitempty"`
++}
++type analyzedLoss struct {
++	Round int
++	Color string
++	Point *lossPosition `json:"turning_point"`
++}
++type replayRow struct {
++	Round                                 int
++	Color                                 string
++	Baseline, Deeper, FullRoot, HashFirst resultAtDepth
++}
++
++func TestLossReplay(t *testing.T) {
++	src, err := os.ReadFile(os.Getenv("LOSS_INPUT"))
++	if err != nil {
++		t.Fatal(err)
++	}
++	var input struct{ Losses []analyzedLoss }
++	if err := json.Unmarshal(src, &input); err != nil {
++		t.Fatal(err)
++	}
++	var results []replayRow
++	for _, loss := range input.Losses {
++		p := loss.Point
++		if p == nil {
++			continue
++		}
++		b, err := board.FromFEN(p.Opening)
++		if err != nil {
++			t.Fatal(err)
++		}
++		for _, text := range p.Prefix {
++			m, err := uci.ParseUCIMove(b, text)
++			if err != nil {
++				t.Fatal(err)
++			}
++			b.MakeMove(m)
++		}
++		check, err := board.FromFEN(p.Fen)
++		if err != nil || check.Pieces != b.Pieces || check.SideToMove != b.SideToMove ||
++			check.CastlingRights != b.CastlingRights || check.HalfmoveClock != b.HalfmoveClock ||
++			(check.EnPassant != board.NoSquare && check.EnPassant != b.EnPassant) {
++			t.Fatal("position history mismatch", loss.Round, loss.Color)
++		}
++		probeMove, err = uci.ParseUCIMove(b, p.Best.Move)
++		if err != nil || p.GameDepth < 1 {
++			t.Fatal("invalid reference or depth", loss.Round, loss.Color)
++		}
++		d := min(p.GameDepth, 8)
++		run := func(depth int, full, hashFirst bool) resultAtDepth {
++			probeDepth, probeFullRoot, probeHashFirst = depth, full, hashFirst
++			pos := *b
++			s := Search{TT: tt.NewTT(1 << 20)}
++			m, score, completed, n := s.SearchRoot(&pos, depth)
++			if completed != depth {
++				t.Fatal("incomplete replay")
++			}
++			return resultAtDepth{uci.MoveToUCI(m), completed, score, n, probeVisit}
++		}
++		results = append(results, replayRow{loss.Round, loss.Color, run(d, false, false), run(d+1, false, false), run(d, true, false), run(d, false, true)})
++	}
++	output, err := json.MarshalIndent(results, "", "  ")
++	if err != nil {
++		t.Fatal(err)
++	}
++	if err = os.WriteFile(os.Getenv("LOSS_OUTPUT"), append(output, '\n'), 0644); err != nil {
++		t.Fatal(err)
++	}
++}
+diff --git a/internal/search/search.go b/internal/search/search.go
+index c44feaf..578ca27 100644
+--- a/internal/search/search.go
++++ b/internal/search/search.go
+@@ -9,6 +9,18 @@ import (
+ 	"EquinoxChess/internal/tt"
+ )
+ 
++// Offline paired replay, run serially by TestLossReplay.
++var probeFullRoot, probeHashFirst bool
++var probeMove uint32
++var probeDepth int
++var probeVisit *rootVisit
++
++type rootVisit struct {
++	Mode                                       string
++	OrderIndex, ChildDepth, Alpha, Beta, Score int
++	TTMove                                     bool
++}
++
+ func (s *Search) Negamax(b *board.Board, depth int, alpha int, beta int) int {
+ 	s.Nodes++
+ 	s.resetTracePVAt(s.Ply, false)
+@@ -169,8 +181,11 @@ func (s *Search) Negamax(b *board.Board, depth int, alpha int, beta int) int {
+ 	legalSeen := 0
+ 	targetProcessed := false
+ 	for i := 0; i < count; i++ {
+-		bestIdx := selectBestMove(s, &moves, i, count)
+-		moves[i], moves[bestIdx] = moves[bestIdx], moves[i]
++		preferred := i == 0 && (moves[i] == ttMove || (s.Ply == 0 && moves[i] == s.PVMove[0]))
++		if !probeHashFirst || !preferred {
++			bestIdx := selectBestMove(s, &moves, i, count)
++			moves[i], moves[bestIdx] = moves[bestIdx], moves[i]
++		}
+ 
+ 		m := moves[i]
+ 		// Store current ply before incrementing for child search
+@@ -276,7 +291,7 @@ func (s *Search) Negamax(b *board.Board, depth int, alpha int, beta int) int {
+ 				s.appendTrace(event)
+ 			}
+ 		} else {
+-			lmrEligible := depth >= 3 && i >= 3 && !inCheck && !move.IsCapture(m) &&
++			lmrEligible := !(probeFullRoot && currentPly == 0) && depth >= 3 && i >= 3 && !inCheck && !move.IsCapture(m) &&
+ 				!move.IsPromotion(m) && m != killer1 && m != killer2 && (beta-alpha) > 1
+ 			targetDepthRequested, targetExtraPlies := s.traceTargetReplyDepthAdjustment(currentPly, m)
+ 			forceTargetFullDepth := targetDepthRequested && InCheck(b) &&
+@@ -461,6 +476,9 @@ func (s *Search) Negamax(b *board.Board, depth int, alpha int, beta int) int {
+ 			traceChildBeta,
+ 			score,
+ 		)
++		if currentPly == 0 && depth == probeDepth && m == probeMove {
++			probeVisit = &rootVisit{traceMode, i, traceChildDepth, alpha, beta, score, m == ttMove}
++		}
+ 		s.recordTraceRootMoveResult(
+ 			currentPly,
+ 			m,
+@@ -585,9 +603,11 @@ func (s *Search) SearchRoot(b *board.Board, maxDepth int) (uint32, int, int, uin
+ 		if depth == 1 {
+ 			pass = "initial_full_window"
+ 		}
++		probeVisit = nil
+ 		s.startTracePass(depth, pass)
+ 		score := s.Negamax(b, depth, alpha, beta)
+ 		if !s.Stop.Load() && (score <= alpha || score >= beta) {
++			probeVisit = nil
+ 			s.startTracePass(depth, "full_window_research")
+ 			score = s.Negamax(b, depth, -Infinity, Infinity)
+ 		}
