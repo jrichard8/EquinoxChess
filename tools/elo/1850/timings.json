@@ -1,0 +1,115 @@
+{
+  "protocol": "12 cases (every sixth position in each frozen suite), depth 6, fresh UCI process, clock from after isready to bestmove; four passes in counterbalanced engine order, M4 Pro during paired match",
+  "case_ids": [
+    "G01-p44",
+    "G09-p21",
+    "G17-p52",
+    "G24-p41",
+    "G47-p31",
+    "G70-p29",
+    "00Nhl",
+    "00Ksk",
+    "08xLb",
+    "03xt2",
+    "0e34j",
+    "03eQP"
+  ],
+  "passes": [
+    {
+      "run": 1,
+      "engine": "September",
+      "total_nodes": 523866,
+      "total_elapsed_ns": 1430315919
+    },
+    {
+      "run": 1,
+      "engine": "Mobility",
+      "total_nodes": 523866,
+      "total_elapsed_ns": 398551958
+    },
+    {
+      "run": 1,
+      "engine": "FastEval",
+      "total_nodes": 523866,
+      "total_elapsed_ns": 287323751
+    },
+    {
+      "run": 1,
+      "engine": "Captures",
+      "total_nodes": 336649,
+      "total_elapsed_ns": 145537621
+    },
+    {
+      "run": 2,
+      "engine": "Captures",
+      "total_nodes": 336649,
+      "total_elapsed_ns": 145520625
+    },
+    {
+      "run": 2,
+      "engine": "FastEval",
+      "total_nodes": 523866,
+      "total_elapsed_ns": 288572585
+    },
+    {
+      "run": 2,
+      "engine": "Mobility",
+      "total_nodes": 523866,
+      "total_elapsed_ns": 395137916
+    },
+    {
+      "run": 2,
+      "engine": "September",
+      "total_nodes": 523866,
+      "total_elapsed_ns": 1424960833
+    },
+    {
+      "run": 3,
+      "engine": "FastEval",
+      "total_nodes": 523866,
+      "total_elapsed_ns": 291884667
+    },
+    {
+      "run": 3,
+      "engine": "September",
+      "total_nodes": 523866,
+      "total_elapsed_ns": 1424824082
+    },
+    {
+      "run": 3,
+      "engine": "Captures",
+      "total_nodes": 336649,
+      "total_elapsed_ns": 145898626
+    },
+    {
+      "run": 3,
+      "engine": "Mobility",
+      "total_nodes": 523866,
+      "total_elapsed_ns": 396759748
+    },
+    {
+      "run": 4,
+      "engine": "Mobility",
+      "total_nodes": 523866,
+      "total_elapsed_ns": 398312376
+    },
+    {
+      "run": 4,
+      "engine": "Captures",
+      "total_nodes": 336649,
+      "total_elapsed_ns": 147066251
+    },
+    {
+      "run": 4,
+      "engine": "September",
+      "total_nodes": 523866,
+      "total_elapsed_ns": 1444207706
+    },
+    {
+      "run": 4,
+      "engine": "FastEval",
+      "total_nodes": 523866,
+      "total_elapsed_ns": 288949082
+    }
+  ]
+}

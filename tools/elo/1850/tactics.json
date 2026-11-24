@@ -1,0 +1,670 @@
+{
+  "depth": 6,
+  "tt_entries": {
+    "v1": 1048576,
+    "v2": 1048576,
+    "run6": 65536
+  },
+  "inputs_sha256": {
+    "v1": "48c8d552911f14c44b9cab08de4b7beb8113a545567ffd07adfc455e6a50545f",
+    "v2": "9fa139fb0f623ce7ed5c6052ded2df9ffa0598b14642072699c1660485305d22",
+    "run6": "1db1ea628d54f8c37cf591740e1a1f78a379ddc87a06573efe8a05f000073b3d"
+  },
+  "binaries": {
+    "fast": {
+      "uci": {
+        "sha256": "69d813e80754dab40a2fbdcee32cafaa974a2793f1e504a56d2c8c52d42c7f66",
+        "go": "go1.26.2",
+        "revision": "4ac0eea73383f0b0b6e1638df0821ce99e968c65",
+        "modified": false,
+        "os": "darwin",
+        "arch": "arm64"
+      },
+      "trace_sha256": "39b83e25c333f9859a887eef0c97f76e154880fb3fde63ed69405541d4657fb2"
+    },
+    "capt": {
+      "uci": {
+        "sha256": "1df5969e78f2ee42a7f980fb4b5043426dd928f527847e7af9cbe763bb8364ab",
+        "go": "go1.26.2",
+        "revision": "e5daafe47a529be22a3f305b53e4d247b8ec0d08",
+        "modified": false,
+        "os": "darwin",
+        "arch": "arm64"
+      },
+      "trace_sha256": "c55c1999ed45370e88ae5c67babcd56c188e87a28c108571a4042a4e1920fd30"
+    },
+    "september": {
+      "sha256": "46caaa986c5e4ab0610790b012cad658c6578d6f3bf187fe29222111c1b0642b",
+      "go": "go1.26.2",
+      "revision": "819a8d5b12995e2daf68d374d8e667ec06c33fcf",
+      "modified": false,
+      "os": "darwin",
+      "arch": "arm64",
+      "trace_sha256": "d054401b6c51c299239f8fa35ec35d93136fc638bb469c0ebcb2e2d654e30d82"
+    }
+  },
+  "cases": {
+    "v1": {
+      "G01-p44": {
+        "move": "d7d5",
+        "cp": 168,
+        "mate": null,
+        "september_nodes": 20843,
+        "fast_nodes": 20843,
+        "capt_nodes": 18554
+      },
+      "G02-p57": {
+        "move": "e1e6",
+        "cp": 108,
+        "mate": null,
+        "september_nodes": 126855,
+        "fast_nodes": 126855,
+        "capt_nodes": 59097
+      },
+      "G04-p38": {
+        "move": "e5e1",
+        "cp": -102,
+        "mate": null,
+        "september_nodes": 33215,
+        "fast_nodes": 33215,
+        "capt_nodes": 24690
+      },
+      "G05-p37": {
+        "move": "f1e1",
+        "cp": -23,
+        "mate": null,
+        "september_nodes": 24200,
+        "fast_nodes": 24200,
+        "capt_nodes": 18662
+      },
+      "G07-p56": {
+        "move": "c8d8",
+        "cp": 185,
+        "mate": null,
+        "september_nodes": 125949,
+        "fast_nodes": 125949,
+        "capt_nodes": 32520
+      },
+      "G08-p43": {
+        "move": "c1b2",
+        "cp": 606,
+        "mate": null,
+        "september_nodes": 84337,
+        "fast_nodes": 84337,
+        "capt_nodes": 46565
+      },
+      "G09-p21": {
+        "move": "b2c3",
+        "cp": -130,
+        "mate": null,
+        "september_nodes": 84690,
+        "fast_nodes": 84690,
+        "capt_nodes": 52943
+      },
+      "G11-p20": {
+        "move": "b6a5",
+        "cp": 79,
+        "mate": null,
+        "september_nodes": 63117,
+        "fast_nodes": 63117,
+        "capt_nodes": 40893
+      },
+      "G12-p67": {
+        "move": "c3e4",
+        "cp": 508,
+        "mate": null,
+        "september_nodes": 4459,
+        "fast_nodes": 4459,
+        "capt_nodes": 4409
+      },
+      "G14-p36": {
+        "move": "a8e8",
+        "cp": -566,
+        "mate": null,
+        "september_nodes": 47799,
+        "fast_nodes": 47799,
+        "capt_nodes": 37975
+      },
+      "G15-p33": {
+        "move": "h4d8",
+        "cp": -342,
+        "mate": null,
+        "september_nodes": 38849,
+        "fast_nodes": 38849,
+        "capt_nodes": 32205
+      },
+      "G16-p56": {
+        "move": "f8f7",
+        "cp": -719,
+        "mate": null,
+        "september_nodes": 12622,
+        "fast_nodes": 12622,
+        "capt_nodes": 10804
+      },
+      "G17-p52": {
+        "move": "b6b4",
+        "cp": 215,
+        "mate": null,
+        "september_nodes": 54018,
+        "fast_nodes": 54018,
+        "capt_nodes": 24203
+      },
+      "G18-p26": {
+        "move": "f8f7",
+        "cp": -438,
+        "mate": null,
+        "september_nodes": 97169,
+        "fast_nodes": 97169,
+        "capt_nodes": 54482
+      },
+      "G19-p39": {
+        "move": "d3e4",
+        "cp": -504,
+        "mate": null,
+        "september_nodes": 44061,
+        "fast_nodes": 44061,
+        "capt_nodes": 31693
+      },
+      "G20-p17": {
+        "move": "c3a4",
+        "cp": 56,
+        "mate": null,
+        "september_nodes": 62544,
+        "fast_nodes": 62544,
+        "capt_nodes": 30770
+      },
+      "G21-p56": {
+        "move": "a2a1",
+        "cp": 636,
+        "mate": null,
+        "september_nodes": 12084,
+        "fast_nodes": 12084,
+        "capt_nodes": 12064
+      },
+      "G22-p63": {
+        "move": "c3c8",
+        "cp": 395,
+        "mate": null,
+        "september_nodes": 31008,
+        "fast_nodes": 31008,
+        "capt_nodes": 26114
+      },
+      "G24-p41": {
+        "move": "b7c5",
+        "cp": 431,
+        "mate": null,
+        "september_nodes": 53799,
+        "fast_nodes": 53799,
+        "capt_nodes": 39743
+      },
+      "G25-p17": {
+        "move": "b5d7",
+        "cp": 33,
+        "mate": null,
+        "september_nodes": 44106,
+        "fast_nodes": 44106,
+        "capt_nodes": 31106
+      },
+      "G27-p22": {
+        "move": "e7d6",
+        "cp": -18,
+        "mate": null,
+        "september_nodes": 168121,
+        "fast_nodes": 168121,
+        "capt_nodes": 54772
+      },
+      "G29-p41": {
+        "move": "d2c3",
+        "cp": -368,
+        "mate": null,
+        "september_nodes": 24905,
+        "fast_nodes": 24905,
+        "capt_nodes": 23371
+      },
+      "G36-p22": {
+        "move": "c6b8",
+        "cp": -370,
+        "mate": null,
+        "september_nodes": 15690,
+        "fast_nodes": 15690,
+        "capt_nodes": 14861
+      },
+      "G38-p64": {
+        "move": "g8h7",
+        "cp": -358,
+        "mate": null,
+        "september_nodes": 15846,
+        "fast_nodes": 15846,
+        "capt_nodes": 14652
+      },
+      "G47-p31": {
+        "move": "a1b1",
+        "cp": -343,
+        "mate": null,
+        "september_nodes": 14415,
+        "fast_nodes": 14415,
+        "capt_nodes": 13558
+      },
+      "G50-p44": {
+        "move": "c6f6",
+        "cp": -485,
+        "mate": null,
+        "september_nodes": 39200,
+        "fast_nodes": 39200,
+        "capt_nodes": 34442
+      },
+      "G52-p24": {
+        "move": "c8c6",
+        "cp": -539,
+        "mate": null,
+        "september_nodes": 50487,
+        "fast_nodes": 50487,
+        "capt_nodes": 43633
+      },
+      "G57-p59": {
+        "move": "f2e1",
+        "cp": -277,
+        "mate": null,
+        "september_nodes": 7555,
+        "fast_nodes": 7555,
+        "capt_nodes": 7519
+      },
+      "G61-p57": {
+        "move": "d5f4",
+        "cp": -553,
+        "mate": null,
+        "september_nodes": 22994,
+        "fast_nodes": 22994,
+        "capt_nodes": 21496
+      },
+      "G62-p66": {
+        "move": "g8f8",
+        "cp": -619,
+        "mate": null,
+        "september_nodes": 11612,
+        "fast_nodes": 11612,
+        "capt_nodes": 11381
+      },
+      "G70-p29": {
+        "move": "d1d4",
+        "cp": -428,
+        "mate": null,
+        "september_nodes": 34552,
+        "fast_nodes": 34552,
+        "capt_nodes": 19555
+      },
+      "G77-p66": {
+        "move": "g3f3",
+        "cp": -497,
+        "mate": null,
+        "september_nodes": 9121,
+        "fast_nodes": 9121,
+        "capt_nodes": 9108
+      }
+    },
+    "v2": {
+      "00Nhl": {
+        "move": "h8h7",
+        "cp": -185,
+        "mate": null,
+        "september_nodes": 20590,
+        "fast_nodes": 20590,
+        "capt_nodes": 19640
+      },
+      "0Np2W": {
+        "move": "g2g3",
+        "cp": 114,
+        "mate": null,
+        "september_nodes": 20340,
+        "fast_nodes": 20340,
+        "capt_nodes": 19605
+      },
+      "0N0N9": {
+        "move": "h3d3",
+        "cp": -221,
+        "mate": null,
+        "september_nodes": 95846,
+        "fast_nodes": 95846,
+        "capt_nodes": 80987
+      },
+      "0CxjC": {
+        "move": "f2e2",
+        "cp": -14,
+        "mate": null,
+        "september_nodes": 23633,
+        "fast_nodes": 23633,
+        "capt_nodes": 23241
+      },
+      "0MtiM": {
+        "move": "d7e5",
+        "cp": -37,
+        "mate": null,
+        "september_nodes": 97271,
+        "fast_nodes": 97271,
+        "capt_nodes": 63309
+      },
+      "0YrIF": {
+        "move": "e4e3",
+        "cp": -12,
+        "mate": null,
+        "september_nodes": 11631,
+        "fast_nodes": 11631,
+        "capt_nodes": 11643
+      },
+      "00Ksk": {
+        "move": "d2b2",
+        "cp": 107,
+        "mate": null,
+        "september_nodes": 16057,
+        "fast_nodes": 16057,
+        "capt_nodes": 15971
+      },
+      "01Qnk": {
+        "move": "d6f4",
+        "cp": -507,
+        "mate": null,
+        "september_nodes": 131402,
+        "fast_nodes": 131402,
+        "capt_nodes": 93485
+      },
+      "0LUmS": {
+        "move": "c3e4",
+        "cp": 151,
+        "mate": null,
+        "september_nodes": 56710,
+        "fast_nodes": 56710,
+        "capt_nodes": 45604
+      },
+      "0X38g": {
+        "move": "g4g5",
+        "cp": 34,
+        "mate": null,
+        "september_nodes": 72707,
+        "fast_nodes": 72707,
+        "capt_nodes": 50713
+      },
+      "0bZsE": {
+        "move": "e5e4",
+        "cp": 74,
+        "mate": null,
+        "september_nodes": 1103498,
+        "fast_nodes": 1103498,
+        "capt_nodes": 237819
+      },
+      "0WoMT": {
+        "move": "e3f3",
+        "cp": -185,
+        "mate": null,
+        "september_nodes": 123079,
+        "fast_nodes": 123079,
+        "capt_nodes": 76719
+      },
+      "08xLb": {
+        "move": "f8d7",
+        "cp": -77,
+        "mate": null,
+        "september_nodes": 49372,
+        "fast_nodes": 49372,
+        "capt_nodes": 32913
+      },
+      "0ImFe": {
+        "move": "g5e7",
+        "cp": -168,
+        "mate": null,
+        "september_nodes": 35076,
+        "fast_nodes": 35076,
+        "capt_nodes": 33287
+      },
+      "0YJcm": {
+        "move": "e4f5",
+        "cp": 152,
+        "mate": null,
+        "september_nodes": 1593,
+        "fast_nodes": 1593,
+        "capt_nodes": 1593
+      },
+      "00MBF": {
+        "move": "g3g4",
+        "cp": -88,
+        "mate": null,
+        "september_nodes": 83821,
+        "fast_nodes": 83821,
+        "capt_nodes": 38543
+      },
+      "03Cdz": {
+        "move": "e2f3",
+        "cp": -18,
+        "mate": null,
+        "september_nodes": 212586,
+        "fast_nodes": 212586,
+        "capt_nodes": 116403
+      },
+      "0S9s5": {
+        "move": "f1d1",
+        "cp": -393,
+        "mate": null,
+        "september_nodes": 183019,
+        "fast_nodes": 183019,
+        "capt_nodes": 122270
+      },
+      "03xt2": {
+        "move": "c2e2",
+        "cp": 364,
+        "mate": null,
+        "september_nodes": 46306,
+        "fast_nodes": 46306,
+        "capt_nodes": 41068
+      },
+      "0JLoe": {
+        "move": "h5h6",
+        "cp": 38,
+        "mate": null,
+        "september_nodes": 4593,
+        "fast_nodes": 4593,
+        "capt_nodes": 4466
+      },
+      "07dIM": {
+        "move": "d7a4",
+        "cp": 15,
+        "mate": null,
+        "september_nodes": 25606,
+        "fast_nodes": 25606,
+        "capt_nodes": 24912
+      },
+      "0BwJ2": {
+        "move": "b4b3",
+        "cp": 190,
+        "mate": null,
+        "september_nodes": 6739,
+        "fast_nodes": 6739,
+        "capt_nodes": 6749
+      },
+      "0afCF": {
+        "move": "c2a2",
+        "cp": -406,
+        "mate": null,
+        "september_nodes": 83943,
+        "fast_nodes": 83943,
+        "capt_nodes": 74406
+      },
+      "0SEVH": {
+        "move": "f3e4",
+        "cp": 275,
+        "mate": null,
+        "september_nodes": 21826,
+        "fast_nodes": 21826,
+        "capt_nodes": 20085
+      },
+      "0e34j": {
+        "move": "d4c6",
+        "cp": 43,
+        "mate": null,
+        "september_nodes": 104135,
+        "fast_nodes": 104135,
+        "capt_nodes": 34642
+      },
+      "0Pfb0": {
+        "move": "h7h6",
+        "cp": -6,
+        "mate": null,
+        "september_nodes": 442630,
+        "fast_nodes": 442630,
+        "capt_nodes": 78455
+      },
+      "08mtC": {
+        "move": "c8d7",
+        "cp": 9,
+        "mate": null,
+        "september_nodes": 40131,
+        "fast_nodes": 40131,
+        "capt_nodes": 32142
+      },
+      "0WHs3": {
+        "move": "b6b5",
+        "cp": -34,
+        "mate": null,
+        "september_nodes": 46502,
+        "fast_nodes": 46502,
+        "capt_nodes": 41040
+      },
+      "0SdBk": {
+        "move": "b6a5",
+        "cp": 75,
+        "mate": null,
+        "september_nodes": 2259,
+        "fast_nodes": 2259,
+        "capt_nodes": 2259
+      },
+      "0eK7q": {
+        "move": "g8h8",
+        "cp": -216,
+        "mate": null,
+        "september_nodes": 47135,
+        "fast_nodes": 47135,
+        "capt_nodes": 42070
+      },
+      "03eQP": {
+        "move": "g7h6",
+        "cp": -149,
+        "mate": null,
+        "september_nodes": 25089,
+        "fast_nodes": 25089,
+        "capt_nodes": 23859
+      },
+      "0XsPS": {
+        "move": "d6d5",
+        "cp": -38,
+        "mate": null,
+        "september_nodes": 54491,
+        "fast_nodes": 54491,
+        "capt_nodes": 48843
+      }
+    },
+    "run6": {
+      "Game02_B_ply40": {
+        "move": "g7g6",
+        "cp": -7,
+        "mate": null,
+        "september_nodes": 426048,
+        "fast_nodes": 426048,
+        "capt_nodes": 84141
+      },
+      "Game03_W_ply29": {
+        "move": "d4e5",
+        "cp": -157,
+        "mate": null,
+        "september_nodes": 421678,
+        "fast_nodes": 421678,
+        "capt_nodes": 101870
+      },
+      "Game06_B_ply46": {
+        "move": "d1d4",
+        "cp": -603,
+        "mate": null,
+        "september_nodes": 79342,
+        "fast_nodes": 79342,
+        "capt_nodes": 68350
+      },
+      "Game09_W_ply127": {
+        "move": "d6c5",
+        "cp": -128,
+        "mate": null,
+        "september_nodes": 16772,
+        "fast_nodes": 16772,
+        "capt_nodes": 16731
+      },
+      "Game16_B_ply62": {
+        "move": "e6e5",
+        "cp": 288,
+        "mate": null,
+        "september_nodes": 15640,
+        "fast_nodes": 15640,
+        "capt_nodes": 15381
+      },
+      "Game17_W_ply17": {
+        "move": "d1f3",
+        "cp": 67,
+        "mate": null,
+        "september_nodes": 2788051,
+        "fast_nodes": 2788051,
+        "capt_nodes": 159809
+      },
+      "Game21_W_ply87": {
+        "move": "h1h2",
+        "cp": null,
+        "mate": -3,
+        "september_nodes": 2443,
+        "fast_nodes": 2443,
+        "capt_nodes": 2441
+      },
+      "Game22_B_ply36": {
+        "move": "e4f2",
+        "cp": -32,
+        "mate": null,
+        "september_nodes": 247171,
+        "fast_nodes": 247171,
+        "capt_nodes": 87422
+      },
+      "Game25_W_ply49": {
+        "move": "g1g2",
+        "cp": 453,
+        "mate": null,
+        "september_nodes": 88032,
+        "fast_nodes": 88032,
+        "capt_nodes": 80661
+      },
+      "Game26_B_ply30": {
+        "move": "g2g1",
+        "cp": -36,
+        "mate": null,
+        "september_nodes": 52464,
+        "fast_nodes": 52464,
+        "capt_nodes": 23730
+      },
+      "Game27_W_ply29": {
+        "move": "e1e2",
+        "cp": 73,
+        "mate": null,
+        "september_nodes": 1938418,
+        "fast_nodes": 1938418,
+        "capt_nodes": 429327
+      },
+      "Game28_B_ply48": {
+        "move": "e8e5",
+        "cp": 120,
+        "mate": null,
+        "september_nodes": 63200,
+        "fast_nodes": 63200,
+        "capt_nodes": 35974
+      },
+      "Game30_B_ply26": {
+        "move": "c6e5",
+        "cp": 12,
+        "mate": null,
+        "september_nodes": 1633530,
+        "fast_nodes": 1633530,
+        "capt_nodes": 139264
+      }
+    }
+  }
+}
