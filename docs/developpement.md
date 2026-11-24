@@ -1,4 +1,4 @@
-# Développer EquinoxChess
+# Développer Owl-Gopher
 
 ## Suivre un coup dans le code
 

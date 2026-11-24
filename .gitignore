@@ -1,6 +1,8 @@
 # Compiled engine binary
 /equinoxchess-uci
 /equinoxchess-uci.exe
+/owl-gopher-uci
+/owl-gopher-uci.exe
 
 # Go test caches & build artefacts
 *.test

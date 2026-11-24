@@ -1,6 +1,6 @@
-# EquinoxChess
+# Owl-Gopher
 
-EquinoxChess est un moteur d’échecs classique écrit en Go, jouable en UCI et dans le navigateur. **La base `baseline-2200` marque 60,16 % contre Stockfish 18 réglé à 2200**, à 1 seconde + 0,1 seconde par coup. Sur 384 ouvertures indépendantes jouées dans les deux couleurs, elle obtient 430 victoires, 64 nulles et 274 défaites. L’écart estimé à cette cadence est de +71,6 Elo [IC 95 % +22,4 à +123,7]. [Qualification et parties](tools/elo/2200/loop/README.md#confirmation-du-palier-2200) · [Bilan du projet](status.md)
+Owl-Gopher (anciennement EquinoxChess) est un moteur d’échecs classique écrit en Go, jouable en UCI et dans le navigateur. **La base `baseline-2200` marque 60,16 % contre Stockfish 18 réglé à 2200**, à 1 seconde + 0,1 seconde par coup. Sur 384 ouvertures indépendantes jouées dans les deux couleurs, elle obtient 430 victoires, 64 nulles et 274 défaites. L’écart estimé à cette cadence est de +71,6 Elo [IC 95 % +22,4 à +123,7]. [Qualification et parties](tools/elo/2200/loop/README.md#confirmation-du-palier-2200) · [Bilan du projet](status.md)
 
 Face au réglage 2400, la base marque **38,67 %** sur 384 parties. Le candidat qui revérifie une défense calme atteint **45,05 %** sur le même lot. Son gain en duel direct reste incertain. [Campagne 2400, parties et décisions](tools/elo/2400/README.md)
 
@@ -26,8 +26,8 @@ Déplacer une pièce sur l’échiquier pour jouer contre le moteur. Le serveur 
 ## Utiliser le moteur UCI
 
 ```sh
-go build -o equinoxchess-uci ./cmd/uci
-./equinoxchess-uci
+go build -o owl-gopher-uci ./cmd/uci
+./owl-gopher-uci
 ```
 
 Dans le terminal du moteur, saisir les commandes suivantes. Le moteur répond successivement par `uciok`, `readyok`, puis par une ligne `info` et un `bestmove`.
