@@ -650,10 +650,12 @@ func (s *Search) Quiescence(b *board.Board, alpha int, beta int) int {
 	}
 	var moves [movegen.MaxMoves]uint32
 	count := movegen.GeneratePseudoLegalMoves(b, &moves)
+	targetPseudoIndex := -1
 	if event, ok := s.newTraceEvent("quiescence", "generated", 0, alpha, beta); ok {
 		event.InCheck = inCheck
 		event.GeneratedMoves = count
-		event.PseudoIndex = traceMoveIndex(&moves, count, event.TargetMove)
+		targetPseudoIndex = traceMoveIndex(&moves, count, event.TargetMove)
+		event.PseudoIndex = targetPseudoIndex
 		if event.PseudoIndex < 0 {
 			event.Stage = "not_generated"
 		}
@@ -683,6 +685,13 @@ func (s *Search) Quiescence(b *board.Board, alpha int, beta int) int {
 		}
 	}
 
+	if !inCheck {
+		captures := orderQuiescenceCaptures(s, moves[:count])
+		if !searchTraceCompiled || s.Trace == nil {
+			count = captures
+		}
+	}
+
 	foundLegal := false
 	legalSeen := 0
 	targetProcessed := false
@@ -691,7 +700,7 @@ func (s *Search) Quiescence(b *board.Board, alpha int, beta int) int {
 		if event, ok := s.newTraceEvent("quiescence", "ordered", 0, alpha, beta); ok && m == event.TargetMove {
 			event.InCheck = inCheck
 			event.CurrentMove = m
-			event.PseudoIndex = i
+			event.PseudoIndex = targetPseudoIndex
 			event.OrderIndex = i
 			s.appendTrace(event)
 		}
@@ -701,7 +710,7 @@ func (s *Search) Quiescence(b *board.Board, alpha int, beta int) int {
 			if event, ok := s.newTraceEvent("quiescence", "capture_filtered", 0, alpha, beta); ok && m == event.TargetMove {
 				event.InCheck = inCheck
 				event.CurrentMove = m
-				event.PseudoIndex = i
+				event.PseudoIndex = targetPseudoIndex
 				event.OrderIndex = i
 				event.TargetProcessed = true
 				targetProcessed = true
@@ -716,7 +725,7 @@ func (s *Search) Quiescence(b *board.Board, alpha int, beta int) int {
 				if event, ok := s.newTraceEvent("quiescence", "delta_pruned", 0, alpha, beta); ok && m == event.TargetMove {
 					event.InCheck = inCheck
 					event.CurrentMove = m
-					event.PseudoIndex = i
+					event.PseudoIndex = targetPseudoIndex
 					event.OrderIndex = i
 					event.Score = optimisticScore
 					event.TargetProcessed = true
@@ -733,7 +742,7 @@ func (s *Search) Quiescence(b *board.Board, alpha int, beta int) int {
 			if event, ok := s.newTraceEventAt(currentPly, "quiescence", "illegal", 0, alpha, beta); ok && m == event.TargetMove {
 				event.InCheck = inCheck
 				event.CurrentMove = m
-				event.PseudoIndex = i
+				event.PseudoIndex = targetPseudoIndex
 				event.OrderIndex = i
 				event.LegalIndex = legalSeen
 				event.TargetProcessed = true
@@ -747,7 +756,7 @@ func (s *Search) Quiescence(b *board.Board, alpha int, beta int) int {
 		if event, ok := s.newTraceEventAt(currentPly, "quiescence", "legal", 0, alpha, beta); ok && m == event.TargetMove {
 			event.InCheck = inCheck
 			event.CurrentMove = m
-			event.PseudoIndex = i
+			event.PseudoIndex = targetPseudoIndex
 			event.OrderIndex = i
 			event.LegalIndex = legalSeen
 			s.appendTrace(event)
@@ -760,7 +769,7 @@ func (s *Search) Quiescence(b *board.Board, alpha int, beta int) int {
 		if event, ok := s.newTraceEventAt(currentPly, "quiescence", "search_complete", 0, alpha, beta); ok && m == event.TargetMove {
 			event.InCheck = inCheck
 			event.CurrentMove = m
-			event.PseudoIndex = i
+			event.PseudoIndex = targetPseudoIndex
 			event.OrderIndex = i
 			event.LegalIndex = legalSeen - 1
 			event.Score = score
@@ -775,7 +784,7 @@ func (s *Search) Quiescence(b *board.Board, alpha int, beta int) int {
 			if event, ok := s.newTraceEvent("quiescence", "beta_cutoff", 0, alpha, beta); ok {
 				event.InCheck = inCheck
 				event.CurrentMove = m
-				event.PseudoIndex = i
+				event.PseudoIndex = targetPseudoIndex
 				event.OrderIndex = i
 				event.Score = score
 				event.TargetProcessed = targetProcessed
