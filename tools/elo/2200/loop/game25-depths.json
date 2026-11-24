@@ -1,0 +1,242 @@
+{
+  "id": "Game25_W_ply49",
+  "fen": "r5k1/p1b3pp/7q/8/1B1Pn1P1/4P3/PPP1K3/R2Q2R1 w - - 5 25",
+  "engines": {
+    "Base1850": "1df5969e78f2ee42a7f980fb4b5043426dd928f527847e7af9cbe763bb8364ab",
+    "InteriorTT": "bae8740966bc6cc3b4bcf3b708a3f1f06b63a1a48667274b43d58807e84f1a95"
+  },
+  "depths": {
+    "Base1850": {
+      "root": [
+        {
+          "depth": 4,
+          "nodes": 5963,
+          "move": "d4d5",
+          "white_cp": 486
+        },
+        {
+          "depth": 5,
+          "nodes": 35011,
+          "move": "g1g2",
+          "white_cp": 455
+        },
+        {
+          "depth": 6,
+          "nodes": 80617,
+          "move": "g1g2",
+          "white_cp": 453
+        },
+        {
+          "depth": 7,
+          "nodes": 302426,
+          "move": "g1g2",
+          "white_cp": 457
+        },
+        {
+          "depth": 8,
+          "nodes": 1468380,
+          "move": "d1e1",
+          "white_cp": 433
+        },
+        {
+          "depth": 9,
+          "nodes": 2999892,
+          "move": "g1g2",
+          "white_cp": 429
+        }
+      ],
+      "e2f3": [
+        {
+          "depth": 4,
+          "nodes": 12428,
+          "move": "a8b8",
+          "white_cp": 466
+        },
+        {
+          "depth": 5,
+          "nodes": 25582,
+          "move": "a8b8",
+          "white_cp": 458
+        },
+        {
+          "depth": 6,
+          "nodes": 71921,
+          "move": "a8b8",
+          "white_cp": 455
+        },
+        {
+          "depth": 7,
+          "nodes": 404064,
+          "move": "a8e8",
+          "white_cp": 374
+        },
+        {
+          "depth": 8,
+          "nodes": 810585,
+          "move": "a8e8",
+          "white_cp": 405
+        },
+        {
+          "depth": 9,
+          "nodes": 5338521,
+          "move": "a8e8",
+          "white_cp": 349
+        }
+      ],
+      "g1g2": [
+        {
+          "depth": 4,
+          "nodes": 12939,
+          "move": "a7a5",
+          "white_cp": 457
+        },
+        {
+          "depth": 5,
+          "nodes": 32815,
+          "move": "a7a5",
+          "white_cp": 438
+        },
+        {
+          "depth": 6,
+          "nodes": 67581,
+          "move": "a7a5",
+          "white_cp": 445
+        },
+        {
+          "depth": 7,
+          "nodes": 378705,
+          "move": "a8b8",
+          "white_cp": 446
+        },
+        {
+          "depth": 8,
+          "nodes": 1087547,
+          "move": "a8b8",
+          "white_cp": 446
+        },
+        {
+          "depth": 9,
+          "nodes": 10931621,
+          "move": "h6h3",
+          "white_cp": 424
+        }
+      ]
+    },
+    "InteriorTT": {
+      "root": [
+        {
+          "depth": 4,
+          "nodes": 5036,
+          "move": "d1d3",
+          "white_cp": 488
+        },
+        {
+          "depth": 5,
+          "nodes": 29655,
+          "move": "e2f3",
+          "white_cp": 466
+        },
+        {
+          "depth": 6,
+          "nodes": 61011,
+          "move": "e2f3",
+          "white_cp": 457
+        },
+        {
+          "depth": 7,
+          "nodes": 190605,
+          "move": "g1g2",
+          "white_cp": 457
+        },
+        {
+          "depth": 8,
+          "nodes": 638199,
+          "move": "g1g2",
+          "white_cp": 446
+        },
+        {
+          "depth": 9,
+          "nodes": 2308833,
+          "move": "g1g2",
+          "white_cp": 440
+        }
+      ],
+      "e2f3": [
+        {
+          "depth": 4,
+          "nodes": 12424,
+          "move": "a8b8",
+          "white_cp": 466
+        },
+        {
+          "depth": 5,
+          "nodes": 29709,
+          "move": "a8e8",
+          "white_cp": 442
+        },
+        {
+          "depth": 6,
+          "nodes": 68316,
+          "move": "a8e8",
+          "white_cp": 452
+        },
+        {
+          "depth": 7,
+          "nodes": 279113,
+          "move": "a8b8",
+          "white_cp": 455
+        },
+        {
+          "depth": 8,
+          "nodes": 942328,
+          "move": "a8e8",
+          "white_cp": 351
+        },
+        {
+          "depth": 9,
+          "nodes": 3428350,
+          "move": "a8e8",
+          "white_cp": 349
+        }
+      ],
+      "g1g2": [
+        {
+          "depth": 4,
+          "nodes": 10176,
+          "move": "a8b8",
+          "white_cp": 451
+        },
+        {
+          "depth": 5,
+          "nodes": 32159,
+          "move": "a7a5",
+          "white_cp": 440
+        },
+        {
+          "depth": 6,
+          "nodes": 78322,
+          "move": "a7a5",
+          "white_cp": 445
+        },
+        {
+          "depth": 7,
+          "nodes": 343652,
+          "move": "g8h8",
+          "white_cp": 451
+        },
+        {
+          "depth": 8,
+          "nodes": 1008369,
+          "move": "a8b8",
+          "white_cp": 437
+        },
+        {
+          "depth": 9,
+          "nodes": 4177027,
+          "move": "a8b8",
+          "white_cp": 417
+        }
+      ]
+    }
+  }
+}
