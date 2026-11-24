@@ -22,8 +22,16 @@ def digest(path):
 
 
 def decision(engine, board, nodes, only=None):
-    info = engine.analyse(board, chess.engine.Limit(nodes=nodes), game=object(),
-                          root_moves=[only] if only else None)
+    last = None
+    with engine.analysis(board, chess.engine.Limit(nodes=nodes), game=object(),
+                         root_moves=[only] if only else None) as analysis:
+        for iteration in analysis:
+            if ("score" in iteration and iteration.get("pv")
+                    and not iteration.get("lowerbound") and not iteration.get("upperbound")):
+                last = iteration
+    if last is None:
+        raise RuntimeError(f"No completed score for {board.fen()}")
+    info = last
     score = info["score"].pov(board.turn)
     pv = info["pv"]
     return {"move": pv[0].uci(), "cp": score.score(mate_score=32000),

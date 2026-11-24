@@ -18,7 +18,7 @@ python3 tools/elo/1850/build_holdout.py /chemin/stockfish /tmp/2200.epd \
 
 ## Méthode de diagnostic
 
-L’arbitre réinitialise son état à chaque recherche. Pour chaque coup d’Equinox dans une défaite, il cherche librement à 5 000 nœuds puis impose le coup joué si celui-ci diffère de sa préférence. Le filtre large (meilleur ≥ −180 cp, joué ≤ −125 cp, écart ≥ 100 cp) déclenche deux recherches à 80 000 nœuds. Seule la première bascule satisfaisant les seuils définitifs est retenue par partie. Les scores sont toujours du point de vue d’Equinox. Le fichier conserve la distance au mat séparément et code les mats par ±32 000 pour les comparaisons de seuils. Le filtre rapide et l’arbitrage à budget fini peuvent manquer une bascule.
+L’arbitre réinitialise son état à chaque recherche et conserve la dernière variante avec score sans indication de borne. Pour chaque coup d’Equinox dans une défaite, il cherche librement à 5 000 nœuds puis impose le coup joué si celui-ci diffère de sa préférence. Le filtre large (meilleur ≥ −180 cp, joué ≤ −125 cp, écart ≥ 100 cp) déclenche deux recherches à 80 000 nœuds. Seule la première bascule satisfaisant les seuils définitifs est retenue par partie. Les scores sont toujours du point de vue d’Equinox. Le fichier conserve la distance au mat séparément et code les mats par ±32 000 pour les comparaisons de seuils. Le filtre rapide et l’arbitrage à budget fini peuvent manquer une bascule.
 
 Sur ces positions, un rejeu sans horloge conserve l’historique de la position et repart avec une table vide de 1 048 576 entrées. La profondeur D reprend celle du PGN, plafonnée à 8. La sonde compare quatre recherches.
 
