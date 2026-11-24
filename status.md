@@ -33,7 +33,7 @@ Matchs du 5 août contre Stockfish 18 limité en force, à **1 seconde + 0,1 sec
 | SF18 limité à 1600 | 79 – 2 – 47 | 62,50 % | +88,7 [−31,2 ; +235,2] | 0 |
 | SF18 limité à 1800 | 59 – 7 – 62 | 48,83 % | −8,1 [−132,1 ; +113,7] | 1 pour Stockfish |
 
-Le moteur a joué près de l’équilibre contre SF18-1800 à cette cadence. L’intervalle reste compatible avec un écart important dans les deux sens. Un classement absolu ou une extrapolation à cadence lente demanderait d’autres mesures. Les PGN suivis par Git sont les six lots historiques d’avril. Les chiffres d’août proviennent du journal d’expérience, sans nouveau match en novembre. [Entrée du 5 août](docs/archives/journal-avril-septembre-2026.md#update-2026-08-05)
+Le moteur a joué près de l’équilibre contre SF18-1800 à cette cadence. L’intervalle reste compatible avec un écart important dans les deux sens. Un classement absolu ou une extrapolation à cadence lente demanderait d’autres mesures. Les chiffres d’août proviennent du journal d’expérience. Le dépôt conserve les six lots historiques d’avril ainsi que les nouveaux matchs appariés de novembre et leurs manifestes. [Entrée du 5 août](docs/archives/journal-avril-septembre-2026.md#update-2026-08-05)
 
 ## Vérifications de reprise
 
@@ -51,12 +51,12 @@ Le lot v1 a été figé dans `850def5` avant de mesurer `819a8d5`. Ses 32 positi
 
 Le lot v2 a été publié dans `1b97ed9` avant toute mesure du moteur de septembre. Sur 32 problèmes issus de 32 autres parties, sans position commune avec le run6 ni les parties sources de v1, `819a8d5` trouve **13/32 premiers coups** à profondeur 6 (8/16 avec les Blancs, 5/16 avec les Noirs). Deux passages concordent sur chaque position et comptent chacun 3 289 616 nœuds. Le même binaire reproduit à l’octet près son rapport v1. [Sélection et résultats v2](tools/tactics/v2/README.md)
 
-## Analyse critique et ordre de reprise proposé
+## Analyse critique du 23 novembre et suivi
 
 | Priorité | Constat | Action et critère de décision |
 |---|---|---|
 | 1 · Comparer les changements aux références figées | La référence de septembre trouve 32/32 coups sur v1 et 13/32 sur les coups calmes de v2. | Rejouer les deux lots à profondeur 6. Sur v2, compter les gains parmi les 19 écarts et les régressions parmi les 13 succès. Sur v1, suivre également les 15/16 pertes reconnues. Comparer le coût en nœuds et garder les canaris du run6 comme contrôle historique. |
-| 2 · Conserver les preuves des prochains matchs | Le traceur est versionné. Pour les matchs d’août, le dépôt contient les résultats et les empreintes, mais les PGN et leurs manifestes manquent. | Pour le prochain match, conserver ensemble la révision, les empreintes des binaires, le PGN, le manifeste et le résumé. Vérifier que le score peut être recalculé à partir de ces fichiers. |
+| 2 · Conserver les preuves des prochains matchs | Le traceur est versionné. Pour les matchs d’août, le dépôt contient les résultats et les empreintes, mais les PGN et leurs manifestes manquent. | Depuis le 24 novembre, chaque match de qualification a son PGN et son manifeste vérifiés. Le score a été recalculé à partir des PGN archivés. [Parties de novembre](matches/elo1850/) |
 | 3 · Promotions sans prise en quiétude, expérience close | Le candidat corrige les finales témoins mais perd une solution sur v2 (13/32 → 12/32) et augmente le coût de 39,29 % sur les 77 positions. | Conserver septembre comme référence. Les mesures et le candidat isolé permettent de reprendre l’analyse. [Bilan par lot et par position](tools/tactics/experiments/quiet-promotions/README.md) |
 | 4 · Couvrir les usages réels | Les tests UCI exercent surtout les fonctions de gestion de position et d’horloge. Le serveur HTTP partage un objet de partie mutable entre requêtes et son paquet ne contient aucun test. | Ajouter un scénario UCI complet allant de la position au meilleur coup puis à la partie suivante. Côté HTTP, vérifier la cohérence du plateau lors de requêtes simultanées et sérialiser les accès à la partie partagée. Valider les scénarios sous `-race`. |
 

@@ -338,7 +338,7 @@ func TestSearchTraceBridgeLocatesNestedLMRTTCutoff(t *testing.T) {
 	candidateBest, candidateScore, candidateDepth, candidateNodes :=
 		candidateWorker.SearchRoot(candidatePosition, 6)
 	if candidateBest != line[0] || candidateScore != -644 || candidateDepth != 6 || candidateNodes != 52680 {
-		t.Fatalf("nested NoLMR result=(%s,%d,%d,%d), want historical a4/-644/6/52680",
+		t.Fatalf("nested NoLMR result=(%s,%d,%d,%d), want a4/-644/6/52680",
 			uci.MoveToUCI(candidateBest), candidateScore, candidateDepth, candidateNodes)
 	}
 	forcedAtTarget := false
