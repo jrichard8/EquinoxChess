@@ -387,7 +387,7 @@ type ablationCase struct {
 	wantEvents int
 }
 
-func assertBranchAblations(t *testing.T, fen string, tests []ablationCase) {
+func assertBranchAblations(t *testing.T, fen string, wantScore int, tests []ablationCase) {
 	for _, tc := range tests {
 		t.Run(tc.name, func(t *testing.T) {
 			linePosition, err := board.FromFEN(fen)
@@ -443,7 +443,7 @@ func assertBranchAblations(t *testing.T, fen string, tests []ablationCase) {
 					forcedLeak = true
 				}
 			}
-			if uci.MoveToUCI(best) != "d2b4" || score != 135 || completedDepth != 6 ||
+			if uci.MoveToUCI(best) != "d2b4" || score != wantScore || completedDepth != 6 ||
 				nodes != tc.wantNodes || ablationEvents != tc.wantEvents || forcedLeak {
 				t.Fatalf("result=(%s,%d,%d,%d) ablations=%d leak=%t",
 					uci.MoveToUCI(best), score, completedDepth, nodes, ablationEvents, forcedLeak)

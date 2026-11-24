@@ -323,7 +323,7 @@ func TestSearchTraceD5BranchAblationsStayOnExactPath(t *testing.T) {
 		{name: "historical_ng3", line: []string{"d2b4", "e4g3"}, wantNodes: 116645, wantEvents: 1},
 		{name: "historical_nd2", line: []string{"d2b4", "e4d2"}, wantNodes: 116675, wantEvents: 1},
 	}
-	assertBranchAblations(t, fen, tests)
+	assertBranchAblations(t, fen, 135, tests)
 	withoutD5Position, err := board.FromFEN(fen)
 	if err != nil {
 		t.Fatalf("FromFEN(without D5): %v", err)
