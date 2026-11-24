@@ -108,3 +108,25 @@ func (s *Search) DecayHistory() {
 		}
 	}
 }
+
+// Order captures by victim and attacker value. Equal scores retain generator order.
+// Quiet moves stay in the tail for the diagnostic trace.
+func orderQuiescenceCaptures(s *Search, moves []uint32) int {
+	count := 0
+	var scores [movegen.MaxMoves]int
+	for i, m := range moves {
+		if !move.IsCapture(m) {
+			continue
+		}
+		score := scoreMove(s, m)
+		moves[i] = moves[count]
+		j := count
+		for j > 0 && scores[j-1] < score {
+			moves[j], scores[j] = moves[j-1], scores[j-1]
+			j--
+		}
+		moves[j], scores[j] = m, score
+		count++
+	}
+	return count
+}

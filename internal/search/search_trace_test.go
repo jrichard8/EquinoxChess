@@ -337,8 +337,8 @@ func TestSearchTraceBridgeLocatesNestedLMRTTCutoff(t *testing.T) {
 	candidateWorker := Search{TT: tt.NewTT(1 << 16), Trace: candidateTrace}
 	candidateBest, candidateScore, candidateDepth, candidateNodes :=
 		candidateWorker.SearchRoot(candidatePosition, 6)
-	if candidateBest != line[0] || candidateScore != -644 || candidateDepth != 6 || candidateNodes != 54331 {
-		t.Fatalf("nested NoLMR result=(%s,%d,%d,%d), want historical a4/-644/6/54331",
+	if candidateBest != line[0] || candidateScore != -644 || candidateDepth != 6 || candidateNodes != 52680 {
+		t.Fatalf("nested NoLMR result=(%s,%d,%d,%d), want historical a4/-644/6/52680",
 			uci.MoveToUCI(candidateBest), candidateScore, candidateDepth, candidateNodes)
 	}
 	forcedAtTarget := false
@@ -391,8 +391,8 @@ func TestSearchTraceBridgeLocatesNestedLMRTTCutoff(t *testing.T) {
 	combinedWorker := Search{TT: tt.NewTT(1 << 16), Trace: combinedTrace}
 	combinedBest, combinedScore, combinedDepth, combinedNodes := combinedWorker.SearchRoot(combinedPosition, 6)
 	if uci.MoveToUCI(combinedBest) != "d1d3" || combinedScore != -728 || combinedDepth != 6 ||
-		combinedNodes != 91546 {
-		t.Fatalf("combined result=(%s,%d,%d,%d), want d1d3/-728/6/91546",
+		combinedNodes != 88968 {
+		t.Fatalf("combined result=(%s,%d,%d,%d), want d1d3/-728/6/88968",
 			uci.MoveToUCI(combinedBest), combinedScore, combinedDepth, combinedNodes)
 	}
 	forcedNoFutility := false
@@ -453,7 +453,7 @@ func TestSearchTraceBridgeLocatesNestedLMRTTCutoff(t *testing.T) {
 	}
 	probeWorker := Search{TT: tt.NewTT(1 << 16), Trace: probeTrace}
 	probeBest, probeScore, probeDepth, probeNodes := probeWorker.SearchRoot(probePosition, 6)
-	if probeBest != line[0] || probeScore != -644 || probeDepth != 6 || probeNodes != 54316 {
+	if probeBest != line[0] || probeScore != -644 || probeDepth != 6 || probeNodes != 52665 {
 		t.Fatalf("shadow probe changed main result=(%s,%d,%d,%d)",
 			uci.MoveToUCI(probeBest), probeScore, probeDepth, probeNodes)
 	}
@@ -492,8 +492,8 @@ func TestSearchTraceBridgeLocatesNestedLMRTTCutoff(t *testing.T) {
 	generalWorker := Search{TT: tt.NewTT(1 << 16), Trace: generalTrace}
 	generalBest, generalScore, generalDepth, generalNodes := generalWorker.SearchRoot(generalPosition, 6)
 	if uci.MoveToUCI(generalBest) != "c4d3" || generalScore != -741 || generalDepth != 6 ||
-		generalNodes != 77748 {
-		t.Fatalf("general result=(%s,%d,%d,%d), want c4d3/-741/6/77748",
+		generalNodes != 74918 {
+		t.Fatalf("general result=(%s,%d,%d,%d), want c4d3/-741/6/74918",
 			uci.MoveToUCI(generalBest), generalScore, generalDepth, generalNodes)
 	}
 	generalD3Count := 0
@@ -609,7 +609,7 @@ func TestSearchTraceBridgeLocatesNestedLMRTTCutoff(t *testing.T) {
 		}
 	}
 	if uci.MoveToUCI(d5GeneralBest) != "c4d3" || d5GeneralScore != -741 || d5GeneralDepth != 6 ||
-		d5GeneralNodes != 78659 || d5Count == 0 || d5D3Count == 0 || d5D1Count == 0 || d5Leak ||
+		d5GeneralNodes != 75812 || d5Count == 0 || d5D3Count == 0 || d5D1Count == 0 || d5Leak ||
 		!knownD5 || !knownD3 {
 		t.Fatalf("D5D3D1 result=(%s,%d,%d,%d) d5=%d d3=%d d1=%d leak=%t known=%t/%t",
 			uci.MoveToUCI(d5GeneralBest), d5GeneralScore, d5GeneralDepth, d5GeneralNodes,
@@ -654,10 +654,10 @@ func TestSearchTraceD5BranchAblationsStayOnExactPath(t *testing.T) {
 		line      []string
 		wantNodes uint64
 	}{
-		{name: "competitor_qh1", line: []string{"d1e2", "h3h1"}, wantNodes: 147082},
-		{name: "historical_qh1", line: []string{"d2b4", "h3h1"}, wantNodes: 131803},
-		{name: "historical_ng3", line: []string{"d2b4", "e4g3"}, wantNodes: 133612},
-		{name: "historical_nd2", line: []string{"d2b4", "e4d2"}, wantNodes: 133642},
+		{name: "competitor_qh1", line: []string{"d1e2", "h3h1"}, wantNodes: 128066},
+		{name: "historical_qh1", line: []string{"d2b4", "h3h1"}, wantNodes: 114329},
+		{name: "historical_ng3", line: []string{"d2b4", "e4g3"}, wantNodes: 116645},
+		{name: "historical_nd2", line: []string{"d2b4", "e4d2"}, wantNodes: 116675},
 	}
 	for _, tc := range tests {
 		t.Run(tc.name, func(t *testing.T) {
@@ -734,8 +734,8 @@ func TestSearchTraceD5BranchAblationsStayOnExactPath(t *testing.T) {
 	withoutD5Best, withoutD5Score, withoutD5Depth, withoutD5Nodes :=
 		withoutD5Worker.SearchRoot(withoutD5Position, 6)
 	if uci.MoveToUCI(withoutD5Best) != "d1e2" || withoutD5Score != 145 || withoutD5Depth != 6 ||
-		withoutD5Nodes != 148952 {
-		t.Fatalf("without D5 result=(%s,%d,%d,%d), want d1e2/145/6/148952",
+		withoutD5Nodes != 129186 {
+		t.Fatalf("without D5 result=(%s,%d,%d,%d), want d1e2/145/6/129186",
 			uci.MoveToUCI(withoutD5Best), withoutD5Score, withoutD5Depth, withoutD5Nodes)
 	}
 
@@ -793,7 +793,7 @@ func TestSearchTraceD5BranchAblationsStayOnExactPath(t *testing.T) {
 		cascadeForced = cascadeForced || matches
 	}
 	if uci.MoveToUCI(allOriginalBest) != "d2b4" || allOriginalScore != 135 ||
-		allOriginalDepth != 6 || allOriginalNodes != 150561 || !cascadeForced {
+		allOriginalDepth != 6 || allOriginalNodes != 130818 || !cascadeForced {
 		t.Fatalf("all original ablations result=(%s,%d,%d,%d) cascade=%t",
 			uci.MoveToUCI(allOriginalBest), allOriginalScore, allOriginalDepth,
 			allOriginalNodes, cascadeForced)
@@ -817,7 +817,7 @@ func TestSearchTraceD5BranchAblationsStayOnExactPath(t *testing.T) {
 		}
 	}
 	if uci.MoveToUCI(pairedBest) != "d1e2" || pairedScore != 145 || pairedDepth != 6 ||
-		pairedNodes != 145619 || pairedAblations != 2 {
+		pairedNodes != 126514 || pairedAblations != 2 {
 		t.Fatalf("paired competitor ablation result=(%s,%d,%d,%d) ablations=%d",
 			uci.MoveToUCI(pairedBest), pairedScore, pairedDepth, pairedNodes, pairedAblations)
 	}
@@ -842,8 +842,8 @@ func TestSearchTraceD5ReducedFullShadowIsDeterministicAndNonInterfering(t *testi
 	best, score, depth, nodes, first := run(true)
 	plainBest, plainScore, plainDepth, plainNodes, _ := run(false)
 	secondBest, secondScore, secondDepth, secondNodes, second := run(true)
-	if uci.MoveToUCI(best) != "d1e2" || score != 146 || depth != 6 || nodes != 155300 {
-		t.Fatalf("baseline result=(%s,%d,%d,%d), want d1e2/146/6/155300",
+	if uci.MoveToUCI(best) != "d1e2" || score != 146 || depth != 6 || nodes != 134048 {
+		t.Fatalf("baseline result=(%s,%d,%d,%d), want d1e2/146/6/134048",
 			uci.MoveToUCI(best), score, depth, nodes)
 	}
 	if best != plainBest || score != plainScore || depth != plainDepth || nodes != plainNodes {

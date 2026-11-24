@@ -4,8 +4,6 @@ import (
 	"math/bits"
 
 	"EquinoxChess/internal/board"
-	"EquinoxChess/internal/move"
-	"EquinoxChess/internal/movegen"
 )
 
 const (
@@ -303,59 +301,55 @@ func popLSB(bb *board.Bitboard) int {
 }
 
 func countMobility(b *board.Board, side int) int {
-	tmp := *b
-	tmp.SideToMove = side
-	var moves [movegen.MaxMoves]uint32
-	count := movegen.GeneratePseudoLegalMoves(&tmp, &moves)
+	own, enemyKing, offset := b.OccupancyWhite, b.Pieces[board.BlackKing], board.WhitePawn
+	if side == board.Black {
+		own, enemyKing, offset = b.OccupancyBlack, b.Pieces[board.WhiteKing], board.BlackPawn
+	}
+	available := ^(own | enemyKing)
 	mobility := 0
-	for i := 0; i < count; i++ {
-		moving := move.MovingPiece(moves[i])
-		switch moving {
-		case board.WhiteKnight, board.BlackKnight:
-			mobility += 4
-		case board.WhiteBishop, board.BlackBishop:
-			mobility += 4
-		case board.WhiteRook, board.BlackRook:
-			mobility += 2
-		case board.WhiteQueen, board.BlackQueen:
-			mobility += 1
-		}
+	for bb := b.Pieces[offset+board.WhiteKnight]; bb != 0; {
+		targets := board.KnightTargets(popLSB(&bb)) & available
+		mobility += 4 * bits.OnesCount64(uint64(targets))
+	}
+	for bb := b.Pieces[offset+board.WhiteBishop]; bb != 0; {
+		targets := board.BishopTargets(popLSB(&bb), b.OccupancyBoth) & available
+		mobility += 4 * bits.OnesCount64(uint64(targets))
+	}
+	for bb := b.Pieces[offset+board.WhiteRook]; bb != 0; {
+		targets := board.RookTargets(popLSB(&bb), b.OccupancyBoth) & available
+		mobility += 2 * bits.OnesCount64(uint64(targets))
+	}
+	for bb := b.Pieces[offset+board.WhiteQueen]; bb != 0; {
+		sq := popLSB(&bb)
+		targets := board.BishopTargets(sq, b.OccupancyBoth) | board.RookTargets(sq, b.OccupancyBoth)
+		mobility += bits.OnesCount64(uint64(targets & available))
 	}
 	return mobility
 }
 
-func isPassedPawn(b *board.Board, sq int, side int) bool {
-	file := sq % 8
-	rank := sq / 8
-	var enemyPawns board.Bitboard
-	if side == board.White {
-		enemyPawns = b.Pieces[board.BlackPawn]
-		for r := rank + 1; r < 8; r++ {
-			for df := -1; df <= 1; df++ {
-				f := file + df
-				if f < 0 || f > 7 {
-					continue
-				}
-				checkSq := r*8 + f
-				if enemyPawns&(board.Bitboard(1)<<checkSq) != 0 {
-					return false
-				}
-			}
+// A passed pawn has no enemy pawn ahead on its own or either adjacent file.
+var passedPawnMasks [2][64]board.Bitboard
+
+func init() {
+	for square := 0; square < 64; square++ {
+		file := square % 8
+		files := uint64(0x0101010101010101) << file
+		if file > 0 {
+			files |= uint64(0x0101010101010101) << (file - 1)
 		}
-		return true
-	}
-	enemyPawns = b.Pieces[board.WhitePawn]
-	for r := rank - 1; r >= 0; r-- {
-		for df := -1; df <= 1; df++ {
-			f := file + df
-			if f < 0 || f > 7 {
-				continue
-			}
-			checkSq := r*8 + f
-			if enemyPawns&(board.Bitboard(1)<<checkSq) != 0 {
-				return false
-			}
+		if file < 7 {
+			files |= uint64(0x0101010101010101) << (file + 1)
 		}
+		rank := square / 8
+		passedPawnMasks[board.White][square] = board.Bitboard(files & (^uint64(0) << ((rank + 1) * 8)))
+		passedPawnMasks[board.Black][square] = board.Bitboard(files & ((uint64(1) << (rank * 8)) - 1))
 	}
-	return true
+}
+
+func isPassedPawn(b *board.Board, square, side int) bool {
+	enemy := board.BlackPawn
+	if side == board.Black {
+		enemy = board.WhitePawn
+	}
+	return b.Pieces[enemy]&passedPawnMasks[side][square] == 0
 }

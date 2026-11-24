@@ -37,7 +37,6 @@ func init() {
 // IsSquareAttacked reports whether square is attacked by the given side.
 func (b *Board) IsSquareAttacked(square int, bySide int) bool {
 	file := square % 8
-	rank := square / 8
 
 	if bySide == White {
 		if file > 0 {
@@ -97,7 +96,7 @@ func (b *Board) IsSquareAttacked(square int, bySide int) bool {
 	} else {
 		diagMask = b.Pieces[BlackBishop] | b.Pieces[BlackQueen]
 	}
-	if attackedBySliding(square, file, rank, b.OccupancyBoth, diagMask, true) {
+	if diagMask != 0 && BishopTargets(square, b.OccupancyBoth)&diagMask != 0 {
 		return true
 	}
 
@@ -107,39 +106,7 @@ func (b *Board) IsSquareAttacked(square int, bySide int) bool {
 	} else {
 		orthoMask = b.Pieces[BlackRook] | b.Pieces[BlackQueen]
 	}
-	if attackedBySliding(square, file, rank, b.OccupancyBoth, orthoMask, false) {
-		return true
-	}
-
-	return false
-}
-
-func attackedBySliding(square, file, rank int, occupancy, attackers Bitboard, diagonal bool) bool {
-	var deltas [4][2]int
-	if diagonal {
-		deltas = [4][2]int{{1, 1}, {-1, 1}, {1, -1}, {-1, -1}}
-	} else {
-		deltas = [4][2]int{{1, 0}, {-1, 0}, {0, 1}, {0, -1}}
-	}
-
-	for i := 0; i < len(deltas); i++ {
-		f := file + deltas[i][0]
-		r := rank + deltas[i][1]
-		for f >= 0 && f < 8 && r >= 0 && r < 8 {
-			sq := r*8 + f
-			mask := Bitboard(1) << sq
-			if occupancy&mask != 0 {
-				if attackers&mask != 0 {
-					return true
-				}
-				break
-			}
-			f += deltas[i][0]
-			r += deltas[i][1]
-		}
-	}
-
-	return false
+	return orthoMask != 0 && RookTargets(square, b.OccupancyBoth)&orthoMask != 0
 }
 
 func kingSquare(bb Bitboard) int {
