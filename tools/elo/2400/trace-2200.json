@@ -1,0 +1,1710 @@
+[
+  {
+    "round": 3,
+    "color": "black",
+    "reference": "a8d8",
+    "depth": 7,
+    "final_depth_reference_modes": [
+      "lmr_full_research"
+    ],
+    "final_depth_verified_moves": [
+      "e8d8"
+    ],
+    "reference_verified_any_iteration": false,
+    "reference_full_depth_final_iteration": true
+  },
+  {
+    "round": 6,
+    "color": "black",
+    "reference": "d7d6",
+    "depth": 7,
+    "final_depth_reference_modes": [
+      "lmr_full_research"
+    ],
+    "final_depth_verified_moves": [
+      "f8g7"
+    ],
+    "reference_verified_any_iteration": false,
+    "reference_full_depth_final_iteration": true
+  },
+  {
+    "round": 7,
+    "color": "black",
+    "reference": "b8d8",
+    "depth": 9,
+    "final_depth_reference_modes": [
+      "lmr_full_research"
+    ],
+    "final_depth_verified_moves": [
+      "a6a5"
+    ],
+    "reference_verified_any_iteration": true,
+    "reference_full_depth_final_iteration": true
+  },
+  {
+    "round": 9,
+    "color": "white",
+    "reference": "h2h4",
+    "depth": 7,
+    "final_depth_reference_modes": [
+      "lmr_reduced"
+    ],
+    "final_depth_verified_moves": null,
+    "reference_verified_any_iteration": false,
+    "reference_full_depth_final_iteration": false
+  },
+  {
+    "round": 10,
+    "color": "black",
+    "reference": "g5h5",
+    "depth": 9,
+    "final_depth_reference_modes": [
+      "full_depth"
+    ],
+    "final_depth_verified_moves": null,
+    "reference_verified_any_iteration": false,
+    "reference_full_depth_final_iteration": true
+  },
+  {
+    "round": 10,
+    "color": "white",
+    "reference": "f2g1",
+    "depth": 7,
+    "final_depth_reference_modes": [
+      "lmr_reduced"
+    ],
+    "final_depth_verified_moves": [
+      "d4c4"
+    ],
+    "reference_verified_any_iteration": false,
+    "reference_full_depth_final_iteration": false
+  },
+  {
+    "round": 15,
+    "color": "black",
+    "reference": "g6f6",
+    "depth": 8,
+    "final_depth_reference_modes": [
+      "lmr_reduced"
+    ],
+    "final_depth_verified_moves": [
+      "a5c3"
+    ],
+    "reference_verified_any_iteration": false,
+    "reference_full_depth_final_iteration": false
+  },
+  {
+    "round": 15,
+    "color": "white",
+    "reference": "e1g1",
+    "depth": 7,
+    "final_depth_reference_modes": [
+      "lmr_full_research"
+    ],
+    "final_depth_verified_moves": [
+      "h1g1"
+    ],
+    "reference_verified_any_iteration": false,
+    "reference_full_depth_final_iteration": true
+  },
+  {
+    "round": 20,
+    "color": "black",
+    "reference": "a4e8",
+    "depth": 7,
+    "final_depth_reference_modes": [
+      "lmr_reduced"
+    ],
+    "final_depth_verified_moves": [
+      "c8a8"
+    ],
+    "reference_verified_any_iteration": false,
+    "reference_full_depth_final_iteration": false
+  },
+  {
+    "round": 20,
+    "color": "white",
+    "reference": "h5h7",
+    "depth": 7,
+    "final_depth_reference_modes": [
+      "lmr_full_research"
+    ],
+    "final_depth_verified_moves": [
+      "f2f4"
+    ],
+    "reference_verified_any_iteration": false,
+    "reference_full_depth_final_iteration": true
+  },
+  {
+    "round": 21,
+    "color": "black",
+    "reference": "e8c8",
+    "depth": 7,
+    "final_depth_reference_modes": [
+      "lmr_reduced",
+      "lmr_reduced"
+    ],
+    "final_depth_verified_moves": [
+      "f8g7"
+    ],
+    "reference_verified_any_iteration": false,
+    "reference_full_depth_final_iteration": false
+  },
+  {
+    "round": 21,
+    "color": "white",
+    "reference": "c2c1",
+    "depth": 11,
+    "final_depth_reference_modes": [
+      "lmr_reduced",
+      "root_quiet_verification"
+    ],
+    "final_depth_verified_moves": [
+      "c2c1"
+    ],
+    "reference_verified_any_iteration": true,
+    "reference_full_depth_final_iteration": true
+  },
+  {
+    "round": 25,
+    "color": "black",
+    "reference": "d1e1",
+    "depth": 8,
+    "final_depth_reference_modes": [
+      "lmr_reduced",
+      "root_quiet_verification",
+      "lmr_full_research"
+    ],
+    "final_depth_verified_moves": [
+      "d1e1"
+    ],
+    "reference_verified_any_iteration": true,
+    "reference_full_depth_final_iteration": true
+  },
+  {
+    "round": 27,
+    "color": "white",
+    "reference": "e4e5",
+    "depth": 9,
+    "final_depth_reference_modes": [
+      "lmr_reduced"
+    ],
+    "final_depth_verified_moves": [
+      "e2c2"
+    ],
+    "reference_verified_any_iteration": false,
+    "reference_full_depth_final_iteration": false
+  },
+  {
+    "round": 28,
+    "color": "white",
+    "reference": "b2b4",
+    "depth": 7,
+    "final_depth_reference_modes": [
+      "lmr_reduced"
+    ],
+    "final_depth_verified_moves": [
+      "h1g1"
+    ],
+    "reference_verified_any_iteration": false,
+    "reference_full_depth_final_iteration": false
+  },
+  {
+    "round": 35,
+    "color": "white",
+    "reference": "d4d2",
+    "depth": 8,
+    "final_depth_reference_modes": [
+      "lmr_reduced"
+    ],
+    "final_depth_verified_moves": [
+      "d4d5"
+    ],
+    "reference_verified_any_iteration": true,
+    "reference_full_depth_final_iteration": false
+  },
+  {
+    "round": 36,
+    "color": "black",
+    "reference": "c6b4",
+    "depth": 6,
+    "final_depth_reference_modes": [
+      "lmr_reduced",
+      "root_quiet_verification"
+    ],
+    "final_depth_verified_moves": [
+      "c6b4"
+    ],
+    "reference_verified_any_iteration": true,
+    "reference_full_depth_final_iteration": true
+  },
+  {
+    "round": 41,
+    "color": "black",
+    "reference": "h7h8",
+    "depth": 7,
+    "final_depth_reference_modes": [
+      "lmr_reduced",
+      "root_quiet_verification"
+    ],
+    "final_depth_verified_moves": [
+      "h7h8"
+    ],
+    "reference_verified_any_iteration": true,
+    "reference_full_depth_final_iteration": true
+  },
+  {
+    "round": 47,
+    "color": "white",
+    "reference": "a2a4",
+    "depth": 7,
+    "final_depth_reference_modes": [
+      "lmr_reduced"
+    ],
+    "final_depth_verified_moves": null,
+    "reference_verified_any_iteration": false,
+    "reference_full_depth_final_iteration": false
+  },
+  {
+    "round": 48,
+    "color": "white",
+    "reference": "b2c1",
+    "depth": 8,
+    "final_depth_reference_modes": [
+      "lmr_reduced"
+    ],
+    "final_depth_verified_moves": [
+      "d6d7"
+    ],
+    "reference_verified_any_iteration": false,
+    "reference_full_depth_final_iteration": false
+  },
+  {
+    "round": 53,
+    "color": "black",
+    "reference": "a2e2",
+    "depth": 6,
+    "final_depth_reference_modes": [
+      "lmr_full_research"
+    ],
+    "final_depth_verified_moves": [
+      "f7f6"
+    ],
+    "reference_verified_any_iteration": true,
+    "reference_full_depth_final_iteration": true
+  },
+  {
+    "round": 53,
+    "color": "white",
+    "reference": "f4g3",
+    "depth": 7,
+    "final_depth_reference_modes": [
+      "lmr_reduced"
+    ],
+    "final_depth_verified_moves": [
+      "f2f3"
+    ],
+    "reference_verified_any_iteration": false,
+    "reference_full_depth_final_iteration": false
+  },
+  {
+    "round": 62,
+    "color": "black",
+    "reference": "d7e7",
+    "depth": 8,
+    "final_depth_reference_modes": [
+      "lmr_reduced"
+    ],
+    "final_depth_verified_moves": [
+      "a8d8"
+    ],
+    "reference_verified_any_iteration": false,
+    "reference_full_depth_final_iteration": false
+  },
+  {
+    "round": 66,
+    "color": "white",
+    "reference": "b1d1",
+    "depth": 7,
+    "final_depth_reference_modes": [
+      "lmr_reduced"
+    ],
+    "final_depth_verified_moves": [
+      "b1f1"
+    ],
+    "reference_verified_any_iteration": false,
+    "reference_full_depth_final_iteration": false
+  },
+  {
+    "round": 68,
+    "color": "white",
+    "reference": "a2a4",
+    "depth": 7,
+    "final_depth_reference_modes": [
+      "lmr_full_research",
+      "lmr_full_research"
+    ],
+    "final_depth_verified_moves": [
+      "b5b6",
+      "g1h1"
+    ],
+    "reference_verified_any_iteration": true,
+    "reference_full_depth_final_iteration": true
+  },
+  {
+    "round": 70,
+    "color": "white",
+    "reference": "b3b4",
+    "depth": 7,
+    "final_depth_reference_modes": [
+      "lmr_reduced"
+    ],
+    "final_depth_verified_moves": [
+      "h3h4"
+    ],
+    "reference_verified_any_iteration": false,
+    "reference_full_depth_final_iteration": false
+  },
+  {
+    "round": 71,
+    "color": "black",
+    "reference": "f8b4",
+    "depth": 7,
+    "final_depth_reference_modes": [
+      "lmr_reduced",
+      "root_quiet_verification"
+    ],
+    "final_depth_verified_moves": [
+      "f8b4"
+    ],
+    "reference_verified_any_iteration": true,
+    "reference_full_depth_final_iteration": true
+  },
+  {
+    "round": 75,
+    "color": "white",
+    "reference": "c3d2",
+    "depth": 7,
+    "final_depth_reference_modes": [
+      "lmr_full_research"
+    ],
+    "final_depth_verified_moves": null,
+    "reference_verified_any_iteration": false,
+    "reference_full_depth_final_iteration": true
+  },
+  {
+    "round": 81,
+    "color": "black",
+    "reference": "a8c8",
+    "depth": 7,
+    "final_depth_reference_modes": [
+      "lmr_reduced",
+      "lmr_reduced"
+    ],
+    "final_depth_verified_moves": [
+      "a7a6",
+      "a7a6"
+    ],
+    "reference_verified_any_iteration": false,
+    "reference_full_depth_final_iteration": false
+  },
+  {
+    "round": 81,
+    "color": "white",
+    "reference": "f1c1",
+    "depth": 7,
+    "final_depth_reference_modes": [
+      "lmr_reduced"
+    ],
+    "final_depth_verified_moves": [
+      "f1d1"
+    ],
+    "reference_verified_any_iteration": false,
+    "reference_full_depth_final_iteration": false
+  },
+  {
+    "round": 89,
+    "color": "black",
+    "reference": "g4g3",
+    "depth": 9,
+    "final_depth_reference_modes": [
+      "lmr_reduced"
+    ],
+    "final_depth_verified_moves": [
+      "g7g6"
+    ],
+    "reference_verified_any_iteration": false,
+    "reference_full_depth_final_iteration": false
+  },
+  {
+    "round": 91,
+    "color": "white",
+    "reference": "g6g3",
+    "depth": 9,
+    "final_depth_reference_modes": [
+      "lmr_reduced"
+    ],
+    "final_depth_verified_moves": [
+      "g6g5"
+    ],
+    "reference_verified_any_iteration": false,
+    "reference_full_depth_final_iteration": false
+  },
+  {
+    "round": 93,
+    "color": "black",
+    "reference": "f7f5",
+    "depth": 7,
+    "final_depth_reference_modes": [
+      "lmr_reduced",
+      "root_quiet_verification"
+    ],
+    "final_depth_verified_moves": [
+      "f7f5"
+    ],
+    "reference_verified_any_iteration": true,
+    "reference_full_depth_final_iteration": true
+  },
+  {
+    "round": 96,
+    "color": "black",
+    "reference": "c6a5",
+    "depth": 7,
+    "final_depth_reference_modes": [
+      "lmr_reduced",
+      "lmr_reduced"
+    ],
+    "final_depth_verified_moves": [
+      "g7f8",
+      "g7e7"
+    ],
+    "reference_verified_any_iteration": false,
+    "reference_full_depth_final_iteration": false
+  },
+  {
+    "round": 96,
+    "color": "white",
+    "reference": "h1f1",
+    "depth": 8,
+    "final_depth_reference_modes": [
+      "full_depth"
+    ],
+    "final_depth_verified_moves": [
+      "c2a4"
+    ],
+    "reference_verified_any_iteration": false,
+    "reference_full_depth_final_iteration": true
+  },
+  {
+    "round": 99,
+    "color": "white",
+    "reference": "h1c1",
+    "depth": 7,
+    "final_depth_reference_modes": [
+      "lmr_reduced"
+    ],
+    "final_depth_verified_moves": null,
+    "reference_verified_any_iteration": true,
+    "reference_full_depth_final_iteration": false
+  },
+  {
+    "round": 101,
+    "color": "black",
+    "reference": "a8a6",
+    "depth": 7,
+    "final_depth_reference_modes": [
+      "lmr_reduced"
+    ],
+    "final_depth_verified_moves": [
+      "e6e5"
+    ],
+    "reference_verified_any_iteration": false,
+    "reference_full_depth_final_iteration": false
+  },
+  {
+    "round": 104,
+    "color": "white",
+    "reference": "e4e5",
+    "depth": 9,
+    "final_depth_reference_modes": [
+      "lmr_reduced"
+    ],
+    "final_depth_verified_moves": null,
+    "reference_verified_any_iteration": false,
+    "reference_full_depth_final_iteration": false
+  },
+  {
+    "round": 109,
+    "color": "black",
+    "reference": "e4c5",
+    "depth": 8,
+    "final_depth_reference_modes": [
+      "lmr_reduced",
+      "root_quiet_verification"
+    ],
+    "final_depth_verified_moves": [
+      "e4c5"
+    ],
+    "reference_verified_any_iteration": true,
+    "reference_full_depth_final_iteration": true
+  },
+  {
+    "round": 109,
+    "color": "white",
+    "reference": "a3a4",
+    "depth": 8,
+    "final_depth_reference_modes": [
+      "lmr_reduced"
+    ],
+    "final_depth_verified_moves": [
+      "a1a2"
+    ],
+    "reference_verified_any_iteration": true,
+    "reference_full_depth_final_iteration": false
+  },
+  {
+    "round": 110,
+    "color": "black",
+    "reference": "f8h8",
+    "depth": 7,
+    "final_depth_reference_modes": [
+      "lmr_full_research"
+    ],
+    "final_depth_verified_moves": [
+      "g6g5"
+    ],
+    "reference_verified_any_iteration": false,
+    "reference_full_depth_final_iteration": true
+  },
+  {
+    "round": 111,
+    "color": "white",
+    "reference": "c2c3",
+    "depth": 9,
+    "final_depth_reference_modes": [
+      "lmr_reduced"
+    ],
+    "final_depth_verified_moves": null,
+    "reference_verified_any_iteration": false,
+    "reference_full_depth_final_iteration": false
+  },
+  {
+    "round": 112,
+    "color": "white",
+    "reference": "g2g4",
+    "depth": 8,
+    "final_depth_reference_modes": [
+      "lmr_reduced"
+    ],
+    "final_depth_verified_moves": [
+      "d1c2"
+    ],
+    "reference_verified_any_iteration": false,
+    "reference_full_depth_final_iteration": false
+  },
+  {
+    "round": 118,
+    "color": "black",
+    "reference": "f8g7",
+    "depth": 6,
+    "final_depth_reference_modes": [
+      "lmr_full_research"
+    ],
+    "final_depth_verified_moves": [
+      "g4h6"
+    ],
+    "reference_verified_any_iteration": true,
+    "reference_full_depth_final_iteration": true
+  },
+  {
+    "round": 120,
+    "color": "white",
+    "reference": "f2f3",
+    "depth": 8,
+    "final_depth_reference_modes": [
+      "lmr_reduced"
+    ],
+    "final_depth_verified_moves": [
+      "a1f1"
+    ],
+    "reference_verified_any_iteration": false,
+    "reference_full_depth_final_iteration": false
+  },
+  {
+    "round": 123,
+    "color": "white",
+    "reference": "b1d1",
+    "depth": 6,
+    "final_depth_reference_modes": [
+      "lmr_reduced",
+      "root_quiet_verification",
+      "lmr_full_research"
+    ],
+    "final_depth_verified_moves": [
+      "b1d1",
+      "c3d1"
+    ],
+    "reference_verified_any_iteration": true,
+    "reference_full_depth_final_iteration": true
+  },
+  {
+    "round": 124,
+    "color": "black",
+    "reference": "c7c5",
+    "depth": 8,
+    "final_depth_reference_modes": [
+      "lmr_reduced"
+    ],
+    "final_depth_verified_moves": [
+      "d7e6"
+    ],
+    "reference_verified_any_iteration": false,
+    "reference_full_depth_final_iteration": false
+  },
+  {
+    "round": 126,
+    "color": "black",
+    "reference": "d8e8",
+    "depth": 7,
+    "final_depth_reference_modes": [
+      "full_depth"
+    ],
+    "final_depth_verified_moves": null,
+    "reference_verified_any_iteration": false,
+    "reference_full_depth_final_iteration": true
+  },
+  {
+    "round": 128,
+    "color": "black",
+    "reference": "g3b3",
+    "depth": 7,
+    "final_depth_reference_modes": [
+      "lmr_full_research"
+    ],
+    "final_depth_verified_moves": [
+      "g3a3"
+    ],
+    "reference_verified_any_iteration": true,
+    "reference_full_depth_final_iteration": true
+  },
+  {
+    "round": 130,
+    "color": "white",
+    "reference": "h3g2",
+    "depth": 7,
+    "final_depth_reference_modes": [
+      "lmr_reduced"
+    ],
+    "final_depth_verified_moves": [
+      "h1e1"
+    ],
+    "reference_verified_any_iteration": false,
+    "reference_full_depth_final_iteration": false
+  },
+  {
+    "round": 131,
+    "color": "white",
+    "reference": "e1g1",
+    "depth": 8,
+    "final_depth_reference_modes": [
+      "lmr_reduced",
+      "root_quiet_verification"
+    ],
+    "final_depth_verified_moves": [
+      "e1g1"
+    ],
+    "reference_verified_any_iteration": true,
+    "reference_full_depth_final_iteration": true
+  },
+  {
+    "round": 139,
+    "color": "black",
+    "reference": "d7d8",
+    "depth": 6,
+    "final_depth_reference_modes": [
+      "lmr_reduced"
+    ],
+    "final_depth_verified_moves": [
+      "c6e5"
+    ],
+    "reference_verified_any_iteration": false,
+    "reference_full_depth_final_iteration": false
+  },
+  {
+    "round": 144,
+    "color": "black",
+    "reference": "g8g6",
+    "depth": 7,
+    "final_depth_reference_modes": [
+      "lmr_reduced"
+    ],
+    "final_depth_verified_moves": [
+      "g8g7"
+    ],
+    "reference_verified_any_iteration": false,
+    "reference_full_depth_final_iteration": false
+  },
+  {
+    "round": 145,
+    "color": "black",
+    "reference": "g5h4",
+    "depth": 7,
+    "final_depth_reference_modes": [
+      "lmr_reduced"
+    ],
+    "final_depth_verified_moves": [
+      "f8d8"
+    ],
+    "reference_verified_any_iteration": false,
+    "reference_full_depth_final_iteration": false
+  },
+  {
+    "round": 145,
+    "color": "white",
+    "reference": "a6a3",
+    "depth": 6,
+    "final_depth_reference_modes": [
+      "lmr_reduced"
+    ],
+    "final_depth_verified_moves": null,
+    "reference_verified_any_iteration": false,
+    "reference_full_depth_final_iteration": false
+  },
+  {
+    "round": 146,
+    "color": "black",
+    "reference": "c6e5",
+    "depth": 6,
+    "final_depth_reference_modes": [
+      "lmr_reduced"
+    ],
+    "final_depth_verified_moves": [
+      "f6g4"
+    ],
+    "reference_verified_any_iteration": false,
+    "reference_full_depth_final_iteration": false
+  },
+  {
+    "round": 153,
+    "color": "black",
+    "reference": "a8b8",
+    "depth": 7,
+    "final_depth_reference_modes": [
+      "lmr_reduced"
+    ],
+    "final_depth_verified_moves": null,
+    "reference_verified_any_iteration": false,
+    "reference_full_depth_final_iteration": false
+  },
+  {
+    "round": 154,
+    "color": "black",
+    "reference": "e5e4",
+    "depth": 8,
+    "final_depth_reference_modes": [
+      "full_depth"
+    ],
+    "final_depth_verified_moves": [
+      "g5g4"
+    ],
+    "reference_verified_any_iteration": false,
+    "reference_full_depth_final_iteration": true
+  },
+  {
+    "round": 160,
+    "color": "white",
+    "reference": "e2f3",
+    "depth": 7,
+    "final_depth_reference_modes": [
+      "lmr_reduced"
+    ],
+    "final_depth_verified_moves": [
+      "c3c4"
+    ],
+    "reference_verified_any_iteration": false,
+    "reference_full_depth_final_iteration": false
+  },
+  {
+    "round": 162,
+    "color": "white",
+    "reference": "c1g5",
+    "depth": 7,
+    "final_depth_reference_modes": [
+      "lmr_reduced"
+    ],
+    "final_depth_verified_moves": null,
+    "reference_verified_any_iteration": false,
+    "reference_full_depth_final_iteration": false
+  },
+  {
+    "round": 164,
+    "color": "white",
+    "reference": "g2g3",
+    "depth": 6,
+    "final_depth_reference_modes": [
+      "lmr_reduced"
+    ],
+    "final_depth_verified_moves": [
+      "f1c1"
+    ],
+    "reference_verified_any_iteration": false,
+    "reference_full_depth_final_iteration": false
+  },
+  {
+    "round": 166,
+    "color": "white",
+    "reference": "c5e3",
+    "depth": 8,
+    "final_depth_reference_modes": [
+      "lmr_reduced"
+    ],
+    "final_depth_verified_moves": null,
+    "reference_verified_any_iteration": false,
+    "reference_full_depth_final_iteration": false
+  },
+  {
+    "round": 173,
+    "color": "white",
+    "reference": "f1c1",
+    "depth": 7,
+    "final_depth_reference_modes": [
+      "lmr_reduced"
+    ],
+    "final_depth_verified_moves": [
+      "a3a5"
+    ],
+    "reference_verified_any_iteration": false,
+    "reference_full_depth_final_iteration": false
+  },
+  {
+    "round": 177,
+    "color": "white",
+    "reference": "d2f1",
+    "depth": 8,
+    "final_depth_reference_modes": [
+      "lmr_reduced"
+    ],
+    "final_depth_verified_moves": [
+      "d2c4"
+    ],
+    "reference_verified_any_iteration": false,
+    "reference_full_depth_final_iteration": false
+  },
+  {
+    "round": 178,
+    "color": "black",
+    "reference": "a7a6",
+    "depth": 7,
+    "final_depth_reference_modes": [
+      "lmr_full_research"
+    ],
+    "final_depth_verified_moves": [
+      "c8e6"
+    ],
+    "reference_verified_any_iteration": false,
+    "reference_full_depth_final_iteration": true
+  },
+  {
+    "round": 179,
+    "color": "black",
+    "reference": "e8d7",
+    "depth": 10,
+    "final_depth_reference_modes": [
+      "full_depth"
+    ],
+    "final_depth_verified_moves": null,
+    "reference_verified_any_iteration": false,
+    "reference_full_depth_final_iteration": true
+  },
+  {
+    "round": 180,
+    "color": "black",
+    "reference": "e4e3",
+    "depth": 7,
+    "final_depth_reference_modes": [
+      "lmr_reduced"
+    ],
+    "final_depth_verified_moves": [
+      "f8d6"
+    ],
+    "reference_verified_any_iteration": false,
+    "reference_full_depth_final_iteration": false
+  },
+  {
+    "round": 191,
+    "color": "black",
+    "reference": "d7e7",
+    "depth": 7,
+    "final_depth_reference_modes": [
+      "lmr_reduced"
+    ],
+    "final_depth_verified_moves": [
+      "d7c7"
+    ],
+    "reference_verified_any_iteration": false,
+    "reference_full_depth_final_iteration": false
+  },
+  {
+    "round": 195,
+    "color": "black",
+    "reference": "d7d6",
+    "depth": 7,
+    "final_depth_reference_modes": [
+      "lmr_reduced",
+      "root_quiet_verification"
+    ],
+    "final_depth_verified_moves": [
+      "d7d6"
+    ],
+    "reference_verified_any_iteration": true,
+    "reference_full_depth_final_iteration": true
+  },
+  {
+    "round": 196,
+    "color": "black",
+    "reference": "c3c5",
+    "depth": 7,
+    "final_depth_reference_modes": [
+      "full_depth"
+    ],
+    "final_depth_verified_moves": null,
+    "reference_verified_any_iteration": false,
+    "reference_full_depth_final_iteration": true
+  },
+  {
+    "round": 204,
+    "color": "black",
+    "reference": "b2f6",
+    "depth": 6,
+    "final_depth_reference_modes": [
+      "lmr_full_research"
+    ],
+    "final_depth_verified_moves": [
+      "a6a5"
+    ],
+    "reference_verified_any_iteration": false,
+    "reference_full_depth_final_iteration": true
+  },
+  {
+    "round": 204,
+    "color": "white",
+    "reference": "b2b4",
+    "depth": 7,
+    "final_depth_reference_modes": [
+      "lmr_reduced"
+    ],
+    "final_depth_verified_moves": null,
+    "reference_verified_any_iteration": false,
+    "reference_full_depth_final_iteration": false
+  },
+  {
+    "round": 215,
+    "color": "black",
+    "reference": "d8f6",
+    "depth": 7,
+    "final_depth_reference_modes": [
+      "full_depth"
+    ],
+    "final_depth_verified_moves": [
+      "h5f6"
+    ],
+    "reference_verified_any_iteration": false,
+    "reference_full_depth_final_iteration": true
+  },
+  {
+    "round": 218,
+    "color": "black",
+    "reference": "e8e7",
+    "depth": 7,
+    "final_depth_reference_modes": [
+      "lmr_reduced"
+    ],
+    "final_depth_verified_moves": [
+      "a7a6"
+    ],
+    "reference_verified_any_iteration": false,
+    "reference_full_depth_final_iteration": false
+  },
+  {
+    "round": 219,
+    "color": "black",
+    "reference": "e7e3",
+    "depth": 6,
+    "final_depth_reference_modes": [
+      "lmr_reduced"
+    ],
+    "final_depth_verified_moves": [
+      "a8a7"
+    ],
+    "reference_verified_any_iteration": false,
+    "reference_full_depth_final_iteration": false
+  },
+  {
+    "round": 221,
+    "color": "white",
+    "reference": "b2b3",
+    "depth": 7,
+    "final_depth_reference_modes": [
+      "lmr_reduced"
+    ],
+    "final_depth_verified_moves": [
+      "a2a3"
+    ],
+    "reference_verified_any_iteration": false,
+    "reference_full_depth_final_iteration": false
+  },
+  {
+    "round": 229,
+    "color": "white",
+    "reference": "d1b3",
+    "depth": 8,
+    "final_depth_reference_modes": [
+      "lmr_reduced"
+    ],
+    "final_depth_verified_moves": [
+      "d2c4"
+    ],
+    "reference_verified_any_iteration": false,
+    "reference_full_depth_final_iteration": false
+  },
+  {
+    "round": 237,
+    "color": "white",
+    "reference": "f1g2",
+    "depth": 7,
+    "final_depth_reference_modes": [
+      "lmr_reduced"
+    ],
+    "final_depth_verified_moves": [
+      "g1f3"
+    ],
+    "reference_verified_any_iteration": false,
+    "reference_full_depth_final_iteration": false
+  },
+  {
+    "round": 238,
+    "color": "black",
+    "reference": "c2c7",
+    "depth": 7,
+    "final_depth_reference_modes": [
+      "lmr_reduced",
+      "lmr_reduced"
+    ],
+    "final_depth_verified_moves": [
+      "c2c4",
+      "c2c4"
+    ],
+    "reference_verified_any_iteration": false,
+    "reference_full_depth_final_iteration": false
+  },
+  {
+    "round": 241,
+    "color": "black",
+    "reference": "f6d6",
+    "depth": 9,
+    "final_depth_reference_modes": [
+      "lmr_reduced"
+    ],
+    "final_depth_verified_moves": null,
+    "reference_verified_any_iteration": false,
+    "reference_full_depth_final_iteration": false
+  },
+  {
+    "round": 243,
+    "color": "black",
+    "reference": "d6d8",
+    "depth": 8,
+    "final_depth_reference_modes": [
+      "lmr_reduced"
+    ],
+    "final_depth_verified_moves": [
+      "d6d7"
+    ],
+    "reference_verified_any_iteration": false,
+    "reference_full_depth_final_iteration": false
+  },
+  {
+    "round": 245,
+    "color": "black",
+    "reference": "b6d7",
+    "depth": 7,
+    "final_depth_reference_modes": [
+      "lmr_reduced"
+    ],
+    "final_depth_verified_moves": [
+      "g6g5"
+    ],
+    "reference_verified_any_iteration": false,
+    "reference_full_depth_final_iteration": false
+  },
+  {
+    "round": 249,
+    "color": "white",
+    "reference": "a5a6",
+    "depth": 5,
+    "final_depth_reference_modes": [
+      "lmr_reduced"
+    ],
+    "final_depth_verified_moves": [
+      "e3d4"
+    ],
+    "reference_verified_any_iteration": false,
+    "reference_full_depth_final_iteration": false
+  },
+  {
+    "round": 250,
+    "color": "black",
+    "reference": "c7a5",
+    "depth": 7,
+    "final_depth_reference_modes": [
+      "lmr_full_research"
+    ],
+    "final_depth_verified_moves": [
+      "c7b8"
+    ],
+    "reference_verified_any_iteration": false,
+    "reference_full_depth_final_iteration": true
+  },
+  {
+    "round": 256,
+    "color": "white",
+    "reference": "f4g4",
+    "depth": 8,
+    "final_depth_reference_modes": [
+      "lmr_reduced"
+    ],
+    "final_depth_verified_moves": null,
+    "reference_verified_any_iteration": false,
+    "reference_full_depth_final_iteration": false
+  },
+  {
+    "round": 260,
+    "color": "black",
+    "reference": "e8d8",
+    "depth": 7,
+    "final_depth_reference_modes": [
+      "lmr_reduced"
+    ],
+    "final_depth_verified_moves": [
+      "b2f6"
+    ],
+    "reference_verified_any_iteration": false,
+    "reference_full_depth_final_iteration": false
+  },
+  {
+    "round": 265,
+    "color": "black",
+    "reference": "b2b6",
+    "depth": 7,
+    "final_depth_reference_modes": [
+      "lmr_reduced"
+    ],
+    "final_depth_verified_moves": [
+      "e8c8"
+    ],
+    "reference_verified_any_iteration": true,
+    "reference_full_depth_final_iteration": false
+  },
+  {
+    "round": 267,
+    "color": "black",
+    "reference": "h7h5",
+    "depth": 7,
+    "final_depth_reference_modes": [
+      "lmr_reduced"
+    ],
+    "final_depth_verified_moves": [
+      "d8d7"
+    ],
+    "reference_verified_any_iteration": false,
+    "reference_full_depth_final_iteration": false
+  },
+  {
+    "round": 268,
+    "color": "black",
+    "reference": "h6h5",
+    "depth": 7,
+    "final_depth_reference_modes": [
+      "lmr_reduced"
+    ],
+    "final_depth_verified_moves": [
+      "g8g7"
+    ],
+    "reference_verified_any_iteration": false,
+    "reference_full_depth_final_iteration": false
+  },
+  {
+    "round": 270,
+    "color": "black",
+    "reference": "a8g8",
+    "depth": 8,
+    "final_depth_reference_modes": [
+      "lmr_full_research"
+    ],
+    "final_depth_verified_moves": [
+      "f7c7"
+    ],
+    "reference_verified_any_iteration": false,
+    "reference_full_depth_final_iteration": true
+  },
+  {
+    "round": 271,
+    "color": "black",
+    "reference": "f6d7",
+    "depth": 6,
+    "final_depth_reference_modes": [
+      "lmr_reduced"
+    ],
+    "final_depth_verified_moves": [
+      "g7g5"
+    ],
+    "reference_verified_any_iteration": false,
+    "reference_full_depth_final_iteration": false
+  },
+  {
+    "round": 272,
+    "color": "white",
+    "reference": "a1c1",
+    "depth": 7,
+    "final_depth_reference_modes": [
+      "lmr_reduced",
+      "lmr_reduced"
+    ],
+    "final_depth_verified_moves": [
+      "e1d1",
+      "e4f4"
+    ],
+    "reference_verified_any_iteration": false,
+    "reference_full_depth_final_iteration": false
+  },
+  {
+    "round": 273,
+    "color": "black",
+    "reference": "d6d5",
+    "depth": 8,
+    "final_depth_reference_modes": [
+      "lmr_reduced",
+      "root_quiet_verification"
+    ],
+    "final_depth_verified_moves": [
+      "d6d5"
+    ],
+    "reference_verified_any_iteration": true,
+    "reference_full_depth_final_iteration": true
+  },
+  {
+    "round": 274,
+    "color": "black",
+    "reference": "h7h6",
+    "depth": 8,
+    "final_depth_reference_modes": [
+      "lmr_reduced"
+    ],
+    "final_depth_verified_moves": [
+      "d8f8"
+    ],
+    "reference_verified_any_iteration": false,
+    "reference_full_depth_final_iteration": false
+  },
+  {
+    "round": 276,
+    "color": "white",
+    "reference": "h2f2",
+    "depth": 8,
+    "final_depth_reference_modes": [
+      "full_depth"
+    ],
+    "final_depth_verified_moves": null,
+    "reference_verified_any_iteration": false,
+    "reference_full_depth_final_iteration": true
+  },
+  {
+    "round": 278,
+    "color": "white",
+    "reference": "e2f2",
+    "depth": 8,
+    "final_depth_reference_modes": [
+      "full_depth"
+    ],
+    "final_depth_verified_moves": [
+      "c2b1"
+    ],
+    "reference_verified_any_iteration": false,
+    "reference_full_depth_final_iteration": true
+  },
+  {
+    "round": 279,
+    "color": "white",
+    "reference": "f2f4",
+    "depth": 7,
+    "final_depth_reference_modes": [
+      "lmr_reduced"
+    ],
+    "final_depth_verified_moves": [
+      "g4h5"
+    ],
+    "reference_verified_any_iteration": false,
+    "reference_full_depth_final_iteration": false
+  },
+  {
+    "round": 283,
+    "color": "black",
+    "reference": "b8d8",
+    "depth": 9,
+    "final_depth_reference_modes": [
+      "lmr_reduced"
+    ],
+    "final_depth_verified_moves": null,
+    "reference_verified_any_iteration": false,
+    "reference_full_depth_final_iteration": false
+  },
+  {
+    "round": 295,
+    "color": "black",
+    "reference": "e8e7",
+    "depth": 7,
+    "final_depth_reference_modes": [
+      "lmr_reduced",
+      "lmr_full_research"
+    ],
+    "final_depth_verified_moves": [
+      "d2a2"
+    ],
+    "reference_verified_any_iteration": false,
+    "reference_full_depth_final_iteration": true
+  },
+  {
+    "round": 298,
+    "color": "white",
+    "reference": "c1f1",
+    "depth": 8,
+    "final_depth_reference_modes": [
+      "lmr_reduced",
+      "root_quiet_verification"
+    ],
+    "final_depth_verified_moves": [
+      "c1f1"
+    ],
+    "reference_verified_any_iteration": true,
+    "reference_full_depth_final_iteration": true
+  },
+  {
+    "round": 301,
+    "color": "black",
+    "reference": "d8d6",
+    "depth": 8,
+    "final_depth_reference_modes": [
+      "lmr_full_research"
+    ],
+    "final_depth_verified_moves": null,
+    "reference_verified_any_iteration": false,
+    "reference_full_depth_final_iteration": true
+  },
+  {
+    "round": 302,
+    "color": "black",
+    "reference": "e7e6",
+    "depth": 8,
+    "final_depth_reference_modes": [
+      "full_depth"
+    ],
+    "final_depth_verified_moves": [
+      "c8e6"
+    ],
+    "reference_verified_any_iteration": false,
+    "reference_full_depth_final_iteration": true
+  },
+  {
+    "round": 306,
+    "color": "black",
+    "reference": "a8c8",
+    "depth": 7,
+    "final_depth_reference_modes": [
+      "lmr_full_research"
+    ],
+    "final_depth_verified_moves": [
+      "e8d8"
+    ],
+    "reference_verified_any_iteration": false,
+    "reference_full_depth_final_iteration": true
+  },
+  {
+    "round": 308,
+    "color": "white",
+    "reference": "d6d7",
+    "depth": 7,
+    "final_depth_reference_modes": [
+      "lmr_reduced"
+    ],
+    "final_depth_verified_moves": [
+      "c7d8"
+    ],
+    "reference_verified_any_iteration": false,
+    "reference_full_depth_final_iteration": false
+  },
+  {
+    "round": 315,
+    "color": "white",
+    "reference": "d7f7",
+    "depth": 7,
+    "final_depth_reference_modes": [
+      "lmr_reduced"
+    ],
+    "final_depth_verified_moves": [
+      "h2h4"
+    ],
+    "reference_verified_any_iteration": false,
+    "reference_full_depth_final_iteration": false
+  },
+  {
+    "round": 330,
+    "color": "black",
+    "reference": "f7f6",
+    "depth": 7,
+    "final_depth_reference_modes": [
+      "lmr_reduced"
+    ],
+    "final_depth_verified_moves": [
+      "c6d4"
+    ],
+    "reference_verified_any_iteration": false,
+    "reference_full_depth_final_iteration": false
+  },
+  {
+    "round": 333,
+    "color": "black",
+    "reference": "d3f3",
+    "depth": 8,
+    "final_depth_reference_modes": [
+      "lmr_full_research"
+    ],
+    "final_depth_verified_moves": [
+      "g8c8"
+    ],
+    "reference_verified_any_iteration": true,
+    "reference_full_depth_final_iteration": true
+  },
+  {
+    "round": 335,
+    "color": "black",
+    "reference": "g7g6",
+    "depth": 6,
+    "final_depth_reference_modes": [
+      "lmr_reduced"
+    ],
+    "final_depth_verified_moves": [
+      "d6d5"
+    ],
+    "reference_verified_any_iteration": false,
+    "reference_full_depth_final_iteration": false
+  },
+  {
+    "round": 341,
+    "color": "white",
+    "reference": "h7d3",
+    "depth": 7,
+    "final_depth_reference_modes": [
+      "lmr_full_research"
+    ],
+    "final_depth_verified_moves": [
+      "e5c3"
+    ],
+    "reference_verified_any_iteration": true,
+    "reference_full_depth_final_iteration": true
+  },
+  {
+    "round": 342,
+    "color": "black",
+    "reference": "g7g6",
+    "depth": 6,
+    "final_depth_reference_modes": [
+      "lmr_full_research"
+    ],
+    "final_depth_verified_moves": [
+      "b4a5"
+    ],
+    "reference_verified_any_iteration": true,
+    "reference_full_depth_final_iteration": true
+  },
+  {
+    "round": 350,
+    "color": "white",
+    "reference": "e1g1",
+    "depth": 6,
+    "final_depth_reference_modes": [
+      "lmr_full_research"
+    ],
+    "final_depth_verified_moves": [
+      "e1f1"
+    ],
+    "reference_verified_any_iteration": false,
+    "reference_full_depth_final_iteration": true
+  },
+  {
+    "round": 355,
+    "color": "black",
+    "reference": "e4e3",
+    "depth": 7,
+    "final_depth_reference_modes": [
+      "lmr_full_research"
+    ],
+    "final_depth_verified_moves": [
+      "c8g4"
+    ],
+    "reference_verified_any_iteration": true,
+    "reference_full_depth_final_iteration": true
+  },
+  {
+    "round": 358,
+    "color": "black",
+    "reference": "c6e7",
+    "depth": 7,
+    "final_depth_reference_modes": [
+      "lmr_reduced"
+    ],
+    "final_depth_verified_moves": null,
+    "reference_verified_any_iteration": false,
+    "reference_full_depth_final_iteration": false
+  },
+  {
+    "round": 361,
+    "color": "white",
+    "reference": "d4d5",
+    "depth": 10,
+    "final_depth_reference_modes": [
+      "full_depth"
+    ],
+    "final_depth_verified_moves": null,
+    "reference_verified_any_iteration": false,
+    "reference_full_depth_final_iteration": true
+  },
+  {
+    "round": 362,
+    "color": "white",
+    "reference": "c3e2",
+    "depth": 9,
+    "final_depth_reference_modes": [
+      "lmr_reduced",
+      "lmr_reduced"
+    ],
+    "final_depth_verified_moves": [
+      "c1c2",
+      "c1f1"
+    ],
+    "reference_verified_any_iteration": false,
+    "reference_full_depth_final_iteration": false
+  },
+  {
+    "round": 368,
+    "color": "white",
+    "reference": "c3e4",
+    "depth": 8,
+    "final_depth_reference_modes": [
+      "lmr_full_research"
+    ],
+    "final_depth_verified_moves": null,
+    "reference_verified_any_iteration": false,
+    "reference_full_depth_final_iteration": true
+  },
+  {
+    "round": 370,
+    "color": "black",
+    "reference": "f8e7",
+    "depth": 7,
+    "final_depth_reference_modes": [
+      "lmr_reduced"
+    ],
+    "final_depth_verified_moves": [
+      "d7c5"
+    ],
+    "reference_verified_any_iteration": false,
+    "reference_full_depth_final_iteration": false
+  },
+  {
+    "round": 370,
+    "color": "white",
+    "reference": "h3f5",
+    "depth": 8,
+    "final_depth_reference_modes": [
+      "lmr_reduced"
+    ],
+    "final_depth_verified_moves": [
+      "h3g4"
+    ],
+    "reference_verified_any_iteration": false,
+    "reference_full_depth_final_iteration": false
+  },
+  {
+    "round": 371,
+    "color": "black",
+    "reference": "c8f5",
+    "depth": 7,
+    "final_depth_reference_modes": [
+      "lmr_reduced"
+    ],
+    "final_depth_verified_moves": [
+      "a2b2"
+    ],
+    "reference_verified_any_iteration": false,
+    "reference_full_depth_final_iteration": false
+  },
+  {
+    "round": 375,
+    "color": "black",
+    "reference": "d8d6",
+    "depth": 7,
+    "final_depth_reference_modes": [
+      "lmr_reduced",
+      "lmr_reduced",
+      "root_quiet_verification"
+    ],
+    "final_depth_verified_moves": [
+      "c8c6",
+      "d8d6"
+    ],
+    "reference_verified_any_iteration": true,
+    "reference_full_depth_final_iteration": true
+  },
+  {
+    "round": 376,
+    "color": "white",
+    "reference": "g4d7",
+    "depth": 7,
+    "final_depth_reference_modes": [
+      "lmr_full_research"
+    ],
+    "final_depth_verified_moves": [
+      "f3d4"
+    ],
+    "reference_verified_any_iteration": false,
+    "reference_full_depth_final_iteration": true
+  },
+  {
+    "round": 379,
+    "color": "black",
+    "reference": "e8g8",
+    "depth": 8,
+    "final_depth_reference_modes": [
+      "lmr_reduced"
+    ],
+    "final_depth_verified_moves": [
+      "h8g8"
+    ],
+    "reference_verified_any_iteration": false,
+    "reference_full_depth_final_iteration": false
+  },
+  {
+    "round": 382,
+    "color": "white",
+    "reference": "b5h5",
+    "depth": 10,
+    "final_depth_reference_modes": [
+      "lmr_full_research"
+    ],
+    "final_depth_verified_moves": [
+      "b5a5"
+    ],
+    "reference_verified_any_iteration": true,
+    "reference_full_depth_final_iteration": true
+  }
+]

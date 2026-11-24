@@ -1,0 +1,13 @@
+diff --git a/internal/search/search.go b/internal/search/search.go
+index c5e6808..d80e14b 100644
+--- a/internal/search/search.go
++++ b/internal/search/search.go
+@@ -170,7 +170,7 @@ func (s *Search) Negamax(b *board.Board, depth int, alpha int, beta int) int {
+ 	legalSeen := 0
+ 	targetProcessed := false
+ 	var defense quietDefense
+-	for i := 0; i < count || (verifyRootQuiet && i == count && defense.withinWindow(alpha)); i++ {
++	for i := 0; i < count; i++ {
+ 		rechecking := verifyRootQuiet && i == count
+ 		m := defense.move
+ 		if !rechecking {

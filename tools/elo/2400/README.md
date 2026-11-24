@@ -66,3 +66,13 @@ go run ./cmd/elo_match -engine-a "$lab/QuietVerify" -name-a QuietVerify \
   -openings-count 128 -tc 1+0.1 -concurrency 8 -pgn "$lab/quiet-base.pgn"
 jouer_sf2400 QuietVerify
 ```
+
+## Vérification du mécanisme sur les défaites à 2200
+
+Sur les 123 défenses calmes historiques rejouées à froid, le choix change sur 20 positions. Le candidat fait passer six positions d’au plus −200 cp à au moins −100 cp et en fait basculer quatre dans l’autre sens. Chaque moteur retrouve huit coups de référence. Le coût passe de 36 730 886 à 42 391 554 nœuds (+15,41 %). Les scores viennent de SF18 à pleine force, à 80 000 nœuds. Le rejeu reconstruit l’historique des coups et vide la table, alors qu’en partie la table et les données d’ordonnancement survivent d’un coup au suivant. [Rejeu des deux exécutables](quiet-2200.json)
+
+Sur les 123 dernières itérations, le candidat déclenche la revérification dans 100 positions et choisit la défense de référence comme coup à revérifier dans 13 positions. La défense de référence reste exclusivement cherchée à profondeur réduite dans 73 positions. Le traceur reproduit le choix et les nœuds du binaire UCI pour chaque position. [Traces par position](trace-2200.json)
+
+Pour isoler l’effet de la fenêtre élargie et celui de la revérification, un contrôle ajouté après le premier rejeu supprime uniquement le passage supplémentaire en fin de racine. Il ne participe à aucun match. Sur ces 123 positions, la fenêtre seule coûte 3 136 341 nœuds supplémentaires. Rétablir la revérification en ajoute encore 2 524 327, change 11 décisions et produit 3 sauvetages pour 3 régressions par rapport à la fenêtre seule. Ces nombres incluent les effets d’une itération sur les suivantes. [Modification sur ff3ca1c](ranking-only.patch) · [Rejeu sans vérification finale](ranking-2200.json) · [Calcul apparié](compare_replays.py)
+
+Pour reproduire le contrôle, appliquer le patch dans une copie propre de `ff3ca1c` et reconstruire l’UCI avec les mêmes options que `QuietVerify`. Passer à `replay_quiet.py` le rapport de défaites, le binaire de la base, celui à tester, Stockfish et un nouveau fichier de sortie. Puis comparer avec `python3 tools/elo/2400/compare_replays.py tools/elo/2400/quiet-2200.json tools/elo/2400/ranking-2200.json`. La commande `cmd/quiet_trace` de la branche de recherche se compile avec les tags `searchtrace quietverify` et prend le rapport de défaites puis le rejeu complet.
