@@ -22,3 +22,21 @@ Avec le coup mémorisé en premier, Game27_W_ply29 rejoue `a2a3`. Les tables par
 L’optimisation de recherche `3324544` reconnaît une position non terminale lorsqu’un pion peut avancer légalement. Sur les 77 positions à profondeur 6 en UCI, deux passages par position et par moteur ont reproduit coup, score et nœuds. La somme des temps médians par position passe de 1,621 à 1,275 s (−21,4 %). Les passages alternent l’ordre des moteurs, chacun dans un processus neuf, sur la machine utilisée pour les matchs. [Mesures appariées](witness-parity.json)
 
 La combinaison réunit les trois changements. Les analyses par position sont archivées pour [la priorité au coup mémorisé](hash-tactics.json), [les tables par phase](tapered-tactics.json) et [la combinaison](combined-tactics.json).
+
+## Choix du candidat de sélection
+
+Les tables apprises seules terminent à **38,28 %** (84 V, 28 N, 144 D), soit −83,0 Elo [−179,2 ; +2,0] contre la base. Aucun incident de jeu. Les scores statiques se rapprochent de ceux de Stockfish sur les positions de validation, mais le match conduit à écarter cet ajustement global. [Parties](../../../../matches/elo2200/loop/tapered-base.pgn) · [Manifeste](../../../../matches/elo2200/loop/tapered-base.pgn.meta.json)
+
+Deux essais isolent la régression de l’ordre des coups sur Game27_W_ply29. Avec la même évaluation historique et les mêmes optimisations de calcul, donner la priorité à la variante principale à la racine suffit à réintroduire `a2a3` ; donner la priorité au coup de table uniquement sous la racine conserve le coup de la base sur ce canari. Les deux versions ont le même budget de temps en partie. La comparaison tactique utilise une profondeur fixe.
+
+| Changement | v1 | v2 | run6 évités | Pertes run6 reconnues | Nœuds v1 + v2 + run6 |
+|---|---:|---:|---:|---:|---:|
+| [Vérification du coup nul du côté au trait](verified-tactics.json), `2f72aa3` | 32/32 | 13/32 | 9/13 | 2/13 | 2 782 306 |
+| [Recherche à fenêtre nulle sur les coups suivants](scout-tactics.json), `d595fcb` | 32/32 | 13/32 | 9/13 | 3/13 | 2 897 200 |
+| [Position du roi selon la phase](king-tactics.json), `d231770` | 32/32 | 12/32 | 10/13 | 1/13 | 3 677 481 |
+| [Priorité à la racine seule](RootPV-tactics.json), `7ecbdf9` | 32/32 | 13/32 | 9/13 | 2/13 | 3 426 891 |
+| [Priorité au coup de table sous la racine](InteriorTT-tactics.json), `13800c8` | 32/32 | 13/32 | 10/13 | 2/13 | 2 964 949 |
+
+Le candidat **InteriorTT** (`13800c8`) garde les 15 alertes correctes de v1, les 3 fausses alertes de v2 et les deux pertes identifiées du run6. Il réunit la preuve rapide d’un coup de pion légal, le calcul direct des occupations, la gestion de l’horloge et la priorité au coup mémorisé sous la racine. Avec une horloge UCI, il peut finir une itération au-delà du budget nominal, dans la limite du double. Deux itérations stables abaissent le budget de démarrage de la suivante. Le délai explicite `movetime` conserve son plafond. Les matchs opposent des configurations complètes ; leurs résultats ne quantifient pas séparément le gain de chaque changement.
+
+Le match direct d’InteriorTT porte sur les 192 paires de `baseline.epd`, sans arrêt anticipé. S’il passe le critère de sélection, le même exécutable joue les 384 paires de `confirm-01.epd` contre Stockfish 18 réglé à 2200. Le match de développement de la combinaison avec les tables utilise uniquement les 64 ouvertures v2 historiques. Le contrôle des couleurs, des empreintes, de la légalité et de l’ordre des ouvertures se rejoue avec `python3 tools/elo/2200/loop/audit_match.py MATCH.pgn LOT.epd`.
