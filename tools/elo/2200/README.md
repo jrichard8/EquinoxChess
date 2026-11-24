@@ -40,7 +40,7 @@ Les colonnes mesurent les passages entre les seuils −200 et −100 cp, par rap
 
 **Deux exemples vérifiés à 320 000 nœuds**, scores du point de vue des Noirs, numérotation du PGN. Dans la paire **112**, Equinox joue `11...Bxd4`. Après `12.Re1+ Kd7 13.Nxd4`, le roi noir a perdu son roque et le score du coup est −562 cp. Le petit roque vaut −8 cp. En rejouant à la profondeur 7 de la partie, la priorité au coup mémorisé retrouve le roque. Dans la paire **45**, le rejeu normal à froid trouve `18...d5` (+110 cp), alors que la priorité au coup mémorisé revient au coup perdant de la partie, `18...e5` (−237 cp). L’effet de l’ordre se propage aussi dans les réponses et les fenêtres de recherche. [Variantes de contrôle](examples.json)
 
-Le prochain essai portera sur ce seul changement contre `baseline-1850` à `1+0,1`, avec ouvertures appariées et intervalle par paire. Suivre la profondeur réellement terminée sous horloge et les gains/régressions sur v1, v2 et run6. Les 192 ouvertures de cette mesure ont servi au diagnostic. Une confirmation du futur candidat à 2200 demandera de nouvelles ouvertures réservées.
+Cet essai a ensuite été joué contre `baseline-1850` à `1+0,1`, avec ouvertures appariées, intervalle par paire et contrôle de v1, v2 et run6. Les 192 ouvertures ci-dessus ont servi au développement. La confirmation du candidat retenu a utilisé 384 autres ouvertures figées. [Boucle de recherche et résultat](loop/README.md#confirmation-du-palier-2200)
 
 ## Protocole fixé avant la première partie
 

@@ -15,6 +15,14 @@ Toutes les paires et tous les départs concordent avec l’EPD. Le candidat gagn
 
 Les tests Go passent pour le moteur normal, le traceur de la version actuelle et le rejeu des mesures historiques avec les tags `searchtrace trace1850`. Le contrôle de concurrence UCI et `go vet` passent. Les deux constructions normales `13800c8` et `84b4d38` (intégration des tests historiques) reproduisent coup, score et nœuds sur les 77 positions en UCI.
 
+## Où les 274 défaites basculent
+
+Après la clôture du match, SF18 à pleine force a rejugé les décisions perdantes. Une bascule stricte exige une alternative à ≥ −100 cp, un coup joué à ≤ −200 cp et un écart d’au moins 150 cp, du point de vue du joueur au trait. Le filtre à 5 000 nœuds en trouve 111 après vérification à 80 000 nœuds. Le second passage, directement à 80 000 nœuds sur les défaites encore inexpliquées, en ajoute 42. Sur les 121 autres défaites, 109 présentent un franchissement de −200 cp de moindre ampleur et 12 atteignent une position inférieure sans franchissement attribué selon ce critère. [274 défaites, positions et variantes](confirmation-losses.json) · [Analyseur](../analyze_losses.py)
+
+Parmi les **153 bascules strictes** (75 avec les Blancs, 78 avec les Noirs), **123 défenses de référence sont des coups calmes**, contre 19 prises, 10 échecs sans prise et une promotion. Le coup joué est calme dans 105 cas. La bascule médiane arrive 40 demi-coups après la sortie d’ouverture, avec 22 pièces et une profondeur de jeu de 7. À la paire 3 avec les Noirs, par exemple, le roi en d7 vaut −263 cp alors que la tour en d8 maintient −58 cp. Ces fréquences décrivent les défaites classées.
+
+Sur 12 de ces 123 cas, choisis à intervalles réguliers dans l’ordre des paires, le rejeu à froid reproduit le coup de la partie 9 fois sur 12. Passer de D à D+1 récupère deux positions au sens des seuils et en fait reculer une de −233 à −355 cp. Une défense exacte de l’arbitre est trouvée à D+1, contre zéro à D. Le travail monte de 3 651 347 à 16 004 032 nœuds (×4,38). **Prochaine expérience retenue** : comparer le meilleur coup calme écarté à la racine à profondeur pleine quand la première recherche l’a réduit. Mesurer les défenses récupérées, les défenses perdues et le surcoût avant un nouveau duel. Le lot de confirmation 01 sert désormais au diagnostic. Toute nouvelle qualification demandera d’autres ouvertures réservées. [12 rejeux](confirmation-quiet-depth.json) · [Sélection et arbitrage](check_quiet_depth.py)
+
 ## Décision
 
 Les matchs de développement utilisent `1+0,1` et chaque ouverture dans les deux couleurs. Premier essai : priorité au coup de table ou à la variante principale à la racine, sur les 128 premières paires de la suite diagnostique. Deuxième piste indépendante : améliorer l’évaluation positionnelle à partir des parties archivées avant cette boucle. Les révisions, empreintes des binaires et PGN de développement seront conservés pour les essais favorables comme défavorables.
