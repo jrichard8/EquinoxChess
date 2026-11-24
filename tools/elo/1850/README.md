@@ -26,3 +26,20 @@ Stockfish utilise un thread et 16 Mio de table. L’empreinte SHA-256 du fichier
 La première configuration compte directement la mobilité sur les bitboards, réutilise les attaques des pièces à longue portée pour détecter les échecs et évite de recalculer la même évaluation pour chaque prise. La seconde cherche d’abord les captures de plus grande valeur en quiétude hors échec, avec l’attaquant le moins cher en premier en cas d’égalité de valeur de la victime. En échec, elle continue de rechercher toutes les évasions dans l’ordre de septembre. Les promotions sans prise restent filtrées hors échec. Sur Game17, le coût passe de 2 788 051 à 159 809 nœuds, toujours pour `d1f3` à +67 cp. Sur 0JLoe, les trois versions jouent `h5h6` à +38 cp. [Mesures par position et empreintes](tactics.json)
 
 Sur un sous-échantillon systématique de 12 positions de v1/v2, la médiane de quatre passages à profondeur 6 descend de **1,428 s** (septembre) à **0,398 s** (mobilité seule), **0,289 s** (évaluation accélérée complète) et **0,146 s** (avec le tri des prises). Chaque position est mesurée dans un processus UCI neuf, de la fin de `isready` au retour du meilleur coup. L’ordre des quatre moteurs alterne entre les passages. Ces temps ont été relevés sur le M4 Pro pendant un match, et servent à expliquer la performance à cadence fixe. [Mesures chronométrées](timings.json)
+
+## Rejouer un match
+
+Construire chaque exécutable depuis la révision indiquée dans un clone propre avec `go build -trimpath -buildvcs=true -o /chemin/choisi ./cmd/uci`. Pour septembre, le binaire de match a été recompilé depuis `819a8d5` avec `-buildvcs=false` et vérifié à l’octet près. Son SHA-256 est `e84d7f9af0e2ae4912fb1f26b2cf9152e76361cf385adf8dbe976afb89d99830`. La version avec empreinte Git intégrée reproduit le binaire des lots tactiques de septembre.
+
+Depuis la racine du dépôt, cette commande relance la confirmation avec deux exécutables déjà construits. Choisir un nouveau chemin pour le PGN. Le lanceur vérifie les empreintes des binaires et des ouvertures et la structure des paires. Les résultats d’un match chronométré peuvent varier d’une exécution à l’autre.
+
+```sh
+go run ./cmd/elo_match -engine-a /chemin/equinox -name-a Captures \
+  -engine-b /chemin/stockfish -name-b SF1850 \
+  -option-b UCI_LimitStrength=true -option-b UCI_Elo=1850 \
+  -option-b Threads=1 -option-b Hash=16 \
+  -openings tools/elo/1850/holdout.epd -tc 1+0.1 -concurrency 6 \
+  -pgn /tmp/equinox-confirmation.pgn
+```
+
+Pour recalculer les statistiques du PGN conservé, utiliser `go run ./cmd/matchstats -pgn matches/elo1850/capt-sf1850-holdout.pgn -engine-a Captures -engine-b SF1850`.
