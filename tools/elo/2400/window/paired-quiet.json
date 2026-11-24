@@ -1,0 +1,16 @@
+{
+  "reference": "QuietVerify",
+  "candidate": "RankingOnly",
+  "pgn_sha256": [
+    "35496a697b3127e41424f4e6fa544bb0cc3425785f15cb4d49cbec6ff769118d",
+    "c0df20b0974b18786a5921637b3d68078f9526dda4f0c1ef1f4cbc05b96dbe0e"
+  ],
+  "pairs": 192,
+  "better": 70,
+  "equal": 51,
+  "worse": 71,
+  "points_difference": -8.0,
+  "score_percentage_points": -2.0833333333333335,
+  "clean_pairs": 191,
+  "clean_percentage_points": -2.356020942408377
+}

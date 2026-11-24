@@ -4,6 +4,8 @@ MarsGopherChess (anciennement EquinoxChess) est un moteur d’échecs classique 
 
 Face au réglage 2400, la base marque **38,67 %** sur 384 parties. Le candidat qui revérifie une défense calme atteint **45,05 %** sur le même lot. Son gain en duel direct reste incertain. [Campagne 2400, parties et décisions](tools/elo/2400/README.md)
 
+La fenêtre élargie seule marque **46,22 %** contre la base et **42,97 %** contre SF2400 sur les mêmes 192 ouvertures. Le moteur de tournoi utilise la base 2200+. [Résultats et coût en nœuds](tools/elo/2400/window/README.md) · [Participer à un tournoi de moteurs](docs/tournois.md)
+
 La version précédente `baseline-1850` reste disponible pour les comparaisons. Le match direct donne 69,01 % à la nouvelle base sur 384 parties. [Qualification 1850](tools/elo/1850/README.md) · [Première mesure à 2200](tools/elo/2200/README.md)
 
 ## Jouer dans le navigateur

@@ -1,0 +1,16 @@
+{
+  "reference": "Base2200",
+  "candidate": "RankingOnly",
+  "pgn_sha256": [
+    "0958ce2d99481ddf9555770366fab08cababa6c86557e5de298f72967ff0963d",
+    "c0df20b0974b18786a5921637b3d68078f9526dda4f0c1ef1f4cbc05b96dbe0e"
+  ],
+  "pairs": 192,
+  "better": 77,
+  "equal": 58,
+  "worse": 57,
+  "points_difference": 16.5,
+  "score_percentage_points": 4.296875,
+  "clean_pairs": 191,
+  "clean_percentage_points": 4.5811518324607325
+}

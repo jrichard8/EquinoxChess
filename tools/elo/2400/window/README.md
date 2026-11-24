@@ -1,5 +1,18 @@
 # Fenêtre élargie seule à la racine
 
+## Bilan des 768 parties
+
+**MarsGopherChess conserve la base 2200+.** La fenêtre élargie seule manque le critère de sélection en duel direct. Sur les mêmes ouvertures face à SF2400, elle fait mieux que la base et moins bien que la variante avec revérification. Les deux nouveaux matchs se terminent sans incident ni forfait.
+
+| Duel | Victoires / nulles / défaites de la fenêtre seule | Score | Écart Elo à 1+0,1 s, IC 95 % |
+|---|---:|---:|---:|
+| Contre la base 2200+ | 105 / 145 / 134 | 46,22 % | −26,3 [−96,8 à +42,1] |
+| Contre Stockfish 18 réglé à 2400 | 152 / 26 / 206 | 42,97 % | −49,2 [−121,7 à +19,3] |
+
+Contre SF2400, le score historique de la base est de 38,67 % et celui de la variante avec revérification de 45,05 %. La fenêtre seule gagne **4,30 points de pourcentage** face au résultat de la base (77 paires meilleures, 58 égales et 57 moins bonnes) et cède **2,08 points** face à la variante avec revérification (70 meilleures, 51 égales, 71 moins bonnes). Le premier écart vaut +4,58 points si l’on retire aussi la paire touchée par le forfait de Stockfish lors du match historique de la base. La profondeur médiane de la fenêtre seule est de 9 dans les deux matchs. [PGN du duel direct](../../../../matches/elo2400/window-base.pgn) · [PGN contre SF2400](../../../../matches/elo2400/window-sf2400.pgn) · [Audit direct](base-audit.json) · [Audit SF2400](sf2400-audit.json) · [Paires comparées à la base](paired-base.json) · [Paires comparées à la revérification](paired-quiet.json)
+
+Le gain observé sur les défenses calmes se généralise mal au coût de recherche des ouvertures. La fenêtre consomme 2,13 % de nœuds en moins sur les 96 défenses SF2400 et **30,40 % de plus** en repartant des 192 ouvertures à D8. La trace du run6 confirme 345 recherches réduites dans la fenêtre élargie sur 11 des 13 dernières itérations et aucun passage de revérification ajouté.
+
 ## Protocole du 24 novembre 2026
 
 Tester le binaire du rejeu à froid précédent, construit au commit `ff3ca1c` avec [le patch figé](../ranking-only.patch) et le tag `quietverify`. À partir de D5, la recherche réduite des coups calmes tardifs à la racine élargit sa fenêtre de 80 centipions. La boucle se termine après le dernier coup légal. La recherche normale à pleine profondeur d’un coup qui dépasse alpha reste celle de la base.

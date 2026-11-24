@@ -1,8 +1,12 @@
 # MarsGopherChess · point au 24 novembre 2026
 
+## MarsGopherChess · résultat de la fenêtre seule
+
+Le moteur porte désormais le nom de MarsGopherChess. Sur le lot de 192 ouvertures à couleurs inversées, la fenêtre élargie seule obtient 46,22 % en duel contre la base, puis 42,97 % contre SF2400. Les 768 parties se sont terminées sans incident. Son coût à D8 monte de 30,40 % sur les ouvertures et elle perd une solution v2. La base 2200+ reste celle proposée en tournoi. [Bilan et parties](tools/elo/2400/window/README.md) · [Dossier tournoi](docs/tournois.md)
+
 ## Objectif 2400 · première mesure
 
-Sur 192 nouvelles ouvertures à couleurs inversées, la base 2200+ marque **38,67 % contre Stockfish 18 réglé à 2400**. La vérification sélective d’une défense calme obtient **45,05 %** sur les mêmes ouvertures et **54,10 %** en duel direct contre la base (IC 95 % de −55,4 à +116,0 Elo). La base qualifiée reste active. Sur les 96 défenses calmes isolées dans les défaites à 2400, la fenêtre élargie seule mérite un essai à la pendule. La vérification finale lui ajoute 1,69 million de nœuds et occasionne 2 sauvetages pour 4 régressions à l’arbitrage de 80 000 nœuds. [Rapport, PGN et profil du moteur Go](tools/elo/2400/README.md)
+Sur 192 nouvelles ouvertures à couleurs inversées, la base 2200+ marque **38,67 % contre Stockfish 18 réglé à 2400**. La vérification sélective d’une défense calme obtient **45,05 %** sur les mêmes ouvertures et **54,10 %** en duel direct contre la base (IC 95 % de −55,4 à +116,0 Elo). La base qualifiée reste active. Sur les 96 défenses calmes isolées dans les défaites à 2400, la fenêtre élargie seule avait été retenue pour un essai à la pendule. La vérification finale lui ajoute 1,69 million de nœuds et occasionne 2 sauvetages pour 4 régressions à l’arbitrage de 80 000 nœuds. [Rapport, PGN et profil du moteur Go](tools/elo/2400/README.md)
 
 ## Base active · qualification 2200+
 
