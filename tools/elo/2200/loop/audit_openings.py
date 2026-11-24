@@ -42,8 +42,9 @@ def historical_positions(ref):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("epd", type=Path)
+    parser.add_argument("--archive", default="c5f6da9", help="historical Git revision to exclude")
     args = parser.parse_args()
-    ref = subprocess.check_output(["git", "rev-parse", "c5f6da9^{commit}"], text=True).strip()
+    ref = subprocess.check_output(["git", "rev-parse", args.archive + "^{commit}"], text=True).strip()
     raw = args.epd.read_text()
     new = epd_positions(raw)
     old = historical_positions(ref)
