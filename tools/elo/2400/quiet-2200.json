@@ -1,0 +1,2361 @@
+{
+  "inputs": {
+    "losses": "e110f88de875a0356056c4398b8669376c74cf60dc9b395d2a94bff9f4b95fa0",
+    "base": "bae8740966bc6cc3b4bcf3b708a3f1f06b63a1a48667274b43d58807e84f1a95",
+    "candidate": "bf5c1e7787bb6684b2ae78086d8ab4821ec66d425963e3bcf218bdd30a96eceb",
+    "arbiter": "ae4c93fa9676ca7750d0714342fd8a5b1d018000fc6e0f6cedf112067b5ef374"
+  },
+  "summary": {
+    "positions": 123,
+    "changes": 20,
+    "recovered": 6,
+    "regressed": 4,
+    "base": {
+      "nodes": 36730886,
+      "references": 8
+    },
+    "candidate": {
+      "nodes": 42391554,
+      "references": 8
+    }
+  },
+  "cases": [
+    {
+      "round": 3,
+      "color": "black",
+      "ply": 26,
+      "fen": "r3kb1r/1p3p1p/2n2np1/pNq1p3/P7/4PP1P/1P1B1PB1/R1Q1K2R b KQkq - 1 13",
+      "depth": 7,
+      "reference": "a8d8",
+      "played": "e8d7",
+      "base": {
+        "move": "e8c8",
+        "grade": -113,
+        "nodes": 222533
+      },
+      "candidate": {
+        "move": "e8c8",
+        "grade": -113,
+        "nodes": 236332
+      }
+    },
+    {
+      "round": 6,
+      "color": "black",
+      "ply": 4,
+      "fen": "rnb1kb1r/ppqppp1p/5np1/2pP4/4P3/P1N2P2/1PP3PP/R1BQKBNR b KQkq - 0 2",
+      "depth": 7,
+      "reference": "d7d6",
+      "played": "e7e5",
+      "base": {
+        "move": "e7e6",
+        "grade": -253,
+        "nodes": 242523
+      },
+      "candidate": {
+        "move": "e7e5",
+        "grade": -274,
+        "nodes": 419502
+      }
+    },
+    {
+      "round": 7,
+      "color": "black",
+      "ply": 86,
+      "fen": "1r3q1k/1p1R4/p6p/2P1p3/4p3/PQ2Pp2/1P3P2/1K6 b - - 0 43",
+      "depth": 9,
+      "reference": "b8d8",
+      "played": "f8g8",
+      "base": {
+        "move": "b8d8",
+        "grade": -62,
+        "nodes": 366352
+      },
+      "candidate": {
+        "move": "f8g8",
+        "grade": -366,
+        "nodes": 384984
+      }
+    },
+    {
+      "round": 9,
+      "color": "white",
+      "ply": 35,
+      "fen": "rr6/3R3p/4p1k1/6B1/2p1P3/1p6/PR3PPP/6K1 w - - 0 18",
+      "depth": 7,
+      "reference": "h2h4",
+      "played": "g5f4",
+      "base": {
+        "move": "g5f4",
+        "grade": -477,
+        "nodes": 81720
+      },
+      "candidate": {
+        "move": "g5f4",
+        "grade": -477,
+        "nodes": 50137
+      }
+    },
+    {
+      "round": 10,
+      "color": "black",
+      "ply": 116,
+      "fen": "6R1/8/R5p1/4Kpk1/4b1rp/8/8/8 b - - 1 58",
+      "depth": 9,
+      "reference": "g5h5",
+      "played": "g5h6",
+      "base": {
+        "move": "g5h5",
+        "grade": 0,
+        "nodes": 249666
+      },
+      "candidate": {
+        "move": "g5h5",
+        "grade": 0,
+        "nodes": 214647
+      }
+    },
+    {
+      "round": 10,
+      "color": "white",
+      "ply": 67,
+      "fen": "1r2r3/2p1q1k1/2p2pp1/2P4p/3QPBbP/P3P1P1/1P1R1K1R/8 w - - 1 34",
+      "depth": 7,
+      "reference": "f2g1",
+      "played": "d2c2",
+      "base": {
+        "move": "d2c2",
+        "grade": -286,
+        "nodes": 178295
+      },
+      "candidate": {
+        "move": "d2c2",
+        "grade": -286,
+        "nodes": 207123
+      }
+    },
+    {
+      "round": 15,
+      "color": "black",
+      "ply": 54,
+      "fen": "2Q5/1p4bk/1p1p2rp/q3p3/2PpR3/P2p2P1/5PK1/1R6 b - - 1 27",
+      "depth": 8,
+      "reference": "g6f6",
+      "played": "a5a3",
+      "base": {
+        "move": "a5a3",
+        "grade": -211,
+        "nodes": 624016
+      },
+      "candidate": {
+        "move": "d6d5",
+        "grade": -113,
+        "nodes": 767486
+      }
+    },
+    {
+      "round": 15,
+      "color": "white",
+      "ply": 13,
+      "fen": "1rbq1rk1/pp3pb1/2np1npp/2pNp3/2P1P3/1Q1P1N1P/PP1BBPP1/R3K2R w KQ - 8 7",
+      "depth": 7,
+      "reference": "e1g1",
+      "played": "e1c1",
+      "base": {
+        "move": "e1c1",
+        "grade": -208,
+        "nodes": 624639
+      },
+      "candidate": {
+        "move": "e1c1",
+        "grade": -208,
+        "nodes": 911000
+      }
+    },
+    {
+      "round": 20,
+      "color": "black",
+      "ply": 40,
+      "fen": "2r2r1k/pp4pp/4pp2/3p2P1/b1qP4/2P2N2/1P1Q2P1/R5KR b - - 0 20",
+      "depth": 7,
+      "reference": "a4e8",
+      "played": "c8e8",
+      "base": {
+        "move": "c8e8",
+        "grade": -425,
+        "nodes": 505053
+      },
+      "candidate": {
+        "move": "c8e8",
+        "grade": -425,
+        "nodes": 494709
+      }
+    },
+    {
+      "round": 20,
+      "color": "white",
+      "ply": 49,
+      "fen": "8/2qk1p2/4rp2/3pp2R/3P4/P3P3/1P1NKP2/6R1 w - - 0 25",
+      "depth": 7,
+      "reference": "h5h7",
+      "played": "e2d3",
+      "base": {
+        "move": "e2d3",
+        "grade": -237,
+        "nodes": 396725
+      },
+      "candidate": {
+        "move": "e2d3",
+        "grade": -237,
+        "nodes": 461108
+      }
+    },
+    {
+      "round": 21,
+      "color": "black",
+      "ply": 22,
+      "fen": "r3kb1r/1pp1p2p/p1n1b3/3P1p2/1Pq5/P1N1pB2/1BQ1NnPP/2KR3R b kq - 0 11",
+      "depth": 7,
+      "reference": "e8c8",
+      "played": "f2d1",
+      "base": {
+        "move": "f2d1",
+        "grade": -200,
+        "nodes": 409617
+      },
+      "candidate": {
+        "move": "f2d1",
+        "grade": -200,
+        "nodes": 413451
+      }
+    },
+    {
+      "round": 21,
+      "color": "white",
+      "ply": 157,
+      "fen": "8/7P/3k4/2p5/3b4/1p6/2R5/7K w - - 0 79",
+      "depth": 11,
+      "reference": "c2c1",
+      "played": "c2f2",
+      "base": {
+        "move": "c2e2",
+        "grade": -367,
+        "nodes": 786964
+      },
+      "candidate": {
+        "move": "c2d2",
+        "grade": -127,
+        "nodes": 651987
+      }
+    },
+    {
+      "round": 25,
+      "color": "black",
+      "ply": 76,
+      "fen": "3r2k1/1pp2p2/p1n5/4PQ1N/5P2/3p4/1P4K1/3r4 b - - 1 38",
+      "depth": 8,
+      "reference": "d1e1",
+      "played": "d1c1",
+      "base": {
+        "move": "d1e1",
+        "grade": 0,
+        "nodes": 314454
+      },
+      "candidate": {
+        "move": "d1e1",
+        "grade": 0,
+        "nodes": 324230
+      }
+    },
+    {
+      "round": 27,
+      "color": "white",
+      "ply": 69,
+      "fen": "3B1k2/3n4/1p1p1p2/2bP1Ppp/1r2P3/6PP/P3R1BK/8 w - - 0 35",
+      "depth": 9,
+      "reference": "e4e5",
+      "played": "g2f3",
+      "base": {
+        "move": "g2f3",
+        "grade": -343,
+        "nodes": 579978
+      },
+      "candidate": {
+        "move": "g2f3",
+        "grade": -343,
+        "nodes": 708560
+      }
+    },
+    {
+      "round": 28,
+      "color": "white",
+      "ply": 31,
+      "fen": "2r4r/4kpp1/p3p3/1pn1N2p/4b3/P3P3/1PP1RPPP/2K2B1R w - - 2 16",
+      "depth": 7,
+      "reference": "b2b4",
+      "played": "c1b1",
+      "base": {
+        "move": "c1b1",
+        "grade": -290,
+        "nodes": 110783
+      },
+      "candidate": {
+        "move": "c1b1",
+        "grade": -290,
+        "nodes": 258369
+      }
+    },
+    {
+      "round": 35,
+      "color": "white",
+      "ply": 37,
+      "fen": "2r2rk1/p5pp/1p1B4/2n1pq2/3R4/P1P1Q3/1P3PPP/5K1R w - - 0 19",
+      "depth": 8,
+      "reference": "d4d2",
+      "played": "d6f8",
+      "base": {
+        "move": "d6f8",
+        "grade": -419,
+        "nodes": 366806
+      },
+      "candidate": {
+        "move": "d6f8",
+        "grade": -419,
+        "nodes": 398490
+      }
+    },
+    {
+      "round": 36,
+      "color": "black",
+      "ply": 26,
+      "fen": "5k1r/rppb1pp1/2n1p2p/2Pp4/p2Pn3/q3BNP1/P1Q1PPBP/1R2R1K1 b - - 6 13",
+      "depth": 6,
+      "reference": "c6b4",
+      "played": "e4c3",
+      "base": {
+        "move": "e4c3",
+        "grade": -208,
+        "nodes": 125621
+      },
+      "candidate": {
+        "move": "e4c3",
+        "grade": -208,
+        "nodes": 175440
+      }
+    },
+    {
+      "round": 41,
+      "color": "black",
+      "ply": 46,
+      "fen": "rnR5/p1pp1k1r/3q4/1p4Qp/3b2p1/4PNP1/1P5P/4KB2 b - - 0 23",
+      "depth": 7,
+      "reference": "h7h8",
+      "played": "d4b2",
+      "base": {
+        "move": "d4b2",
+        "grade": -244,
+        "nodes": 152666
+      },
+      "candidate": {
+        "move": "d4b2",
+        "grade": -244,
+        "nodes": 165916
+      }
+    },
+    {
+      "round": 47,
+      "color": "white",
+      "ply": 11,
+      "fen": "r3k2r/pp1nppb1/2pq1np1/3p3p/3P2b1/1PNBPN1P/P1P2PP1/R1BQ1RK1 w kq - 1 6",
+      "depth": 7,
+      "reference": "a2a4",
+      "played": "h3g4",
+      "base": {
+        "move": "h3g4",
+        "grade": -218,
+        "nodes": 109369
+      },
+      "candidate": {
+        "move": "h3g4",
+        "grade": -218,
+        "nodes": 70373
+      }
+    },
+    {
+      "round": 48,
+      "color": "white",
+      "ply": 65,
+      "fen": "4r3/8/1b1P4/1pR1P3/1P2kp2/P3n2P/1B3K1P/4R3 w - - 5 33",
+      "depth": 8,
+      "reference": "b2c1",
+      "played": "c5b5",
+      "base": {
+        "move": "c5b5",
+        "grade": -416,
+        "nodes": 111512
+      },
+      "candidate": {
+        "move": "c5b5",
+        "grade": -416,
+        "nodes": 118158
+      }
+    },
+    {
+      "round": 53,
+      "color": "black",
+      "ply": 36,
+      "fen": "r1b2rk1/pp1p1p1p/n7/3Nbp2/2P4Q/7N/q5PP/5R1K b - - 3 18",
+      "depth": 6,
+      "reference": "a2e2",
+      "played": "d7d6",
+      "base": {
+        "move": "g8g7",
+        "grade": 143,
+        "nodes": 101694
+      },
+      "candidate": {
+        "move": "a2c2",
+        "grade": 220,
+        "nodes": 136285
+      }
+    },
+    {
+      "round": 53,
+      "color": "white",
+      "ply": 41,
+      "fen": "r3k2r/4p3/b2P1pp1/2q4p/PR2PBnP/8/3N1PP1/1Q2K2R w Kkq - 1 21",
+      "depth": 7,
+      "reference": "f4g3",
+      "played": "b4b8",
+      "base": {
+        "move": "b4b8",
+        "grade": -338,
+        "nodes": 116594
+      },
+      "candidate": {
+        "move": "b4b8",
+        "grade": -338,
+        "nodes": 89876
+      }
+    },
+    {
+      "round": 62,
+      "color": "black",
+      "ply": 36,
+      "fen": "r4r1k/1pbq1ppp/p1n5/2p1pQ1P/4P3/2P1P1PR/1PNN4/3RK3 b - - 2 18",
+      "depth": 8,
+      "reference": "d7e7",
+      "played": "d7d3",
+      "base": {
+        "move": "d7d3",
+        "grade": -378,
+        "nodes": 284771
+      },
+      "candidate": {
+        "move": "d7d3",
+        "grade": -378,
+        "nodes": 329789
+      }
+    },
+    {
+      "round": 66,
+      "color": "white",
+      "ply": 67,
+      "fen": "6k1/6p1/2b4p/1r1q4/1PnB1P2/3Q1NP1/6KP/1R6 w - - 3 34",
+      "depth": 7,
+      "reference": "b1d1",
+      "played": "g2g1",
+      "base": {
+        "move": "g2g1",
+        "grade": -246,
+        "nodes": 226879
+      },
+      "candidate": {
+        "move": "g2g1",
+        "grade": -246,
+        "nodes": 356201
+      }
+    },
+    {
+      "round": 68,
+      "color": "white",
+      "ply": 49,
+      "fen": "r5k1/4pp1p/3bb1p1/BR6/1P6/8/P3BPPP/6K1 w - - 1 25",
+      "depth": 7,
+      "reference": "a2a4",
+      "played": "e2f1",
+      "base": {
+        "move": "a2a4",
+        "grade": -26,
+        "nodes": 181304
+      },
+      "candidate": {
+        "move": "e2d3",
+        "grade": -30,
+        "nodes": 503503
+      }
+    },
+    {
+      "round": 70,
+      "color": "white",
+      "ply": 35,
+      "fen": "rq3r1k/3bNpp1/2pp1n1p/4p3/2Q1P3/1Pp1B2P/B1P2PP1/R5KR w - - 3 18",
+      "depth": 7,
+      "reference": "b3b4",
+      "played": "h1h2",
+      "base": {
+        "move": "g1h2",
+        "grade": 0,
+        "nodes": 446689
+      },
+      "candidate": {
+        "move": "g1h2",
+        "grade": 0,
+        "nodes": 398732
+      }
+    },
+    {
+      "round": 71,
+      "color": "black",
+      "ply": 10,
+      "fen": "rn2kb1r/pp3ppp/4pn2/q2p4/3P3N/4P3/PP1BBPPP/1R1QK2R b Kkq - 2 5",
+      "depth": 7,
+      "reference": "f8b4",
+      "played": "a5a2",
+      "base": {
+        "move": "a5a2",
+        "grade": -320,
+        "nodes": 117379
+      },
+      "candidate": {
+        "move": "a5a2",
+        "grade": -320,
+        "nodes": 172492
+      }
+    },
+    {
+      "round": 75,
+      "color": "white",
+      "ply": 27,
+      "fen": "r2qr1k1/1p3ppp/p4n2/1b6/1P1P1N2/2Q3P1/1PP1BP1P/R3K2R w KQ - 3 14",
+      "depth": 7,
+      "reference": "c3d2",
+      "played": "e1f1",
+      "base": {
+        "move": "e1f1",
+        "grade": -232,
+        "nodes": 281145
+      },
+      "candidate": {
+        "move": "e1f1",
+        "grade": -232,
+        "nodes": 183439
+      }
+    },
+    {
+      "round": 81,
+      "color": "black",
+      "ply": 36,
+      "fen": "r6r/pp1bkp1p/4p2p/8/3p1B2/bq3BP1/2R1PP2/Q4RK1 b - - 6 18",
+      "depth": 7,
+      "reference": "a8c8",
+      "played": "b3c2",
+      "base": {
+        "move": "b3c2",
+        "grade": -317,
+        "nodes": 486045
+      },
+      "candidate": {
+        "move": "b3c2",
+        "grade": -317,
+        "nodes": 487637
+      }
+    },
+    {
+      "round": 81,
+      "color": "white",
+      "ply": 47,
+      "fen": "r5k1/2P2p2/1n1B3p/3nN1p1/p2P4/6Pq/P3rP1P/1Q3RKR w - - 2 24",
+      "depth": 7,
+      "reference": "f1c1",
+      "played": "d6c5",
+      "base": {
+        "move": "d6c5",
+        "grade": -31996,
+        "nodes": 250504
+      },
+      "candidate": {
+        "move": "d6c5",
+        "grade": -31996,
+        "nodes": 315949
+      }
+    },
+    {
+      "round": 89,
+      "color": "black",
+      "ply": 78,
+      "fen": "8/6k1/7p/P3pp2/1R2p1r1/8/6P1/5K2 b - - 0 39",
+      "depth": 9,
+      "reference": "g4g3",
+      "played": "g4f4",
+      "base": {
+        "move": "g4f4",
+        "grade": -299,
+        "nodes": 181387
+      },
+      "candidate": {
+        "move": "g4g6",
+        "grade": 0,
+        "nodes": 241531
+      }
+    },
+    {
+      "round": 91,
+      "color": "white",
+      "ply": 59,
+      "fen": "4k3/r4q2/1pp2pR1/n2pPp2/P2P4/P6r/1QPN1PK1/R7 w - - 2 30",
+      "depth": 9,
+      "reference": "g6g3",
+      "played": "g6f6",
+      "base": {
+        "move": "g6f6",
+        "grade": -624,
+        "nodes": 490917
+      },
+      "candidate": {
+        "move": "g6f6",
+        "grade": -624,
+        "nodes": 407862
+      }
+    },
+    {
+      "round": 93,
+      "color": "black",
+      "ply": 10,
+      "fen": "r1bq1rk1/pp1n1ppp/2p1p3/3p4/1bPPn3/1P2PN2/P1QNBPPP/R1B2RK1 b - - 6 5",
+      "depth": 7,
+      "reference": "f7f5",
+      "played": "b4c3",
+      "base": {
+        "move": "d7f6",
+        "grade": -90,
+        "nodes": 303891
+      },
+      "candidate": {
+        "move": "d7f6",
+        "grade": -90,
+        "nodes": 270316
+      }
+    },
+    {
+      "round": 96,
+      "color": "black",
+      "ply": 38,
+      "fen": "rr5k/p1pb2qp/2n1p2p/2Pp1p2/5P2/P1P1PNP1/2Q1B2R/3RK3 b - - 0 19",
+      "depth": 7,
+      "reference": "c6a5",
+      "played": "g7g3",
+      "base": {
+        "move": "g7g3",
+        "grade": -200,
+        "nodes": 203627
+      },
+      "candidate": {
+        "move": "g7g3",
+        "grade": -200,
+        "nodes": 366251
+      }
+    },
+    {
+      "round": 96,
+      "color": "white",
+      "ply": 41,
+      "fen": "6k1/pbp4p/np6/8/2P5/6Pq/PPQ1K2P/R6R w - - 4 21",
+      "depth": 8,
+      "reference": "h1f1",
+      "played": "c2a4",
+      "base": {
+        "move": "c2a4",
+        "grade": -418,
+        "nodes": 240171
+      },
+      "candidate": {
+        "move": "c2d3",
+        "grade": 123,
+        "nodes": 324142
+      }
+    },
+    {
+      "round": 99,
+      "color": "white",
+      "ply": 29,
+      "fen": "3r2k1/pp3pbp/4pnp1/2P2bB1/q1B4Q/5N1P/PPP2PP1/1K5R w - - 2 15",
+      "depth": 7,
+      "reference": "h1c1",
+      "played": "b2b3",
+      "base": {
+        "move": "b2b3",
+        "grade": -271,
+        "nodes": 177335
+      },
+      "candidate": {
+        "move": "b2b3",
+        "grade": -271,
+        "nodes": 146537
+      }
+    },
+    {
+      "round": 101,
+      "color": "black",
+      "ply": 42,
+      "fen": "r1bk3r/1p4R1/4pp2/bp1p3p/p2P1N1q/2PBQ3/PPK2P2/8 b - - 2 21",
+      "depth": 7,
+      "reference": "a8a6",
+      "played": "b5b4",
+      "base": {
+        "move": "b5b4",
+        "grade": -754,
+        "nodes": 143079
+      },
+      "candidate": {
+        "move": "b5b4",
+        "grade": -754,
+        "nodes": 274133
+      }
+    },
+    {
+      "round": 104,
+      "color": "white",
+      "ply": 87,
+      "fen": "8/4k3/8/3P4/4P1P1/p6P/rPr4n/1RBN2K1 w - - 0 44",
+      "depth": 9,
+      "reference": "e4e5",
+      "played": "b2a3",
+      "base": {
+        "move": "b2a3",
+        "grade": -31992,
+        "nodes": 328338
+      },
+      "candidate": {
+        "move": "b2a3",
+        "grade": -31992,
+        "nodes": 201389
+      }
+    },
+    {
+      "round": 109,
+      "color": "black",
+      "ply": 18,
+      "fen": "r1bq1b1r/pp2kBp1/2n4p/4p3/3pn2N/1Q2P3/PP3PPP/R1B2RK1 b - - 2 9",
+      "depth": 8,
+      "reference": "e4c5",
+      "played": "e7f6",
+      "base": {
+        "move": "e7f6",
+        "grade": -267,
+        "nodes": 473295
+      },
+      "candidate": {
+        "move": "e7f6",
+        "grade": -267,
+        "nodes": 390821
+      }
+    },
+    {
+      "round": 109,
+      "color": "white",
+      "ply": 39,
+      "fen": "2bq1nk1/r2n1pp1/1bQ1p3/1B6/1P2P3/P4N1p/5PPP/R2R2K1 w - - 0 20",
+      "depth": 8,
+      "reference": "a3a4",
+      "played": "g2h3",
+      "base": {
+        "move": "g2h3",
+        "grade": -300,
+        "nodes": 524965
+      },
+      "candidate": {
+        "move": "g2h3",
+        "grade": -300,
+        "nodes": 886744
+      }
+    },
+    {
+      "round": 110,
+      "color": "black",
+      "ply": 66,
+      "fen": "r4r2/1p3p2/4b1k1/p1qNb3/P1PpP1Pp/5Q2/1P2B1K1/7R b - - 3 33",
+      "depth": 7,
+      "reference": "f8h8",
+      "played": "e5g3",
+      "base": {
+        "move": "f8h8",
+        "grade": 345,
+        "nodes": 241915
+      },
+      "candidate": {
+        "move": "f8h8",
+        "grade": 345,
+        "nodes": 215853
+      }
+    },
+    {
+      "round": 111,
+      "color": "white",
+      "ply": 67,
+      "fen": "1r6/8/R5p1/4P2P/Prp3k1/8/2PR3P/K7 w - - 1 34",
+      "depth": 9,
+      "reference": "c2c3",
+      "played": "h5g6",
+      "base": {
+        "move": "h5g6",
+        "grade": -479,
+        "nodes": 384694
+      },
+      "candidate": {
+        "move": "h5g6",
+        "grade": -479,
+        "nodes": 268470
+      }
+    },
+    {
+      "round": 112,
+      "color": "white",
+      "ply": 7,
+      "fen": "r1bqk2r/p2pppbp/1pn3p1/2p1P2n/2P5/1PN2N1P/P2P1PP1/R1BQKB1R w KQkq - 1 4",
+      "depth": 8,
+      "reference": "g2g4",
+      "played": "d1e2",
+      "base": {
+        "move": "d1e2",
+        "grade": -217,
+        "nodes": 312900
+      },
+      "candidate": {
+        "move": "d1e2",
+        "grade": -217,
+        "nodes": 497150
+      }
+    },
+    {
+      "round": 118,
+      "color": "black",
+      "ply": 18,
+      "fen": "r2qkb1r/1p3p1p/4p1p1/pP1pP3/3P2n1/1Q2P3/1P4PP/RNB2RK1 b kq - 1 9",
+      "depth": 6,
+      "reference": "f8g7",
+      "played": "d8g5",
+      "base": {
+        "move": "d8g5",
+        "grade": -288,
+        "nodes": 194626
+      },
+      "candidate": {
+        "move": "d8g5",
+        "grade": -288,
+        "nodes": 221421
+      }
+    },
+    {
+      "round": 120,
+      "color": "white",
+      "ply": 53,
+      "fen": "4r1r1/1k3p1B/2b5/p1b1B3/P4P2/3p4/1PP2RPP/R6K w - - 0 27",
+      "depth": 8,
+      "reference": "f2f3",
+      "played": "h7g8",
+      "base": {
+        "move": "h7g8",
+        "grade": -417,
+        "nodes": 258760
+      },
+      "candidate": {
+        "move": "h7g8",
+        "grade": -417,
+        "nodes": 227185
+      }
+    },
+    {
+      "round": 123,
+      "color": "white",
+      "ply": 21,
+      "fen": "1rbqr1k1/2p2pbp/p4np1/2P5/3p1B2/2NQ4/PPP1BPPP/1R3RK1 w - - 0 11",
+      "depth": 6,
+      "reference": "b1d1",
+      "played": "c3a4",
+      "base": {
+        "move": "c3a4",
+        "grade": -276,
+        "nodes": 270819
+      },
+      "candidate": {
+        "move": "c3a4",
+        "grade": -276,
+        "nodes": 276375
+      }
+    },
+    {
+      "round": 124,
+      "color": "black",
+      "ply": 40,
+      "fen": "4r1k1/r1pb1p1p/pp6/3q4/P2Pp1P1/1P6/R2Q1RP1/5NK1 b - - 3 20",
+      "depth": 8,
+      "reference": "c7c5",
+      "played": "d5b3",
+      "base": {
+        "move": "d5b3",
+        "grade": -225,
+        "nodes": 437049
+      },
+      "candidate": {
+        "move": "d5b3",
+        "grade": -225,
+        "nodes": 616202
+      }
+    },
+    {
+      "round": 126,
+      "color": "black",
+      "ply": 22,
+      "fen": "r1bk4/ppp1r1bp/5np1/1N3pN1/1Pn1pB2/6P1/P3PPBP/1R1R2K1 b - - 3 11",
+      "depth": 7,
+      "reference": "d8e8",
+      "played": "c4d6",
+      "base": {
+        "move": "c4d6",
+        "grade": -292,
+        "nodes": 107104
+      },
+      "candidate": {
+        "move": "c4d6",
+        "grade": -292,
+        "nodes": 107104
+      }
+    },
+    {
+      "round": 128,
+      "color": "black",
+      "ply": 70,
+      "fen": "2q2b1Q/2nk1r1N/7P/2p1BP2/2P1P3/6r1/p2P2P1/5RK1 b - - 2 35",
+      "depth": 7,
+      "reference": "g3b3",
+      "played": "g3g4",
+      "base": {
+        "move": "g3g4",
+        "grade": -250,
+        "nodes": 218992
+      },
+      "candidate": {
+        "move": "g3d3",
+        "grade": -242,
+        "nodes": 168091
+      }
+    },
+    {
+      "round": 130,
+      "color": "white",
+      "ply": 11,
+      "fen": "r3kbnr/pp1b2p1/2n1pp2/2p4p/2P2B2/2N2NPB/PP2PP1P/R2K3R w kq - 0 6",
+      "depth": 7,
+      "reference": "h3g2",
+      "played": "c3e4",
+      "base": {
+        "move": "d1e1",
+        "grade": -227,
+        "nodes": 402503
+      },
+      "candidate": {
+        "move": "d1e1",
+        "grade": -227,
+        "nodes": 424470
+      }
+    },
+    {
+      "round": 131,
+      "color": "white",
+      "ply": 15,
+      "fen": "r3k2r/ppp2ppp/4p2q/4P3/1b1n4/2NP1BP1/PPP4P/R2QK2R w KQkq - 0 8",
+      "depth": 8,
+      "reference": "e1g1",
+      "played": "f3b7",
+      "base": {
+        "move": "f3b7",
+        "grade": -247,
+        "nodes": 258976
+      },
+      "candidate": {
+        "move": "f3b7",
+        "grade": -247,
+        "nodes": 336244
+      }
+    },
+    {
+      "round": 139,
+      "color": "black",
+      "ply": 20,
+      "fen": "r4rk1/1ppq1p1p/p1np2p1/3N1b2/2P1n3/PP2PN2/1R2BPPP/3QK2R b K - 0 10",
+      "depth": 6,
+      "reference": "d7d8",
+      "played": "c6e5",
+      "base": {
+        "move": "h7h6",
+        "grade": -159,
+        "nodes": 94728
+      },
+      "candidate": {
+        "move": "h7h6",
+        "grade": -159,
+        "nodes": 119215
+      }
+    },
+    {
+      "round": 144,
+      "color": "black",
+      "ply": 46,
+      "fen": "r3b1rk/pq5p/2pbp2R/2p2pN1/N1Pp1P2/1P4Q1/n2B1KP1/1R6 b - - 2 23",
+      "depth": 7,
+      "reference": "g8g6",
+      "played": "b7d7",
+      "base": {
+        "move": "b7d7",
+        "grade": -245,
+        "nodes": 294670
+      },
+      "candidate": {
+        "move": "b7d7",
+        "grade": -245,
+        "nodes": 375902
+      }
+    },
+    {
+      "round": 145,
+      "color": "black",
+      "ply": 28,
+      "fen": "r4rk1/ppq2p1p/2npb1p1/2p1p1b1/2P3P1/PPNPP2P/1B1Q1PB1/1R2K2R b K - 4 14",
+      "depth": 7,
+      "reference": "g5h4",
+      "played": "c6d4",
+      "base": {
+        "move": "c6d4",
+        "grade": -293,
+        "nodes": 437396
+      },
+      "candidate": {
+        "move": "c6d4",
+        "grade": -293,
+        "nodes": 1238079
+      }
+    },
+    {
+      "round": 145,
+      "color": "white",
+      "ply": 33,
+      "fen": "br3rk1/6b1/Qpn1p1p1/1NB1pP1p/2P5/3q1BP1/PP3P1P/R4RK1 w - - 0 17",
+      "depth": 6,
+      "reference": "a6a3",
+      "played": "c5f8",
+      "base": {
+        "move": "c5f8",
+        "grade": -228,
+        "nodes": 64813
+      },
+      "candidate": {
+        "move": "c5f8",
+        "grade": -228,
+        "nodes": 73535
+      }
+    },
+    {
+      "round": 146,
+      "color": "black",
+      "ply": 24,
+      "fen": "r1b3k1/ppp1rppp/2np1n1q/8/1PP5/P1Q1P1P1/1B1PN1BP/R4RK1 b - - 6 12",
+      "depth": 6,
+      "reference": "c6e5",
+      "played": "c8h3",
+      "base": {
+        "move": "c8h3",
+        "grade": -386,
+        "nodes": 51032
+      },
+      "candidate": {
+        "move": "c8h3",
+        "grade": -386,
+        "nodes": 112131
+      }
+    },
+    {
+      "round": 153,
+      "color": "black",
+      "ply": 42,
+      "fen": "r6r/2k5/p1ppb3/5q1p/BQPp2pP/3P2P1/P4P1K/R4R2 b - - 1 21",
+      "depth": 7,
+      "reference": "a8b8",
+      "played": "f5d3",
+      "base": {
+        "move": "f5d3",
+        "grade": -268,
+        "nodes": 172401
+      },
+      "candidate": {
+        "move": "f5d3",
+        "grade": -268,
+        "nodes": 105567
+      }
+    },
+    {
+      "round": 154,
+      "color": "black",
+      "ply": 72,
+      "fen": "8/5rpk/2p2r2/2B1p1p1/P7/7P/R3Kp2/5N2 b - - 0 36",
+      "depth": 8,
+      "reference": "e5e4",
+      "played": "h7g6",
+      "base": {
+        "move": "f6f5",
+        "grade": -67,
+        "nodes": 420453
+      },
+      "candidate": {
+        "move": "h7h6",
+        "grade": -245,
+        "nodes": 406156
+      }
+    },
+    {
+      "round": 160,
+      "color": "white",
+      "ply": 41,
+      "fen": "1k5r/1pq2p1b/p1p5/3nb1QP/3N4/2P5/PP2BpP1/3R1K1R w - - 0 21",
+      "depth": 7,
+      "reference": "e2f3",
+      "played": "e2a6",
+      "base": {
+        "move": "e2a6",
+        "grade": -357,
+        "nodes": 443069
+      },
+      "candidate": {
+        "move": "e2a6",
+        "grade": -357,
+        "nodes": 596171
+      }
+    },
+    {
+      "round": 162,
+      "color": "white",
+      "ply": 29,
+      "fen": "r5k1/p4ppp/2p1rq2/3Q4/3b2K1/2NP4/PPP3PP/R1B4R w - - 0 15",
+      "depth": 7,
+      "reference": "c1g5",
+      "played": "d5b3",
+      "base": {
+        "move": "d5b3",
+        "grade": -31995,
+        "nodes": 162492
+      },
+      "candidate": {
+        "move": "d5b3",
+        "grade": -31995,
+        "nodes": 113069
+      }
+    },
+    {
+      "round": 164,
+      "color": "white",
+      "ply": 33,
+      "fen": "br4k1/p4pb1/2nq2p1/P1pN3p/1pP3nP/3P1N2/1P1QBPP1/R4RK1 w - - 3 17",
+      "depth": 6,
+      "reference": "g2g3",
+      "played": "f1b1",
+      "base": {
+        "move": "f1b1",
+        "grade": -344,
+        "nodes": 144314
+      },
+      "candidate": {
+        "move": "f1b1",
+        "grade": -344,
+        "nodes": 241947
+      }
+    },
+    {
+      "round": 166,
+      "color": "white",
+      "ply": 57,
+      "fen": "3r2k1/p7/8/2Q4p/1P3rq1/P5P1/7P/4R1KR w - - 1 29",
+      "depth": 8,
+      "reference": "c5e3",
+      "played": "c5a7",
+      "base": {
+        "move": "c5a7",
+        "grade": -293,
+        "nodes": 353424
+      },
+      "candidate": {
+        "move": "c5a7",
+        "grade": -293,
+        "nodes": 281114
+      }
+    },
+    {
+      "round": 173,
+      "color": "white",
+      "ply": 27,
+      "fen": "r1bq2k1/pp2n2p/1n1p1r1b/3Pp3/1B2Ppp1/QN1B4/PP1N1PPP/R4RK1 w - - 4 14",
+      "depth": 7,
+      "reference": "f1c1",
+      "played": "d3e2",
+      "base": {
+        "move": "d3e2",
+        "grade": -206,
+        "nodes": 275310
+      },
+      "candidate": {
+        "move": "d3e2",
+        "grade": -206,
+        "nodes": 508559
+      }
+    },
+    {
+      "round": 177,
+      "color": "white",
+      "ply": 41,
+      "fen": "4rr2/pp1k4/2np3b/2pN1p1p/4P3/P6P/RPPN1PPK/4R3 w - - 1 21",
+      "depth": 8,
+      "reference": "d2f1",
+      "played": "f2f4",
+      "base": {
+        "move": "f2f4",
+        "grade": -307,
+        "nodes": 317556
+      },
+      "candidate": {
+        "move": "f2f4",
+        "grade": -307,
+        "nodes": 341079
+      }
+    },
+    {
+      "round": 178,
+      "color": "black",
+      "ply": 18,
+      "fen": "r1b1kb1r/pp3ppp/1q1p4/1Np1n3/2P3n1/1Q2BNP1/PP2PPBP/R4RK1 b kq - 13 9",
+      "depth": 7,
+      "reference": "a7a6",
+      "played": "e5f3",
+      "base": {
+        "move": "e5f3",
+        "grade": -270,
+        "nodes": 187540
+      },
+      "candidate": {
+        "move": "e5f3",
+        "grade": -270,
+        "nodes": 486657
+      }
+    },
+    {
+      "round": 179,
+      "color": "black",
+      "ply": 86,
+      "fen": "4k3/2p4p/p1r1rB2/4P2Q/3p1P2/3P4/2Pq4/1b1BNK2 b - - 10 43",
+      "depth": 10,
+      "reference": "e8d7",
+      "played": "e8f8",
+      "base": {
+        "move": "e8f8",
+        "grade": -542,
+        "nodes": 530659
+      },
+      "candidate": {
+        "move": "e8f8",
+        "grade": -542,
+        "nodes": 530659
+      }
+    },
+    {
+      "round": 180,
+      "color": "black",
+      "ply": 18,
+      "fen": "r2qkb1r/1pp3pp/8/p3pb2/P3p3/1QP3P1/1P1N1PP1/R3KB1R b KQkq - 1 9",
+      "depth": 7,
+      "reference": "e4e3",
+      "played": "d8b8",
+      "base": {
+        "move": "d8b8",
+        "grade": -241,
+        "nodes": 127558
+      },
+      "candidate": {
+        "move": "d8b8",
+        "grade": -241,
+        "nodes": 206931
+      }
+    },
+    {
+      "round": 191,
+      "color": "black",
+      "ply": 34,
+      "fen": "5k1r/1p1r1pp1/p1n4p/2bp4/2q1pNQP/1N2P1P1/2P2P2/1R4KR b - - 1 17",
+      "depth": 7,
+      "reference": "d7e7",
+      "played": "c6e5",
+      "base": {
+        "move": "c6e5",
+        "grade": -213,
+        "nodes": 119120
+      },
+      "candidate": {
+        "move": "c6e5",
+        "grade": -213,
+        "nodes": 99980
+      }
+    },
+    {
+      "round": 195,
+      "color": "black",
+      "ply": 12,
+      "fen": "r1bqk2r/pppp1p1p/5np1/2b1p3/1nB1P3/2N2Q2/PPPPNPPP/R1B2RK1 b kq - 11 6",
+      "depth": 7,
+      "reference": "d7d6",
+      "played": "b4c2",
+      "base": {
+        "move": "b4c2",
+        "grade": -268,
+        "nodes": 141058
+      },
+      "candidate": {
+        "move": "b4c2",
+        "grade": -268,
+        "nodes": 148160
+      }
+    },
+    {
+      "round": 196,
+      "color": "black",
+      "ply": 72,
+      "fen": "2b4r/5pq1/1R5p/Q2k4/6n1/p1r3P1/5PKP/8 b - - 10 36",
+      "depth": 7,
+      "reference": "c3c5",
+      "played": "d5d4",
+      "base": {
+        "move": "d5d4",
+        "grade": -31996,
+        "nodes": 68551
+      },
+      "candidate": {
+        "move": "d5d4",
+        "grade": -31996,
+        "nodes": 68551
+      }
+    },
+    {
+      "round": 204,
+      "color": "black",
+      "ply": 40,
+      "fen": "2r3k1/1bb2ppp/p1n5/2Bp1N2/Qp6/6P1/1q3P1P/R3R1K1 b - - 3 20",
+      "depth": 6,
+      "reference": "b2f6",
+      "played": "c8a8",
+      "base": {
+        "move": "c8a8",
+        "grade": -372,
+        "nodes": 200746
+      },
+      "candidate": {
+        "move": "c8a8",
+        "grade": -372,
+        "nodes": 219231
+      }
+    },
+    {
+      "round": 204,
+      "color": "white",
+      "ply": 83,
+      "fen": "r7/P4pk1/R2p1q2/2pQb3/4P1p1/4BnP1/RP4KP/8 w - - 12 42",
+      "depth": 7,
+      "reference": "b2b4",
+      "played": "d5a8",
+      "base": {
+        "move": "d5a8",
+        "grade": -202,
+        "nodes": 168749
+      },
+      "candidate": {
+        "move": "d5a8",
+        "grade": -202,
+        "nodes": 142000
+      }
+    },
+    {
+      "round": 215,
+      "color": "black",
+      "ply": 38,
+      "fen": "2rq1r2/p2k1p1p/1p1p2p1/1Pp4n/8/PP3QP1/1N3P1P/R3R1K1 b - - 0 19",
+      "depth": 7,
+      "reference": "d8f6",
+      "played": "h5f6",
+      "base": {
+        "move": "d8f6",
+        "grade": -76,
+        "nodes": 76884
+      },
+      "candidate": {
+        "move": "d8f6",
+        "grade": -76,
+        "nodes": 214044
+      }
+    },
+    {
+      "round": 218,
+      "color": "black",
+      "ply": 12,
+      "fen": "r1bqk2r/ppp2p2/2nbp2p/3p2pQ/3P4/P1NBP1PN/1PP3PP/R3K2R b KQkq - 2 6",
+      "depth": 7,
+      "reference": "e8e7",
+      "played": "d8f6",
+      "base": {
+        "move": "d8f6",
+        "grade": -376,
+        "nodes": 368674
+      },
+      "candidate": {
+        "move": "d8f6",
+        "grade": -376,
+        "nodes": 592272
+      }
+    },
+    {
+      "round": 219,
+      "color": "black",
+      "ply": 56,
+      "fen": "r4k1r/1pp1qP2/3p2R1/3P3p/2nP1Q2/2N2P2/Pp5p/1K1R4 b - - 0 28",
+      "depth": 6,
+      "reference": "e7e3",
+      "played": "h5h4",
+      "base": {
+        "move": "h5h4",
+        "grade": -256,
+        "nodes": 130587
+      },
+      "candidate": {
+        "move": "h5h4",
+        "grade": -256,
+        "nodes": 157397
+      }
+    },
+    {
+      "round": 221,
+      "color": "white",
+      "ply": 9,
+      "fen": "r1b1kb1r/ppq2ppp/2n2n2/1Bpp4/8/2N1PN2/PPP2PPP/R1BQK2R w KQkq - 4 5",
+      "depth": 7,
+      "reference": "b2b3",
+      "played": "c3d5",
+      "base": {
+        "move": "e1g1",
+        "grade": -86,
+        "nodes": 406684
+      },
+      "candidate": {
+        "move": "e1f1",
+        "grade": -171,
+        "nodes": 446045
+      }
+    },
+    {
+      "round": 229,
+      "color": "white",
+      "ply": 7,
+      "fen": "r1b1kb1r/1pp2pp1/2n2n1p/p2qp3/8/2PP1NP1/PP1N1P1P/R1BQKB1R w KQkq - 0 4",
+      "depth": 8,
+      "reference": "d1b3",
+      "played": "c3c4",
+      "base": {
+        "move": "c3c4",
+        "grade": -231,
+        "nodes": 488514
+      },
+      "candidate": {
+        "move": "c3c4",
+        "grade": -231,
+        "nodes": 920672
+      }
+    },
+    {
+      "round": 237,
+      "color": "white",
+      "ply": 25,
+      "fen": "r1q1r1k1/P4pPp/b2b4/8/Q5P1/4B3/PP1NPP1P/n2K1BNR w - - 0 13",
+      "depth": 7,
+      "reference": "f1g2",
+      "played": "e3d4",
+      "base": {
+        "move": "e3d4",
+        "grade": -628,
+        "nodes": 169735
+      },
+      "candidate": {
+        "move": "e3d4",
+        "grade": -628,
+        "nodes": 171421
+      }
+    },
+    {
+      "round": 238,
+      "color": "black",
+      "ply": 36,
+      "fen": "r1b2k1r/pp4pp/3pp3/4Rp1Q/1P1N4/8/P1q2PP1/3R3K b - - 3 18",
+      "depth": 7,
+      "reference": "c2c7",
+      "played": "c2a2",
+      "base": {
+        "move": "c2a2",
+        "grade": -380,
+        "nodes": 280543
+      },
+      "candidate": {
+        "move": "c2a2",
+        "grade": -380,
+        "nodes": 296354
+      }
+    },
+    {
+      "round": 241,
+      "color": "black",
+      "ply": 124,
+      "fen": "6k1/7p/5r2/Q4p2/P3p3/4PrP1/7K/8 b - - 2 62",
+      "depth": 9,
+      "reference": "f6d6",
+      "played": "f3e3",
+      "base": {
+        "move": "f3e3",
+        "grade": -411,
+        "nodes": 329418
+      },
+      "candidate": {
+        "move": "f3e3",
+        "grade": -411,
+        "nodes": 290409
+      }
+    },
+    {
+      "round": 243,
+      "color": "black",
+      "ply": 34,
+      "fen": "r4rk1/ppp2p1p/3qpbp1/4Pb2/2nP4/PP3N2/1BP3PP/R3QR1K b - - 0 17",
+      "depth": 8,
+      "reference": "d6d8",
+      "played": "d6b6",
+      "base": {
+        "move": "d6b6",
+        "grade": -227,
+        "nodes": 506554
+      },
+      "candidate": {
+        "move": "d6b6",
+        "grade": -227,
+        "nodes": 454706
+      }
+    },
+    {
+      "round": 245,
+      "color": "black",
+      "ply": 68,
+      "fen": "r7/1p2k3/1n1p2p1/pPp1p2p/P3P2q/1P6/K1BQ4/5R2 b - - 1 34",
+      "depth": 7,
+      "reference": "b6d7",
+      "played": "a8a7",
+      "base": {
+        "move": "g6g5",
+        "grade": 130,
+        "nodes": 223780
+      },
+      "candidate": {
+        "move": "h4g4",
+        "grade": -349,
+        "nodes": 372924
+      }
+    },
+    {
+      "round": 249,
+      "color": "white",
+      "ply": 45,
+      "fen": "1n2k2r/3p2p1/2bbp3/P4p2/4P1q1/3BQN2/1P3P1P/R3RK2 w k - 4 23",
+      "depth": 5,
+      "reference": "a5a6",
+      "played": "h2h4",
+      "base": {
+        "move": "h2h4",
+        "grade": -353,
+        "nodes": 39344
+      },
+      "candidate": {
+        "move": "h2h4",
+        "grade": -353,
+        "nodes": 68241
+      }
+    },
+    {
+      "round": 250,
+      "color": "black",
+      "ply": 116,
+      "fen": "2k1r3/2q4p/2P5/3p1pB1/3Qb3/4P3/p5p1/2R3K1 b - - 1 58",
+      "depth": 7,
+      "reference": "c7a5",
+      "played": "c7f7",
+      "base": {
+        "move": "c7f7",
+        "grade": -758,
+        "nodes": 206889
+      },
+      "candidate": {
+        "move": "c7f7",
+        "grade": -758,
+        "nodes": 175653
+      }
+    },
+    {
+      "round": 256,
+      "color": "white",
+      "ply": 31,
+      "fen": "N1bk3r/8/1np3np/pp1p4/3PpR2/P1N1P1q1/1PP1B1Pb/R1BQ3K w - - 0 16",
+      "depth": 8,
+      "reference": "f4g4",
+      "played": "a8b6",
+      "base": {
+        "move": "a8b6",
+        "grade": -580,
+        "nodes": 317458
+      },
+      "candidate": {
+        "move": "a8b6",
+        "grade": -580,
+        "nodes": 258548
+      }
+    },
+    {
+      "round": 260,
+      "color": "black",
+      "ply": 22,
+      "fen": "r1q1r1k1/ppp1pp1p/2n4B/5p1Q/8/7P/PbP1NPP1/3R1RK1 b - - 5 11",
+      "depth": 7,
+      "reference": "e8d8",
+      "played": "e7e6",
+      "base": {
+        "move": "b2f6",
+        "grade": -43,
+        "nodes": 361002
+      },
+      "candidate": {
+        "move": "b2f6",
+        "grade": -43,
+        "nodes": 755276
+      }
+    },
+    {
+      "round": 265,
+      "color": "black",
+      "ply": 26,
+      "fen": "r3kbr1/1p3p1p/2ppbn2/p4N2/P2P4/2NB2PP/1q6/R3QRK1 b q - 0 13",
+      "depth": 7,
+      "reference": "b2b6",
+      "played": "f6d5",
+      "base": {
+        "move": "f6d5",
+        "grade": -356,
+        "nodes": 189725
+      },
+      "candidate": {
+        "move": "f6d5",
+        "grade": -356,
+        "nodes": 201042
+      }
+    },
+    {
+      "round": 267,
+      "color": "black",
+      "ply": 36,
+      "fen": "3rk2r/1p2bppp/p7/8/3pN3/1P1Q4/3B1PP1/q3NK1R b k - 2 18",
+      "depth": 7,
+      "reference": "h7h5",
+      "played": "e8f8",
+      "base": {
+        "move": "e8f8",
+        "grade": -201,
+        "nodes": 230688
+      },
+      "candidate": {
+        "move": "e8f8",
+        "grade": -201,
+        "nodes": 407454
+      }
+    },
+    {
+      "round": 268,
+      "color": "black",
+      "ply": 52,
+      "fen": "1k2q1r1/1pp1bp2/2n2n1p/1Q2pPp1/P5P1/2P2B2/3N1PK1/2BR4 b - - 0 26",
+      "depth": 7,
+      "reference": "h6h5",
+      "played": "b8a7",
+      "base": {
+        "move": "g8h8",
+        "grade": -233,
+        "nodes": 416722
+      },
+      "candidate": {
+        "move": "g8h8",
+        "grade": -233,
+        "nodes": 408374
+      }
+    },
+    {
+      "round": 270,
+      "color": "black",
+      "ply": 128,
+      "fen": "r6k/1p3rNp/3p1b1B/p1pPp3/P1n1P3/5P2/4K1R1/6R1 b - - 3 64",
+      "depth": 8,
+      "reference": "a8g8",
+      "played": "c4b6",
+      "base": {
+        "move": "c4b6",
+        "grade": -341,
+        "nodes": 265081
+      },
+      "candidate": {
+        "move": "c4b6",
+        "grade": -341,
+        "nodes": 362428
+      }
+    },
+    {
+      "round": 271,
+      "color": "black",
+      "ply": 18,
+      "fen": "3q1k1r/1pp2pp1/2nbbn1p/r3p3/p2pP3/2PP1N1P/PP3PPB/RN1QRBK1 b - - 6 9",
+      "depth": 6,
+      "reference": "f6d7",
+      "played": "a5b5",
+      "base": {
+        "move": "a5b5",
+        "grade": -267,
+        "nodes": 273185
+      },
+      "candidate": {
+        "move": "a5b5",
+        "grade": -267,
+        "nodes": 300689
+      }
+    },
+    {
+      "round": 272,
+      "color": "white",
+      "ply": 19,
+      "fen": "1rb1kbr1/p3pp1p/6p1/q1p1N3/1nP1Q3/2N5/PP2PPPP/R3KB1R w KQ - 1 10",
+      "depth": 7,
+      "reference": "a1c1",
+      "played": "e1d1",
+      "base": {
+        "move": "e4f4",
+        "grade": -183,
+        "nodes": 650630
+      },
+      "candidate": {
+        "move": "e1d1",
+        "grade": -249,
+        "nodes": 442105
+      }
+    },
+    {
+      "round": 273,
+      "color": "black",
+      "ply": 10,
+      "fen": "1rbq1rk1/ppp2ppp/2np2n1/2b1p3/P3P3/2P2N2/1P1PBPPP/RNBQ1RK1 b - - 2 5",
+      "depth": 8,
+      "reference": "d6d5",
+      "played": "g6f4",
+      "base": {
+        "move": "g6f4",
+        "grade": -202,
+        "nodes": 611211
+      },
+      "candidate": {
+        "move": "g6f4",
+        "grade": -202,
+        "nodes": 556812
+      }
+    },
+    {
+      "round": 274,
+      "color": "black",
+      "ply": 56,
+      "fen": "3r2k1/2p2ppp/p5r1/1pP3P1/4p3/4B3/2P1BP2/R3K3 b - - 2 28",
+      "depth": 8,
+      "reference": "h7h6",
+      "played": "d8f8",
+      "base": {
+        "move": "g6c6",
+        "grade": -59,
+        "nodes": 676470
+      },
+      "candidate": {
+        "move": "g6c6",
+        "grade": -59,
+        "nodes": 273934
+      }
+    },
+    {
+      "round": 276,
+      "color": "white",
+      "ply": 101,
+      "fen": "8/5k2/4p2p/1pBnP2P/3P1p2/P4P1K/1P2R2R/1r3r2 w - - 6 51",
+      "depth": 8,
+      "reference": "h2f2",
+      "played": "h3g4",
+      "base": {
+        "move": "e2f2",
+        "grade": -132,
+        "nodes": 132410
+      },
+      "candidate": {
+        "move": "h3g4",
+        "grade": -257,
+        "nodes": 138834
+      }
+    },
+    {
+      "round": 278,
+      "color": "white",
+      "ply": 65,
+      "fen": "5rrk/6q1/3Np2p/3nP3/1B1P1p2/P7/1PQ1R1PP/7K w - - 2 33",
+      "depth": 8,
+      "reference": "e2f2",
+      "played": "c2c1",
+      "base": {
+        "move": "c2d1",
+        "grade": -501,
+        "nodes": 424765
+      },
+      "candidate": {
+        "move": "c2d1",
+        "grade": -501,
+        "nodes": 440891
+      }
+    },
+    {
+      "round": 279,
+      "color": "white",
+      "ply": 43,
+      "fen": "r4q1k/7p/3p4/p1p1b1p1/2P1N1K1/2NP4/PPQ2P2/R4R2 w - - 1 22",
+      "depth": 7,
+      "reference": "f2f4",
+      "played": "g4g5",
+      "base": {
+        "move": "g4g5",
+        "grade": -31996,
+        "nodes": 222567
+      },
+      "candidate": {
+        "move": "g4g5",
+        "grade": -31996,
+        "nodes": 188275
+      }
+    },
+    {
+      "round": 283,
+      "color": "black",
+      "ply": 52,
+      "fen": "1r3rk1/1p2bpp1/p6p/2pp1BPR/5P2/4P3/bP3NP1/2K4R b - - 1 26",
+      "depth": 9,
+      "reference": "b8d8",
+      "played": "g7g6",
+      "base": {
+        "move": "g7g6",
+        "grade": -276,
+        "nodes": 749568
+      },
+      "candidate": {
+        "move": "g7g6",
+        "grade": -276,
+        "nodes": 355939
+      }
+    },
+    {
+      "round": 295,
+      "color": "black",
+      "ply": 54,
+      "fen": "2k1r2r/b4ppp/3Q1n2/1B6/2pp4/6P1/3q1P1P/5RK1 b - - 3 27",
+      "depth": 7,
+      "reference": "e8e7",
+      "played": "d2a5",
+      "base": {
+        "move": "d2a5",
+        "grade": -357,
+        "nodes": 147460
+      },
+      "candidate": {
+        "move": "d2a5",
+        "grade": -357,
+        "nodes": 135371
+      }
+    },
+    {
+      "round": 298,
+      "color": "white",
+      "ply": 107,
+      "fen": "r7/P1Q2pk1/4p1p1/3r2P1/P1pPqP2/2P4p/5R1P/2R3K1 w - - 30 54",
+      "depth": 8,
+      "reference": "c1f1",
+      "played": "f2c2",
+      "base": {
+        "move": "f2c2",
+        "grade": -337,
+        "nodes": 357279
+      },
+      "candidate": {
+        "move": "f2c2",
+        "grade": -337,
+        "nodes": 401304
+      }
+    },
+    {
+      "round": 301,
+      "color": "black",
+      "ply": 14,
+      "fen": "r1bqk2r/ppp3pp/2p5/2N2pB1/1b1p4/5N2/PPP2PPP/R2Q2K1 b kq - 3 7",
+      "depth": 8,
+      "reference": "d8d6",
+      "played": "d8d5",
+      "base": {
+        "move": "d8d6",
+        "grade": 94,
+        "nodes": 508388
+      },
+      "candidate": {
+        "move": "d8d5",
+        "grade": -361,
+        "nodes": 524185
+      }
+    },
+    {
+      "round": 302,
+      "color": "black",
+      "ply": 6,
+      "fen": "rnbqkb1r/p3pppp/1p3n2/3p4/3P1B2/PpP1PN2/5PPP/RN1QKB1R b KQkq - 1 3",
+      "depth": 8,
+      "reference": "e7e6",
+      "played": "f6h5",
+      "base": {
+        "move": "f6h5",
+        "grade": -241,
+        "nodes": 502166
+      },
+      "candidate": {
+        "move": "a7a6",
+        "grade": -51,
+        "nodes": 1584676
+      }
+    },
+    {
+      "round": 306,
+      "color": "black",
+      "ply": 16,
+      "fen": "r3kb1r/pp3p1p/2np1np1/1Np1p3/2P3b1/Pq4P1/1BNPPPBP/R2Q1RK1 b kq - 1 8",
+      "depth": 7,
+      "reference": "a8c8",
+      "played": "e8d7",
+      "base": {
+        "move": "e8d7",
+        "grade": -204,
+        "nodes": 255747
+      },
+      "candidate": {
+        "move": "e8d7",
+        "grade": -204,
+        "nodes": 253169
+      }
+    },
+    {
+      "round": 308,
+      "color": "white",
+      "ply": 43,
+      "fen": "6k1/2B2p2/3P1n1p/1pn5/2b5/r1P2N2/4rPPP/1Q4KR w - - 0 22",
+      "depth": 7,
+      "reference": "d6d7",
+      "played": "f3d4",
+      "base": {
+        "move": "f3d4",
+        "grade": -248,
+        "nodes": 126995
+      },
+      "candidate": {
+        "move": "c7b6",
+        "grade": -261,
+        "nodes": 202243
+      }
+    },
+    {
+      "round": 315,
+      "color": "white",
+      "ply": 35,
+      "fen": "4rr1k/1ppR3p/2p5/p1P3q1/8/1QN5/PP3PPP/5RK1 w - - 2 18",
+      "depth": 7,
+      "reference": "d7f7",
+      "played": "b3b7",
+      "base": {
+        "move": "b3b7",
+        "grade": -229,
+        "nodes": 207441
+      },
+      "candidate": {
+        "move": "b3b7",
+        "grade": -229,
+        "nodes": 162471
+      }
+    },
+    {
+      "round": 330,
+      "color": "black",
+      "ply": 6,
+      "fen": "r1bqk2r/1ppp1ppp/p1n5/2b1p1B1/2P1P1n1/2NP1N2/PPQ2PPP/R3KB1R b KQkq - 2 3",
+      "depth": 7,
+      "reference": "f7f6",
+      "played": "c5f2",
+      "base": {
+        "move": "c5f2",
+        "grade": -288,
+        "nodes": 133876
+      },
+      "candidate": {
+        "move": "c5f2",
+        "grade": -288,
+        "nodes": 149451
+      }
+    },
+    {
+      "round": 333,
+      "color": "black",
+      "ply": 56,
+      "fen": "6r1/1k1r1p1p/p1p2p2/2Q5/R5p1/3q2P1/5P1P/R5K1 b - - 0 28",
+      "depth": 8,
+      "reference": "d3f3",
+      "played": "d7c7",
+      "base": {
+        "move": "d3f3",
+        "grade": -61,
+        "nodes": 565972
+      },
+      "candidate": {
+        "move": "d3f3",
+        "grade": -61,
+        "nodes": 574978
+      }
+    },
+    {
+      "round": 335,
+      "color": "black",
+      "ply": 28,
+      "fen": "r3r1k1/3nbppp/p1qp1n1P/2p1pN2/4P3/PpN5/2PBQPP1/R3K2R b KQ - 0 14",
+      "depth": 6,
+      "reference": "g7g6",
+      "played": "b3c2",
+      "base": {
+        "move": "b3c2",
+        "grade": -228,
+        "nodes": 84589
+      },
+      "candidate": {
+        "move": "b3c2",
+        "grade": -228,
+        "nodes": 102710
+      }
+    },
+    {
+      "round": 341,
+      "color": "white",
+      "ply": 29,
+      "fen": "rn1r1k2/1p3ppB/7q/2bpQ3/b7/P3P3/1B1N1PPP/R3K2R w KQ - 5 15",
+      "depth": 7,
+      "reference": "h7d3",
+      "played": "e5c3",
+      "base": {
+        "move": "e5c3",
+        "grade": -251,
+        "nodes": 356458
+      },
+      "candidate": {
+        "move": "h7d3",
+        "grade": -82,
+        "nodes": 304209
+      }
+    },
+    {
+      "round": 342,
+      "color": "black",
+      "ply": 40,
+      "fen": "Q4b1r/1pk2pp1/p3b2p/2Pn4/1q6/1P4P1/P2P1PBP/4RRK1 b - - 2 20",
+      "depth": 6,
+      "reference": "g7g6",
+      "played": "b4d2",
+      "base": {
+        "move": "b4d2",
+        "grade": -402,
+        "nodes": 145671
+      },
+      "candidate": {
+        "move": "b4d2",
+        "grade": -402,
+        "nodes": 141261
+      }
+    },
+    {
+      "round": 350,
+      "color": "white",
+      "ply": 17,
+      "fen": "1r1q1rk1/p2nbppp/Q4n2/2p5/2BP2b1/P1N3P1/1P2NP1P/R1B1K2R w KQ - 3 9",
+      "depth": 6,
+      "reference": "e1g1",
+      "played": "d4d5",
+      "base": {
+        "move": "d4d5",
+        "grade": -230,
+        "nodes": 294438
+      },
+      "candidate": {
+        "move": "d4d5",
+        "grade": -230,
+        "nodes": 345131
+      }
+    },
+    {
+      "round": 355,
+      "color": "black",
+      "ply": 32,
+      "fen": "r1b3r1/ppq2k1p/2n3p1/4b3/Q1Ppp3/6N1/PP3PPP/R1B1RNK1 b - - 1 16",
+      "depth": 7,
+      "reference": "e4e3",
+      "played": "c6a5",
+      "base": {
+        "move": "c6a5",
+        "grade": -212,
+        "nodes": 337371
+      },
+      "candidate": {
+        "move": "e4e3",
+        "grade": 9,
+        "nodes": 474711
+      }
+    },
+    {
+      "round": 358,
+      "color": "black",
+      "ply": 18,
+      "fen": "r4rk1/pp1b1p1p/1qnbpp2/8/2BP4/2N2NP1/PP2QP1P/2R2RK1 b - - 1 9",
+      "depth": 7,
+      "reference": "c6e7",
+      "played": "c6d4",
+      "base": {
+        "move": "c6d4",
+        "grade": -390,
+        "nodes": 172553
+      },
+      "candidate": {
+        "move": "c6d4",
+        "grade": -390,
+        "nodes": 110476
+      }
+    },
+    {
+      "round": 361,
+      "color": "white",
+      "ply": 75,
+      "fen": "8/7R/5R2/1p3p2/3KrkP1/7P/PPP3r1/8 w - - 5 38",
+      "depth": 10,
+      "reference": "d4d5",
+      "played": "d4c3",
+      "base": {
+        "move": "d4c3",
+        "grade": -31993,
+        "nodes": 516386
+      },
+      "candidate": {
+        "move": "d4c3",
+        "grade": -31993,
+        "nodes": 516386
+      }
+    },
+    {
+      "round": 362,
+      "color": "white",
+      "ply": 105,
+      "fen": "8/8/8/1p2k3/3r4/P1N2n1p/1P3P1P/2R4K w - - 2 53",
+      "depth": 9,
+      "reference": "c3e2",
+      "played": "c3b5",
+      "base": {
+        "move": "c3b5",
+        "grade": -376,
+        "nodes": 550206
+      },
+      "candidate": {
+        "move": "c3b5",
+        "grade": -376,
+        "nodes": 383168
+      }
+    },
+    {
+      "round": 368,
+      "color": "white",
+      "ply": 49,
+      "fen": "b2r2k1/1q3pp1/3Ppn1p/2P5/1P1Q1P2/2N3P1/3B4/4R1K1 w - - 1 25",
+      "depth": 8,
+      "reference": "c3e4",
+      "played": "c3d5",
+      "base": {
+        "move": "c3d5",
+        "grade": -350,
+        "nodes": 249785
+      },
+      "candidate": {
+        "move": "c3d5",
+        "grade": -350,
+        "nodes": 268265
+      }
+    },
+    {
+      "round": 370,
+      "color": "black",
+      "ply": 12,
+      "fen": "r1b1kb1r/pp1n1ppp/1qp2n2/3p4/8/2PP2PN/PPN2PBP/R1BQK2R b KQkq - 0 6",
+      "depth": 7,
+      "reference": "f8e7",
+      "played": "d7e5",
+      "base": {
+        "move": "d7e5",
+        "grade": -286,
+        "nodes": 164500
+      },
+      "candidate": {
+        "move": "d7e5",
+        "grade": -286,
+        "nodes": 362124
+      }
+    },
+    {
+      "round": 370,
+      "color": "white",
+      "ply": 21,
+      "fen": "rn2k1r1/1p2bp2/1ppp1n1p/6p1/3Pb3/4NNPB/PP1BPP1P/R3K2R w KQq - 2 11",
+      "depth": 8,
+      "reference": "h3f5",
+      "played": "e3g4",
+      "base": {
+        "move": "e3g4",
+        "grade": -286,
+        "nodes": 575844
+      },
+      "candidate": {
+        "move": "e3g4",
+        "grade": -286,
+        "nodes": 665303
+      }
+    },
+    {
+      "round": 371,
+      "color": "black",
+      "ply": 30,
+      "fen": "r1b1k2r/pp2b1R1/5n2/4p1B1/7P/6P1/q3PPB1/3Q1RK1 b kq - 0 15",
+      "depth": 7,
+      "reference": "c8f5",
+      "played": "a8b8",
+      "base": {
+        "move": "a8b8",
+        "grade": -350,
+        "nodes": 370870
+      },
+      "candidate": {
+        "move": "a8b8",
+        "grade": -350,
+        "nodes": 395501
+      }
+    },
+    {
+      "round": 375,
+      "color": "black",
+      "ply": 42,
+      "fen": "2rqr1k1/1p3p1p/p4n2/3NbpB1/2P5/1P3Q1P/6P1/R4RK1 b - - 0 21",
+      "depth": 7,
+      "reference": "d8d6",
+      "played": "c8c6",
+      "base": {
+        "move": "c8c6",
+        "grade": -271,
+        "nodes": 360498
+      },
+      "candidate": {
+        "move": "c8c6",
+        "grade": -271,
+        "nodes": 291756
+      }
+    },
+    {
+      "round": 376,
+      "color": "white",
+      "ply": 53,
+      "fen": "q5kb/4pp1p/3p2p1/1P1P2Pn/2K1P1Q1/rB2BN1P/5P2/3R3R w - - 1 27",
+      "depth": 7,
+      "reference": "g4d7",
+      "played": "b5b6",
+      "base": {
+        "move": "b5b6",
+        "grade": -31996,
+        "nodes": 297622
+      },
+      "candidate": {
+        "move": "g4d7",
+        "grade": 369,
+        "nodes": 391587
+      }
+    },
+    {
+      "round": 379,
+      "color": "black",
+      "ply": 96,
+      "fen": "4r2k/1pR4p/p7/P1B1p2P/4b1P1/4P3/5K2/8 b - - 0 48",
+      "depth": 8,
+      "reference": "e8g8",
+      "played": "h8g8",
+      "base": {
+        "move": "h7h6",
+        "grade": -171,
+        "nodes": 238477
+      },
+      "candidate": {
+        "move": "h7h6",
+        "grade": -171,
+        "nodes": 225731
+      }
+    },
+    {
+      "round": 382,
+      "color": "white",
+      "ply": 165,
+      "fen": "6K1/8/8/1R6/p3k3/P1r4p/7P/8 w - - 14 83",
+      "depth": 10,
+      "reference": "b5h5",
+      "played": "b5b4",
+      "base": {
+        "move": "b5b4",
+        "grade": -265,
+        "nodes": 477928
+      },
+      "candidate": {
+        "move": "b5b4",
+        "grade": -265,
+        "nodes": 485759
+      }
+    }
+  ]
+}
