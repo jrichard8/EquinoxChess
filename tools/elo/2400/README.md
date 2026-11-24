@@ -1,5 +1,19 @@
 # Objectif 2400 · première mesure et défenses calmes
 
+## Résultat et décision
+
+**La base active reste `baseline-2200`.** La vérification d’une défense calme marque 54,10 % en duel direct et améliore le score observé contre SF2400 de 6,38 points sur les mêmes ouvertures. Le duel direct reste compatible avec un gain comme avec une perte. Le palier 2400 reste à atteindre.
+
+| Moteur étudié | Adversaire | Victoires / nulles / défaites | Score | Écart Elo local, IC 95 % par paire |
+|---|---|---:|---:|---:|
+| Base 2200+ | SF2400 | 131 / 35 / 218 | 38,67 % | −80,1 [−156,6 à −10,6] |
+| Candidat | Base 2200+ | 98 / 81 / 77 | 54,10 % | +28,6 [−55,4 à +116,0] |
+| Candidat | SF2400 | 159 / 28 / 197 | 45,05 % | −34,5 [−105,6 à +33,8] |
+
+Les 1 024 parties prévues ont été jouées. Face à SF2400, sur 192 ouvertures, le candidat marque davantage que la base sur 71 paires, autant sur 67 et moins sur 54, soit 24,5 points de partie supplémentaires sur 384. Chaque match contre SF2400 contient un forfait au temps de Stockfish. En retirant la paire concernée de chaque match, les scores sont de 38,35 % et 45,03 %. Le duel direct se termine sans incident. Huit parties tournaient en parallèle sur le M4 Pro. Des profils et des analyses hors ligne ont aussi utilisé cette machine. [Duel direct](../../../matches/elo2400/quiet-base.pgn) · [Audit du duel](direct-audit.json) · [Candidat contre SF2400](../../../matches/elo2400/quiet-sf2400.pgn) · [Manifeste](../../../matches/elo2400/quiet-sf2400.pgn.meta.json) · [Audit du candidat](candidate-audit.json)
+
+Le moteur des parties est le commit `ff3ca1c`, compilé avec le tag `quietverify`. La branche `codex/2400-quiet-defense` conserve le candidat, le test de la règle et le traceur de défenses. Les tests Go du candidat et les contrôles des traces courantes et historiques passent. La prochaine hypothèse de match est la fenêtre élargie seule. Dans les défaites à 2400, la revérification supplémentaire coûte 1,69 million de nœuds et fait davantage régresser que sauver de positions aux deux budgets d’arbitrage.
+
 ## Protocole fixé avant les parties
 
 La base est le moteur qualifié `baseline-2200`, binaire de match du commit `13800c8` (SHA-256 `bae8740966bc6cc3b4bcf3b708a3f1f06b63a1a48667274b43d58807e84f1a95`). Le nouveau lot compte 192 ouvertures, graine 240020261124, avec les mêmes critères d’équilibre que les lots précédents. Le générateur exclut les EPD et les positions des PGN archivés. Un deuxième contrôle vérifie aussi les positions tactiques v1 et v2 contre l’archive `ddc5924`.

@@ -1,12 +1,16 @@
 # EquinoxChess · point au 24 novembre 2026
 
+## Objectif 2400 · première mesure
+
+Sur 192 nouvelles ouvertures à couleurs inversées, la base 2200+ marque **38,67 % contre Stockfish 18 réglé à 2400**. La vérification sélective d’une défense calme obtient **45,05 %** sur les mêmes ouvertures et **54,10 %** en duel direct contre la base (IC 95 % de −55,4 à +116,0 Elo). La base qualifiée reste active. Sur les 96 défenses calmes isolées dans les défaites à 2400, la fenêtre élargie seule mérite un essai à la pendule. La vérification finale lui ajoute 1,69 million de nœuds et occasionne 2 sauvetages pour 4 régressions à l’arbitrage de 80 000 nœuds. [Rapport, PGN et profil du moteur Go](tools/elo/2400/README.md)
+
 ## Base active · qualification 2200+
 
 Le 24 novembre, `baseline-2200` franchit le critère fixé contre Stockfish 18 limité à 2200 à 1 s + 0,1 s par coup. **430 victoires, 64 nulles et 274 défaites** sur 384 ouvertures jouées dans les deux couleurs, soit 60,16 % [53,23 % à 67,09 %]. L’écart local est de +71,6 Elo [+22,4 à +123,7]. Les ouvertures ont été figées avant les essais. Aucun incident de jeu. [Rapport, PGN et manifeste](tools/elo/2200/loop/README.md#confirmation-du-palier-2200)
 
 Le moteur sélectionné (`13800c8`) accélère la détection des positions non terminales, adapte l’horloge aux itérations complètes et privilégie le coup de table sous la racine. Le duel contre `baseline-1850` donne 69,01 % sur 384 parties. À D6, les 77 positions tactiques coûtent 19,9 % de nœuds en moins avec les mêmes 32 solutions v1, 13 solutions v2 et 10 fautes historiques évitées sur le run6. Game25 montre la limite du dernier indicateur : le nouveau coup de roi y perd l’avantage. La variante d’attaque coordonnée récupère Game25 mais marque 48,83 % en duel direct sur 128 parties. Elle reste expérimentale. [Détails par position et essais écartés](tools/elo/2200/loop/README.md)
 
-Sur les 274 défaites de confirmation, 153 présentent une bascule vérifiée et 123 de ces défenses exigent un coup calme. Sur 12 cas de cette famille, un demi-coup de plus récupère deux défenses pour 4,38 fois plus de nœuds. La prochaine expérience porte sur la vérification sélective d’un coup calme réduit à la racine. [Analyse des défaites](tools/elo/2200/loop/README.md#où-les-274-défaites-basculent)
+Sur les 274 défaites de confirmation, 153 présentent une bascule vérifiée et 123 de ces défenses exigent un coup calme. Sur 12 cas de cette famille, un demi-coup de plus récupère deux défenses pour 4,38 fois plus de nœuds. Ces observations ont motivé le premier essai à 2400 sur la vérification d’un coup calme réduit à la racine. [Analyse des défaites](tools/elo/2200/loop/README.md#où-les-274-défaites-basculent)
 
 ## Qualification antérieure du moteur 1850+
 
