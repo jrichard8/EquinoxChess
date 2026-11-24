@@ -1,4 +1,4 @@
-# Owl-Gopher · point au 24 novembre 2026
+# MarsGopherChess · point au 24 novembre 2026
 
 ## Objectif 2400 · première mesure
 

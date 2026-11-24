@@ -32,7 +32,7 @@ func main() {
 
 		switch cmd {
 		case "uci":
-			fmt.Println("id name Owl-Gopher")
+			fmt.Println("id name MarsGopherChess")
 			fmt.Println("id author Julien Richard")
 			fmt.Println("uciok")
 		case "isready":

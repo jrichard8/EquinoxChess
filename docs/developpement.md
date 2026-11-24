@@ -1,4 +1,4 @@
-# Développer Owl-Gopher
+# Développer MarsGopherChess
 
 ## Suivre un coup dans le code
 
