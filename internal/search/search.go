@@ -573,6 +573,7 @@ func (s *Search) SearchRoot(b *board.Board, maxDepth int) (uint32, int, int, uin
 	}
 
 	prevScore := -Infinity
+	stableIterations := 0
 	for depth := 1; depth <= maxDepth; depth++ {
 		alpha := -Infinity
 		beta := Infinity
@@ -598,6 +599,11 @@ func (s *Search) SearchRoot(b *board.Board, maxDepth int) (uint32, int, int, uin
 			break
 		}
 
+		if s.PVMove[0] == bestMove && score >= prevScore-40 && score <= prevScore+40 {
+			stableIterations++
+		} else {
+			stableIterations = 0
+		}
 		prevScore = score
 		bestScore = score
 		bestDepth = depth
@@ -605,6 +611,15 @@ func (s *Search) SearchRoot(b *board.Board, maxDepth int) (uint32, int, int, uin
 			bestMove = s.PVMove[0]
 		}
 		s.DecayHistory()
+		if s.SoftTimeLimit > 0 {
+			budget := s.SoftTimeLimit
+			if stableIterations >= 2 {
+				budget = budget * 2 / 3
+			}
+			if time.Since(s.StartTime) >= budget {
+				break
+			}
+		}
 	}
 
 	return bestMove, bestScore, bestDepth, s.Nodes

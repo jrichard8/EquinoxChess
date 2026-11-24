@@ -51,7 +51,7 @@ func main() {
 			}
 			game.Search.Stop.Store(false)
 			game.Search.StartTime = time.Now()
-			game.Search.TimeLimit = timeLimit
+			game.Search.SoftTimeLimit, game.Search.TimeLimit = iterationBudgets(fields, timeLimit)
 			searching.Store(true)
 			searchDone = make(chan struct{})
 			go func(done chan struct{}) {
@@ -135,6 +135,15 @@ func handlePosition(fields []string, game *api.Game) *api.Game {
 		}
 	}
 	return game
+}
+
+// Clock allocation leaves room to finish one more iteration. Explicit
+// movetime and emergency allocations retain a single hard deadline.
+func iterationBudgets(fields []string, budget time.Duration) (soft, hard time.Duration) {
+	if budget < 10*time.Millisecond || hasGoToken(fields, "movetime") {
+		return 0, budget
+	}
+	return budget, 2 * budget
 }
 
 func parseSearchLimits(fields []string, side int) (int, time.Duration) {
