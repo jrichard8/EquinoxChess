@@ -4,7 +4,7 @@ Référence de jeu `baseline-1850` (binaire UCI `e5daafe`, SHA-256 `1df5969e78f2
 
 ## Décision
 
-Les matchs de développement utilisent `1+0,1` et chaque ouverture dans les deux couleurs. Premier essai : priorité au coup de table ou à la variante principale à la racine, sur les 128 premières paires de la suite diagnostique. Deuxième piste indépendante : améliorer l’évaluation positionnelle à partir des parties archivées avant cette boucle. Les binaires et les PGN de développement seront conservés pour les essais favorables comme défavorables.
+Les matchs de développement utilisent `1+0,1` et chaque ouverture dans les deux couleurs. Premier essai : priorité au coup de table ou à la variante principale à la racine, sur les 128 premières paires de la suite diagnostique. Deuxième piste indépendante : améliorer l’évaluation positionnelle à partir des parties archivées avant cette boucle. Les révisions, empreintes des binaires et PGN de développement seront conservés pour les essais favorables comme défavorables.
 
 La promotion demande un gain en match direct contre la base avec une borne basse positive (intervalle bilatéral de Hoeffding à 95 % par paire). Les lots tactiques v1, v2 et run6 mesurent séparément ce que le candidat gagne et perd. Pour le palier 2200+, utiliser **384 autres ouvertures** à couleurs inversées, sans arrêt anticipé ni choix de version sur ce lot. À cette cadence, la borne basse du score contre Stockfish 18 réglé à 2200 doit dépasser 50 %. Stockfish utilise un thread et 16 Mio de table.
 
@@ -27,7 +27,7 @@ La combinaison réunit les trois changements. Les analyses par position sont arc
 
 Les tables apprises seules terminent à **38,28 %** (84 V, 28 N, 144 D), soit −83,0 Elo [−179,2 ; +2,0] contre la base. Aucun incident de jeu. Les scores statiques se rapprochent de ceux de Stockfish sur les positions de validation, mais le match conduit à écarter cet ajustement global. [Parties](../../../../matches/elo2200/loop/tapered-base.pgn) · [Manifeste](../../../../matches/elo2200/loop/tapered-base.pgn.meta.json)
 
-Deux essais isolent la régression de l’ordre des coups sur Game27_W_ply29. Avec la même évaluation historique et les mêmes optimisations de calcul, donner la priorité à la variante principale à la racine suffit à réintroduire `a2a3` ; donner la priorité au coup de table uniquement sous la racine conserve le coup de la base sur ce canari. Les deux versions ont le même budget de temps en partie. La comparaison tactique utilise une profondeur fixe.
+Deux essais isolent la régression de l’ordre des coups sur Game27_W_ply29. Avec la même évaluation historique et les mêmes optimisations de calcul, donner la priorité à la variante principale à la racine suffit à réintroduire `a2a3` ; donner la priorité au coup de table uniquement sous la racine évite de nouveau cette erreur avec `c4b3` (la base jouait `e1e2`). Les deux versions ont le même budget de temps en partie. La comparaison tactique utilise une profondeur fixe.
 
 | Changement | v1 | v2 | run6 évités | Pertes run6 reconnues | Nœuds v1 + v2 + run6 |
 |---|---:|---:|---:|---:|---:|
@@ -40,3 +40,7 @@ Deux essais isolent la régression de l’ordre des coups sur Game27_W_ply29. Av
 Le candidat **InteriorTT** (`13800c8`) garde les 15 alertes correctes de v1, les 3 fausses alertes de v2 et les deux pertes identifiées du run6. Il réunit la preuve rapide d’un coup de pion légal, le calcul direct des occupations, la gestion de l’horloge et la priorité au coup mémorisé sous la racine. Avec une horloge UCI, il peut finir une itération au-delà du budget nominal, dans la limite du double. Deux itérations stables abaissent le budget de démarrage de la suivante. Le délai explicite `movetime` conserve son plafond. Les matchs opposent des configurations complètes ; leurs résultats ne quantifient pas séparément le gain de chaque changement.
 
 Le match direct d’InteriorTT porte sur les 192 paires de `baseline.epd`, sans arrêt anticipé. S’il passe le critère de sélection, le même exécutable joue les 384 paires de `confirm-01.epd` contre Stockfish 18 réglé à 2200. Le match de développement de la combinaison avec les tables utilise uniquement les 64 ouvertures v2 historiques. Le contrôle des couleurs, des empreintes, de la légalité et de l’ordre des ouvertures se rejoue avec `python3 tools/elo/2200/loop/audit_match.py MATCH.pgn LOT.epd`.
+
+La combinaison avec les tables termine à 51,17 % contre SF2200 sur les ouvertures v2 (59 V, 13 N, 56 D, écart +8,1 Elo [−113,7 ; +132,1]). Les 64 paires sont complètes, sans incident. [PGN](../../../../matches/elo2200/loop/combined-sf-dev.pgn) · [Manifeste](../../../../matches/elo2200/loop/combined-sf-dev.pgn.meta.json)
+
+Les 384 départs de confirmation sont tous distincts. Aucun ne figure parmi les 219 695 positions des parties, EPD et lots tactiques du dépôt au commit `c5f6da9`, après normalisation du trait, des droits de roque et de la prise en passant et retrait des compteurs FEN. Le générateur utilise la graine 220020261125. [Audit du lot figé](confirm-01-audit.json) · [Vérification reproductible](audit_openings.py)
