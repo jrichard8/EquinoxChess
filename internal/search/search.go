@@ -170,7 +170,7 @@ func (s *Search) Negamax(b *board.Board, depth int, alpha int, beta int) int {
 	legalSeen := 0
 	targetProcessed := false
 	for i := 0; i < count; i++ {
-		preferred := i == 0 && s.Ply > 0 && ttMove != 0 && moves[i] == ttMove
+		preferred := !trace1850Ordering && i == 0 && s.Ply > 0 && ttMove != 0 && moves[i] == ttMove
 		if !preferred {
 			bestIdx := selectBestMove(s, &moves, i, count)
 			moves[i], moves[bestIdx] = moves[bestIdx], moves[i]
