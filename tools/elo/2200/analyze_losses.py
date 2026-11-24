@@ -148,7 +148,7 @@ def main():
     outcomes = Counter()
     with args.pgn.open() as stream:
         while (game := chess.pgn.read_game(stream)) is not None:
-            if game.errors or {game.headers["White"], game.headers["Black"]} != {name, "SF2200"}:
+            if game.errors or {game.headers["White"], game.headers["Black"]} != {name, meta["engine_b_name"]}:
                 raise ValueError(game.headers)
             result = game.headers["Result"]
             if result not in ("1-0", "0-1", "1/2-1/2"):

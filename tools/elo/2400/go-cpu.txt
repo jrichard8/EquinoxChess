@@ -1,0 +1,23 @@
+File: root-bench.test
+Type: cpu
+Time: 2026-11-24 15:59:33 CET
+Duration: 8.86s, Total samples = 7910ms (89.23%)
+Showing nodes accounting for 6200ms, 78.38% of 7910ms total
+Dropped 24 nodes (cum <= 39.55ms)
+Showing top 15 nodes out of 44
+      flat  flat%   sum%        cum   cum%
+    1050ms 13.27% 13.27%     5280ms 66.75%  EquinoxChess/internal/search.(*Search).Quiescence
+     710ms  8.98% 22.25%     1470ms 18.58%  EquinoxChess/internal/search.Evaluate
+     680ms  8.60% 30.85%      700ms  8.85%  EquinoxChess/internal/movegen.genSliding
+     610ms  7.71% 38.56%      620ms  7.84%  EquinoxChess/internal/search.orderQuiescenceCaptures
+     560ms  7.08% 45.64%     7760ms 98.10%  EquinoxChess/internal/search.(*Search).Negamax
+     410ms  5.18% 50.82%      430ms  5.44%  EquinoxChess/internal/search.scoreMove
+     380ms  4.80% 55.63%      480ms  6.07%  EquinoxChess/internal/board.(*Board).MakeMove
+     310ms  3.92% 59.54%      350ms  4.42%  EquinoxChess/internal/movegen.genBlackPawns
+     280ms  3.54% 63.08%      480ms  6.07%  EquinoxChess/internal/board.(*Board).IsSquareAttacked
+     220ms  2.78% 65.87%      260ms  3.29%  EquinoxChess/internal/board.RookTargets
+     220ms  2.78% 68.65%      260ms  3.29%  EquinoxChess/internal/movegen.genWhitePawns
+     200ms  2.53% 71.18%      240ms  3.03%  EquinoxChess/internal/board.BishopTargets
+     200ms  2.53% 73.70%      520ms  6.57%  EquinoxChess/internal/search.countMobility
+     190ms  2.40% 76.11%      610ms  7.71%  EquinoxChess/internal/search.selectBestMove
+     180ms  2.28% 78.38%      330ms  4.17%  EquinoxChess/internal/board.(*Board).UnmakeMove

@@ -10,3 +10,15 @@ La base est le moteur qualifié `baseline-2200`, binaire de match du commit `138
 4. Opposer directement le candidat à la base sur les 128 premières ouvertures de `tools/elo/2200/baseline.epd`, puis mesurer sa performance face à SF2400 sur les mêmes 192 ouvertures que la mesure initiale. Ces deux résultats ont des rôles distincts. Garder la base qualifiée en l’absence de gain direct établi. Toute sélection sur ce lot demanderait une confirmation 2400 sur de nouvelles ouvertures avant de qualifier une version.
 
 Les matchs emploient cutechess-cli. Le PGN et le manifeste de chaque match conservent les ouvertures, les couleurs et les empreintes des exécutables.
+
+## Coût du moteur Go
+
+Sur l’Apple M4 Pro, Go 1.26.2, la recherche de la base à D7 parcourt 432 453 nœuds de milieu de jeu en 97,7 ms et 33 693 nœuds de finale en 7,28 ms. Cela donne respectivement 4,42 et 4,63 millions de nœuds/s. Le benchmark monothread réutilise une table UCI d’un million d’entrées et la vide avant chaque répétition. Les deux mesures sans profileur rapportent 0 octet et 0 allocation par opération. Les matchs tournaient sur la même machine. [Sortie des benchmarks](go-bench.txt)
+
+Dans le profil CPU du milieu de jeu, 66,75 % des échantillons se trouvent en quiétude en incluant ses appels, et 18,58 % dans l’évaluation en incluant ses appels. Ces pourcentages peuvent se recouvrir. La génération des coups glissants et le tri des prises de quiétude prennent respectivement 8,60 % et 7,71 % du temps propre. Cela donne des cibles d’optimisation en Go. Ces deux positions ne mesurent ni tout le processus UCI ni l’écart qu’aurait une implémentation native du même algorithme. [Profil CPU](go-cpu.txt)
+
+```sh
+GOMAXPROCS=1 go test ./internal/search -run '^$' -bench '^BenchmarkColdRoot$' -benchmem -benchtime=4s
+GOMAXPROCS=1 go test ./internal/search -run '^$' -bench '^BenchmarkColdRoot$/middlegame$' -benchtime=8s -cpuprofile /tmp/equinox-root.pprof -o /tmp/equinox-root.test
+go tool pprof -top /tmp/equinox-root.test /tmp/equinox-root.pprof
+```
