@@ -22,3 +22,33 @@ GOMAXPROCS=1 go test ./internal/search -run '^$' -bench '^BenchmarkColdRoot$' -b
 GOMAXPROCS=1 go test ./internal/search -run '^$' -bench '^BenchmarkColdRoot$/middlegame$' -benchtime=8s -cpuprofile /tmp/equinox-root.pprof -o /tmp/equinox-root.test
 go tool pprof -top /tmp/equinox-root.test /tmp/equinox-root.pprof
 ```
+
+## Rejouer les matchs
+
+Depuis le dépôt, ces commandes reconstruisent les deux exécutables dans des arbres propres et écrivent les parties dans un répertoire temporaire. Git doit connaître la branche de recherche. Les PGN et leurs manifestes permettent de contrôler les empreintes avec la même chaîne de compilation. À la pendule, les résultats individuels peuvent varier.
+
+```sh
+git fetch origin main codex/2400-quiet-defense
+lab=$(mktemp -d)
+git clone --quiet --no-local . "$lab/base"
+git -C "$lab/base" checkout --quiet 13800c8
+(cd "$lab/base" && go build -trimpath -buildvcs=true -o "$lab/Base2200" ./cmd/uci)
+git clone --quiet --no-local . "$lab/recherche"
+git -C "$lab/recherche" fetch --quiet "$(git remote get-url origin)" codex/2400-quiet-defense
+git -C "$lab/recherche" checkout --quiet ff3ca1c
+(cd "$lab/recherche" && go build -trimpath -buildvcs=true -tags quietverify -o "$lab/QuietVerify" ./cmd/uci)
+
+jouer_sf2400() {
+  go run ./cmd/elo_match -engine-a "$lab/$1" -name-a "$1" \
+    -engine-b "$(command -v stockfish)" -name-b SF2400 \
+    -option-b UCI_LimitStrength=true -option-b UCI_Elo=2400 \
+    -option-b Threads=1 -option-b Hash=16 \
+    -openings tools/elo/2400/baseline.epd -openings-count 192 \
+    -tc 1+0.1 -concurrency 8 -pgn "$lab/$1-sf2400.pgn"
+}
+jouer_sf2400 Base2200
+go run ./cmd/elo_match -engine-a "$lab/QuietVerify" -name-a QuietVerify \
+  -engine-b "$lab/Base2200" -name-b Base2200 -openings tools/elo/2200/baseline.epd \
+  -openings-count 128 -tc 1+0.1 -concurrency 8 -pgn "$lab/quiet-base.pgn"
+jouer_sf2400 QuietVerify
+```
