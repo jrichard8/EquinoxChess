@@ -1,0 +1,2746 @@
+{
+  "inputs_sha256": "2f8cbd6510a66917f0ebafe3c093c95be465d270d4bdf74997c014c56795b023",
+  "arbiter_sha256": "ae4c93fa9676ca7750d0714342fd8a5b1d018000fc6e0f6cedf112067b5ef374",
+  "summary": {
+    "changed": 36,
+    "gains": 2,
+    "losses": 3
+  },
+  "cases": [
+    {
+      "round": 15,
+      "fen": "rn1qkbnr/pp1b1ppp/4p3/2pp4/3P4/2P2NP1/PP2PP1P/RNBQKB1R w KQkq - 0 1",
+      "scores": {
+        "80000": {
+          "base": {
+            "move": "d1b3",
+            "cp": -36,
+            "mate": null,
+            "depth": 13,
+            "pv": [
+              "d1b3",
+              "b8c6",
+              "f1g2",
+              "g8f6",
+              "e1g1",
+              "h7h6",
+              "c1e3",
+              "f6g4"
+            ]
+          },
+          "candidate": {
+            "move": "c1f4",
+            "cp": -31,
+            "mate": null,
+            "depth": 13,
+            "pv": [
+              "c1f4",
+              "b8c6",
+              "f1g2",
+              "d8b6",
+              "d1b3",
+              "h7h6",
+              "h2h4",
+              "g8f6"
+            ]
+          }
+        },
+        "320000": {
+          "base": {
+            "move": "d1b3",
+            "cp": -24,
+            "mate": null,
+            "depth": 19,
+            "pv": [
+              "d1b3",
+              "b8c6",
+              "f1g2",
+              "c5d4",
+              "f3d4",
+              "c6d4",
+              "c3d4",
+              "d7c6"
+            ]
+          },
+          "candidate": {
+            "move": "c1f4",
+            "cp": -13,
+            "mate": null,
+            "depth": 18,
+            "pv": [
+              "c1f4",
+              "d8b6",
+              "d1b3",
+              "f7f6",
+              "f4e3",
+              "b8a6",
+              "f1g2",
+              "g8e7"
+            ]
+          }
+        }
+      },
+      "gain_50cp_both": false,
+      "loss_50cp_both": false
+    },
+    {
+      "round": 16,
+      "fen": "rnbqk1nr/p2pppbp/1p4p1/2p5/8/BPP1P3/P2P1PPP/RN1QKBNR w KQkq - 0 1",
+      "scores": {
+        "80000": {
+          "base": {
+            "move": "g1f3",
+            "cp": -41,
+            "mate": null,
+            "depth": 13,
+            "pv": [
+              "g1f3",
+              "e7e5",
+              "d2d4",
+              "e5e4",
+              "f3e5",
+              "f7f6",
+              "e5c4",
+              "d7d5"
+            ]
+          },
+          "candidate": {
+            "move": "d2d4",
+            "cp": -24,
+            "mate": null,
+            "depth": 14,
+            "pv": [
+              "d2d4",
+              "g8f6",
+              "f1e2",
+              "c8b7",
+              "g1f3",
+              "d7d6",
+              "e1g1",
+              "e7e6"
+            ]
+          }
+        },
+        "320000": {
+          "base": {
+            "move": "g1f3",
+            "cp": -45,
+            "mate": null,
+            "depth": 16,
+            "pv": [
+              "g1f3",
+              "e7e5",
+              "d2d4",
+              "e5e4",
+              "f3d2",
+              "d7d5",
+              "f1b5",
+              "c8d7"
+            ]
+          },
+          "candidate": {
+            "move": "d2d4",
+            "cp": -32,
+            "mate": null,
+            "depth": 19,
+            "pv": [
+              "d2d4",
+              "g8f6",
+              "g1f3",
+              "e8g8",
+              "f1d3",
+              "d7d6",
+              "e1g1",
+              "e7e5"
+            ]
+          }
+        }
+      },
+      "gain_50cp_both": false,
+      "loss_50cp_both": false
+    },
+    {
+      "round": 33,
+      "fen": "rnbqkbnr/1p2pppp/2p5/3p4/p2P4/2N3P1/PPP1PPBP/R1BQK1NR w KQkq - 0 1",
+      "scores": {
+        "80000": {
+          "base": {
+            "move": "e2e4",
+            "cp": 45,
+            "mate": null,
+            "depth": 17,
+            "pv": [
+              "e2e4",
+              "d5e4",
+              "c3e4",
+              "c8f5",
+              "g1e2",
+              "b8d7",
+              "e1g1",
+              "g8f6"
+            ]
+          },
+          "candidate": {
+            "move": "g1f3",
+            "cp": 33,
+            "mate": null,
+            "depth": 12,
+            "pv": [
+              "g1f3",
+              "g8f6",
+              "e1g1",
+              "g7g6",
+              "f1e1",
+              "c8f5",
+              "f3h4",
+              "f5e6"
+            ]
+          }
+        },
+        "320000": {
+          "base": {
+            "move": "e2e4",
+            "cp": 41,
+            "mate": null,
+            "depth": 18,
+            "pv": [
+              "e2e4",
+              "d5e4",
+              "c3e4",
+              "c8f5",
+              "g1e2",
+              "b8d7",
+              "c2c4",
+              "g8f6"
+            ]
+          },
+          "candidate": {
+            "move": "g1f3",
+            "cp": 32,
+            "mate": null,
+            "depth": 17,
+            "pv": [
+              "g1f3",
+              "g8f6",
+              "e1g1",
+              "h7h6",
+              "f3d2",
+              "c8g4",
+              "h2h3",
+              "g4h5"
+            ]
+          }
+        }
+      },
+      "gain_50cp_both": false,
+      "loss_50cp_both": false
+    },
+    {
+      "round": 46,
+      "fen": "rnbqkbnr/pp2pppp/8/2p5/3Pp3/7P/PPP1NPP1/RNBQKB1R w KQkq - 0 1",
+      "scores": {
+        "80000": {
+          "base": {
+            "move": "d4c5",
+            "cp": -24,
+            "mate": null,
+            "depth": 15,
+            "pv": [
+              "d4c5",
+              "d8d1",
+              "e1d1",
+              "b8c6",
+              "e2c3",
+              "c8d7",
+              "c3e4",
+              "f7f5"
+            ]
+          },
+          "candidate": {
+            "move": "b1c3",
+            "cp": 52,
+            "mate": null,
+            "depth": 14,
+            "pv": [
+              "b1c3",
+              "g8f6",
+              "c1e3",
+              "c5d4",
+              "d1d4",
+              "d8a5",
+              "e1c1",
+              "b8c6"
+            ]
+          }
+        },
+        "320000": {
+          "base": {
+            "move": "d4c5",
+            "cp": -42,
+            "mate": null,
+            "depth": 16,
+            "pv": [
+              "d4c5",
+              "d8d1",
+              "e1d1",
+              "b8c6",
+              "b1c3",
+              "f7f5",
+              "c3b5",
+              "e8f7"
+            ]
+          },
+          "candidate": {
+            "move": "b1c3",
+            "cp": 42,
+            "mate": null,
+            "depth": 19,
+            "pv": [
+              "b1c3",
+              "g8f6",
+              "c1e3",
+              "c5d4",
+              "e2d4",
+              "a7a6",
+              "g2g4",
+              "e7e5"
+            ]
+          }
+        }
+      },
+      "gain_50cp_both": true,
+      "loss_50cp_both": false
+    },
+    {
+      "round": 50,
+      "fen": "rnbqkb1r/pp3ppp/4pn2/2pp4/3P1B2/P3P3/1PP2PPP/RN1QKBNR w KQkq - 0 1",
+      "scores": {
+        "80000": {
+          "base": {
+            "move": "b1c3",
+            "cp": -25,
+            "mate": null,
+            "depth": 15,
+            "pv": [
+              "b1c3",
+              "a7a6",
+              "h2h4",
+              "b8c6",
+              "g1f3",
+              "f8e7",
+              "d4c5",
+              "e7c5"
+            ]
+          },
+          "candidate": {
+            "move": "g1f3",
+            "cp": 16,
+            "mate": null,
+            "depth": 16,
+            "pv": [
+              "g1f3",
+              "b8c6",
+              "h2h3",
+              "c5d4",
+              "e3d4",
+              "f8d6",
+              "f4d6",
+              "d8d6"
+            ]
+          }
+        },
+        "320000": {
+          "base": {
+            "move": "b1c3",
+            "cp": -26,
+            "mate": null,
+            "depth": 18,
+            "pv": [
+              "b1c3",
+              "a7a6",
+              "g1f3",
+              "b7b5",
+              "g2g4",
+              "b8c6",
+              "h1g1",
+              "c8b7"
+            ]
+          },
+          "candidate": {
+            "move": "g1f3",
+            "cp": 14,
+            "mate": null,
+            "depth": 18,
+            "pv": [
+              "g1f3",
+              "d8b6",
+              "d4c5",
+              "f8c5",
+              "b2b4",
+              "c5d6",
+              "f4d6",
+              "b6d6"
+            ]
+          }
+        }
+      },
+      "gain_50cp_both": false,
+      "loss_50cp_both": false
+    },
+    {
+      "round": 53,
+      "fen": "rnbqkb1r/p1p1pp1p/1p3np1/3p2B1/P2P4/2P5/1P2PPPP/RN1QKBNR w KQkq - 0 1",
+      "scores": {
+        "80000": {
+          "base": {
+            "move": "b1d2",
+            "cp": 15,
+            "mate": null,
+            "depth": 14,
+            "pv": [
+              "b1d2",
+              "f8g7",
+              "e2e3",
+              "e8g8",
+              "g1f3",
+              "c7c5",
+              "h2h3",
+              "c8b7"
+            ]
+          },
+          "candidate": {
+            "move": "g1f3",
+            "cp": 21,
+            "mate": null,
+            "depth": 15,
+            "pv": [
+              "g1f3",
+              "f8g7",
+              "e2e3",
+              "e8g8",
+              "f1e2",
+              "c7c5",
+              "e1g1",
+              "h7h6"
+            ]
+          }
+        },
+        "320000": {
+          "base": {
+            "move": "b1d2",
+            "cp": 27,
+            "mate": null,
+            "depth": 18,
+            "pv": [
+              "b1d2",
+              "f8g7",
+              "e2e3",
+              "e8g8",
+              "g1f3",
+              "c7c5",
+              "f1e2",
+              "b8c6"
+            ]
+          },
+          "candidate": {
+            "move": "g1f3",
+            "cp": 26,
+            "mate": null,
+            "depth": 19,
+            "pv": [
+              "g1f3",
+              "f8g7",
+              "e2e3",
+              "e8g8",
+              "b1d2",
+              "c7c5",
+              "f1e2",
+              "b8c6"
+            ]
+          }
+        }
+      },
+      "gain_50cp_both": false,
+      "loss_50cp_both": false
+    },
+    {
+      "round": 60,
+      "fen": "rnbqk1nr/ppp1ppb1/3p2p1/6Bp/2PP3P/8/PP2PPP1/RN1QKBNR w KQkq - 0 1",
+      "scores": {
+        "80000": {
+          "base": {
+            "move": "b1c3",
+            "cp": 53,
+            "mate": null,
+            "depth": 15,
+            "pv": [
+              "b1c3",
+              "b8d7",
+              "g1f3",
+              "c7c5",
+              "e2e3",
+              "g8f6",
+              "f1d3",
+              "e8g8"
+            ]
+          },
+          "candidate": {
+            "move": "g1f3",
+            "cp": -5,
+            "mate": null,
+            "depth": 13,
+            "pv": [
+              "g1f3",
+              "c7c5",
+              "e2e3",
+              "c5d4",
+              "e3d4",
+              "g8h6",
+              "b1c3",
+              "b8c6"
+            ]
+          }
+        },
+        "320000": {
+          "base": {
+            "move": "b1c3",
+            "cp": 54,
+            "mate": null,
+            "depth": 19,
+            "pv": [
+              "b1c3",
+              "c7c5",
+              "d4d5",
+              "b8d7",
+              "g1f3",
+              "g7c3",
+              "b2c3",
+              "d8a5"
+            ]
+          },
+          "candidate": {
+            "move": "g1f3",
+            "cp": 11,
+            "mate": null,
+            "depth": 17,
+            "pv": [
+              "g1f3",
+              "c7c5",
+              "e2e3",
+              "c5d4",
+              "e3d4",
+              "b8c6",
+              "b1c3",
+              "c8g4"
+            ]
+          }
+        }
+      },
+      "gain_50cp_both": false,
+      "loss_50cp_both": false
+    },
+    {
+      "round": 65,
+      "fen": "rnbqkbnr/pp3ppp/4p3/3p4/3Q4/2P2N2/PP2PPPP/RNB1KB1R w KQkq - 0 1",
+      "scores": {
+        "80000": {
+          "base": {
+            "move": "e2e4",
+            "cp": -9,
+            "mate": null,
+            "depth": 14,
+            "pv": [
+              "e2e4",
+              "b8c6",
+              "f1b5",
+              "g8f6",
+              "e4d5",
+              "e6d5",
+              "e1g1",
+              "f8e7"
+            ]
+          },
+          "candidate": {
+            "move": "d4d3",
+            "cp": -45,
+            "mate": null,
+            "depth": 16,
+            "pv": [
+              "d4d3",
+              "g8f6",
+              "c1f4",
+              "b8c6",
+              "b1d2",
+              "f6h5",
+              "e2e3",
+              "h5f4"
+            ]
+          }
+        },
+        "320000": {
+          "base": {
+            "move": "e2e4",
+            "cp": -7,
+            "mate": null,
+            "depth": 18,
+            "pv": [
+              "e2e4",
+              "b8c6",
+              "f1b5",
+              "c8d7",
+              "d4e3",
+              "d5e4",
+              "e3e4",
+              "g8f6"
+            ]
+          },
+          "candidate": {
+            "move": "d4d3",
+            "cp": -46,
+            "mate": null,
+            "depth": 17,
+            "pv": [
+              "d4d3",
+              "b8d7",
+              "d3c2",
+              "g8f6",
+              "c1f4",
+              "f6h5",
+              "e2e3",
+              "h5f4"
+            ]
+          }
+        }
+      },
+      "gain_50cp_both": false,
+      "loss_50cp_both": false
+    },
+    {
+      "round": 73,
+      "fen": "r1bqkb1r/pp1npppp/2p2n2/3p4/8/2PP1N1P/PP2PPP1/RNBQKB1R w KQkq - 0 1",
+      "scores": {
+        "80000": {
+          "base": {
+            "move": "c1f4",
+            "cp": 37,
+            "mate": null,
+            "depth": 13,
+            "pv": [
+              "c1f4",
+              "g7g6",
+              "d3d4",
+              "f8g7",
+              "e2e3",
+              "e8g8",
+              "f1d3",
+              "f6h5"
+            ]
+          },
+          "candidate": {
+            "move": "d3d4",
+            "cp": -58,
+            "mate": null,
+            "depth": 14,
+            "pv": [
+              "d3d4",
+              "d8c7",
+              "g2g3",
+              "e7e5",
+              "d4e5",
+              "d7e5",
+              "c1f4",
+              "f8d6"
+            ]
+          }
+        },
+        "320000": {
+          "base": {
+            "move": "c1f4",
+            "cp": 33,
+            "mate": null,
+            "depth": 19,
+            "pv": [
+              "c1f4",
+              "g7g6",
+              "d3d4",
+              "f8g7",
+              "e2e3",
+              "f6e4",
+              "f1d3",
+              "e7e5"
+            ]
+          },
+          "candidate": {
+            "move": "d3d4",
+            "cp": -43,
+            "mate": null,
+            "depth": 17,
+            "pv": [
+              "d3d4",
+              "d8c7",
+              "e2e3",
+              "e7e5",
+              "c3c4",
+              "e5e4",
+              "f3d2",
+              "a7a6"
+            ]
+          }
+        }
+      },
+      "gain_50cp_both": false,
+      "loss_50cp_both": true
+    },
+    {
+      "round": 92,
+      "fen": "rnbqkb1r/1p2pppp/p1pp1n2/8/2PP4/4PN2/PP3PPP/RNBQKB1R w KQkq - 0 1",
+      "scores": {
+        "80000": {
+          "base": {
+            "move": "f1d3",
+            "cp": 50,
+            "mate": null,
+            "depth": 16,
+            "pv": [
+              "f1d3",
+              "g7g6",
+              "b1c3",
+              "f8g7",
+              "e3e4",
+              "c8g4",
+              "e1g1",
+              "b8d7"
+            ]
+          },
+          "candidate": {
+            "move": "b1c3",
+            "cp": 56,
+            "mate": null,
+            "depth": 14,
+            "pv": [
+              "b1c3",
+              "g7g6",
+              "e3e4",
+              "f8g7",
+              "h2h3",
+              "b7b5",
+              "d1c2",
+              "e8g8"
+            ]
+          }
+        },
+        "320000": {
+          "base": {
+            "move": "f1d3",
+            "cp": 63,
+            "mate": null,
+            "depth": 18,
+            "pv": [
+              "f1d3",
+              "g7g6",
+              "b1c3",
+              "f8g7",
+              "e1g1",
+              "e8g8",
+              "h2h3",
+              "e7e5"
+            ]
+          },
+          "candidate": {
+            "move": "b1c3",
+            "cp": 58,
+            "mate": null,
+            "depth": 17,
+            "pv": [
+              "b1c3",
+              "g7g6",
+              "e3e4",
+              "f8g7",
+              "h2h3",
+              "e8g8",
+              "f1d3",
+              "b8d7"
+            ]
+          }
+        }
+      },
+      "gain_50cp_both": false,
+      "loss_50cp_both": false
+    },
+    {
+      "round": 95,
+      "fen": "rn1qkbnr/pppbpp1p/6p1/3p4/5PP1/3PP3/PPP4P/RNBQKBNR w KQkq - 0 1",
+      "scores": {
+        "80000": {
+          "base": {
+            "move": "g4g5",
+            "cp": -72,
+            "mate": null,
+            "depth": 15,
+            "pv": [
+              "g4g5",
+              "h7h6",
+              "b1c3",
+              "e7e5",
+              "h2h4",
+              "e5f4",
+              "e3f4",
+              "b8c6"
+            ]
+          },
+          "candidate": {
+            "move": "b1c3",
+            "cp": -46,
+            "mate": null,
+            "depth": 15,
+            "pv": [
+              "b1c3",
+              "h7h5",
+              "g4h5",
+              "h8h5",
+              "f1e2",
+              "h5h8",
+              "h2h4",
+              "g8f6"
+            ]
+          }
+        },
+        "320000": {
+          "base": {
+            "move": "g4g5",
+            "cp": -43,
+            "mate": null,
+            "depth": 18,
+            "pv": [
+              "g4g5",
+              "b8c6",
+              "b1c3",
+              "e7e6",
+              "d1f3",
+              "f8g7",
+              "c1d2",
+              "g8e7"
+            ]
+          },
+          "candidate": {
+            "move": "b1c3",
+            "cp": -42,
+            "mate": null,
+            "depth": 19,
+            "pv": [
+              "b1c3",
+              "h7h5",
+              "g4h5",
+              "h8h5",
+              "f1g2",
+              "e7e6",
+              "g1f3",
+              "f8g7"
+            ]
+          }
+        }
+      },
+      "gain_50cp_both": false,
+      "loss_50cp_both": false
+    },
+    {
+      "round": 97,
+      "fen": "rnb1kbnr/pp3ppp/1qp1p3/3pP3/3P4/4B3/PPP2PPP/RN1QKBNR w KQkq - 0 1",
+      "scores": {
+        "80000": {
+          "base": {
+            "move": "b2b3",
+            "cp": -2,
+            "mate": null,
+            "depth": 13,
+            "pv": [
+              "b2b3",
+              "c6c5",
+              "a2a3",
+              "c5d4",
+              "e3d4",
+              "f8c5",
+              "g1f3",
+              "c5d4"
+            ]
+          },
+          "candidate": {
+            "move": "d1c1",
+            "cp": 32,
+            "mate": null,
+            "depth": 13,
+            "pv": [
+              "d1c1",
+              "c6c5",
+              "g1f3",
+              "b8c6",
+              "c2c3",
+              "g8h6",
+              "c1d2",
+              "c8d7"
+            ]
+          }
+        },
+        "320000": {
+          "base": {
+            "move": "b2b3",
+            "cp": 5,
+            "mate": null,
+            "depth": 19,
+            "pv": [
+              "b2b3",
+              "c6c5",
+              "a2a3",
+              "c5d4",
+              "e3d4",
+              "f8c5",
+              "d4c5",
+              "b6c5"
+            ]
+          },
+          "candidate": {
+            "move": "d1c1",
+            "cp": 21,
+            "mate": null,
+            "depth": 18,
+            "pv": [
+              "d1c1",
+              "c6c5",
+              "c2c3",
+              "g8h6",
+              "g1f3",
+              "b8c6",
+              "c1d2",
+              "c5d4"
+            ]
+          }
+        }
+      },
+      "gain_50cp_both": false,
+      "loss_50cp_both": false
+    },
+    {
+      "round": 98,
+      "fen": "rnbqk1nr/1p1pbppp/2p5/p3p3/P7/N1P3P1/1P1PPP1P/R1BQKBNR w KQkq - 0 1",
+      "scores": {
+        "80000": {
+          "base": {
+            "move": "a3c4",
+            "cp": -55,
+            "mate": null,
+            "depth": 14,
+            "pv": [
+              "a3c4",
+              "e5e4",
+              "f1h3",
+              "b8a6",
+              "d2d3",
+              "d7d5",
+              "h3c8",
+              "a8c8"
+            ]
+          },
+          "candidate": {
+            "move": "d2d3",
+            "cp": -54,
+            "mate": null,
+            "depth": 14,
+            "pv": [
+              "d2d3",
+              "d7d5",
+              "g1f3",
+              "b8d7",
+              "e2e4",
+              "d5e4",
+              "d3e4",
+              "g8f6"
+            ]
+          }
+        },
+        "320000": {
+          "base": {
+            "move": "a3c4",
+            "cp": -61,
+            "mate": null,
+            "depth": 20,
+            "pv": [
+              "a3c4",
+              "e5e4",
+              "f1h3",
+              "b8a6",
+              "d2d3",
+              "d7d5",
+              "h3c8",
+              "a8c8"
+            ]
+          },
+          "candidate": {
+            "move": "d2d3",
+            "cp": -60,
+            "mate": null,
+            "depth": 17,
+            "pv": [
+              "d2d3",
+              "d7d5",
+              "g1f3",
+              "d8c7",
+              "e2e4",
+              "d5e4",
+              "d3e4",
+              "g8f6"
+            ]
+          }
+        }
+      },
+      "gain_50cp_both": false,
+      "loss_50cp_both": false
+    },
+    {
+      "round": 99,
+      "fen": "rn1qkbnr/pb1p1ppp/1p2p3/2p5/P7/2P2N1P/1P1PPPP1/RNBQKB1R w KQkq - 0 1",
+      "scores": {
+        "80000": {
+          "base": {
+            "move": "d2d4",
+            "cp": -40,
+            "mate": null,
+            "depth": 15,
+            "pv": [
+              "d2d4",
+              "g8f6",
+              "c1f4",
+              "c5d4",
+              "c3d4",
+              "b7f3",
+              "g2f3",
+              "b8c6"
+            ]
+          },
+          "candidate": {
+            "move": "b1a3",
+            "cp": -24,
+            "mate": null,
+            "depth": 15,
+            "pv": [
+              "b1a3",
+              "d7d5",
+              "g2g3",
+              "g8f6",
+              "f1g2",
+              "f8e7",
+              "e1g1"
+            ]
+          }
+        },
+        "320000": {
+          "base": {
+            "move": "d2d4",
+            "cp": -25,
+            "mate": null,
+            "depth": 19,
+            "pv": [
+              "d2d4",
+              "g8f6",
+              "c1f4",
+              "c5d4",
+              "f3d4",
+              "d7d6",
+              "f4h2",
+              "e6e5"
+            ]
+          },
+          "candidate": {
+            "move": "b1a3",
+            "cp": -30,
+            "mate": null,
+            "depth": 22,
+            "pv": [
+              "b1a3",
+              "d7d5",
+              "g2g3",
+              "g8f6",
+              "f1g2",
+              "f8e7",
+              "d2d3",
+              "e8g8"
+            ]
+          }
+        }
+      },
+      "gain_50cp_both": false,
+      "loss_50cp_both": false
+    },
+    {
+      "round": 105,
+      "fen": "rnbqkb1r/1p2pppp/p1p2n2/3p4/P7/2PP1N2/1P2PPPP/RNBQKB1R w KQkq - 0 1",
+      "scores": {
+        "80000": {
+          "base": {
+            "move": "c3c4",
+            "cp": -90,
+            "mate": null,
+            "depth": 15,
+            "pv": [
+              "c3c4",
+              "d5c4",
+              "d3c4",
+              "d8d1",
+              "e1d1",
+              "c8f5",
+              "f3h4",
+              "f5e6"
+            ]
+          },
+          "candidate": {
+            "move": "c1f4",
+            "cp": 4,
+            "mate": null,
+            "depth": 13,
+            "pv": [
+              "c1f4",
+              "f6h5",
+              "f4c1",
+              "d8c7",
+              "g2g3",
+              "e7e5",
+              "f1g2",
+              "h5f6"
+            ]
+          }
+        },
+        "320000": {
+          "base": {
+            "move": "c3c4",
+            "cp": -100,
+            "mate": null,
+            "depth": 20,
+            "pv": [
+              "c3c4",
+              "d5c4",
+              "d3c4",
+              "d8d1",
+              "e1d1",
+              "a6a5",
+              "c1e3",
+              "b8a6"
+            ]
+          },
+          "candidate": {
+            "move": "c1f4",
+            "cp": 7,
+            "mate": null,
+            "depth": 19,
+            "pv": [
+              "c1f4",
+              "f6h5",
+              "f4d2",
+              "h5f6",
+              "g2g3",
+              "e7e6",
+              "d2f4",
+              "f8d6"
+            ]
+          }
+        }
+      },
+      "gain_50cp_both": true,
+      "loss_50cp_both": false
+    },
+    {
+      "round": 108,
+      "fen": "rnbqkb1r/p3pppp/1p3n2/2pp4/3P4/2P2NP1/PP2PP1P/RNBQKB1R w KQkq - 0 1",
+      "scores": {
+        "80000": {
+          "base": {
+            "move": "c1e3",
+            "cp": -27,
+            "mate": null,
+            "depth": 14,
+            "pv": [
+              "c1e3",
+              "e7e6",
+              "e3f4",
+              "f8d6",
+              "e2e3",
+              "e8g8",
+              "b1d2",
+              "b8c6"
+            ]
+          },
+          "candidate": {
+            "move": "c1f4",
+            "cp": 15,
+            "mate": null,
+            "depth": 13,
+            "pv": [
+              "c1f4",
+              "e7e6",
+              "e2e3",
+              "c8b7",
+              "b1d2",
+              "b8c6",
+              "f1b5",
+              "a7a6"
+            ]
+          }
+        },
+        "320000": {
+          "base": {
+            "move": "c1e3",
+            "cp": -26,
+            "mate": null,
+            "depth": 18,
+            "pv": [
+              "c1e3",
+              "e7e6",
+              "b1d2",
+              "f8d6",
+              "e3g5",
+              "c8b7",
+              "g5f6",
+              "d8f6"
+            ]
+          },
+          "candidate": {
+            "move": "c1f4",
+            "cp": 12,
+            "mate": null,
+            "depth": 17,
+            "pv": [
+              "c1f4",
+              "e7e6",
+              "e2e3",
+              "c8b7",
+              "f1b5",
+              "b8d7",
+              "b1d2",
+              "f8e7"
+            ]
+          }
+        }
+      },
+      "gain_50cp_both": false,
+      "loss_50cp_both": false
+    },
+    {
+      "round": 109,
+      "fen": "r1bqkb1r/ppp1nppp/2n5/3pp3/4P3/3P1N2/PPP1BPPP/RNBQK2R w KQkq - 0 1",
+      "scores": {
+        "80000": {
+          "base": {
+            "move": "e1g1",
+            "cp": 15,
+            "mate": null,
+            "depth": 13,
+            "pv": [
+              "e1g1",
+              "e7g6",
+              "e4d5",
+              "d8d5",
+              "c1e3",
+              "c8f5",
+              "c2c3",
+              "d5d7"
+            ]
+          },
+          "candidate": {
+            "move": "c1d2",
+            "cp": -48,
+            "mate": null,
+            "depth": 13,
+            "pv": [
+              "c1d2",
+              "h7h6",
+              "h2h4",
+              "c8g4",
+              "c2c4",
+              "d5c4",
+              "d3c4",
+              "e7g6"
+            ]
+          }
+        },
+        "320000": {
+          "base": {
+            "move": "e1g1",
+            "cp": 17,
+            "mate": null,
+            "depth": 17,
+            "pv": [
+              "e1g1",
+              "e7g6",
+              "e4d5",
+              "d8d5",
+              "c2c3",
+              "f8e7",
+              "d3d4",
+              "e8g8"
+            ]
+          },
+          "candidate": {
+            "move": "c1d2",
+            "cp": -49,
+            "mate": null,
+            "depth": 17,
+            "pv": [
+              "c1d2",
+              "h7h6",
+              "e1g1",
+              "g7g5",
+              "b2b4",
+              "e7g6",
+              "e4d5",
+              "d8d5"
+            ]
+          }
+        }
+      },
+      "gain_50cp_both": false,
+      "loss_50cp_both": true
+    },
+    {
+      "round": 113,
+      "fen": "r1bqk2r/ppppppbp/n4np1/8/2PP4/2N3P1/PP2PP1P/R1BQKBNR w KQkq - 0 1",
+      "scores": {
+        "80000": {
+          "base": {
+            "move": "g1f3",
+            "cp": 63,
+            "mate": null,
+            "depth": 18,
+            "pv": [
+              "g1f3",
+              "d7d5",
+              "c4d5",
+              "f6d5",
+              "f1g2",
+              "c7c5",
+              "e1g1",
+              "c5d4"
+            ]
+          },
+          "candidate": {
+            "move": "e2e4",
+            "cp": 43,
+            "mate": null,
+            "depth": 15,
+            "pv": [
+              "e2e4",
+              "d7d6",
+              "g1f3",
+              "e8g8",
+              "f1g2",
+              "e7e5",
+              "e1g1",
+              "e5d4"
+            ]
+          }
+        },
+        "320000": {
+          "base": {
+            "move": "g1f3",
+            "cp": 69,
+            "mate": null,
+            "depth": 19,
+            "pv": [
+              "g1f3",
+              "e8g8",
+              "f1g2",
+              "d7d6",
+              "e1g1",
+              "f8e8",
+              "f1e1",
+              "c7c6"
+            ]
+          },
+          "candidate": {
+            "move": "e2e4",
+            "cp": 60,
+            "mate": null,
+            "depth": 18,
+            "pv": [
+              "e2e4",
+              "d7d6",
+              "g1e2",
+              "e8g8",
+              "f1g2",
+              "e7e5",
+              "e1g1",
+              "e5d4"
+            ]
+          }
+        }
+      },
+      "gain_50cp_both": false,
+      "loss_50cp_both": false
+    },
+    {
+      "round": 116,
+      "fen": "r1bqkb1r/pp2pppp/2np1n2/2p5/2P5/1P3NP1/P2PPP1P/RNBQKB1R w KQkq - 0 1",
+      "scores": {
+        "80000": {
+          "base": {
+            "move": "b1c3",
+            "cp": 21,
+            "mate": null,
+            "depth": 16,
+            "pv": [
+              "b1c3",
+              "g7g6",
+              "c1b2",
+              "f8g7",
+              "f1g2",
+              "f6e4",
+              "c3a4",
+              "g7b2"
+            ]
+          },
+          "candidate": {
+            "move": "d2d3",
+            "cp": -14,
+            "mate": null,
+            "depth": 12,
+            "pv": [
+              "d2d3",
+              "d6d5",
+              "c4d5",
+              "f6d5",
+              "c1b2",
+              "f7f6",
+              "e2e4",
+              "d5c7"
+            ]
+          }
+        },
+        "320000": {
+          "base": {
+            "move": "b1c3",
+            "cp": 14,
+            "mate": null,
+            "depth": 18,
+            "pv": [
+              "b1c3",
+              "g7g6",
+              "c1b2",
+              "f8g7",
+              "f1g2",
+              "e8g8",
+              "e1g1",
+              "c8g4"
+            ]
+          },
+          "candidate": {
+            "move": "d2d3",
+            "cp": -38,
+            "mate": null,
+            "depth": 17,
+            "pv": [
+              "d2d3",
+              "d6d5",
+              "f1g2",
+              "e7e5",
+              "e1g1",
+              "f8e7",
+              "e2e3",
+              "c8e6"
+            ]
+          }
+        }
+      },
+      "gain_50cp_both": false,
+      "loss_50cp_both": false
+    },
+    {
+      "round": 117,
+      "fen": "rnbqk1nr/pp3ppp/2p5/2bPp3/2P5/P7/1P1P1PPP/RNBQKBNR w KQkq - 0 1",
+      "scores": {
+        "80000": {
+          "base": {
+            "move": "b1c3",
+            "cp": 22,
+            "mate": null,
+            "depth": 13,
+            "pv": [
+              "b1c3",
+              "g8e7",
+              "g1f3",
+              "c5d4",
+              "c3e2",
+              "c6d5",
+              "e2d4",
+              "e5d4"
+            ]
+          },
+          "candidate": {
+            "move": "d1e2",
+            "cp": -112,
+            "mate": null,
+            "depth": 14,
+            "pv": [
+              "d1e2",
+              "g8e7",
+              "b1c3",
+              "e8g8",
+              "g1f3",
+              "f8e8",
+              "d2d3",
+              "c6d5"
+            ]
+          }
+        },
+        "320000": {
+          "base": {
+            "move": "b1c3",
+            "cp": 26,
+            "mate": null,
+            "depth": 16,
+            "pv": [
+              "b1c3",
+              "g8f6",
+              "g1f3",
+              "e8g8",
+              "f3e5",
+              "d8b6",
+              "e5d3",
+              "c5d4"
+            ]
+          },
+          "candidate": {
+            "move": "d1e2",
+            "cp": -114,
+            "mate": null,
+            "depth": 18,
+            "pv": [
+              "d1e2",
+              "g8e7",
+              "b1c3",
+              "e8g8",
+              "g1f3",
+              "f8e8",
+              "d2d3",
+              "c6d5"
+            ]
+          }
+        }
+      },
+      "gain_50cp_both": false,
+      "loss_50cp_both": true
+    },
+    {
+      "round": 123,
+      "fen": "rnbqk1nr/pp1p1pbp/2p3p1/4p3/P7/2PP1N2/1P2PPPP/RNBQKB1R w KQkq - 0 1",
+      "scores": {
+        "80000": {
+          "base": {
+            "move": "e2e4",
+            "cp": 0,
+            "mate": null,
+            "depth": 15,
+            "pv": [
+              "e2e4",
+              "d7d5",
+              "f1e2",
+              "g8f6",
+              "f3e5",
+              "d5e4",
+              "d3d4",
+              "b8d7"
+            ]
+          },
+          "candidate": {
+            "move": "b1d2",
+            "cp": -7,
+            "mate": null,
+            "depth": 16,
+            "pv": [
+              "b1d2",
+              "d7d5",
+              "e2e4",
+              "a7a5",
+              "f1e2",
+              "g8e7",
+              "h2h4",
+              "h7h5"
+            ]
+          }
+        },
+        "320000": {
+          "base": {
+            "move": "e2e4",
+            "cp": -3,
+            "mate": null,
+            "depth": 20,
+            "pv": [
+              "e2e4",
+              "d7d5",
+              "f1e2",
+              "g8f6",
+              "f3e5",
+              "d5e4",
+              "d3d4",
+              "b8d7"
+            ]
+          },
+          "candidate": {
+            "move": "b1d2",
+            "cp": -4,
+            "mate": null,
+            "depth": 17,
+            "pv": [
+              "b1d2",
+              "d7d5",
+              "g2g3",
+              "g8h6",
+              "f1g2",
+              "e8g8",
+              "e1g1",
+              "f7f5"
+            ]
+          }
+        }
+      },
+      "gain_50cp_both": false,
+      "loss_50cp_both": false
+    },
+    {
+      "round": 124,
+      "fen": "rnb1kb1r/ppq1pppp/2p2n2/3p2B1/3P4/2P2N2/PP2PPPP/RN1QKB1R w KQkq - 0 1",
+      "scores": {
+        "80000": {
+          "base": {
+            "move": "e2e3",
+            "cp": 29,
+            "mate": null,
+            "depth": 14,
+            "pv": [
+              "e2e3",
+              "c8f5",
+              "f3h4",
+              "f5e4",
+              "g5f6",
+              "g7f6",
+              "c3c4",
+              "e4b1"
+            ]
+          },
+          "candidate": {
+            "move": "b1d2",
+            "cp": 13,
+            "mate": null,
+            "depth": 14,
+            "pv": [
+              "b1d2",
+              "h7h6",
+              "g5f6",
+              "e7f6",
+              "e2e3",
+              "f8e7",
+              "a1c1",
+              "e8g8"
+            ]
+          }
+        },
+        "320000": {
+          "base": {
+            "move": "e2e3",
+            "cp": 29,
+            "mate": null,
+            "depth": 17,
+            "pv": [
+              "e2e3",
+              "c8f5",
+              "f3h4",
+              "f5c8",
+              "f1d3",
+              "b8d7",
+              "h4f3",
+              "e7e5"
+            ]
+          },
+          "candidate": {
+            "move": "b1d2",
+            "cp": 19,
+            "mate": null,
+            "depth": 20,
+            "pv": [
+              "b1d2",
+              "h7h6",
+              "g5f6",
+              "e7f6",
+              "e2e3",
+              "c8e6",
+              "c3c4",
+              "g7g6"
+            ]
+          }
+        }
+      },
+      "gain_50cp_both": false,
+      "loss_50cp_both": false
+    },
+    {
+      "round": 126,
+      "fen": "rnbqkb1r/pp1p1ppp/2p2n2/8/3Q4/2P2N2/PP2PPPP/RNB1KB1R w KQkq - 0 1",
+      "scores": {
+        "80000": {
+          "base": {
+            "move": "c1f4",
+            "cp": -35,
+            "mate": null,
+            "depth": 14,
+            "pv": [
+              "c1f4",
+              "d7d5",
+              "e2e3",
+              "b8d7",
+              "f1e2",
+              "d7c5",
+              "d4d1",
+              "d8b6"
+            ]
+          },
+          "candidate": {
+            "move": "c1g5",
+            "cp": -9,
+            "mate": null,
+            "depth": 11,
+            "pv": [
+              "c1g5",
+              "f8e7",
+              "e2e4",
+              "d7d5",
+              "e4d5",
+              "c6d5",
+              "f1b5",
+              "b8c6"
+            ]
+          }
+        },
+        "320000": {
+          "base": {
+            "move": "c1f4",
+            "cp": -32,
+            "mate": null,
+            "depth": 15,
+            "pv": [
+              "c1f4",
+              "d7d5",
+              "e2e3",
+              "b8d7",
+              "f1e2",
+              "d8b6",
+              "c3c4",
+              "b6d4"
+            ]
+          },
+          "candidate": {
+            "move": "c1g5",
+            "cp": -13,
+            "mate": null,
+            "depth": 19,
+            "pv": [
+              "c1g5",
+              "f8e7",
+              "e2e4",
+              "d7d5",
+              "e4e5",
+              "f6e4",
+              "g5e7",
+              "d8e7"
+            ]
+          }
+        }
+      },
+      "gain_50cp_both": false,
+      "loss_50cp_both": false
+    },
+    {
+      "round": 127,
+      "fen": "r1bqkbnr/ppp2pp1/2n1p2p/3p4/4P3/2NP4/PPPB1PPP/R2QKBNR w KQkq - 0 1",
+      "scores": {
+        "80000": {
+          "base": {
+            "move": "e4d5",
+            "cp": -36,
+            "mate": null,
+            "depth": 13,
+            "pv": [
+              "e4d5",
+              "e6d5",
+              "g1f3",
+              "d5d4",
+              "c3e4",
+              "c8e6",
+              "f1e2",
+              "d8d7"
+            ]
+          },
+          "candidate": {
+            "move": "g1f3",
+            "cp": 9,
+            "mate": null,
+            "depth": 13,
+            "pv": [
+              "g1f3",
+              "g8e7",
+              "g2g3",
+              "g7g5",
+              "h2h4",
+              "g5g4",
+              "e4d5",
+              "e6d5"
+            ]
+          }
+        },
+        "320000": {
+          "base": {
+            "move": "e4d5",
+            "cp": -35,
+            "mate": null,
+            "depth": 16,
+            "pv": [
+              "e4d5",
+              "e6d5",
+              "g1f3",
+              "g8f6",
+              "g2g3",
+              "c8g4",
+              "f1g2",
+              "c6d4"
+            ]
+          },
+          "candidate": {
+            "move": "g1f3",
+            "cp": 24,
+            "mate": null,
+            "depth": 15,
+            "pv": [
+              "g1f3",
+              "a7a6",
+              "g2g3",
+              "f8c5",
+              "f1g2",
+              "g8f6",
+              "e1g1",
+              "d5e4"
+            ]
+          }
+        }
+      },
+      "gain_50cp_both": false,
+      "loss_50cp_both": false
+    },
+    {
+      "round": 130,
+      "fen": "rnbqkb1r/p1pp1pp1/1p2pn1p/8/3P4/P1P2N2/1P2PPPP/RNBQKB1R w KQkq - 0 1",
+      "scores": {
+        "80000": {
+          "base": {
+            "move": "c3c4",
+            "cp": 12,
+            "mate": null,
+            "depth": 15,
+            "pv": [
+              "c3c4",
+              "c8b7",
+              "b1c3",
+              "d7d5",
+              "c4d5",
+              "f6d5",
+              "c1d2",
+              "d5c3"
+            ]
+          },
+          "candidate": {
+            "move": "b1d2",
+            "cp": -15,
+            "mate": null,
+            "depth": 13,
+            "pv": [
+              "b1d2",
+              "c8b7",
+              "e2e3",
+              "d7d5",
+              "f3e5",
+              "b8d7",
+              "f2f4",
+              "f8e7"
+            ]
+          }
+        },
+        "320000": {
+          "base": {
+            "move": "c3c4",
+            "cp": -1,
+            "mate": null,
+            "depth": 18,
+            "pv": [
+              "c3c4",
+              "c8b7",
+              "b1c3",
+              "d7d5",
+              "c4d5",
+              "f6d5",
+              "c1d2",
+              "b8d7"
+            ]
+          },
+          "candidate": {
+            "move": "b1d2",
+            "cp": -19,
+            "mate": null,
+            "depth": 17,
+            "pv": [
+              "b1d2",
+              "c8b7",
+              "e2e3",
+              "d7d5",
+              "c3c4",
+              "b8d7",
+              "b2b4",
+              "c7c5"
+            ]
+          }
+        }
+      },
+      "gain_50cp_both": false,
+      "loss_50cp_both": false
+    },
+    {
+      "round": 139,
+      "fen": "r2qkb1r/pppnpppp/5n2/3p1b2/P2P4/2P2N2/1P2PPPP/RNBQKB1R w KQkq - 0 1",
+      "scores": {
+        "80000": {
+          "base": {
+            "move": "c1f4",
+            "cp": 14,
+            "mate": null,
+            "depth": 14,
+            "pv": [
+              "c1f4",
+              "e7e6",
+              "b1d2",
+              "f6e4",
+              "d2e4",
+              "d5e4",
+              "f3d2",
+              "f8d6"
+            ]
+          },
+          "candidate": {
+            "move": "d1b3",
+            "cp": -28,
+            "mate": null,
+            "depth": 13,
+            "pv": [
+              "d1b3",
+              "c7c5",
+              "c1f4",
+              "f6h5",
+              "f4e5",
+              "f7f6",
+              "e5g3",
+              "h5g3"
+            ]
+          }
+        },
+        "320000": {
+          "base": {
+            "move": "c1f4",
+            "cp": 10,
+            "mate": null,
+            "depth": 17,
+            "pv": [
+              "c1f4",
+              "f6h5",
+              "f4e5",
+              "c7c6",
+              "e2e3",
+              "f7f6",
+              "e5g3",
+              "f5g6"
+            ]
+          },
+          "candidate": {
+            "move": "d1b3",
+            "cp": -29,
+            "mate": null,
+            "depth": 17,
+            "pv": [
+              "d1b3",
+              "e7e6",
+              "c1f4",
+              "f6e4",
+              "b1d2",
+              "g7g5",
+              "f4e3",
+              "e4d2"
+            ]
+          }
+        }
+      },
+      "gain_50cp_both": false,
+      "loss_50cp_both": false
+    },
+    {
+      "round": 140,
+      "fen": "r1bqk2r/pppp1ppp/2n1pn2/1Bb5/4P3/3P4/PPP2PPP/RNBQK1NR w KQkq - 0 1",
+      "scores": {
+        "80000": {
+          "base": {
+            "move": "g1f3",
+            "cp": 27,
+            "mate": null,
+            "depth": 14,
+            "pv": [
+              "g1f3",
+              "e6e5",
+              "c2c3",
+              "e8g8",
+              "e1g1",
+              "d7d6",
+              "c1g5",
+              "h7h6"
+            ]
+          },
+          "candidate": {
+            "move": "b5c6",
+            "cp": 25,
+            "mate": null,
+            "depth": 14,
+            "pv": [
+              "b5c6",
+              "d7c6",
+              "b1d2",
+              "e6e5",
+              "g1f3",
+              "f6d7",
+              "d2c4",
+              "f7f6"
+            ]
+          }
+        },
+        "320000": {
+          "base": {
+            "move": "g1f3",
+            "cp": 15,
+            "mate": null,
+            "depth": 18,
+            "pv": [
+              "g1f3",
+              "e6e5",
+              "b5c6",
+              "d7c6",
+              "b1d2",
+              "c8e6",
+              "e1g1",
+              "c5d6"
+            ]
+          },
+          "candidate": {
+            "move": "b5c6",
+            "cp": 19,
+            "mate": null,
+            "depth": 19,
+            "pv": [
+              "b5c6",
+              "d7c6",
+              "g1f3",
+              "e6e5",
+              "e1g1",
+              "f6d7",
+              "c1e3",
+              "f7f6"
+            ]
+          }
+        }
+      },
+      "gain_50cp_both": false,
+      "loss_50cp_both": false
+    },
+    {
+      "round": 145,
+      "fen": "rnbqkb1r/pppp1pp1/5n2/7p/3Pp3/P1P1P3/1P3PPP/RNBQKBNR w KQkq - 0 1",
+      "scores": {
+        "80000": {
+          "base": {
+            "move": "b1d2",
+            "cp": -59,
+            "mate": null,
+            "depth": 15,
+            "pv": [
+              "b1d2",
+              "d7d5",
+              "c3c4",
+              "c7c6",
+              "g1e2",
+              "f8d6",
+              "e2c3",
+              "e8g8"
+            ]
+          },
+          "candidate": {
+            "move": "c3c4",
+            "cp": -34,
+            "mate": null,
+            "depth": 13,
+            "pv": [
+              "c3c4",
+              "c7c6",
+              "b1c3",
+              "g7g6",
+              "g1h3",
+              "d7d5",
+              "d1b3",
+              "f8h6"
+            ]
+          }
+        },
+        "320000": {
+          "base": {
+            "move": "b1d2",
+            "cp": -56,
+            "mate": null,
+            "depth": 19,
+            "pv": [
+              "b1d2",
+              "d7d5",
+              "c3c4",
+              "c7c6",
+              "g1e2",
+              "f8d6",
+              "e2c3",
+              "d6c7"
+            ]
+          },
+          "candidate": {
+            "move": "c3c4",
+            "cp": -20,
+            "mate": null,
+            "depth": 19,
+            "pv": [
+              "c3c4",
+              "c7c6",
+              "b1c3",
+              "d7d5",
+              "c1d2",
+              "g7g6",
+              "g1h3",
+              "f8h6"
+            ]
+          }
+        }
+      },
+      "gain_50cp_both": false,
+      "loss_50cp_both": false
+    },
+    {
+      "round": 168,
+      "fen": "r1bqkbnr/ppp2ppp/8/3pn3/7P/2P5/PP2PPP1/RNBQKBNR w KQkq - 0 1",
+      "scores": {
+        "80000": {
+          "base": {
+            "move": "g1f3",
+            "cp": -72,
+            "mate": null,
+            "depth": 15,
+            "pv": [
+              "g1f3",
+              "e5g4",
+              "c1g5",
+              "g8f6",
+              "g5f6",
+              "g4f6",
+              "e2e3",
+              "c7c6"
+            ]
+          },
+          "candidate": {
+            "move": "c1f4",
+            "cp": -32,
+            "mate": null,
+            "depth": 13,
+            "pv": [
+              "c1f4",
+              "e5g4",
+              "f2f3",
+              "g4f6",
+              "h4h5",
+              "h7h6",
+              "b1a3",
+              "f8c5"
+            ]
+          }
+        },
+        "320000": {
+          "base": {
+            "move": "g1f3",
+            "cp": -68,
+            "mate": null,
+            "depth": 16,
+            "pv": [
+              "g1f3",
+              "e5g4",
+              "c1g5",
+              "g8f6",
+              "g5f6",
+              "g4f6",
+              "e2e3",
+              "c7c6"
+            ]
+          },
+          "candidate": {
+            "move": "c1f4",
+            "cp": -48,
+            "mate": null,
+            "depth": 17,
+            "pv": [
+              "c1f4",
+              "e5g6",
+              "f4g5",
+              "f7f6",
+              "g5c1",
+              "c7c6",
+              "h4h5",
+              "g6e5"
+            ]
+          }
+        }
+      },
+      "gain_50cp_both": false,
+      "loss_50cp_both": false
+    },
+    {
+      "round": 170,
+      "fen": "r1bqkb1r/ppp1ppp1/2n2n1p/3p4/8/2PP2P1/PPQ1PP1P/RNB1KBNR w KQkq - 0 1",
+      "scores": {
+        "80000": {
+          "base": {
+            "move": "b1d2",
+            "cp": -58,
+            "mate": null,
+            "depth": 12,
+            "pv": [
+              "b1d2",
+              "e7e5",
+              "b2b4",
+              "f8d6",
+              "g1f3",
+              "e8g8",
+              "f1g2",
+              "f8e8"
+            ]
+          },
+          "candidate": {
+            "move": "g1f3",
+            "cp": -54,
+            "mate": null,
+            "depth": 15,
+            "pv": [
+              "g1f3",
+              "e7e5",
+              "f1g2",
+              "a7a5",
+              "e1g1",
+              "f8e7",
+              "b1d2",
+              "e8g8"
+            ]
+          }
+        },
+        "320000": {
+          "base": {
+            "move": "b1d2",
+            "cp": -55,
+            "mate": null,
+            "depth": 17,
+            "pv": [
+              "b1d2",
+              "e7e5",
+              "g1f3",
+              "a7a5",
+              "f1g2",
+              "f8c5",
+              "e1g1",
+              "e8g8"
+            ]
+          },
+          "candidate": {
+            "move": "g1f3",
+            "cp": -43,
+            "mate": null,
+            "depth": 19,
+            "pv": [
+              "g1f3",
+              "e7e5",
+              "f1g2",
+              "a7a5",
+              "e1g1",
+              "c8e6",
+              "b1d2",
+              "a5a4"
+            ]
+          }
+        }
+      },
+      "gain_50cp_both": false,
+      "loss_50cp_both": false
+    },
+    {
+      "round": 172,
+      "fen": "rnq1kb1r/ppp1pppp/5n2/3p1b2/3P4/P2BP3/1PP2PPP/RNBQK1NR w KQkq - 0 1",
+      "scores": {
+        "80000": {
+          "base": {
+            "move": "b1c3",
+            "cp": 0,
+            "mate": null,
+            "depth": 14,
+            "pv": [
+              "b1c3",
+              "e7e6",
+              "g1f3",
+              "f8d6",
+              "e1g1",
+              "e8g8",
+              "f1e1",
+              "f8d8"
+            ]
+          },
+          "candidate": {
+            "move": "g1f3",
+            "cp": 6,
+            "mate": null,
+            "depth": 12,
+            "pv": [
+              "g1f3",
+              "e7e6",
+              "c2c4",
+              "f5d3",
+              "d1d3",
+              "f8e7",
+              "c1d2",
+              "b8d7"
+            ]
+          }
+        },
+        "320000": {
+          "base": {
+            "move": "b1c3",
+            "cp": -3,
+            "mate": null,
+            "depth": 18,
+            "pv": [
+              "b1c3",
+              "e7e6",
+              "g1f3",
+              "f8e7",
+              "e1g1",
+              "e8g8",
+              "d1e2",
+              "f8e8"
+            ]
+          },
+          "candidate": {
+            "move": "g1f3",
+            "cp": -3,
+            "mate": null,
+            "depth": 18,
+            "pv": [
+              "g1f3",
+              "e7e6",
+              "c2c4",
+              "f5d3",
+              "d1d3",
+              "f8e7",
+              "c1d2",
+              "e8g8"
+            ]
+          }
+        }
+      },
+      "gain_50cp_both": false,
+      "loss_50cp_both": false
+    },
+    {
+      "round": 174,
+      "fen": "rn1qkbnr/pp2pppp/8/2ppP3/6b1/2P2N2/PP1P1PPP/RNBQKB1R w KQkq - 0 1",
+      "scores": {
+        "80000": {
+          "base": {
+            "move": "h2h3",
+            "cp": -12,
+            "mate": null,
+            "depth": 14,
+            "pv": [
+              "h2h3",
+              "g4f3",
+              "f1b5",
+              "b8d7",
+              "d1f3",
+              "a7a6",
+              "b5d7",
+              "d8d7"
+            ]
+          },
+          "candidate": {
+            "move": "f1b5",
+            "cp": 18,
+            "mate": null,
+            "depth": 11,
+            "pv": [
+              "f1b5",
+              "b8d7",
+              "d2d4",
+              "e7e6",
+              "c1e3",
+              "c5d4",
+              "c3d4",
+              "f8b4"
+            ]
+          }
+        },
+        "320000": {
+          "base": {
+            "move": "h2h3",
+            "cp": -14,
+            "mate": null,
+            "depth": 17,
+            "pv": [
+              "h2h3",
+              "g4f3",
+              "f1b5",
+              "b8d7",
+              "d1f3",
+              "a7a6",
+              "b5d7",
+              "d8d7"
+            ]
+          },
+          "candidate": {
+            "move": "f1b5",
+            "cp": 8,
+            "mate": null,
+            "depth": 18,
+            "pv": [
+              "f1b5",
+              "b8c6",
+              "b5c6",
+              "b7c6",
+              "e1g1",
+              "g4f3",
+              "d1f3",
+              "e7e6"
+            ]
+          }
+        }
+      },
+      "gain_50cp_both": false,
+      "loss_50cp_both": false
+    },
+    {
+      "round": 180,
+      "fen": "rnb1kbnr/1p1pqppp/2p5/p3p3/8/2PP1N2/PPQ1PPPP/RNB1KB1R w KQkq - 0 1",
+      "scores": {
+        "80000": {
+          "base": {
+            "move": "e2e4",
+            "cp": 33,
+            "mate": null,
+            "depth": 12,
+            "pv": [
+              "e2e4",
+              "g8f6",
+              "d3d4",
+              "d7d5",
+              "c1g5",
+              "b8d7",
+              "b1d2",
+              "h7h6"
+            ]
+          },
+          "candidate": {
+            "move": "c3c4",
+            "cp": 13,
+            "mate": null,
+            "depth": 14,
+            "pv": [
+              "c3c4",
+              "g7g6",
+              "g2g3",
+              "f8g7",
+              "f1g2",
+              "g8f6",
+              "e2e4",
+              "d7d6"
+            ]
+          }
+        },
+        "320000": {
+          "base": {
+            "move": "e2e4",
+            "cp": 37,
+            "mate": null,
+            "depth": 16,
+            "pv": [
+              "e2e4",
+              "g8f6",
+              "f1e2",
+              "d7d5",
+              "e1g1",
+              "d5e4",
+              "d3e4",
+              "e7c7"
+            ]
+          },
+          "candidate": {
+            "move": "c3c4",
+            "cp": 18,
+            "mate": null,
+            "depth": 19,
+            "pv": [
+              "c3c4",
+              "g8f6",
+              "g2g3",
+              "g7g6",
+              "b1c3",
+              "f8g7",
+              "f1g2",
+              "e8g8"
+            ]
+          }
+        }
+      },
+      "gain_50cp_both": false,
+      "loss_50cp_both": false
+    },
+    {
+      "round": 181,
+      "fen": "rnbqkb1r/pp2pp1p/2pp1np1/8/2PP4/4P3/PP2BPPP/RNBQK1NR w KQkq - 0 1",
+      "scores": {
+        "80000": {
+          "base": {
+            "move": "g1f3",
+            "cp": 48,
+            "mate": null,
+            "depth": 13,
+            "pv": [
+              "g1f3",
+              "f8g7",
+              "b1c3",
+              "c8f5",
+              "f3h4",
+              "f5d7",
+              "e3e4",
+              "e7e5"
+            ]
+          },
+          "candidate": {
+            "move": "b1c3",
+            "cp": 61,
+            "mate": null,
+            "depth": 15,
+            "pv": [
+              "b1c3",
+              "e7e5",
+              "g1f3",
+              "e5d4",
+              "e3d4",
+              "f8g7",
+              "h2h3",
+              "e8g8"
+            ]
+          }
+        },
+        "320000": {
+          "base": {
+            "move": "g1f3",
+            "cp": 56,
+            "mate": null,
+            "depth": 16,
+            "pv": [
+              "g1f3",
+              "f8g7",
+              "b1c3",
+              "c8f5",
+              "h2h3",
+              "f6e4",
+              "c3e4",
+              "f5e4"
+            ]
+          },
+          "candidate": {
+            "move": "b1c3",
+            "cp": 55,
+            "mate": null,
+            "depth": 16,
+            "pv": [
+              "b1c3",
+              "e7e5",
+              "g1f3",
+              "e5d4",
+              "e3d4",
+              "f8g7",
+              "e1g1",
+              "e8g8"
+            ]
+          }
+        }
+      },
+      "gain_50cp_both": false,
+      "loss_50cp_both": false
+    },
+    {
+      "round": 190,
+      "fen": "rn1qkb1r/pp2pppp/2p2n2/3p1b2/3P4/5NP1/PPP1PPBP/RNBQK2R w KQkq - 0 1",
+      "scores": {
+        "80000": {
+          "base": {
+            "move": "f3h4",
+            "cp": 17,
+            "mate": null,
+            "depth": 12,
+            "pv": [
+              "f3h4",
+              "f5e6",
+              "c2c3",
+              "g7g6",
+              "e1g1",
+              "f8g7",
+              "f1e1",
+              "e8g8"
+            ]
+          },
+          "candidate": {
+            "move": "h2h3",
+            "cp": -16,
+            "mate": null,
+            "depth": 13,
+            "pv": [
+              "h2h3",
+              "e7e6",
+              "c2c4",
+              "h7h6",
+              "d1b3",
+              "d8b6",
+              "c4c5",
+              "b6a6"
+            ]
+          }
+        },
+        "320000": {
+          "base": {
+            "move": "f3h4",
+            "cp": 16,
+            "mate": null,
+            "depth": 18,
+            "pv": [
+              "f3h4",
+              "f5e6",
+              "b1d2",
+              "g7g6",
+              "e1g1",
+              "f8g7",
+              "h4f3",
+              "e8g8"
+            ]
+          },
+          "candidate": {
+            "move": "h2h3",
+            "cp": -24,
+            "mate": null,
+            "depth": 17,
+            "pv": [
+              "h2h3",
+              "e7e6",
+              "c2c4",
+              "h7h6",
+              "e1g1",
+              "f8e7",
+              "b1c3",
+              "b8d7"
+            ]
+          }
+        }
+      },
+      "gain_50cp_both": false,
+      "loss_50cp_both": false
+    },
+    {
+      "round": 192,
+      "fen": "r1bqk2r/ppppbppp/2n2n2/4p3/P1B1P3/2N5/1PPP1PPP/R1BQK1NR w KQkq - 0 1",
+      "scores": {
+        "80000": {
+          "base": {
+            "move": "g1f3",
+            "cp": -63,
+            "mate": null,
+            "depth": 13,
+            "pv": [
+              "g1f3",
+              "f6e4",
+              "c3e4",
+              "d7d5",
+              "c4b5",
+              "d5e4",
+              "f3e5",
+              "d8d5"
+            ]
+          },
+          "candidate": {
+            "move": "d1e2",
+            "cp": -114,
+            "mate": null,
+            "depth": 16,
+            "pv": [
+              "d1e2",
+              "c6d4",
+              "e2d1",
+              "f6e4",
+              "c4f7",
+              "e8f7",
+              "c3e4",
+              "d7d5"
+            ]
+          }
+        },
+        "320000": {
+          "base": {
+            "move": "g1f3",
+            "cp": -76,
+            "mate": null,
+            "depth": 18,
+            "pv": [
+              "g1f3",
+              "f6e4",
+              "c3e4",
+              "d7d5",
+              "c4b5",
+              "d5e4",
+              "f3e5",
+              "d8d5"
+            ]
+          },
+          "candidate": {
+            "move": "d1e2",
+            "cp": -106,
+            "mate": null,
+            "depth": 17,
+            "pv": [
+              "d1e2",
+              "c6d4",
+              "e2d1",
+              "f6e4",
+              "c4f7",
+              "e8f7",
+              "c3e4",
+              "d7d5"
+            ]
+          }
+        }
+      },
+      "gain_50cp_both": false,
+      "loss_50cp_both": false
+    }
+  ]
+}

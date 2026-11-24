@@ -1,0 +1,403 @@
+{
+  "reports_sha256": {
+    "base": "a3f96d7e9b1571e9c9d2cca70e95c38ed1f7e57f657bfd77a09ddeb7274de5f1",
+    "window": "bb0fa1abef4d5fac0b0207f99bdc522733e2f88e3047bac816c4859cd75875d1"
+  },
+  "arbiter_sha256": "ae4c93fa9676ca7750d0714342fd8a5b1d018000fc6e0f6cedf112067b5ef374",
+  "cases": [
+    {
+      "suite": "v2",
+      "id": "0Pfb0",
+      "fen": "4r3/1b2r1kp/p2p1pp1/1pp1q3/4P3/PP1B1P1P/2PQR1P1/4R1K1 b - - 0 22",
+      "moves": {
+        "base": "e5d4",
+        "window": "h7h6"
+      },
+      "scores": {
+        "80000": {
+          "base": {
+            "move": "e5d4",
+            "cp": 17,
+            "mate": null,
+            "depth": 11,
+            "pv": [
+              "e5d4",
+              "e2f2",
+              "f6f5",
+              "c2c3",
+              "d4f6",
+              "e1e2",
+              "f5e4",
+              "f3e4"
+            ]
+          },
+          "window": {
+            "move": "h7h6",
+            "cp": -35,
+            "mate": null,
+            "depth": 13,
+            "pv": [
+              "h7h6",
+              "c2c4",
+              "e5d4",
+              "g1h1",
+              "b7c6",
+              "e1d1",
+              "f6f5",
+              "e4f5"
+            ]
+          }
+        },
+        "320000": {
+          "base": {
+            "move": "e5d4",
+            "cp": 1,
+            "mate": null,
+            "depth": 19,
+            "pv": [
+              "e5d4",
+              "e2f2",
+              "d6d5",
+              "c2c3",
+              "d4e5",
+              "f2e2",
+              "d5d4",
+              "c3c4"
+            ]
+          },
+          "window": {
+            "move": "h7h6",
+            "cp": -35,
+            "mate": null,
+            "depth": 16,
+            "pv": [
+              "h7h6",
+              "g1h1",
+              "e5g5",
+              "c2c4",
+              "g5d2",
+              "e2d2",
+              "b7c6",
+              "e1d1"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "suite": "v2",
+      "id": "0eK7q",
+      "fen": "1k4q1/1pp2p2/p7/4PQ2/5PP1/P6P/1P1r4/1R5K b - - 0 27",
+      "moves": {
+        "base": "g8h8",
+        "window": "g8g7"
+      },
+      "scores": {
+        "80000": {
+          "base": {
+            "move": "g8h8",
+            "cp": 610,
+            "mate": null,
+            "depth": 15,
+            "pv": [
+              "g8h8",
+              "g4g5",
+              "h8h4",
+              "b1d1",
+              "d2d1",
+              "h1g2",
+              "d1d2",
+              "g2f3"
+            ]
+          },
+          "window": {
+            "move": "g8g7",
+            "cp": -68,
+            "mate": null,
+            "depth": 12,
+            "pv": [
+              "g8g7",
+              "g4g5",
+              "g7h8",
+              "b1g1",
+              "h8h4",
+              "f5g4",
+              "h4f2",
+              "g4g3"
+            ]
+          }
+        },
+        "320000": {
+          "base": {
+            "move": "g8h8",
+            "cp": 568,
+            "mate": null,
+            "depth": 16,
+            "pv": [
+              "g8h8",
+              "g4g5",
+              "h8h4",
+              "b1d1",
+              "d2d1",
+              "h1g2",
+              "d1d2",
+              "g2f3"
+            ]
+          },
+          "window": {
+            "move": "g8g7",
+            "cp": -75,
+            "mate": null,
+            "depth": 17,
+            "pv": [
+              "g8g7",
+              "g4g5",
+              "g7h8",
+              "f5g4",
+              "h8e8",
+              "g4f3",
+              "e8a4",
+              "e5e6"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "suite": "run6",
+      "id": "Game16_B_ply62",
+      "fen": "4b2k/1Bp2ppp/P3p3/r7/2p3P1/8/5K1P/3R4 b - - 2 31",
+      "moves": {
+        "base": "e6e5",
+        "window": "a5a2"
+      },
+      "scores": {
+        "80000": {
+          "base": {
+            "move": "e6e5",
+            "cp": -320,
+            "mate": null,
+            "depth": 16,
+            "pv": [
+              "e6e5",
+              "d1d8",
+              "h7h5",
+              "d8e8",
+              "h8h7",
+              "e8e7",
+              "f7f6",
+              "e7c7"
+            ]
+          },
+          "window": {
+            "move": "a5a2",
+            "cp": -207,
+            "mate": null,
+            "depth": 11,
+            "pv": [
+              "a5a2",
+              "f2e3",
+              "a2a3",
+              "e3e2",
+              "h8g8",
+              "d1d8",
+              "a3a2",
+              "e2d1"
+            ]
+          }
+        },
+        "320000": {
+          "base": {
+            "move": "e6e5",
+            "cp": -289,
+            "mate": null,
+            "depth": 16,
+            "pv": [
+              "e6e5",
+              "d1d8",
+              "h7h5",
+              "d8e8",
+              "h8h7",
+              "e8e7",
+              "f7f6",
+              "g4g5"
+            ]
+          },
+          "window": {
+            "move": "a5a2",
+            "cp": -216,
+            "mate": null,
+            "depth": 17,
+            "pv": [
+              "a5a2",
+              "f2e3",
+              "a2a3",
+              "e3e2",
+              "h8g8",
+              "d1d8",
+              "g8f8",
+              "b7c6"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "suite": "run6",
+      "id": "Game25_W_ply49",
+      "fen": "r5k1/p1b3pp/7q/8/1B1Pn1P1/4P3/PPP1K3/R2Q2R1 w - - 5 25",
+      "moves": {
+        "base": "e2f3",
+        "window": "g1g2"
+      },
+      "scores": {
+        "80000": {
+          "base": {
+            "move": "e2f3",
+            "cp": -273,
+            "mate": null,
+            "depth": 13,
+            "pv": [
+              "e2f3",
+              "a8e8",
+              "g1h1",
+              "h6f6",
+              "f3e2",
+              "f6e6",
+              "e2f1",
+              "e6c4"
+            ]
+          },
+          "window": {
+            "move": "g1g2",
+            "cp": 163,
+            "mate": null,
+            "depth": 16,
+            "pv": [
+              "g1g2",
+              "a7a5",
+              "d1d3",
+              "e4g3",
+              "e2d2",
+              "a5b4",
+              "d3c4",
+              "g8h8"
+            ]
+          }
+        },
+        "320000": {
+          "base": {
+            "move": "e2f3",
+            "cp": -242,
+            "mate": null,
+            "depth": 17,
+            "pv": [
+              "e2f3",
+              "a8e8",
+              "g1h1",
+              "h6f6",
+              "f3e2",
+              "f6e6",
+              "e2f1",
+              "e6c4"
+            ]
+          },
+          "window": {
+            "move": "g1g2",
+            "cp": 143,
+            "mate": null,
+            "depth": 17,
+            "pv": [
+              "g1g2",
+              "a7a5",
+              "b4a3",
+              "a8e8",
+              "d1d3",
+              "e4g3",
+              "e2f2",
+              "g3e4"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "suite": "run6",
+      "id": "Game30_B_ply26",
+      "fen": "r4rk1/pppbbppp/2n1p3/3pP3/3Pq2P/P1P5/2P1BPP1/R1BQ1KNR b - - 0 13",
+      "moves": {
+        "base": "c6e5",
+        "window": "h7h5"
+      },
+      "scores": {
+        "80000": {
+          "base": {
+            "move": "c6e5",
+            "cp": -167,
+            "mate": null,
+            "depth": 16,
+            "pv": [
+              "c6e5",
+              "h4h5",
+              "h7h6",
+              "d4e5",
+              "e4e5",
+              "d1d4",
+              "e5d6"
+            ]
+          },
+          "window": {
+            "move": "h7h5",
+            "cp": -445,
+            "mate": null,
+            "depth": 14,
+            "pv": [
+              "h7h5",
+              "e2d3",
+              "e4g4",
+              "f2f3",
+              "f7f6",
+              "f3g4",
+              "f6e5",
+              "f1e1"
+            ]
+          }
+        },
+        "320000": {
+          "base": {
+            "move": "c6e5",
+            "cp": -171,
+            "mate": null,
+            "depth": 19,
+            "pv": [
+              "c6e5",
+              "d4e5",
+              "e4e5",
+              "d1d4",
+              "e5d6",
+              "c1f4",
+              "d6b6",
+              "d4d1"
+            ]
+          },
+          "window": {
+            "move": "h7h5",
+            "cp": -439,
+            "mate": null,
+            "depth": 15,
+            "pv": [
+              "h7h5",
+              "e2d3",
+              "e4g4",
+              "f2f3",
+              "f7f6",
+              "f3g4",
+              "f6e5",
+              "f1e1"
+            ]
+          }
+        }
+      }
+    }
+  ]
+}
