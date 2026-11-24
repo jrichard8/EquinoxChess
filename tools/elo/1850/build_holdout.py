@@ -18,10 +18,13 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("stockfish", type=Path)
     parser.add_argument("output", type=Path)
+    parser.add_argument("--count", type=int, default=COUNT)
     parser.add_argument("--seed", type=int, default=SEED)
     parser.add_argument("--exclude-epd", nargs="+", type=Path, default=[])
     parser.add_argument("--exclude-pgn", nargs="+", type=Path, default=[])
     args = parser.parse_args()
+    if args.count < 1:
+        parser.error("count must be positive")
     seen = {
         " ".join(line.split()[:4])
         for epd in [HERE.parent / "openings-v2.epd", *args.exclude_epd]
@@ -41,7 +44,7 @@ def main():
     positions = []
     with chess.engine.SimpleEngine.popen_uci(str(args.stockfish)) as engine:
         engine.configure({"Threads": 1, "Hash": 16})
-        while len(positions) < COUNT:
+        while len(positions) < args.count:
             position = chess.Board()
             game = object()
             for _ in range(8):
