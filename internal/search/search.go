@@ -87,7 +87,7 @@ func (s *Search) Negamax(b *board.Board, depth int, alpha int, beta int) int {
 	}
 
 	inCheck := InCheck(b)
-	if s.Ply > 0 && depth >= 5 && !inCheck && hasNonPawnMaterial(b, b.SideToMove) && beta < MateScore-1000 {
+	if s.Ply > 0 && depth >= 5 && beta-alpha == 1 && !inCheck && hasNonPawnMaterial(b, b.SideToMove) && beta < MateScore-1000 && Evaluate(b) >= beta {
 		R := 2
 		if depth > R+1 {
 			if event, ok := s.newTraceEvent("negamax", "null_search", depth, alpha, beta); ok {
@@ -205,7 +205,7 @@ func (s *Search) Negamax(b *board.Board, depth int, alpha int, beta int) int {
 			if !move.IsCapture(m) && !move.IsPromotion(m) {
 				isKiller := false
 				isKiller = killer1 == m || killer2 == m
-				if !isKiller && staticEval+150 <= alpha {
+				if foundLegal && !isKiller && staticEval+150 <= alpha {
 					s.recordTraceD1FutilityCheck(b, currentPly, m, i, alpha, beta, staticEval)
 					forceBridgeNoFutility := s.traceBridgeNoFutility(currentPly, m)
 					forceGeneralNoFutility := s.traceGeneralD1NoFutility(
@@ -286,7 +286,7 @@ func (s *Search) Negamax(b *board.Board, depth int, alpha int, beta int) int {
 			}
 		} else {
 			lmrEligible := depth >= 3 && i >= 3 && !inCheck && !move.IsCapture(m) &&
-				!move.IsPromotion(m) && m != killer1 && m != killer2 && (beta-alpha) > 1
+				!move.IsPromotion(m) && m != killer1 && m != killer2
 			targetDepthRequested, targetExtraPlies := s.traceTargetReplyDepthAdjustment(currentPly, m)
 			forceTargetFullDepth := targetDepthRequested && InCheck(b) &&
 				(lmrEligible || targetExtraPlies == 1)
@@ -449,7 +449,18 @@ func (s *Search) Negamax(b *board.Board, depth int, alpha int, beta int) int {
 						traceChildDepth,
 					)
 				}
-				score = -s.Negamax(b, traceChildDepth, traceChildAlpha, traceChildBeta)
+				// A later move must first improve alpha. Search it in the
+				// full window only when the scout cannot settle the bound.
+				if legalSeen > 1 && beta-alpha > 1 && traceMode == "full_depth" {
+					traceChildAlpha = -alpha - 1
+					score = -s.Negamax(b, traceChildDepth, traceChildAlpha, traceChildBeta)
+					if score > alpha && score < beta && !s.Stop.Load() {
+						traceChildAlpha = -beta
+						score = -s.Negamax(b, traceChildDepth, traceChildAlpha, traceChildBeta)
+					}
+				} else {
+					score = -s.Negamax(b, traceChildDepth, traceChildAlpha, traceChildBeta)
+				}
 				if forceGeneralD3FullDepth {
 					s.endTraceGeneralD3Check(previousD3Ply)
 				}
