@@ -4,8 +4,6 @@ import (
 	"math/bits"
 
 	"EquinoxChess/internal/board"
-	"EquinoxChess/internal/move"
-	"EquinoxChess/internal/movegen"
 )
 
 const (
@@ -303,23 +301,28 @@ func popLSB(bb *board.Bitboard) int {
 }
 
 func countMobility(b *board.Board, side int) int {
-	tmp := *b
-	tmp.SideToMove = side
-	var moves [movegen.MaxMoves]uint32
-	count := movegen.GeneratePseudoLegalMoves(&tmp, &moves)
+	own, enemyKing, offset := b.OccupancyWhite, b.Pieces[board.BlackKing], board.WhitePawn
+	if side == board.Black {
+		own, enemyKing, offset = b.OccupancyBlack, b.Pieces[board.WhiteKing], board.BlackPawn
+	}
+	available := ^(own | enemyKing)
 	mobility := 0
-	for i := 0; i < count; i++ {
-		moving := move.MovingPiece(moves[i])
-		switch moving {
-		case board.WhiteKnight, board.BlackKnight:
-			mobility += 4
-		case board.WhiteBishop, board.BlackBishop:
-			mobility += 4
-		case board.WhiteRook, board.BlackRook:
-			mobility += 2
-		case board.WhiteQueen, board.BlackQueen:
-			mobility += 1
-		}
+	for bb := b.Pieces[offset+board.WhiteKnight]; bb != 0; {
+		targets := board.KnightTargets(popLSB(&bb)) & available
+		mobility += 4 * bits.OnesCount64(uint64(targets))
+	}
+	for bb := b.Pieces[offset+board.WhiteBishop]; bb != 0; {
+		targets := board.BishopTargets(popLSB(&bb), b.OccupancyBoth) & available
+		mobility += 4 * bits.OnesCount64(uint64(targets))
+	}
+	for bb := b.Pieces[offset+board.WhiteRook]; bb != 0; {
+		targets := board.RookTargets(popLSB(&bb), b.OccupancyBoth) & available
+		mobility += 2 * bits.OnesCount64(uint64(targets))
+	}
+	for bb := b.Pieces[offset+board.WhiteQueen]; bb != 0; {
+		sq := popLSB(&bb)
+		targets := board.BishopTargets(sq, b.OccupancyBoth) | board.RookTargets(sq, b.OccupancyBoth)
+		mobility += bits.OnesCount64(uint64(targets & available))
 	}
 	return mobility
 }
