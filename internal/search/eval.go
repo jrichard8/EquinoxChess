@@ -199,10 +199,9 @@ func Evaluate(b *board.Board) int {
 	score -= 10 * whiteIsolatedCount
 	score += 10 * blackIsolatedCount
 
-	whiteMob := countMobility(b, board.White)
-	blackMob := countMobility(b, board.Black)
-	score += whiteMob
-	score -= blackMob
+	whiteMob, whiteAttack := pieceActivity(b, board.White)
+	blackMob, blackAttack := pieceActivity(b, board.Black)
+	score += whiteMob - blackMob + whiteAttack - blackAttack
 
 	for bb := b.Pieces[board.WhitePawn]; bb != 0; {
 		sq := popLSB(&bb)
@@ -300,31 +299,60 @@ func popLSB(bb *board.Bitboard) int {
 	return sq
 }
 
+type kingAttack struct{ attackers, units int }
+
+func (attack *kingAttack) add(targets, ring board.Bitboard, weight int) {
+	if contact := targets & ring; contact != 0 {
+		attack.attackers++
+		attack.units += weight * bits.OnesCount64(uint64(contact))
+	}
+}
+
 func countMobility(b *board.Board, side int) int {
+	mobility, _ := pieceActivity(b, side)
+	return mobility
+}
+
+// Reward a queen and at least one supporting piece attacking the king's
+// neighbourhood. The same attack sets also give the ordinary mobility score.
+func pieceActivity(b *board.Board, side int) (mobility, pressure int) {
 	own, enemyKing, offset := b.OccupancyWhite, b.Pieces[board.BlackKing], board.WhitePawn
 	if side == board.Black {
 		own, enemyKing, offset = b.OccupancyBlack, b.Pieces[board.WhiteKing], board.BlackPawn
 	}
 	available := ^(own | enemyKing)
-	mobility := 0
+	var ring board.Bitboard
+	queens := b.Pieces[offset+board.WhiteQueen]
+	if queens != 0 && enemyKing != 0 {
+		ring = enemyKing | board.KingTargets(bits.TrailingZeros64(uint64(enemyKing)))
+	}
+	var attack kingAttack
 	for bb := b.Pieces[offset+board.WhiteKnight]; bb != 0; {
-		targets := board.KnightTargets(popLSB(&bb)) & available
-		mobility += 4 * bits.OnesCount64(uint64(targets))
+		targets := board.KnightTargets(popLSB(&bb))
+		mobility += 4 * bits.OnesCount64(uint64(targets&available))
+		attack.add(targets, ring, 2)
 	}
 	for bb := b.Pieces[offset+board.WhiteBishop]; bb != 0; {
-		targets := board.BishopTargets(popLSB(&bb), b.OccupancyBoth) & available
-		mobility += 4 * bits.OnesCount64(uint64(targets))
+		targets := board.BishopTargets(popLSB(&bb), b.OccupancyBoth)
+		mobility += 4 * bits.OnesCount64(uint64(targets&available))
+		attack.add(targets, ring, 2)
 	}
 	for bb := b.Pieces[offset+board.WhiteRook]; bb != 0; {
-		targets := board.RookTargets(popLSB(&bb), b.OccupancyBoth) & available
-		mobility += 2 * bits.OnesCount64(uint64(targets))
+		targets := board.RookTargets(popLSB(&bb), b.OccupancyBoth)
+		mobility += 2 * bits.OnesCount64(uint64(targets&available))
+		attack.add(targets, ring, 3)
 	}
-	for bb := b.Pieces[offset+board.WhiteQueen]; bb != 0; {
+	otherAttackers := attack.attackers
+	for bb := queens; bb != 0; {
 		sq := popLSB(&bb)
 		targets := board.BishopTargets(sq, b.OccupancyBoth) | board.RookTargets(sq, b.OccupancyBoth)
 		mobility += bits.OnesCount64(uint64(targets & available))
+		attack.add(targets, ring, 4)
 	}
-	return mobility
+	if attack.attackers >= 2 && attack.attackers > otherAttackers {
+		pressure = min(200, attack.units*attack.units/4)
+	}
+	return mobility, pressure
 }
 
 // A passed pawn has no enemy pawn ahead on its own or either adjacent file.

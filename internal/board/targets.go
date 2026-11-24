@@ -38,6 +38,8 @@ func lineTargets(occupancy, origin, mask uint64) uint64 {
 	return (forward ^ bits.Reverse64(backward)) & mask
 }
 
+func KingTargets(square int) Bitboard { return kingAttacks[square] }
+
 func KnightTargets(square int) Bitboard { return knightAttacks[square] }
 
 func BishopTargets(square int, occupancy Bitboard) Bitboard {
