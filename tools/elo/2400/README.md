@@ -25,6 +25,30 @@ Sur les 192 nouvelles ouvertures jouées dans les deux couleurs, la base obtient
 
 Sur les 77 positions, le coût monte de **2 964 949 à 3 426 103 nœuds (+15,55 %)**. Le total v2 masque un échange important. Sur `0ImFe`, le candidat trouve `g3e5` (+252 cp contre −201 pour `g5e7`). Sur `0eK7q`, il abandonne `g8h8` (+568 cp) et joue `g8e8` (0 cp). Les deux autres changements sont proches de l’équilibre sur `0Pfb0` ou améliorent une position toujours défavorable sur `Game16_B_ply62`. SF18 à pleine force a arbitré les quatre changements à 80 000 puis 320 000 nœuds par coup forcé. Les scores cités viennent du second budget, du point de vue du joueur au trait. [Comparaison par position](quiet-tactics.json) · [Arbitrages, profondeurs et variantes](tactic-changes.json)
 
+## Vérification du mécanisme sur les défaites à 2200
+
+Sur les 123 défenses calmes historiques rejouées à froid, le choix change sur 20 positions. Le candidat fait passer six positions d’au plus −200 cp à au moins −100 cp et en fait basculer quatre dans l’autre sens. Chaque moteur retrouve huit coups de référence. Le coût passe de 36 730 886 à 42 391 554 nœuds (+15,41 %). Les scores viennent de SF18 à pleine force, à 80 000 nœuds. Le rejeu reconstruit l’historique des coups et vide la table, alors qu’en partie la table et les données d’ordonnancement survivent d’un coup au suivant. [Rejeu des deux exécutables](quiet-2200.json)
+
+Sur les 123 dernières itérations, le candidat déclenche la revérification dans 100 positions et choisit la défense de référence comme coup à revérifier dans 13 positions. La défense de référence reste exclusivement cherchée à profondeur réduite dans 73 positions. Le traceur reproduit le choix et les nœuds du binaire UCI pour chaque position. [Traces par position](trace-2200.json)
+
+Pour isoler l’effet de la fenêtre élargie et celui de la revérification, un contrôle ajouté après le premier rejeu supprime uniquement le passage supplémentaire en fin de racine. Il ne participe à aucun match. Sur ces 123 positions, la fenêtre seule coûte 3 136 341 nœuds supplémentaires. Rétablir la revérification en ajoute encore 2 524 327, change 11 décisions et produit 3 sauvetages pour 3 régressions par rapport à la fenêtre seule. Ces nombres incluent les effets d’une itération sur les suivantes. [Modification sur ff3ca1c](ranking-only.patch) · [Rejeu sans vérification finale](ranking-2200.json) · [Calcul apparié](compare_replays.py)
+
+Pour reproduire le contrôle, appliquer le patch dans une copie propre de `ff3ca1c` et reconstruire l’UCI avec les mêmes options que `QuietVerify`. Passer à `replay_quiet.py` le rapport de défaites, le binaire de la base, celui à tester, Stockfish et un nouveau fichier de sortie. Puis comparer avec `python3 tools/elo/2400/compare_replays.py tools/elo/2400/quiet-2200.json tools/elo/2400/ranking-2200.json`. La commande `cmd/quiet_trace` de la branche de recherche se compile avec les tags `searchtrace quietverify` et prend le rapport de défaites puis le rejeu complet.
+
+## Défenses dans les défaites contre SF2400
+
+Sur les 218 défaites, SF18 à pleine force confirme dans 120 parties une occasion où le meilleur coup vaut au moins −100 cp, le coup joué au plus −200 cp et l’écart au moins 150 cp. Le filtrage à 5 000 nœuds suivi d’une vérification à 80 000 trouve 90 cas. Le contrôle de chaque décision des 128 autres défaites à 80 000 nœuds en ajoute 30. Parmi les 120 coups de référence, 96 sont calmes, 22 sont des prises et 2 des échecs sans prise. Sur les 98 défaites restantes, 95 franchissent le seuil de −200 cp sans remplir les trois critères de bascule. [Analyse des 218 défaites, variantes et positions](base-losses.json)
+
+Sur les 96 défenses calmes à leur profondeur de partie, le candidat change 12 décisions, sauve 3 positions et en dégrade 1 selon les seuils de rejeu. Les deux moteurs retrouvent 7 coups de référence. Le coût passe de 30 091 189 à 31 141 813 nœuds (+3,49 %). À la dernière profondeur, la vérification se déclenche dans 79 positions et sélectionne le coup de référence dans 19. Sur 48 des 96 positions, la défense de référence reste exclusivement cherchée à profondeur réduite. Dans 20 autres, elle est déjà cherchée à profondeur normale par le mécanisme ordinaire et le coup finalement choisi reste évalué à −200 cp ou moins par SF18. [Rejeux à froid](quiet-2400.json) · [Traces par position](trace-2400.json)
+
+| Comparaison à froid sur les 96 positions | Sauvetages / régressions à 80k | Sauvetages / régressions à 320k | Écart de nœuds Equinox |
+|---|---:|---:|---:|
+| Fenêtre seule contre base | 6 / 2 | 4 / 2 | −641 485 |
+| Candidat complet contre base | 3 / 1 | 2 / 1 | +1 050 624 |
+| Ajout de la revérification à la fenêtre | 2 / 4 | 2 / 3 | +1 692 109 |
+
+Le second arbitrage reprend les 17 positions où au moins deux versions jouent des coups différents, avec 320 000 nœuds par coup forcé et le même historique. Il retrouve le même sens du bilan pour chaque comparaison. Les franchissements de seuil ne s’additionnent pas entre lignes. La fenêtre seule est une piste pour un duel à la pendule. [Contrôle sans vérification finale](ranking-2400.json) · [Second arbitrage et variantes](quiet-2400-deeper.json)
+
 ## Coût du moteur Go
 
 Sur l’Apple M4 Pro, Go 1.26.2, la recherche de la base à D7 parcourt 432 453 nœuds de milieu de jeu en 97,7 ms et 33 693 nœuds de finale en 7,28 ms. Cela donne respectivement 4,42 et 4,63 millions de nœuds/s. Le benchmark monothread réutilise une table UCI d’un million d’entrées et la vide avant chaque répétition. Les deux mesures sans profileur rapportent 0 octet et 0 allocation par opération. Les matchs tournaient sur la même machine. [Sortie des benchmarks](go-bench.txt)
@@ -66,13 +90,3 @@ go run ./cmd/elo_match -engine-a "$lab/QuietVerify" -name-a QuietVerify \
   -openings-count 128 -tc 1+0.1 -concurrency 8 -pgn "$lab/quiet-base.pgn"
 jouer_sf2400 QuietVerify
 ```
-
-## Vérification du mécanisme sur les défaites à 2200
-
-Sur les 123 défenses calmes historiques rejouées à froid, le choix change sur 20 positions. Le candidat fait passer six positions d’au plus −200 cp à au moins −100 cp et en fait basculer quatre dans l’autre sens. Chaque moteur retrouve huit coups de référence. Le coût passe de 36 730 886 à 42 391 554 nœuds (+15,41 %). Les scores viennent de SF18 à pleine force, à 80 000 nœuds. Le rejeu reconstruit l’historique des coups et vide la table, alors qu’en partie la table et les données d’ordonnancement survivent d’un coup au suivant. [Rejeu des deux exécutables](quiet-2200.json)
-
-Sur les 123 dernières itérations, le candidat déclenche la revérification dans 100 positions et choisit la défense de référence comme coup à revérifier dans 13 positions. La défense de référence reste exclusivement cherchée à profondeur réduite dans 73 positions. Le traceur reproduit le choix et les nœuds du binaire UCI pour chaque position. [Traces par position](trace-2200.json)
-
-Pour isoler l’effet de la fenêtre élargie et celui de la revérification, un contrôle ajouté après le premier rejeu supprime uniquement le passage supplémentaire en fin de racine. Il ne participe à aucun match. Sur ces 123 positions, la fenêtre seule coûte 3 136 341 nœuds supplémentaires. Rétablir la revérification en ajoute encore 2 524 327, change 11 décisions et produit 3 sauvetages pour 3 régressions par rapport à la fenêtre seule. Ces nombres incluent les effets d’une itération sur les suivantes. [Modification sur ff3ca1c](ranking-only.patch) · [Rejeu sans vérification finale](ranking-2200.json) · [Calcul apparié](compare_replays.py)
-
-Pour reproduire le contrôle, appliquer le patch dans une copie propre de `ff3ca1c` et reconstruire l’UCI avec les mêmes options que `QuietVerify`. Passer à `replay_quiet.py` le rapport de défaites, le binaire de la base, celui à tester, Stockfish et un nouveau fichier de sortie. Puis comparer avec `python3 tools/elo/2400/compare_replays.py tools/elo/2400/quiet-2200.json tools/elo/2400/ranking-2200.json`. La commande `cmd/quiet_trace` de la branche de recherche se compile avec les tags `searchtrace quietverify` et prend le rapport de défaites puis le rejeu complet.
