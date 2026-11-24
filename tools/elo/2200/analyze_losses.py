@@ -14,7 +14,6 @@ import chess.pgn
 
 SCREEN = 5_000
 VERIFY = 80_000
-NAME = "Equinox1850"
 
 
 def digest(path):
@@ -55,8 +54,8 @@ def kind(board, move):
     return "quiet"
 
 
-def analyze(engine, game, exhaustive):
-    color = game.headers["White"] == NAME
+def analyze(engine, game, exhaustive, name):
+    color = game.headers["White"] == name
     board = game.board()
     row = {"round": int(game.headers["Round"]), "color": chess.COLOR_NAMES[color],
            "end": game.end().comment, "game_plies": len(list(game.mainline_moves())),
@@ -102,10 +101,10 @@ def analyze(engine, game, exhaustive):
 
 
 def batch(job):
-    binary, games, exhaustive = job
+    binary, games, exhaustive, name = job
     with chess.engine.SimpleEngine.popen_uci(binary) as engine:
         engine.configure({"Threads": 1, "Hash": 16, "UCI_LimitStrength": False})
-        return [analyze(engine, chess.pgn.read_game(io.StringIO(game)), exhaustive) for game in games]
+        return [analyze(engine, chess.pgn.read_game(io.StringIO(game)), exhaustive, name) for game in games]
 
 
 def combine_passes(original, exhaustive_rows, first_pass_sha256):
@@ -138,6 +137,7 @@ def main():
     meta = json.loads(Path(str(args.pgn) + ".meta.json").read_text())
     if meta["pgn_sha256"] != digest(args.pgn) or meta["engine_b_sha256"] != digest(args.stockfish):
         raise ValueError("PGN or arbiter differs from match manifest")
+    name = meta["engine_a_name"]
     previous = None
     if args.exhaustive_misses:
         original = json.loads(args.exhaustive_misses.read_text())
@@ -148,19 +148,19 @@ def main():
     outcomes = Counter()
     with args.pgn.open() as stream:
         while (game := chess.pgn.read_game(stream)) is not None:
-            if game.errors or {game.headers["White"], game.headers["Black"]} != {NAME, "SF2200"}:
+            if game.errors or {game.headers["White"], game.headers["Black"]} != {name, "SF2200"}:
                 raise ValueError(game.headers)
             result = game.headers["Result"]
             if result not in ("1-0", "0-1", "1/2-1/2"):
                 raise ValueError(result)
-            loss = result == ("0-1" if game.headers["White"] == NAME else "1-0")
+            loss = result == ("0-1" if game.headers["White"] == name else "1-0")
             outcomes["loss" if loss else "draw" if result == "1/2-1/2" else "win"] += 1
-            key = (int(game.headers["Round"]), chess.COLOR_NAMES[game.headers["White"] == NAME])
+            key = (int(game.headers["Round"]), chess.COLOR_NAMES[game.headers["White"] == name])
             if loss and (previous is None or key in previous):
                 games.append(str(game))
     if outcomes.total() != 2 * meta["opening_count"]:
         raise ValueError(outcomes)
-    chunks = [(str(args.stockfish.resolve()), games[i::args.workers], previous is not None) for i in range(args.workers)]
+    chunks = [(str(args.stockfish.resolve()), games[i::args.workers], previous is not None, name) for i in range(args.workers)]
     with multiprocessing.Pool(args.workers) as pool:
         rows = [row for group in pool.map(batch, chunks) for row in group]
     rows.sort(key=lambda r: (r["round"], r["color"]))
