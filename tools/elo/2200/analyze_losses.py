@@ -55,21 +55,34 @@ def kind(board, move):
     return "quiet"
 
 
-def analyze(engine, game):
+def analyze(engine, game, exhaustive):
     color = game.headers["White"] == NAME
     board = game.board()
     row = {"round": int(game.headers["Round"]), "color": chess.COLOR_NAMES[color],
            "end": game.end().comment, "game_plies": len(list(game.mainline_moves())),
            "screened_decisions": 0, "verified_decisions": 0, "turning_point": None}
+    if exhaustive:
+        row["first_crossing"] = None
+        row["already_inferior_ply"] = None
     prefix = []
     for ply, node in enumerate(game.mainline(), 1):
         played = node.move
         if board.turn == color:
-            row["screened_decisions"] += 1
-            best, actual = scores(engine, board, played, SCREEN)
-            if best["cp"] >= -180 and actual["cp"] <= -125 and best["cp"] - actual["cp"] >= 100:
+            verify = exhaustive
+            if not exhaustive:
+                row["screened_decisions"] += 1
+                best, actual = scores(engine, board, played, SCREEN)
+                verify = (best["cp"] >= -180 and actual["cp"] <= -125
+                          and best["cp"] - actual["cp"] >= 100)
+            if verify:
                 row["verified_decisions"] += 1
                 best, actual = scores(engine, board, played, VERIFY)
+                if exhaustive:
+                    if best["cp"] <= -200 and row["already_inferior_ply"] is None:
+                        row["already_inferior_ply"] = ply
+                    if best["cp"] > -200 >= actual["cp"] and row["first_crossing"] is None:
+                        row["first_crossing"] = {"ply": ply, "fen": board.fen(),
+                                                 "best": best, "played": actual}
                 if best["cp"] >= -100 and actual["cp"] <= -200 and best["cp"] - actual["cp"] >= 150:
                     ref = chess.Move.from_uci(best["move"])
                     depth = re.search(r"/(\d+)\s", node.comment)
@@ -89,10 +102,26 @@ def analyze(engine, game):
 
 
 def batch(job):
-    binary, games = job
+    binary, games, exhaustive = job
     with chess.engine.SimpleEngine.popen_uci(binary) as engine:
         engine.configure({"Threads": 1, "Hash": 16, "UCI_LimitStrength": False})
-        return [analyze(engine, chess.pgn.read_game(io.StringIO(game))) for game in games]
+        return [analyze(engine, chess.pgn.read_game(io.StringIO(game)), exhaustive) for game in games]
+
+
+def combine_passes(original, exhaustive_rows, first_pass_sha256):
+    extra = {(r["round"], r["color"]): r for r in exhaustive_rows}
+    losses = []
+    for first in original["losses"]:
+        if first["turning_point"]:
+            losses.append(dict(first, source="screen"))
+        else:
+            second = extra.pop((first["round"], first["color"]))
+            losses.append(dict(second, source="exhaustive",
+                               screened_decisions=first["screened_decisions"],
+                               first_pass_verifications=first["verified_decisions"]))
+    if extra:
+        raise ValueError("Unexpected supplemental decisions")
+    return dict(original, losses=losses, first_pass_sha256=first_pass_sha256)
 
 
 def main():
@@ -101,12 +130,20 @@ def main():
     parser.add_argument("stockfish", type=Path)
     parser.add_argument("output", type=Path)
     parser.add_argument("--workers", type=int, default=4)
+    parser.add_argument("--exhaustive-misses", type=Path,
+                        help="Recheck every move in previously unclassified defeats directly at 80000 nodes")
     args = parser.parse_args()
     if args.output.exists() or args.workers < 1:
         parser.error("choose a new output path and a positive worker count")
     meta = json.loads(Path(str(args.pgn) + ".meta.json").read_text())
     if meta["pgn_sha256"] != digest(args.pgn) or meta["engine_b_sha256"] != digest(args.stockfish):
         raise ValueError("PGN or arbiter differs from match manifest")
+    previous = None
+    if args.exhaustive_misses:
+        original = json.loads(args.exhaustive_misses.read_text())
+        if original["pgn_sha256"] != meta["pgn_sha256"] or original["arbiter_sha256"] != meta["engine_b_sha256"]:
+            raise ValueError("Different first-pass inputs")
+        previous = {(r["round"], r["color"]) for r in original["losses"] if not r["turning_point"]}
     games = []
     outcomes = Counter()
     with args.pgn.open() as stream:
@@ -118,17 +155,20 @@ def main():
                 raise ValueError(result)
             loss = result == ("0-1" if game.headers["White"] == NAME else "1-0")
             outcomes["loss" if loss else "draw" if result == "1/2-1/2" else "win"] += 1
-            if loss:
+            key = (int(game.headers["Round"]), chess.COLOR_NAMES[game.headers["White"] == NAME])
+            if loss and (previous is None or key in previous):
                 games.append(str(game))
     if outcomes.total() != 2 * meta["opening_count"]:
         raise ValueError(outcomes)
-    chunks = [(str(args.stockfish.resolve()), games[i::args.workers]) for i in range(args.workers)]
+    chunks = [(str(args.stockfish.resolve()), games[i::args.workers], previous is not None) for i in range(args.workers)]
     with multiprocessing.Pool(args.workers) as pool:
         rows = [row for group in pool.map(batch, chunks) for row in group]
     rows.sort(key=lambda r: (r["round"], r["color"]))
-    assert len({(r["round"], r["color"]) for r in rows}) == outcomes["loss"]
+    assert len({(r["round"], r["color"]) for r in rows}) == (outcomes["loss"] if previous is None else len(previous))
     output = {"pgn_sha256": meta["pgn_sha256"], "arbiter_sha256": meta["engine_b_sha256"],
               "screen_nodes": SCREEN, "verification_nodes": VERIFY, "outcomes": outcomes, "losses": rows}
+    if previous is not None:
+        output = combine_passes(original, rows, digest(args.exhaustive_misses))
     with args.output.open("x") as stream:
         json.dump(output, stream, indent=2)
         stream.write("\n")

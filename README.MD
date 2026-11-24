@@ -2,6 +2,8 @@
 
 EquinoxChess est un moteur d’échecs classique écrit en Go. Il se joue dans une interface compatible UCI ou dans le navigateur. À 1 seconde + 0,1 seconde par coup, la version du 24 novembre 2026 obtient 74,09 % sur 384 parties contre Stockfish 18 réglé à 1850. Le bilan de reprise conserve la référence de septembre et les résultats des versions successives. [Calibration, intervalles et parties](tools/elo/1850/README.md) · [Bilan du projet](status.md)
 
+La base de développement est `baseline-1850`. Sa première mesure indépendante contre Stockfish 2200 donne 51,43 % sur 384 parties à la même cadence. [Diagnostic des défaites et prochaine amélioration](tools/elo/2200/README.md)
+
 ## Jouer dans le navigateur
 
 Depuis la racine du dépôt, avec Go 1.26 installé, lancer le serveur puis ouvrir [localhost:8080](http://localhost:8080).

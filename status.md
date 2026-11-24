@@ -1,5 +1,9 @@
 # EquinoxChess · point au 24 novembre 2026
 
+## Objectif 2200 · référence active
+
+Le tag `baseline-1850` désigne la version qualifiée. Sur 192 ouvertures indépendantes, elle marque 51,43 % contre Stockfish 18 limité à 2200 à 1 seconde + 0,1 seconde par coup (182 victoires, 31 nulles, 171 défaites). L’écart estimé est de +10 Elo, avec un intervalle de −59 à +79. Le prochain essai portera sur la priorité réelle au coup de table ou de variante principale. Sur 92 bascules de défaites, sa simulation économise 17,3 % des nœuds avec 4 défenses récupérées et 2 perdues. [Mesure, défaites et décision](tools/elo/2200/README.md)
+
 ## Moteur retenu au 24 novembre
 
 Le candidat `e5daafe` part de septembre (`819a8d5`), accélère le calcul de mobilité et l’évaluation, puis trie les prises en quiétude. Sur les 64 ouvertures du projet à couleurs inversées, il marque 92,19 % contre septembre. Sur 192 ouvertures supplémentaires figées avant le match, il marque 74,09 % contre Stockfish 18 réglé à 1850, à 1 seconde + 0,1 seconde par coup. L’écart local est estimé à +182,5 Elo, avec un intervalle bilatéral à 95 % de +102,1 à +286,6. Face au réglage 2200, le score est de 56,25 % sur 128 parties, avec un intervalle compatible avec une force inférieure ou supérieure. Le jalon 2200 reste ouvert. [Protocole, résultats et PGN](tools/elo/1850/README.md)
