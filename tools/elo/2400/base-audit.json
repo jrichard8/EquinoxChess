@@ -1,0 +1,32 @@
+{
+  "games": 384,
+  "pairs": 192,
+  "opening_order_and_colors_verified": true,
+  "results_by_color_of_a": {
+    "white": {
+      "1-0": 67,
+      "0-1": 108,
+      "1/2-1/2": 17
+    },
+    "black": {
+      "0-1": 64,
+      "1-0": 110,
+      "1/2-1/2": 18
+    }
+  },
+  "pairs_by_points_of_a": {
+    "0": 58,
+    "0.5": 17,
+    "1": 89,
+    "1.5": 10,
+    "2": 18
+  },
+  "abnormal_rounds": [
+    78
+  ],
+  "score_excluding_abnormal_pairs": 0.38350785340314136,
+  "median_depth": {
+    "Base2200": 8.0,
+    "SF2400": 14.0
+  }
+}
