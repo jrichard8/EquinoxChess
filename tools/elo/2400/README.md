@@ -11,6 +11,20 @@ La base est le moteur qualifié `baseline-2200`, binaire de match du commit `138
 
 Les matchs emploient cutechess-cli. Le PGN et le manifeste de chaque match conservent les ouvertures, les couleurs et les empreintes des exécutables.
 
+## Première mesure de la base
+
+Sur les 192 nouvelles ouvertures jouées dans les deux couleurs, la base obtient **131 victoires, 35 nulles, 218 défaites**, soit **38,67 %** face à SF2400. L’écart local est de **−80,1 Elo** (IC 95 % de −156,6 à −10,6). L’unique forfait au temps vient de Stockfish, à la ronde 78. Exclure la paire complète donne 38,35 %. Les profondeurs médianes annoncées sont 8 pour Equinox et 14 pour Stockfish. [Parties](../../../matches/elo2400/base-sf2400.pgn) · [Manifeste](../../../matches/elo2400/base-sf2400.pgn.meta.json) · [Contrôle des ouvertures, couleurs et incidents](base-audit.json)
+
+## Régressions tactiques à profondeur 6
+
+| Lot | Indicateur base → candidat | Nœuds base → candidat |
+|---|---|---:|
+| v1 | 32 → 32 solutions, 15 → 15 pertes reconnues | 816 043 → 842 517 |
+| v2 | 13 → 13 solutions, 3 → 3 fausses alertes de perte | 1 229 318 → 1 505 872 |
+| run6 | 10 → 10 erreurs historiques évitées, 2 → 2 pertes reconnues | 919 588 → 1 077 714 |
+
+Sur les 77 positions, le coût monte de **2 964 949 à 3 426 103 nœuds (+15,55 %)**. Le total v2 masque un échange important. Sur `0ImFe`, le candidat trouve `g3e5` (+252 cp contre −201 pour `g5e7`). Sur `0eK7q`, il abandonne `g8h8` (+568 cp) et joue `g8e8` (0 cp). Les deux autres changements sont proches de l’équilibre sur `0Pfb0` ou améliorent une position toujours défavorable sur `Game16_B_ply62`. SF18 à pleine force a arbitré les quatre changements à 80 000 puis 320 000 nœuds par coup forcé. Les scores cités viennent du second budget, du point de vue du joueur au trait. [Comparaison par position](quiet-tactics.json) · [Arbitrages, profondeurs et variantes](tactic-changes.json)
+
 ## Coût du moteur Go
 
 Sur l’Apple M4 Pro, Go 1.26.2, la recherche de la base à D7 parcourt 432 453 nœuds de milieu de jeu en 97,7 ms et 33 693 nœuds de finale en 7,28 ms. Cela donne respectivement 4,42 et 4,63 millions de nœuds/s. Le benchmark monothread réutilise une table UCI d’un million d’entrées et la vide avant chaque répétition. Les deux mesures sans profileur rapportent 0 octet et 0 allocation par opération. Les matchs tournaient sur la même machine. [Sortie des benchmarks](go-bench.txt)
