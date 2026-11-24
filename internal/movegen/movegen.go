@@ -3,8 +3,8 @@ package movegen
 import (
 	"math/bits"
 
-	"EquinoxChess/internal/board"
-	"EquinoxChess/internal/move"
+	"github.com/jrichard8/MarsGopherChess/internal/board"
+	"github.com/jrichard8/MarsGopherChess/internal/move"
 )
 
 const MaxMoves = 256

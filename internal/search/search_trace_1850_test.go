@@ -5,9 +5,9 @@ package search
 import (
 	"testing"
 
-	"EquinoxChess/internal/board"
-	"EquinoxChess/internal/tt"
-	"EquinoxChess/internal/uci"
+	"github.com/jrichard8/MarsGopherChess/internal/board"
+	"github.com/jrichard8/MarsGopherChess/internal/tt"
+	"github.com/jrichard8/MarsGopherChess/internal/uci"
 )
 
 func TestSearchTraceTargetedReplyCounterfactualRecordsContinuation(t *testing.T) {

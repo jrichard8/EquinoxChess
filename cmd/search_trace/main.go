@@ -18,11 +18,11 @@ import (
 	"strconv"
 	"strings"
 
-	"EquinoxChess/internal/board"
-	"EquinoxChess/internal/move"
-	"EquinoxChess/internal/search"
-	"EquinoxChess/internal/tt"
-	"EquinoxChess/internal/uci"
+	"github.com/jrichard8/MarsGopherChess/internal/board"
+	"github.com/jrichard8/MarsGopherChess/internal/move"
+	"github.com/jrichard8/MarsGopherChess/internal/search"
+	"github.com/jrichard8/MarsGopherChess/internal/tt"
+	"github.com/jrichard8/MarsGopherChess/internal/uci"
 )
 
 type corpusCase struct {

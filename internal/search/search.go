@@ -4,10 +4,10 @@ import (
 	"math/bits"
 	"time"
 
-	"EquinoxChess/internal/board"
-	"EquinoxChess/internal/move"
-	"EquinoxChess/internal/movegen"
-	"EquinoxChess/internal/tt"
+	"github.com/jrichard8/MarsGopherChess/internal/board"
+	"github.com/jrichard8/MarsGopherChess/internal/move"
+	"github.com/jrichard8/MarsGopherChess/internal/movegen"
+	"github.com/jrichard8/MarsGopherChess/internal/tt"
 )
 
 func (s *Search) Negamax(b *board.Board, depth int, alpha int, beta int) int {

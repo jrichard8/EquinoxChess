@@ -8,9 +8,9 @@ import (
 	"strings"
 	"testing"
 
-	"EquinoxChess/internal/api"
-	"EquinoxChess/internal/board"
-	"EquinoxChess/internal/movegen"
+	"github.com/jrichard8/MarsGopherChess/internal/api"
+	"github.com/jrichard8/MarsGopherChess/internal/board"
+	"github.com/jrichard8/MarsGopherChess/internal/movegen"
 )
 
 func TestOpeningsV2(t *testing.T) {

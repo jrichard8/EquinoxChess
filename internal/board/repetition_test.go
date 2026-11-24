@@ -3,7 +3,7 @@ package board
 import (
 	"testing"
 
-	"EquinoxChess/internal/move"
+	"github.com/jrichard8/MarsGopherChess/internal/move"
 )
 
 func playMoves(b *Board, moves ...uint32) {

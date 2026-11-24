@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"os"
 
-	"EquinoxChess/internal/matchstats"
+	"github.com/jrichard8/MarsGopherChess/internal/matchstats"
 )
 
 func main() {

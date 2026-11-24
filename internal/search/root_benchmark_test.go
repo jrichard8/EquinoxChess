@@ -3,8 +3,8 @@ package search
 import (
 	"testing"
 
-	"EquinoxChess/internal/board"
-	"EquinoxChess/internal/tt"
+	"github.com/jrichard8/MarsGopherChess/internal/board"
+	"github.com/jrichard8/MarsGopherChess/internal/tt"
 )
 
 // Reuse a UCI-sized table, clearing it between positions. Timings include

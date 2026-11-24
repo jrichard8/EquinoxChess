@@ -4,7 +4,7 @@ import (
 	"math/bits"
 	"testing"
 
-	"EquinoxChess/internal/board"
+	"github.com/jrichard8/MarsGopherChess/internal/board"
 )
 
 func kingSquareForSide(b *board.Board, side int) int {

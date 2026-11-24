@@ -3,9 +3,9 @@ package search
 import (
 	"testing"
 
-	"EquinoxChess/internal/board"
-	"EquinoxChess/internal/tt"
-	"EquinoxChess/internal/uci"
+	"github.com/jrichard8/MarsGopherChess/internal/board"
+	"github.com/jrichard8/MarsGopherChess/internal/tt"
+	"github.com/jrichard8/MarsGopherChess/internal/uci"
 )
 
 // Anti-blunder regression metrics (Phase 2 canary).

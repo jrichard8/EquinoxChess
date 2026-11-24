@@ -5,11 +5,11 @@ import (
 	"log"
 	"net/http"
 
-	"EquinoxChess/internal/api"
-	"EquinoxChess/internal/board"
-	"EquinoxChess/internal/movegen"
-	"EquinoxChess/internal/search"
-	"EquinoxChess/internal/uci"
+	"github.com/jrichard8/MarsGopherChess/internal/api"
+	"github.com/jrichard8/MarsGopherChess/internal/board"
+	"github.com/jrichard8/MarsGopherChess/internal/movegen"
+	"github.com/jrichard8/MarsGopherChess/internal/search"
+	"github.com/jrichard8/MarsGopherChess/internal/uci"
 )
 
 var game = api.NewGame()

@@ -4,7 +4,7 @@ import (
 	"reflect"
 	"testing"
 
-	"EquinoxChess/internal/search"
+	"github.com/jrichard8/MarsGopherChess/internal/search"
 )
 
 func TestSummarizeUsesDecisiveFullWindowResearchPass(t *testing.T) {

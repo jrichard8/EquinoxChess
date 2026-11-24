@@ -3,9 +3,9 @@ package main
 import (
 	"fmt"
 
-	"EquinoxChess/internal/board"
-	"EquinoxChess/internal/move"
-	"EquinoxChess/internal/search"
+	"github.com/jrichard8/MarsGopherChess/internal/board"
+	"github.com/jrichard8/MarsGopherChess/internal/move"
+	"github.com/jrichard8/MarsGopherChess/internal/search"
 )
 
 func moveToUCI(m uint32) string {

@@ -3,7 +3,7 @@ package perft
 import (
 	"testing"
 
-	"EquinoxChess/internal/board"
+	"github.com/jrichard8/MarsGopherChess/internal/board"
 )
 
 func TestPerftInitialPosition(t *testing.T) {

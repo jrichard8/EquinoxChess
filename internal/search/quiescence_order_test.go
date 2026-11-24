@@ -4,8 +4,8 @@ import (
 	"slices"
 	"testing"
 
-	"EquinoxChess/internal/board"
-	"EquinoxChess/internal/move"
+	"github.com/jrichard8/MarsGopherChess/internal/board"
+	"github.com/jrichard8/MarsGopherChess/internal/move"
 )
 
 func TestQuiescenceCaptureOrder(t *testing.T) {

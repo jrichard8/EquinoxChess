@@ -5,8 +5,8 @@ import (
 	"sync/atomic"
 	"time"
 
-	"EquinoxChess/internal/board"
-	"EquinoxChess/internal/tt"
+	"github.com/jrichard8/MarsGopherChess/internal/board"
+	"github.com/jrichard8/MarsGopherChess/internal/tt"
 )
 
 const (

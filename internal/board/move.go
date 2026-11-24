@@ -1,8 +1,8 @@
 package board
 
 import (
-	"EquinoxChess/internal/move"
-	"EquinoxChess/internal/zobrist"
+	"github.com/jrichard8/MarsGopherChess/internal/move"
+	"github.com/jrichard8/MarsGopherChess/internal/zobrist"
 )
 
 // MakeMove updates the board state for a pseudo-legal move.

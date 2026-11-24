@@ -1,9 +1,9 @@
 package search
 
 import (
-	"EquinoxChess/internal/board"
-	"EquinoxChess/internal/movegen"
-	"EquinoxChess/internal/tt"
+	"github.com/jrichard8/MarsGopherChess/internal/board"
+	"github.com/jrichard8/MarsGopherChess/internal/movegen"
+	"github.com/jrichard8/MarsGopherChess/internal/tt"
 )
 
 // SearchTrace is an opt-in diagnostic recorder for one root move and its

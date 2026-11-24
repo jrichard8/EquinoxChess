@@ -3,7 +3,7 @@ package board
 import (
 	"math/bits"
 
-	"EquinoxChess/internal/zobrist"
+	"github.com/jrichard8/MarsGopherChess/internal/zobrist"
 )
 
 // Bitboard is a 64-bit board representation.

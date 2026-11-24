@@ -5,7 +5,7 @@ package search
 import (
 	"testing"
 
-	"EquinoxChess/internal/uci"
+	"github.com/jrichard8/MarsGopherChess/internal/uci"
 )
 
 func TestSearchTraceTargetedReplyCounterfactualRecordsContinuation(t *testing.T) {

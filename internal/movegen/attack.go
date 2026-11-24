@@ -1,6 +1,6 @@
 package movegen
 
-import "EquinoxChess/internal/board"
+import "github.com/jrichard8/MarsGopherChess/internal/board"
 
 var knightAttacks [64]board.Bitboard
 var kingAttacks [64]board.Bitboard

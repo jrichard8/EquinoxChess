@@ -14,7 +14,7 @@ import (
 	"strings"
 	"time"
 
-	"EquinoxChess/internal/matchstats"
+	"github.com/jrichard8/MarsGopherChess/internal/matchstats"
 )
 
 type config struct {

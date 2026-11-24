@@ -3,9 +3,9 @@ package search
 import (
 	"testing"
 
-	"EquinoxChess/internal/board"
-	"EquinoxChess/internal/move"
-	"EquinoxChess/internal/movegen"
+	"github.com/jrichard8/MarsGopherChess/internal/board"
+	"github.com/jrichard8/MarsGopherChess/internal/move"
+	"github.com/jrichard8/MarsGopherChess/internal/movegen"
 )
 
 func TestPawnPushWitness(t *testing.T) {

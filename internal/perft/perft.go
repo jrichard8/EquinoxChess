@@ -1,8 +1,8 @@
 package perft
 
 import (
-	"EquinoxChess/internal/board"
-	"EquinoxChess/internal/movegen"
+	"github.com/jrichard8/MarsGopherChess/internal/board"
+	"github.com/jrichard8/MarsGopherChess/internal/movegen"
 )
 
 func Perft(b *board.Board, depth int) uint64 {

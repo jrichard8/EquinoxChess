@@ -3,7 +3,7 @@ package search
 import (
 	"math/bits"
 
-	"EquinoxChess/internal/board"
+	"github.com/jrichard8/MarsGopherChess/internal/board"
 )
 
 const (

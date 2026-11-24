@@ -4,10 +4,10 @@ import (
 	"errors"
 	"strconv"
 
-	"EquinoxChess/internal/board"
-	"EquinoxChess/internal/search"
-	"EquinoxChess/internal/tt"
-	"EquinoxChess/internal/uci"
+	"github.com/jrichard8/MarsGopherChess/internal/board"
+	"github.com/jrichard8/MarsGopherChess/internal/search"
+	"github.com/jrichard8/MarsGopherChess/internal/tt"
+	"github.com/jrichard8/MarsGopherChess/internal/uci"
 )
 
 type Game struct {

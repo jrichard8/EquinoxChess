@@ -10,7 +10,7 @@ import (
 	"strconv"
 	"strings"
 
-	"EquinoxChess/internal/board"
+	"github.com/jrichard8/MarsGopherChess/internal/board"
 )
 
 // Game contains the PGN tags needed to analyse one game.
