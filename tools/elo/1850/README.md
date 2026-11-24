@@ -2,6 +2,26 @@
 
 Le seuil de travail est un score supérieur à 50 % contre Stockfish 18 réglé à 1850, à 1 seconde + 0,1 seconde par coup, avec une borne basse de l’intervalle bilatéral à 95 % supérieure à 50 %. Le calcul utilise une observation par paire d’ouverture, selon le [protocole des matchs](../README.md). Cette échelle dépend de l’adversaire, de sa configuration, du matériel et de la cadence.
 
+## Résultats du 24 novembre 2026
+
+**Le candidat complet franchit le jalon 1850 sur les 192 ouvertures de confirmation.** Il marque 74,09 % des points, avec un écart estimé de +182,5 Elo par rapport à Stockfish 18 limité à 1850. Sur le repère à 2200, son score de 56,25 % laisse encore une marge d’incertitude de part et d’autre de l’équilibre.
+
+| Match, moteur cité en premier | Paires | V–N–D | Score | Écart Elo [IC 95 %] |
+|---|---:|---:|---:|---:|
+| Septembre – SF1850 | 64 | 59–4–65 | 47,66 % | −16,3 [−141,6 ; +104,7] |
+| Évaluation accélérée – septembre | 64 | 96–19–13 | 82,42 % | +268,4 [+111,0 ; +887,2] |
+| Évaluation accélérée – SF1850 | 64 | 90–4–34 | 71,88 % | +163,0 [+34,1 ; +360,6] |
+| Candidat complet – septembre | 64 | 111–14–3 | 92,19 % | +428,8 [+192,8 ; +∞] |
+| Candidat complet – évaluation accélérée | 64 | 66–38–24 | 66,41 % | +118,4 [−4,0 ; +280,2] |
+| **Candidat complet – SF1850, confirmation** | **192** | **277–15–92** | **74,09 %** | **+182,5 [+102,1 ; +286,6]** |
+| Candidat complet – SF2200 | 64 | 66–12–50 | 56,25 % | +43,7 [−75,7 ; +174,8] |
+
+Dans le duel contre septembre, la profondeur médiane du premier coup hors ouverture passe de 4 à 7. Le candidat termine une itération plus profonde sur **64 ouvertures sur 64** à ce premier coup avec les Blancs. Face à SF1850 sur le lot réservé, il marque 139 victoires, 6 nulles et 47 défaites avec les Blancs, et 138 victoires, 9 nulles et 45 défaites avec les Noirs.
+
+Les PGN et leurs manifestes contiennent les ouvertures, les noms, les résultats, la cadence et les empreintes vérifiées. Les révisions moteur sont `819a8d5` (septembre), `8a1a440` (mobilité seule, chronométrée), `4ac0eea` (évaluation accélérée) et `e5daafe` (candidat complet). Le commit `45f257e` adapte les compteurs de nœuds attendus par les tests du traceur et ajoute un test du tri des captures. Les assertions sur les coups, scores, profondeurs, chemins et non-interférence du traceur passent. [Parties et manifestes](../../../matches/elo1850/) · [PGN de confirmation à 1850](../../../matches/elo1850/capt-sf1850-holdout.pgn)
+
+Les matchs ont été joués sur un Apple M4 Pro, six parties simultanées pour les matchs principaux, trois pour le premier duel entre candidats et le repère 2200, avec un maximum de neuf simultanées entre les matchs. Le moteur Equinox cherche sur un thread. Chaque Stockfish utilise un thread et 16 Mio de table. Les intervalles sont ceux du calcul par paire du projet. La borne supérieure peut être infinie quand la borne de score atteint 100 %.
+
 ## Sélection et confirmation
 
 - Comparer à septembre deux configurations successives sur les 64 ouvertures de `openings-v2.epd`, couleurs inversées. La première accélère le calcul de l’évaluation. La seconde ajoute le tri des prises en quiétude.

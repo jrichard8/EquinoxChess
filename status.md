@@ -1,4 +1,10 @@
-# EquinoxChess · bilan de reprise du 23 novembre 2026
+# EquinoxChess · point au 24 novembre 2026
+
+## Moteur retenu au 24 novembre
+
+Le candidat `e5daafe` part de septembre (`819a8d5`), accélère le calcul de mobilité et l’évaluation, puis trie les prises en quiétude. Sur les 64 ouvertures du projet à couleurs inversées, il marque 92,19 % contre septembre. Sur 192 ouvertures supplémentaires figées avant le match, il marque 74,09 % contre Stockfish 18 réglé à 1850, à 1 seconde + 0,1 seconde par coup. L’écart local est estimé à +182,5 Elo, avec un intervalle bilatéral à 95 % de +102,1 à +286,6. Face au réglage 2200, le score est de 56,25 % sur 128 parties, avec un intervalle compatible avec une force inférieure ou supérieure. Le jalon 2200 reste ouvert. [Protocole, résultats et PGN](tools/elo/1850/README.md)
+
+## Référence de septembre
 
 Le moteur est jouable en UCI et dans le navigateur. Le progrès le mieux établi vient de l’allocation du temps de recherche. Les limites tactiques sont mesurables. À profondeur 6, Equinox évite 10 des 13 erreurs historiques du jeu de régression, mais n’évalue que 2 de ces positions à −300 centipions ou moins. Sur le lot de régression v1, la même révision choisit les 32 coups de référence et reconnaît 15 des 16 positions classées perdantes par Stockfish. Sur le lot v2, qui exige un premier coup calme difficile, elle trouve 13 des 32 solutions.
 
@@ -18,7 +24,7 @@ Le moteur est jouable en UCI et dans le navigateur. Le progrès le mieux établi
 - **Août — mettre les hypothèses d’évaluation à l’épreuve.** Les pénalités de 20 centipions pour la pression du cavalier puis de la dame sur la zone du roi ont obtenu 46,88 % et 48,44 % sur leurs A/B longs. Toutes deux ont été écartées. La pression de la dame reste un indice pour retrouver des positions difficiles dans les PGN. [Analyse des positions](tools/kingzone/README.md)
 - **Fin août et septembre — expliquer une erreur de recherche.** Les traces suivent 19 réponses adverses donnant échec sans prise et les 13 positions de régression. Chercher à pleine profondeur certains échecs normalement réduits améliore le bilan des 19 cas de 9 à 11 erreurs évitées, mais réintroduit `d2b4` dans `Game25_ply35`. La règle générale `D5D3D1CheckChain` a été rejetée avant match. La dernière sonde compare des sous-arbres isolés et permet d’observer séparément score, ordre et table de transposition. [Journal détaillé et décisions](docs/archives/journal-avril-septembre-2026.md)
 
-## Dernière calibration de force documentée
+## Calibration antérieure du 5 août
 
 Matchs du 5 août contre Stockfish 18 limité en force, à **1 seconde + 0,1 seconde par coup**. Chaque lot comprend 64 ouvertures jouées avec les deux couleurs. L’intervalle de Hoeffding à 95 % utilise la paire d’ouverture comme unité.
 
