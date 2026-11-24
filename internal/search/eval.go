@@ -96,6 +96,16 @@ var kingPSQT = [64]int{
 	20, 30, 10, 0, 0, 10, 30, 20,
 }
 
+// Square numbers grow from White's first rank. The opening table was
+// written with rank eight first. In the ending, bring the king to the centre.
+func kingSquareValue(whiteSquare, nonPawnMaterial int) int {
+	file, rank := whiteSquare%8, whiteSquare/8
+	ending := 10 * (min(file, 7-file) + min(rank, 7-rank) - 3)
+	opening := kingPSQT[whiteSquare^56]
+	phase := min(4000, max(0, nonPawnMaterial-800))
+	return ending + (opening-ending)*phase/4000
+}
+
 var passedPawnBonus = [8]int{
 	0,   // rank 0
 	0,   // rank 1 (pion initial blanc)
@@ -130,10 +140,6 @@ func Evaluate(b *board.Board) int {
 		sq := popLSB(&bb)
 		score += QueenValue + queenPSQT[sq]
 	}
-	for bb := b.Pieces[board.WhiteKing]; bb != 0; {
-		sq := popLSB(&bb)
-		score += KingValue + kingPSQT[sq]
-	}
 
 	for bb := b.Pieces[board.BlackPawn]; bb != 0; {
 		sq := popLSB(&bb)
@@ -154,10 +160,6 @@ func Evaluate(b *board.Board) int {
 	for bb := b.Pieces[board.BlackQueen]; bb != 0; {
 		sq := popLSB(&bb)
 		score -= QueenValue + queenPSQT[sq^56]
-	}
-	for bb := b.Pieces[board.BlackKing]; bb != 0; {
-		sq := popLSB(&bb)
-		score -= KingValue + kingPSQT[sq^56]
 	}
 
 	whiteBishops := bits.OnesCount64(uint64(b.Pieces[board.WhiteBishop]))
@@ -228,6 +230,13 @@ func Evaluate(b *board.Board) int {
 	nonPawnMaterial += bits.OnesCount64(uint64(b.Pieces[board.BlackBishop])) * BishopValue
 	nonPawnMaterial += bits.OnesCount64(uint64(b.Pieces[board.BlackRook])) * RookValue
 	nonPawnMaterial += bits.OnesCount64(uint64(b.Pieces[board.BlackQueen])) * QueenValue
+
+	if king := b.Pieces[board.WhiteKing]; king != 0 {
+		score += kingSquareValue(bits.TrailingZeros64(uint64(king)), nonPawnMaterial)
+	}
+	if king := b.Pieces[board.BlackKing]; king != 0 {
+		score -= kingSquareValue(bits.TrailingZeros64(uint64(king))^56, nonPawnMaterial)
+	}
 
 	if nonPawnMaterial > 2000 {
 
