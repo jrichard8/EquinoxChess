@@ -1,0 +1,53 @@
+[
+  {
+    "budget": 80000,
+    "move": "d1e1",
+    "cp": 100,
+    "mate": null,
+    "depth": 12,
+    "pv": [
+      "d1e1",
+      "a7a5",
+      "b4c5",
+      "a8e8",
+      "e2d1",
+      "a5a4",
+      "c2c3",
+      "e4c5"
+    ]
+  },
+  {
+    "budget": 320000,
+    "move": "d1e1",
+    "cp": 129,
+    "mate": null,
+    "depth": 17,
+    "pv": [
+      "d1e1",
+      "a7a5",
+      "b4c5",
+      "a8e8",
+      "e2d1",
+      "e4c5",
+      "d4c5",
+      "c7f4"
+    ]
+  },
+  {
+    "budget": 1000000,
+    "move": "d1e1",
+    "cp": 132,
+    "mate": null,
+    "depth": 19,
+    "pv": [
+      "d1e1",
+      "a7a5",
+      "b4c5",
+      "a5a4",
+      "e1f1",
+      "a8e8",
+      "f1f3",
+      "h6a6"
+    ]
+  }
+]
