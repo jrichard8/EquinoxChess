@@ -1,0 +1,1 @@
+{"train": 28781, "validation": 4551, "ridge": 32.0, "before": 238.2210503186113, "after": 168.42931024413667, "stockfish_sha256": "ae4c93fa9676ca7750d0714342fd8a5b1d018000fc6e0f6cedf112067b5ef374", "positions_sha256": "2b344b2da59088911b063d843542a1027cf91bbdee251079bb4f5efbadd7bebe"}
