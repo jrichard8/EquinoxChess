@@ -1,38 +1,40 @@
 # MarsGopherChess
 
-MarsGopherChess (anciennement EquinoxChess) est un moteur d’échecs classique écrit en Go, jouable en UCI et dans le navigateur. **La base `baseline-2200` marque 60,16 % contre Stockfish 18 réglé à 2200**, à 1 seconde + 0,1 seconde par coup. Sur 384 ouvertures indépendantes jouées dans les deux couleurs, elle obtient 430 victoires, 64 nulles et 274 défaites. L’écart estimé à cette cadence est de +71,6 Elo [IC 95 % +22,4 à +123,7]. [Qualification et parties](tools/elo/2200/loop/README.md#confirmation-du-palier-2200) · [Reconstruire la base 2200+](tools/elo/2200/loop/README.md#reconstruire-la-base-2200) · [Bilan du projet](status.md)
+MarsGopherChess (formerly EquinoxChess) is a chess engine written in Go with a classical evaluation function. You can play against it in a browser or use it with any UCI-compatible chess GUI.
 
-Face au réglage 2400, la base marque **38,67 %** sur 384 parties. Le candidat qui revérifie une défense calme atteint **45,05 %** sur le même lot. Son gain en duel direct reste incertain. [Campagne 2400, parties et décisions](tools/elo/2400/README.md)
+**The tournament engine uses `baseline-2200`.** It scored **60.16% against Stockfish 18 limited to 2200 Elo** at 1 second per game plus 0.1 seconds per move. Across 384 independent openings, each played with both colors, it recorded 430 wins, 64 draws and 274 losses. The estimated difference at this time control was +71.6 Elo (95% confidence interval +22.4 to +123.7). [Qualification games](tools/elo/2200/loop/README.md#confirmation-du-palier-2200) · [Rebuild the 2200+ baseline](tools/elo/2200/loop/README.md#reconstruire-la-base-2200) · [Project status](status.md)
 
-La fenêtre élargie seule marque **46,22 %** contre la base et **42,97 %** contre SF2400 sur les mêmes 192 ouvertures. Le moteur de tournoi utilise la base 2200+. [Résultats et coût en nœuds](tools/elo/2400/window/README.md) · [Participer à un tournoi de moteurs](docs/tournois.md)
+Against Stockfish at 2400, the baseline scored **38.67%** over 384 games. A candidate that rechecks a quiet defensive move scored **45.05%** on the same openings. Its head-to-head match against the baseline was inconclusive. [2400 campaign and games](tools/elo/2400/README.md)
 
-La version précédente `baseline-1850` reste disponible pour les comparaisons. Le match direct donne 69,01 % à la nouvelle base sur 384 parties. [Qualification 1850](tools/elo/1850/README.md) · [Première mesure à 2200](tools/elo/2200/README.md)
+Using only the wider search window, the candidate scored **46.22%** against the baseline and **42.97%** against Stockfish at 2400 on the same 192 openings. [Results and node counts](tools/elo/2400/window/README.md) · [Engine tournament entry](docs/tournois.md)
 
-## Jouer dans le navigateur
+The previous baseline, `baseline-1850`, is available for comparison. The 2200+ baseline scored **69.01%** against it over 384 games. [1850 qualification](tools/elo/1850/README.md) · [First match against Stockfish at 2200](tools/elo/2200/README.md)
 
-Depuis la racine du dépôt, avec Go 1.26 installé, lancer le serveur puis ouvrir [localhost:8080](http://localhost:8080).
+## Play in the browser
+
+With Go 1.26 installed, start the server from the repository root, then open [localhost:8080](http://localhost:8080).
 
 ```sh
 go run ./cmd/server
 ```
 
-Déplacer une pièce sur l’échiquier pour jouer contre le moteur. Le serveur gère une partie en mémoire, partagée entre les onglets. La page charge jQuery et chessboard.js depuis des CDN.
+Drag a piece to play your move. The server keeps one game in memory, shared across browser tabs. The page loads jQuery and chessboard.js from CDNs.
 
-| Requête | Effet |
+| Request | Effect |
 |---|---|
-| `POST /newgame` | Repart de la position initiale. |
-| `POST /move` avec `{"move":"e2e4"}` | Joue le coup du joueur. |
-| `POST /engine` avec `{"depth":4}` | Cherche et joue un coup, puis renvoie `bestmove`, `score`, `depth` et `nodes`. |
-| `GET /fen` | Renvoie la position FEN, les coups légaux, le trait et les indicateurs d’échec et de mat. |
+| `POST /newgame` | Resets the game to the starting position. |
+| `POST /move` with `{"move":"e2e4"}` | Plays the requested move. |
+| `POST /engine` with `{"depth":4}` | Searches for and plays a move, then returns `bestmove`, `score`, `depth` and `nodes`. |
+| `GET /fen` | Returns the FEN, legal moves, side to move, and check and checkmate status. |
 
-## Utiliser le moteur UCI
+## Run the UCI engine
 
 ```sh
 go build -o marsgopherchess-uci ./cmd/uci
 ./marsgopherchess-uci
 ```
 
-Dans le terminal du moteur, saisir les commandes suivantes. Le moteur répond successivement par `uciok`, `readyok`, puis par une ligne `info` et un `bestmove`.
+Enter these commands in the engine's terminal to search for Black's reply to 1.e4. The engine responds with `uciok`, then `readyok`, then an `info` line followed by `bestmove`.
 
 ```text
 uci
@@ -41,9 +43,9 @@ position startpos moves e2e4
 go depth 6
 ```
 
-Le moteur accepte aussi une position FEN, un temps par coup (`go movetime 500`) ou les pendules UCI avec incréments. Utiliser `quit` pour terminer.
+The engine also accepts FEN positions, a fixed time per move (`go movetime 500` for 500 ms), and UCI clocks with increments. Enter `quit` to exit.
 
-## Développer et mesurer
+## Development and testing
 
 ```sh
 go test ./...
@@ -51,7 +53,7 @@ go test -tags searchtrace ./...
 go test -tags 'searchtrace trace1850' ./...
 ```
 
-- [Guide de développement](docs/developpement.md) — architecture, conventions et contrôles à exécuter selon le changement.
-- [Lot tactique v1](tools/tactics/README.md) pour les régressions et [lot v2](tools/tactics/v2/README.md) pour les coups calmes difficiles. Chaque lot comprend 32 positions avec une référence de septembre à profondeur 6.
-- [Protocole Elo](tools/elo/README.md) — comparer deux binaires sur les mêmes ouvertures, couleurs inversées.
-- [Analyse des parties](tools/kingzone/README.md) et [traceur de recherche](cmd/search_trace/README.md) — reconstruire les positions diagnostiques depuis le PGN et examiner les décisions du moteur.
+- [Development guide](docs/developpement.md) — engine architecture, coding conventions and checks for each type of change.
+- [Tactical suite v1](tools/tactics/README.md) covers regressions. [Tactical suite v2](tools/tactics/v2/README.md) tests harder quiet moves. Each has 32 positions and depth-6 results for the September baseline.
+- [Elo match protocol](tools/elo/README.md) — compare two binaries by playing each opening with both colors.
+- [Game analysis](tools/kingzone/README.md) and [search tracing](cmd/search_trace/README.md) — reconstruct positions from a PGN and inspect the engine's decisions.

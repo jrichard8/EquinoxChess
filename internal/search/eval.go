@@ -98,12 +98,12 @@ var kingPSQT = [64]int{
 
 var passedPawnBonus = [8]int{
 	0,   // rank 0
-	0,   // rank 1 (pion initial blanc)
+	0,   // rank 1 (White's starting pawn rank)
 	10,  // rank 2
 	20,  // rank 3
 	35,  // rank 4
 	60,  // rank 5
-	100, // rank 6 (7ème rangée)
+	100, // rank 6 (seventh rank)
 	0,   // rank 7 (promotion)
 }
 
