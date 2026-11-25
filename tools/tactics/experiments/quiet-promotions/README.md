@@ -4,7 +4,7 @@
 
 ## Isolated change and direct checks
 
-Candidate `5361155` searches all four non-capturing promotions in quiescence when out of check. Both engines use the same move generation, check evasions, stand pat and existing exemption for promotions in delta pruning. The candidate is on `codex/qsearch-quiet-promotions`.
+Candidate `5361155` searches all four non-capturing promotions in quiescence when out of check. Both engines use the same move generation, check evasions, stand pat and existing exemption for promotions in delta pruning. The candidate can be rebuilt from that revision in the history of `main`.
 
 | Control position, quiescence only | September → candidate score (cp, side to move) | Nodes |
 |---|---:|---:|

@@ -12,7 +12,7 @@
 
 All 1,024 scheduled games were played. Against SF2400 on 192 openings, the candidate outscored the baseline on 71 pairs, tied on 67 and scored lower on 54, gaining 24.5 game points over 384 games. Each SF2400 match includes one Stockfish time forfeit. Excluding the affected pair from each match gives 38.35% and 45.03%. The head-to-head finished without incident. Eight games ran concurrently on the M4 Pro, which was also used for profiling and offline analysis. [Head-to-head games](../../../matches/elo2400/quiet-base.pgn) · [Head-to-head audit](direct-audit.json) · [Candidate against SF2400](../../../matches/elo2400/quiet-sf2400.pgn) · [Manifest](../../../matches/elo2400/quiet-sf2400.pgn.meta.json) · [Candidate audit](candidate-audit.json)
 
-The candidate was built at `04efa19` with the `quietverify` tag. Branch `codex/2400-quiet-defense` contains the candidate, the rule test and the defense tracer. Candidate Go tests and current and historical trace checks passed. The next duel tested the wider window alone. On the 2400 losses, the additional recheck cost 1.69 million nodes and caused more regressions than recoveries at both adjudication budgets. [Results of both matches](window/README.md)
+The candidate was built at `04efa19` with the `quietverify` tag. Commit `76b7fec` preserves the candidate, the rule test and the defense tracer. Candidate Go tests and current and historical trace checks passed. The next duel tested the wider window alone. On the 2400 losses, the additional recheck cost 1.69 million nodes and caused more regressions than recoveries at both adjudication budgets. [Results of both matches](window/README.md)
 
 ## Protocol fixed before play
 
@@ -47,7 +47,7 @@ At the final iteration in each of the 123 positions, the candidate triggered a r
 
 To separate the effects of the wider window and the recheck, a control added after the first replay removed only the extra pass at the end of the root search. It played no match in this experiment. On the 123 positions, the window alone cost 3,136,341 extra nodes. Restoring the recheck added a further 2,524,327 nodes, changed 11 decisions and gave three recoveries and three regressions relative to the window alone. The counts include effects carried into later iterations. [Patch against 04efa19](ranking-only.patch) · [Replay without the final recheck](ranking-2200.json) · [Paired calculation](compare_replays.py)
 
-To reproduce the control, apply the patch to a clean copy of `04efa19` and rebuild the UCI executable with the same options as `QuietVerify`. Pass the loss report, baseline binary, test binary, Stockfish and a new output path to `replay_quiet.py`. Compare with `python3 tools/elo/2400/compare_replays.py tools/elo/2400/quiet-2200.json tools/elo/2400/ranking-2200.json`. Build `cmd/quiet_trace` on the research branch with tags `searchtrace quietverify` and supply the loss report followed by the full replay.
+To reproduce the control, apply the patch to a clean copy of `04efa19` and rebuild the UCI executable with the same options as `QuietVerify`. Pass the loss report, baseline binary, test binary, Stockfish and a new output path to `replay_quiet.py`. Compare with `python3 tools/elo/2400/compare_replays.py tools/elo/2400/quiet-2200.json tools/elo/2400/ranking-2200.json`. Build `cmd/quiet_trace` from `76b7fec` with tags `searchtrace quietverify` and supply the loss report followed by the full replay.
 
 ## Defenses in losses to SF2400
 
@@ -77,7 +77,7 @@ go tool pprof -top /tmp/equinox-root.test /tmp/equinox-root.pprof
 
 ## Replay the matches
 
-From the repository root, these commands rebuild both executables in clean trees and write games to a temporary directory. The clones fetch the published GitHub branches. Match manifests record the original binary checksums. The [rebuild check](../2200/loop/README.md#rebuild-the-2200-baseline) gives the baseline checksum for the current Git history. Individual timed game results can vary.
+From the repository root, these commands rebuild both executables in clean trees and write games to a temporary directory. Both revisions are available in the published history of `main`. Match manifests record the original binary checksums. The [rebuild check](../2200/loop/README.md#rebuild-the-2200-baseline) gives the baseline checksum for the current Git history. Individual timed game results can vary.
 
 ```sh
 remote=$(git remote get-url origin)

@@ -1,4 +1,4 @@
-# MarsGopherChess · project status as of November 24, 2026
+# MarsGopherChess · project status as of November 25, 2026
 
 ## MarsGopherChess · wider-window result
 
@@ -32,6 +32,28 @@ The engine runs via UCI and in the browser. The clearest gain came from allocati
 | `90ea1da`, August 31 | Starting point for the September experiments. Includes offline analysis and targeted diagnosis of opponent replies. |
 | **`f6871de`**, frozen November 23 | September baseline for resuming development. Includes the schema 11 tracer, its tests, instructions and experiment log. The checks below apply to this revision. |
 | Local stash `786d539` | Earlier experiment combining several king-pressure terms. Later knight and queen experiments are documented separately. |
+
+### Research branch archive · November 25, 2026
+
+All research commits are reachable from `main`. The tournament engine still uses the qualified 2200+ search. To inspect an experiment from a clone of `main`, use `git show <commit>`. To build one separately, use `git worktree add --detach ../mars-experiment <commit>`.
+
+| Former branch | Final commit |
+|---|---|
+| `codex/2200-clock` | `083767138f8339a3752159bdcebca5d60caba5b6` |
+| `codex/2200-combined` | `abfb9fe767ef8ad15993131973fe0964bc9140b1` |
+| `codex/2200-coordinated-attack` | `54cccef7ac9f5963da08aaa4e848fb46dbe47d6b` |
+| `codex/2200-eval-cache` | `d79da5dc06f72bb60539cfda5a462151a16bd680` |
+| `codex/2200-hash-first` | `df9de88438cbd7f2ece3922df8455984212a3c39` |
+| `codex/2200-interior-trace` | `8b75863de42309d04b4af5a9eaf1981a1340f025` |
+| `codex/2200-interiortt` | `a43a8a34313c4c1fe717b7ccfbc5083f10ee44ed` |
+| `codex/2200-king-phase` | `36e2a0af8ecad09ec94017263602c25669cd596a` |
+| `codex/2200-legal-witness` | `0f5cf3ab78670085b4d575cf45abfb60352b5480` |
+| `codex/2200-null-verify` | `2a9ff6f408a8e6b15f823baa73c1ce9dab102c68` |
+| `codex/2200-rootpv` | `62986326fb90a07a70234440cb82daf3a177dc61` |
+| `codex/2200-scout` | `c56ad71b325f7edd7c796bc5118bcb3b1e6856a6` |
+| `codex/2200-tapered-eval` | `794fcc7f4733e0ac07bdcf6ef33376dd2877e28c` |
+| `codex/2400-quiet-defense` | `76b7fec3965243d26ae348339fcdc58b22ea2f3f` |
+| `codex/qsearch-quiet-promotions` | `53611550375a7c1870220dbd15be5f14f27f6abf` |
 
 ## Activity and decisions
 
