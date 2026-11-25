@@ -26,7 +26,7 @@ The v2 regression is **`0JLoe`**. September found `h5h6` (+38 cp). The candidate
 
 One position dominates the cost. On **`Game17_W_ply17`**, both engines repeat the historical error `d1f3` and report +67 cp. The candidate searches 7,041,277 nodes against 2,788,051, accounting for **90.1% of the extra run6 nodes**. In v1, `G18-p26` accounts for 81,075 of the suite's 94,719 extra nodes. These counts measure work at fixed depth. No Elo match was played for this experiment.
 
-The two-position diagnosis traces the black promotions responsible for the Game17 cost and the reduced-depth cutoff on 0JLoe. [Traces, control search and reproduction (in French)](diagnostic.md)
+The two-position diagnosis traces the black promotions responsible for the Game17 cost and the reduced-depth cutoff on 0JLoe. [Traces, control search and reproduction](diagnostic.md)
 
 ## Provenance and reproduction
 

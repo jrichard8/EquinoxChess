@@ -1,40 +1,40 @@
-# Deux effets des promotions sans prise en quiétude
+# Two effects of non-capturing promotions in quiescence
 
-**Septembre (`f6871de`) reste la référence.** Les deux positions ont été rejouées à profondeur 6 avec la seule autre révision de l’expérience, `5361155`. Sur Game17, le candidat prolonge des suites de prises en quiétude. Sur 0JLoe, une promotion change l’ordre des coups à la racine, puis la réduction de profondeur empêche de départager les deux poussées de pions. Les quatre recherches instrumentées reproduisent le coup, le score et le nombre de nœuds du [bilan apparié](paired.json).
+**September (`f6871de`) remains the baseline for this experiment.** Both positions were replayed at depth 6 against the experiment's only other revision, `5361155`. On Game17 the candidate extends capture sequences in quiescence. On 0JLoe a promotion changes root move ordering and a reduced-depth search then fails to distinguish the two pawn pushes. All four instrumented searches reproduced the move, score and node count from the [paired comparison](paired.json).
 
-## Game17_W_ply17 · où vont les 4 253 226 nœuds
+## Game17_W_ply17 · accounting for 4,253,226 extra nodes
 
-| Visites, itérations 1 à 6 cumulées | Septembre | Candidat | Écart |
+| Node visits across iterations 1–6 | September | Candidate | Difference |
 |---|---:|---:|---:|
-| Recherche principale | 53 407 | 53 407 | 0 |
-| Quiétude avant toute promotion sans prise admise par le candidat | 2 734 644 | 2 640 291 | −94 353 |
-| Quiétude à partir de la première de ces promotions, enfant inclus | 0 | 4 347 579 | +4 347 579 |
-| **Total** | **2 788 051** | **7 041 277** | **+4 253 226** |
+| Main search | 53,407 | 53,407 | 0 |
+| Quiescence before any non-capturing promotion admitted by the candidate | 2,734,644 | 2,640,291 | −94,353 |
+| Quiescence from the first such promotion, including its child | 0 | 4,347,579 | +4,347,579 |
+| **Total** | **2,788,051** | **7,041,277** | **+4,253,226** |
 
-Chaque moteur entre **41 694 fois** en quiétude depuis la recherche principale. L’empreinte des visites principales dans l’ordre d’exécution est identique, fenêtres alpha-bêta comprises (`49d84c88663f124423d6634698567037136de60da6338deaed5895627132b3ff`). Les six itérations choisissent `d1f3` avec le même score dans les deux moteurs, jusqu’à +67 cp à profondeur 6.
+Both engines entered quiescence **41,694 times** from main search. The ordered sequence of main-search visits had the same fingerprint, including the alpha-beta windows (`49d84c88663f124423d6634698567037136de60da6338deaed5895627132b3ff`). Both engines chose `d1f3` with identical scores throughout the six iterations, reaching +67 cp at depth 6.
 
-**Le pion qui promeut peut partir du milieu de l’échiquier.** Dans la branche la plus coûteuse après une première promotion, la recherche principale joue `d1f3 b8d7 a2a3 e7d6 g1h1`. La quiétude enchaîne ensuite `c5d4 c3d5 d4e3 f3f6 e3d2 f6d8`. Le pion noir de c5 vient de prendre trois fois et arrive en d2. Le candidat examine alors `d2d1q`, qui ouvre à lui seul un sous-arbre de **25 786 nœuds** dans cette occurrence. À cet endroit, septembre filtre la poussée sans prise. Cette branche est un exemple de suite explorée pendant la recherche.
+**The promoting pawn can start in the middle of the board.** In the most expensive subtree reached after a first promotion, main search plays `d1f3 b8d7 a2a3 e7d6 g1h1`. Quiescence continues `c5d4 c3d5 d4e3 f3f6 e3d2 f6d8`. Black's c5-pawn has made three captures and reached d2. The candidate then searches `d2d1q`, which opens a subtree of **25,786 nodes** in this occurrence alone. September filters the non-capturing push here. This is one line explored during search.
 
-Le candidat visite **198 871 premières promotions** hors échec sur leurs chemins respectifs. La sonde compte chaque sous-arbre une seule fois, même s’il contient d’autres promotions. Les promotions noires en d1 et b1 réunissent 87,6 % de ces 4 347 579 nœuds. Les promotions en dame en représentent 2 563 766 (59,0 %), les trois sous-promotions réunies 1 783 813. Le coût vient surtout des suites ouvertes par ces coups. **3 785 952** nœuds y sont atteints par une prise et **788 280** par une réponse à un échec, avec recouvrement lorsqu’une prise pare l’échec. Hors échec, les promotions sont exemptées de l’élagage delta. En échec, le moteur explore les évasions légales. Le surcoût net est inférieur au volume de ces branches, car les autres visites de quiétude diminuent de 94 353.
+The candidate visits **198,871 first promotions** outside check along their respective paths. The probe counts each subtree once, even when it contains further promotions. Black promotions on d1 and b1 account for 87.6% of those 4,347,579 nodes. Queen promotions account for 2,563,766 (59.0%) and the three underpromotions combined for 1,783,813. Most of the work comes from the continuations: **3,785,952** nodes are reached by a capture and **788,280** by an evasion, with overlap when a capture answers a check. Outside check, promotions are exempt from delta pruning. In check, the engine searches legal evasions. Other quiescence visits fall by 94,353, offsetting part of the increase.
 
-## 0JLoe · pourquoi h5h6 perd la priorité
+## 0JLoe · why h5h6 loses priority
 
-La référence Stockfish du lot donne `h5h6 g7h6 g5h6 e7f8 e5f6 f8g8 h6h7`. Le premier coup sacrifie le pion h pour permettre au pion g de reprendre en h6. Les scores ci-dessous sont ceux d’Equinox, en centipions du point de vue des Blancs. [Position et analyse de référence](../../v2/positions.json)
+The suite's Stockfish reference gives `h5h6 g7h6 g5h6 e7f8 e5f6 f8g8 h6h7`. The first move sacrifices the h-pawn so that the g-pawn can recapture on h6. The scores below are Equinox's, in centipawns from White's perspective. [Position and reference analysis](../../v2/positions.json)
 
-1. **Le premier écart apparaît sur un troisième coup, `g5g6`.** Dès la profondeur 1, après `g5g6 f3h5 g6f7 h5f7`, le candidat peut encore jouer `a7a8q` en quiétude. Dans la fenêtre réellement explorée, `g5g6` remonte de −90 à −29. À profondeur 2, il reste sur la borne −54 chez septembre et atteint −39 chez le candidat. Il améliore donc alpha et reçoit un bonus d’historique chez le candidat. Les deux moteurs finissent pourtant ces deux itérations sur `f5f6` à −4.
-2. **Ce bonus inverse l’ordre d’examen.** À profondeur 3, après les quatre promotions immédiates en a8, septembre classe `h5h6` et `f5f6` à 1 002 devant `g5g6` à 1 000 et examine `h5h6` en premier. Chez le candidat, les trois coups valent 1 002 et `g5g6` est le premier de la liste. Pendant sa recherche, le score d’ordre de `f5f6` monte à 1 003. Il passe devant `h5h6`. Ce dernier revient en tête à profondeur 4. À profondeur 5, l’historique classe néanmoins `f5f6` devant lui, 1 013 contre 1 008, puis 1 019 contre 1 005 à profondeur 6.
-3. **La recherche réduite accepte ensuite une égalité à faible profondeur.** Aux profondeurs 5 et 6, `f5f6` pose alpha à +26. Le candidat sonde ensuite `h5h6` en recherche réduite (LMR), à profondeur enfant 3 dans les deux cas. Pour les Noirs, la fenêtre vaut [−27, −26]. La table de transposition contient déjà un score exact de −26 **à profondeur 3**, avec `g7h6` comme réponse. La sonde rend donc +26 aux Blancs en **un nœud**. La condition de reprise à pleine profondeur exige un score strictement supérieur à alpha. À égalité, le moteur garde `f5f6`.
+1. **The first difference occurs on a third move, `g5g6`.** At depth 1, after `g5g6 f3h5 g6f7 h5f7`, the candidate can still play `a7a8q` in quiescence. In the window actually searched, `g5g6` rises from −90 to −29. At depth 2 it stays at the −54 bound for September but reaches −39 for the candidate. That improves alpha and earns a history bonus in the candidate. Both engines still finish both iterations on `f5f6` at −4.
+2. **The bonus changes which move is tried first.** At depth 3, after the four immediate promotions on a8, September ranks `h5h6` and `f5f6` at 1,002 ahead of `g5g6` at 1,000 and tries `h5h6` first. In the candidate all three score 1,002 and `g5g6` appears first in the list. During its search the ordering score of `f5f6` rises to 1,003, ahead of `h5h6`. The latter returns to the lead at depth 4. At depth 5 history again favors `f5f6` by 1,013 to 1,008, then by 1,019 to 1,005 at depth 6.
+3. **The reduced search accepts a shallow tie.** At depths 5 and 6, `f5f6` sets alpha to +26. The candidate then probes `h5h6` with late move reduction (LMR) at child depth 3 both times. Black's window is [−27, −26]. The transposition table already contains an exact −26 score **at depth 3**, with `g7h6` as the reply. The probe therefore returns +26 for White in **one node**. A full-depth re-search requires a score strictly above alpha. The tie leaves `f5f6` in place.
 
-| Contrôle à pleine profondeur, avec fenêtre ouverte | Septembre, h5h6 | Candidat, h5h6 | Septembre, f5f6 | Candidat, f5f6 |
+| Full-depth, open-window control | September, h5h6 | Candidate, h5h6 | September, f5f6 | Candidate, f5f6 |
 |---|---:|---:|---:|---:|
-| Profondeur racine 5, enfant 4 | +46 | +46 | +26 | +26 |
-| Profondeur racine 6, enfant 5 | **+38** | **+38** | +26 | +26 |
+| Root depth 5, child depth 4 | +46 | +46 | +26 | +26 |
+| Root depth 6, child depth 5 | **+38** | **+38** | +26 | +26 |
 
-Chaque contrôle part d’une copie du plateau, de la table et des heuristiques juste avant l’essai réduit du coup concerné. Il garde les règles de recherche de la révision et ouvre la fenêtre à pleine profondeur **pour ce coup à la racine**. Les réductions internes continuent de s’appliquer. Le contrôle du candidat consacre 2 538 nœuds à `h5h6` en profondeur 6 et retrouve +38. Son résultat est écarté avant de poursuivre la recherche observée. Le +26 utilisé en jeu explique le choix de `f5f6` sans constituer une mesure de `h5h6` à la profondeur demandée.
+Each control starts from a copy of the board, table and heuristics taken just before the reduced search of the move in question. It uses the revision's search rules and opens the window at full depth **for that root move**. Reductions still apply inside the subtree. At depth 6 the candidate's control spends 2,538 nodes on `h5h6` and recovers +38. The control result is discarded before the observed search continues. The +26 used in play explains why the engine kept `f5f6`. It came from a shallower search of `h5h6` than the requested depth.
 
-## Rejouer les observations
+## Reproduce the observations
 
-Depuis la racine du dépôt, avec Go 1.26 et les deux révisions disponibles localement, ces commandes appliquent la [sonde hors ligne](diagnostic.patch) uniquement aux copies temporaires. Les tables sont neuves pour chaque position, avec 65 536 entrées pour Game17 et 1 048 576 pour 0JLoe. L’empreinte SHA-256 porte sur les clés Zobrist, compteurs de demi-coups, niveaux, profondeurs et fenêtres de chaque entrée dans la recherche principale. Les recherches de contrôle ont leur propre compteur et leur propre empreinte.
+From the repository root, with Go 1.26 and both revisions available locally, these commands apply the [offline probe](diagnostic.patch) only to temporary copies. Each position starts with a fresh table: 65,536 entries for Game17 and 1,048,576 for 0JLoe. The SHA-256 fingerprint covers the Zobrist keys, halfmove counters, plies, depths and windows at every main-search entry. Control searches have their own counter and fingerprint.
 
 ```sh
 set -eu
