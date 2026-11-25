@@ -1,6 +1,6 @@
 # Première participation de MarsGopherChess à un tournoi de moteurs
 
-Pistes vérifiées le 24 novembre 2026 pour la base publique `baseline-2200`. Présenter le moteur comme **MarsGopherChess — Julien Richard**. Le moteur annonce `id name MarsGopherChess` et joue avec la recherche de la base 2200+. Le nom associe Marseille et le gopher de Go. Au 24 novembre, le nom exact était absent des listes de moteurs CCRL et ChessCache consultées. [Source du moteur proposé](https://github.com/jrichard8/EquinoxChess/tree/af8582a) · [Liste CCRL](https://computerchess.org/rating_list_all.html) · [ChessCache](https://www.chesscache.com/ChessEngines.html)
+Pistes vérifiées le 24 novembre 2026 pour la base publique `baseline-2200`. Présenter le moteur comme **MarsGopherChess — Julien Richard**. Le moteur annonce `id name MarsGopherChess` et joue avec la recherche de la base 2200+. Le nom associe Marseille et le gopher de Go. Au 24 novembre, le nom exact était absent des listes de moteurs CCRL et ChessCache consultées. [Source du moteur proposé](https://github.com/jrichard8/MarsGopherChess/tree/a4a46cf) · [Liste CCRL](https://computerchess.org/rating_list_all.html) · [ChessCache](https://www.chesscache.com/ChessEngines.html)
 
 ## Jouer depuis le Mac au blitz de Nightmare Chess
 
@@ -14,7 +14,7 @@ Brouillon pour demander le compte et la date, en anglais :
 >
 > I develop MarsGopherChess, an open-source UCI chess engine written in Go. I would like to enter it in your next monthly engine blitz. Could you create an engine account for me and confirm the date, check-in time and how to join the tournament after logging in? I plan to run the engine on an Apple Silicon Mac using icsdrone-rs.
 >
-> [MarsGopherChess source code](https://github.com/jrichard8/EquinoxChess)
+> [MarsGopherChess source code](https://github.com/jrichard8/MarsGopherChess)
 >
 > Thank you,
 >
@@ -33,11 +33,11 @@ cd .cache/tournois/nightmare-macos
 
 Graham Banks a accepté en octobre une candidature présentée avec un lien de version. On peut lui proposer MarsGopherChess pour une division adaptée à `gbanksnz@gmail.com`, avec le nom de l’auteur, les sources, le binaire Windows x64 et les conditions des matchs locaux. L’organisateur choisit les participants. Une participation ou une cote CCRL restent à obtenir. [Échange avec Graham Banks](https://talkchess.com/forum/viewtopic.php?p=998196)
 
-L’archive locale `.cache/tournois/MarsGopherChess-windows-x64.zip` contient l’exécutable, sa fiche, la licence MIT et les empreintes SHA-256. Le binaire a été compilé depuis `af8582a`, vérifié au format Windows PE x86-64 et contrôlé après compression. Son exécution sous Windows reste à tester. Le code n’exige ni bibliothèque d’ouvertures, ni table de finales, ni réseau neuronal. Pour reconstruire l’exécutable depuis un checkout propre de cette révision avec Go 1.26.2 :
+L’archive locale `.cache/tournois/MarsGopherChess-windows-x64.zip` contient l’exécutable, sa fiche, la licence MIT et les empreintes SHA-256. Le binaire archivé correspond aux sources de `a4a46cf`. Son format Windows PE x86-64 et son empreinte après compression ont été vérifiés. Son exécution sous Windows reste à tester. Le code n’exige ni bibliothèque d’ouvertures, ni table de finales, ni réseau neuronal. Pour reconstruire l’exécutable depuis un checkout propre de cette révision avec Go 1.26.2 :
 
 ```sh
 CGO_ENABLED=0 GOOS=windows GOARCH=amd64 GOAMD64=v1 \
   go build -trimpath -buildvcs=true -o /tmp/MarsGopherChess.exe ./cmd/uci
 ```
 
-SHA-256 du binaire Windows : `69331aaab9d6cfd435057bbf7638730bb80b12747c6394e085d381e817f93bb6`.
+SHA-256 de la reconstruction à `a4a46cf` : `ebb2805c850b465ffa0c37fd80a16a4dac221beb21ff51630d37bb1cfcebe745`. SHA-256 de l’exécutable dans l’archive préparée avant la réécriture : `69331aaab9d6cfd435057bbf7638730bb80b12747c6394e085d381e817f93bb6`.

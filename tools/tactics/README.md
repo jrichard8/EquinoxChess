@@ -4,7 +4,7 @@ Le lot contient une décision par partie et par ouverture. Le fichier à conserv
 
 ## Référence de septembre à profondeur 6
 
-Le lot a été figé dans le commit `850def5`. Le binaire UCI provient d’un clone propre de `819a8d5` (Go 1.26.2, macOS arm64). Une régénération complète a reproduit à l’octet près le PGN des 128 parties et le fichier des 32 positions. Pour les 32 positions, les deux recherches concordent sur le coup, le score, la profondeur et les nœuds. [Rapport par position et empreintes](v1/septembre.json)
+Le lot a été figé dans le commit `769eb3f`. Le binaire UCI historique a été compilé avec Go 1.26.2 sur macOS arm64. Ses sources se trouvent aujourd’hui à `f6871de`. Une régénération complète a reproduit à l’octet près le PGN des 128 parties et le fichier des 32 positions. Pour les 32 positions, les deux recherches concordent sur le coup, le score, la profondeur et les nœuds. [Rapport par position et empreintes](v1/septembre.json)
 
 | Groupe | Coup de référence trouvé | Évaluation Equinox ≤ −300 cp | Nœuds sur un passage |
 |---|---:|---:|---:|
@@ -37,8 +37,8 @@ Depuis la racine du dépôt, avec Go et l’environnement Python de [l’analyse
 
 ```sh
 essai=$(mktemp -d)
-git clone --quiet . "$essai/reference"
-git -C "$essai/reference" checkout --quiet --detach 819a8d5b12995e2daf68d374d8e667ec06c33fcf
+git clone --quiet "$(git remote get-url origin)" "$essai/reference"
+git -C "$essai/reference" checkout --quiet --detach f6871deb67e1f8b8a9783b619010ca2551b8983b
 (cd "$essai/reference" && go build -trimpath -buildvcs=true -o "$essai/equinox" ./cmd/uci)
 python3 tools/tactics/measure.py "$essai/equinox" "$essai/septembre.json"
 ```

@@ -3,11 +3,15 @@ import argparse
 import json
 import multiprocessing
 from pathlib import Path
+import sys
 
 import chess
 import chess.engine
 
 from analyze_losses import VERIFY, decision, digest
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from replay_binaries import matches_recorded_binary
 
 
 def batch(job):
@@ -46,7 +50,8 @@ def main():
     if args.output.exists() or args.workers < 1:
         parser.error("choose a new output path and a positive worker count")
     losses = json.loads(args.losses.read_text())
-    if (digest(args.binary) != "1df5969e78f2ee42a7f980fb4b5043426dd928f527847e7af9cbe763bb8364ab"
+    archived_engine = "1df5969e78f2ee42a7f980fb4b5043426dd928f527847e7af9cbe763bb8364ab"
+    if (not matches_recorded_binary(digest(args.binary), archived_engine)
             or digest(args.arbiter) != losses["arbiter_sha256"]):
         raise ValueError("Unexpected engine or arbiter")
     points = {(r["round"], r["color"]): r["turning_point"] for r in losses["losses"] if r["turning_point"]}

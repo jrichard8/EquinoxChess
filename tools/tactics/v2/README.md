@@ -11,7 +11,7 @@ Cette suite mesure le choix du **premier coup** sur 32 problèmes provenant de 3
 
 ## Référence de septembre · 23 novembre 2026
 
-Le commit `1b97ed9` a été publié sur `origin/main` avant la première mesure du lot. Le binaire de `819a8d5` est identique à celui de la mesure v1 (SHA-256 `46caaa986c5e4ab0610790b012cad658c6578d6f3bf187fe29222111c1b0642b`). Les 32 problèmes ont des cotes Lichess de 2 048 à 2 747, de médiane 2 345. La reconstruction depuis le réservoir a reproduit le fichier des références à l’octet près.
+Le lot a été publié sur `origin/main` avant sa première mesure. Sa révision dans l’historique actuel est `259ec7e`. Les deux mesures historiques v1 et v2 ont utilisé le même exécutable (sources actuelles à `f6871de`, SHA-256 `46caaa986c5e4ab0610790b012cad658c6578d6f3bf187fe29222111c1b0642b`). Les 32 problèmes ont des cotes Lichess de 2 048 à 2 747, de médiane 2 345. La reconstruction depuis le réservoir a reproduit le fichier des références à l’octet près.
 
 | Trait | Premier coup de référence trouvé | Nœuds sur un passage |
 |---|---:|---:|

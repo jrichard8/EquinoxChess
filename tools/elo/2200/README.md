@@ -1,6 +1,6 @@
 # Référence 1850+ contre Stockfish 2200
 
-Le tag `baseline-1850` pointe sur `536e375`, avec le code de jeu de `e5daafe`. La mesure emploie l’exécutable qualifié contre SF1850, SHA-256 `1df5969e78f2ee42a7f980fb4b5043426dd928f527847e7af9cbe763bb8364ab`. Septembre reste disponible à `819a8d5` pour les comparaisons historiques. [Qualification 1850+](../1850/README.md)
+Le tag `baseline-1850` pointe sur `0839ea3`, avec le code de jeu de `91aeb4e`. La mesure emploie l’exécutable qualifié contre SF1850, SHA-256 `1df5969e78f2ee42a7f980fb4b5043426dd928f527847e7af9cbe763bb8364ab`. Septembre reste disponible à `f6871de` pour les comparaisons historiques. [Qualification 1850+](../1850/README.md)
 
 La boucle suivante aboutit à la qualification de `baseline-2200`. [Essais, défaites et match indépendant](loop/README.md#confirmation-du-palier-2200)
 
@@ -15,7 +15,7 @@ La boucle suivante aboutit à la qualification de `baseline-2200`. [Essais, déf
 
 Les 192 paires sont complètes. Equinox gagne ses deux parties sur 46 ouvertures et perd les deux sur 46 autres. Un forfait au temps de Stockfish est inclus (paire 99). Retirer toute cette paire donne 51,44 %. Equinox termine sans incident. [PGN](../../../matches/elo2200/baseline-sf2200.pgn) · [Manifeste](../../../matches/elo2200/baseline-sf2200.pgn.meta.json)
 
-Le lot a été figé dans `4496f4b`. Son empreinte SHA-256 est `09a333e7b3ed17533558dde6f4a804180d9a1e22c083c717763adac80327435e`. Aucune des 192 positions d’ouverture ne figure parmi les 178 552 positions distinctes des anciens PGN audités, dans les lots tactiques v1/v2 ou dans les suites EPD précédentes. Les positions de départ du PGN ont été comparées à l’EPD pour chaque paire. Cutechess repart au coup 1 et remet les compteurs à zéro. Pour 78 ouvertures, le compteur des 50 coups diffère donc de celui du fichier EPD. Les deux couleurs et tous les diagnostics utilisent les compteurs effectivement joués.
+Le lot a été figé dans `6632daa`. Son empreinte SHA-256 est `09a333e7b3ed17533558dde6f4a804180d9a1e22c083c717763adac80327435e`. Aucune des 192 positions d’ouverture ne figure parmi les 178 552 positions distinctes des anciens PGN audités, dans les lots tactiques v1/v2 ou dans les suites EPD précédentes. Les positions de départ du PGN ont été comparées à l’EPD pour chaque paire. Cutechess repart au coup 1 et remet les compteurs à zéro. Pour 78 ouvertures, le compteur des 50 coups diffère donc de celui du fichier EPD. Les deux couleurs et tous les diagnostics utilisent les compteurs effectivement joués.
 
 ## Où les 171 défaites basculent
 
@@ -44,11 +44,11 @@ Cet essai a ensuite été joué contre `baseline-1850` à `1+0,1`, avec ouvertur
 
 ## Protocole fixé avant la première partie
 
-- **192 nouvelles ouvertures**, huit demi-coups depuis la position initiale, deux couleurs par ouverture, 384 parties sans arrêt anticipé. Le générateur de 1850 conserve sa distribution et utilise une nouvelle graine, `220020261124`. Il écarte les positions des anciennes suites EPD et de tous les PGN de matchs du projet à `536e375`, ainsi que du PGN source de v1. La comparaison conserve trait, roques et prise en passant légale et ignore les compteurs. Des positions distinctes peuvent appartenir à la même famille d’ouverture.
+- **192 nouvelles ouvertures**, huit demi-coups depuis la position initiale, deux couleurs par ouverture, 384 parties sans arrêt anticipé. Le générateur de 1850 conserve sa distribution et utilise une nouvelle graine, `220020261124`. Il écarte les positions des anciennes suites EPD et de tous les PGN de matchs du projet à `0839ea3`, ainsi que du PGN source de v1. La comparaison conserve trait, roques et prise en passant légale et ignore les compteurs. Des positions distinctes peuvent appartenir à la même famille d’ouverture.
 - **1 s + 0,1 s par coup**, six parties simultanées sur Apple M4 Pro, Stockfish 18 limité par UCI à 2200, un thread et 16 Mio de table. Le PGN et son manifeste sont produits par `cmd/elo_match`. Lire l’intervalle bilatéral de Hoeffding à 95 % par paire. Le jalon 2200 demande une borne basse du score supérieure à 50 %.
 - **Analyse des défaites** avec Stockfish à pleine force, un thread, budgets en nœuds. Pour chaque défaite, rechercher le premier coup d’Equinox qui fait passer une position encore défendable (meilleur coup ≥ −100 cp) à une position nettement inférieure (coup joué ≤ −200 cp), avec une perte d’au moins 150 cp. Vérifier le meilleur coup et le coup joué depuis la même position à budget accru. Conserver les défaites sans bascule confirmée et les résultats par couleur. Chercher ensuite un mécanisme de recherche vérifiable dans les positions confirmées.
 
-Pour régénérer le lot, utiliser le Stockfish du manifeste et les entrées du tag de référence, avec le générateur de ce dossier parent. La liste des PGN ci-dessous est celle du dépôt à `536e375`.
+Pour régénérer le lot, utiliser le Stockfish du manifeste et les entrées du tag de référence, avec le générateur de ce dossier parent. La liste des PGN ci-dessous est celle du dépôt à `0839ea3`.
 
 ```sh
 python3 tools/elo/1850/build_holdout.py /chemin/stockfish /tmp/2200.epd \
@@ -73,15 +73,17 @@ Les deux contre-épreuves s’exécutent uniquement dans une copie du moteur. St
 
 ### Reproduction
 
-Le PGN et son manifeste occupent `matches/elo2200/`. Utiliser le même Stockfish que dans le manifeste et un exécutable UCI portant l’empreinte de la base. Les fichiers JSON servent à retrouver chaque décision par numéro de paire et couleur d’Equinox.
+Le PGN et son manifeste occupent `matches/elo2200/`. Utiliser le Stockfish du manifeste. L’arbitrage accepte la base 1850 d’origine et sa reconstruction vérifiée avec Go 1.26.2 sur macOS arm64. Les fichiers JSON servent à retrouver chaque décision par numéro de paire et couleur d’Equinox.
 
 ```sh
 set -eu
 diag=$(mktemp -d)
 repo="$PWD"
 sf=$(command -v stockfish)
-uci="$repo/equinoxchess-uci"
-cd "$repo"
+uci="$diag/Base1850"
+git clone --quiet "$(git remote get-url origin)" "$diag/moteur"
+git -C "$diag/moteur" checkout --quiet --detach 91aeb4e
+(cd "$diag/moteur" && go build -trimpath -buildvcs=true -o "$uci" ./cmd/uci)
 python3 tools/elo/2200/analyze_losses.py matches/elo2200/baseline-sf2200.pgn "$sf" "$diag/screen.json"
 python3 tools/elo/2200/analyze_losses.py matches/elo2200/baseline-sf2200.pgn "$sf" "$diag/losses.json" \
   --exhaustive-misses "$diag/screen.json"

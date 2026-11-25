@@ -19,7 +19,7 @@ Le seuil de travail est un score supérieur à 50 % contre Stockfish 18 réglé 
 
 Dans le duel contre septembre, la profondeur médiane du premier coup hors ouverture passe de 4 à 7. Le candidat termine une itération plus profonde sur **64 ouvertures sur 64** à ce premier coup avec les Blancs. Face à SF1850 sur le lot réservé, il marque 139 victoires, 6 nulles et 47 défaites avec les Blancs, et 138 victoires, 9 nulles et 45 défaites avec les Noirs.
 
-Les PGN et leurs manifestes contiennent les ouvertures, les noms, les résultats, la cadence et les empreintes vérifiées. Les révisions moteur sont `819a8d5` (septembre), `8a1a440` (mobilité seule, chronométrée), `4ac0eea` (évaluation accélérée) et `e5daafe` (candidat complet). Le commit `45f257e` adapte les compteurs de nœuds attendus par les tests du traceur et ajoute un test du tri des captures. Les assertions sur les coups, scores, profondeurs, chemins et non-interférence du traceur passent. [Parties et manifestes](../../../matches/elo1850/) · [PGN de confirmation à 1850](../../../matches/elo1850/capt-sf1850-holdout.pgn)
+Les PGN et leurs manifestes contiennent les ouvertures, les noms, les résultats, la cadence et les empreintes vérifiées. Les révisions moteur sont `f6871de` (septembre), `c9ff718` (mobilité seule, chronométrée), `6b24f99` (évaluation accélérée) et `91aeb4e` (candidat complet). Le commit `2c43fdf` adapte les compteurs de nœuds attendus par les tests du traceur et ajoute un test du tri des captures. Les assertions sur les coups, scores, profondeurs, chemins et non-interférence du traceur passent. [Parties et manifestes](../../../matches/elo1850/) · [PGN de confirmation à 1850](../../../matches/elo1850/capt-sf1850-holdout.pgn)
 
 Les huit matchs totalisent 1 408 parties, sans forfait au temps, coup illégal, déconnexion ni plantage. Les matchs ont été joués sur un Apple M4 Pro, six parties simultanées pour les matchs principaux, trois pour le premier duel entre candidats et le repère 2200, avec un maximum de neuf simultanées entre les matchs. Le moteur Equinox cherche sur un thread. Chaque Stockfish utilise un thread et 16 Mio de table. Les intervalles sont ceux du calcul par paire du projet. La borne supérieure peut être infinie quand la borne de score atteint 100 %.
 
@@ -33,7 +33,7 @@ Le duel du tri des prises contre la version déjà accélérée donne 66,41 % su
 
 ## Origine des ouvertures
 
-La suite a été figée dans `b971f8c` avant sa première partie avec Equinox. Le générateur part de la position initiale, joue huit demi-coups et choisit parmi cinq variantes de Stockfish à 3 000 nœuds restant à 60 cp du meilleur coup. Une vérification à 16 000 nœuds garde les positions entre −60 et +60 cp. La graine est 18502200. Le générateur rejette les positions finales déjà présentes dans la suite précédente ou dans ce lot, en ignorant les deux compteurs FEN. Plusieurs lignes peuvent appartenir à la même famille d’ouvertures.
+La suite a été figée dans `b2c150f` avant sa première partie avec Equinox. Le générateur part de la position initiale, joue huit demi-coups et choisit parmi cinq variantes de Stockfish à 3 000 nœuds restant à 60 cp du meilleur coup. Une vérification à 16 000 nœuds garde les positions entre −60 et +60 cp. La graine est 18502200. Le générateur rejette les positions finales déjà présentes dans la suite précédente ou dans ce lot, en ignorant les deux compteurs FEN. Plusieurs lignes peuvent appartenir à la même famille d’ouvertures.
 
 Stockfish utilise un thread et 16 Mio de table. L’empreinte SHA-256 du fichier EPD est `590061cbd1ff2801ffac0e97e872835d13afc2a02119e9b9398e81284f6bcfac`. [Générateur](build_holdout.py) · [Ouvertures](holdout.epd)
 
@@ -52,7 +52,7 @@ Sur un sous-échantillon systématique de 12 positions de v1/v2, la médiane de 
 
 ## Rejouer un match
 
-Construire chaque exécutable depuis la révision indiquée dans un clone propre avec `go build -trimpath -buildvcs=true -o /chemin/choisi ./cmd/uci`. Pour septembre, le binaire de match a été recompilé depuis `819a8d5` avec `-buildvcs=false` et vérifié à l’octet près. Son SHA-256 est `e84d7f9af0e2ae4912fb1f26b2cf9152e76361cf385adf8dbe976afb89d99830`. La version avec empreinte Git intégrée reproduit le binaire des lots tactiques de septembre.
+Construire chaque exécutable depuis la révision indiquée dans un clone propre avec `go build -trimpath -buildvcs=true -o /chemin/choisi ./cmd/uci`. Pour septembre, le binaire de match a été recompilé depuis `f6871de` avec `-buildvcs=false` et vérifié à l’octet près. Son SHA-256 est `e84d7f9af0e2ae4912fb1f26b2cf9152e76361cf385adf8dbe976afb89d99830`. Les lots tactiques ont utilisé une version avec empreinte Git intégrée. Leurs rapports conservent le SHA-256 de cet exécutable historique.
 
 Depuis la racine du dépôt, cette commande relance la confirmation avec deux exécutables déjà construits. Choisir un nouveau chemin pour le PGN. Le lanceur vérifie les empreintes des binaires et des ouvertures et la structure des paires. Les résultats d’un match chronométré peuvent varier d’une exécution à l’autre.
 

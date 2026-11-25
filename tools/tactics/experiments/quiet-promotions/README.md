@@ -4,7 +4,7 @@
 
 ## Changement isolé et vérification directe
 
-Le candidat `81fdfe3` admet en quiétude, hors échec, les quatre promotions sans prise. La génération de coups, les évasions, le stand-pat et la règle existante qui exempte les promotions de l’élagage delta sont communs aux deux moteurs. Le candidat se trouve sur la branche `codex/qsearch-quiet-promotions`.
+Le candidat `5361155` admet en quiétude, hors échec, les quatre promotions sans prise. La génération de coups, les évasions, le stand-pat et la règle existante qui exempte les promotions de l’élagage delta sont communs aux deux moteurs. Le candidat se trouve sur la branche `codex/qsearch-quiet-promotions`.
 
 | Position témoin, recherche de quiétude seule | Score septembre → candidat (cp au trait) | Nœuds |
 |---|---:|---:|
@@ -30,7 +30,7 @@ Le diagnostic des deux positions retrace les promotions noires responsables du s
 
 ## Provenance et reproduction
 
-- Les révisions UCI `819a8d5` et `81fdfe3` ont été compilées depuis des arbres propres sous Go 1.26.2, macOS arm64. Les empreintes des exécutables, des entrées et les 77 paires de résultats sont conservées dans [paired.json](paired.json). Les champs `cp` et `mate` sont au point de vue du camp au trait.
-- Pour v1 et v2, utiliser [measure.py](../../measure.py) avec chaque binaire et les deux fichiers `positions.json` figés. Deux processus UCI neufs par position doivent rendre le même coup, le même score, la même profondeur et le même nombre de nœuds. Les deux rapports de septembre ont reproduit à l’octet près les rapports versionnés. La table UCI compte 1 048 576 entrées.
+- Les sources des deux binaires historiques correspondent aujourd’hui à `f6871de` et `5361155`. Les compilations ont utilisé des arbres propres sous Go 1.26.2, macOS arm64. Les empreintes des exécutables, des entrées et les 77 paires de résultats sont conservées dans [paired.json](paired.json). Les champs `cp` et `mate` sont au point de vue du camp au trait.
+- Pour v1 et v2, utiliser [measure.py](../../measure.py) avec chaque binaire et les deux fichiers `positions.json` figés. Deux processus UCI neufs par position doivent rendre le même coup, le même score, la même profondeur et le même nombre de nœuds. Avec les binaires reconstruits, comparer les résultats par position. Les rapports versionnés contiennent les métadonnées Git des binaires historiques. La table UCI compte 1 048 576 entrées.
 - Pour run6, reconstruire le [CSV tactique de septembre](../../../kingzone/README.md) depuis le PGN (SHA-256 du CSV complet `7fa89590629317332ad5ebdaf032e38448f74fd9e4946f5c104e380b9348fce7`). Garder les 13 lignes dont `canary_name` est renseigné. Utiliser chaque [traceur](../../../../cmd/search_trace/README.md) compilé avec `-tags searchtrace`, en mode observationnel, avec `-depths 6 -tt-size 65536 -expected-primary 0`. Chaque résultat tracé a été confronté à une recherche fraîche sans trace. Les nœuds du tableau comptent un seul passage principal par position. La reconnaissance de perte inclut les scores ≤ −300 cp et les mats subis.
 - La suite Go standard et `go vet -tags searchtrace ./...` passent sur le candidat. Dans la suite avec `-tags searchtrace`, trois tests historiques échouent sur leurs comptes de nœuds figés (`TestSearchTraceBridgeLocatesNestedLMRTTCutoff`, `TestSearchTraceD5BranchAblationsStayOnExactPath` et `TestSearchTraceD5ReducedFullShadowIsDeterministicAndNonInterfering`). Ces trois tests repassent sur septembre. Leurs valeurs attendues ont été conservées.

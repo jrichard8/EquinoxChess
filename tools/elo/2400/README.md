@@ -12,11 +12,11 @@
 
 Les 1 024 parties prévues ont été jouées. Face à SF2400, sur 192 ouvertures, le candidat marque davantage que la base sur 71 paires, autant sur 67 et moins sur 54, soit 24,5 points de partie supplémentaires sur 384. Chaque match contre SF2400 contient un forfait au temps de Stockfish. En retirant la paire concernée de chaque match, les scores sont de 38,35 % et 45,03 %. Le duel direct se termine sans incident. Huit parties tournaient en parallèle sur le M4 Pro. Des profils et des analyses hors ligne ont aussi utilisé cette machine. [Duel direct](../../../matches/elo2400/quiet-base.pgn) · [Audit du duel](direct-audit.json) · [Candidat contre SF2400](../../../matches/elo2400/quiet-sf2400.pgn) · [Manifeste](../../../matches/elo2400/quiet-sf2400.pgn.meta.json) · [Audit du candidat](candidate-audit.json)
 
-Le moteur des parties est le commit `ff3ca1c`, compilé avec le tag `quietverify`. La branche `codex/2400-quiet-defense` conserve le candidat, le test de la règle et le traceur de défenses. Les tests Go du candidat et les contrôles des traces courantes et historiques passent. Le duel suivant a testé la fenêtre élargie seule. [Résultats des deux matchs](window/README.md) Dans les défaites à 2400, la revérification supplémentaire coûte 1,69 million de nœuds et fait davantage régresser que sauver de positions aux deux budgets d’arbitrage.
+Le moteur des parties est le commit `04efa19`, compilé avec le tag `quietverify`. La branche `codex/2400-quiet-defense` conserve le candidat, le test de la règle et le traceur de défenses. Les tests Go du candidat et les contrôles des traces courantes et historiques passent. Le duel suivant a testé la fenêtre élargie seule. [Résultats des deux matchs](window/README.md) Dans les défaites à 2400, la revérification supplémentaire coûte 1,69 million de nœuds et fait davantage régresser que sauver de positions aux deux budgets d’arbitrage.
 
 ## Protocole fixé avant les parties
 
-La base est le moteur qualifié `baseline-2200`, binaire de match du commit `13800c8` (SHA-256 `bae8740966bc6cc3b4bcf3b708a3f1f06b63a1a48667274b43d58807e84f1a95`). Le nouveau lot compte 192 ouvertures, graine 240020261124, avec les mêmes critères d’équilibre que les lots précédents. Le générateur exclut les EPD et les positions des PGN archivés. Un deuxième contrôle vérifie aussi les positions tactiques v1 et v2 contre l’archive `ddc5924`.
+La base est le moteur qualifié `baseline-2200`, sources à `a43a8a3` (SHA-256 du binaire historique de match `bae8740966bc6cc3b4bcf3b708a3f1f06b63a1a48667274b43d58807e84f1a95`). Le nouveau lot compte 192 ouvertures, graine 240020261124, avec les mêmes critères d’équilibre que les lots précédents. Le générateur exclut les EPD et les positions des PGN archivés. Un deuxième contrôle vérifie aussi les positions tactiques v1 et v2 contre l’archive `023a467`.
 
 1. Figer le lot dans Git. Le jouer intégralement, dans les deux couleurs, contre Stockfish 18 avec UCI_Elo=2400, limitation activée, un thread et 16 Mio de table. Cadence 1 s + 0,1 s par coup. Calculer l’intervalle bilatéral de Hoeffding à 95 % par paire, sans arrêt anticipé.
 2. Tester un seul candidat qui vérifie à profondeur normale une défense calme écartée par la réduction des coups tardifs à la racine. Dès D5, utiliser une fenêtre réduite élargie de 80 cp pour classer les coups calmes rejetés. Après les autres coups, revérifier au plus un candidat par passage racine, à condition qu’il reste à moins de 80 cp du meilleur score. Exclure prises, promotions et coups donnant échec.
@@ -45,9 +45,9 @@ Sur les 123 défenses calmes historiques rejouées à froid, le choix change sur
 
 Sur les 123 dernières itérations, le candidat déclenche la revérification dans 100 positions et choisit la défense de référence comme coup à revérifier dans 13 positions. La défense de référence reste exclusivement cherchée à profondeur réduite dans 73 positions. Le traceur reproduit le choix et les nœuds du binaire UCI pour chaque position. [Traces par position](trace-2200.json)
 
-Pour isoler l’effet de la fenêtre élargie et celui de la revérification, un contrôle ajouté après le premier rejeu supprime uniquement le passage supplémentaire en fin de racine. Il ne participe à aucun match. Sur ces 123 positions, la fenêtre seule coûte 3 136 341 nœuds supplémentaires. Rétablir la revérification en ajoute encore 2 524 327, change 11 décisions et produit 3 sauvetages pour 3 régressions par rapport à la fenêtre seule. Ces nombres incluent les effets d’une itération sur les suivantes. [Modification sur ff3ca1c](ranking-only.patch) · [Rejeu sans vérification finale](ranking-2200.json) · [Calcul apparié](compare_replays.py)
+Pour isoler l’effet de la fenêtre élargie et celui de la revérification, un contrôle ajouté après le premier rejeu supprime uniquement le passage supplémentaire en fin de racine. Il ne participe à aucun match. Sur ces 123 positions, la fenêtre seule coûte 3 136 341 nœuds supplémentaires. Rétablir la revérification en ajoute encore 2 524 327, change 11 décisions et produit 3 sauvetages pour 3 régressions par rapport à la fenêtre seule. Ces nombres incluent les effets d’une itération sur les suivantes. [Modification sur 04efa19](ranking-only.patch) · [Rejeu sans vérification finale](ranking-2200.json) · [Calcul apparié](compare_replays.py)
 
-Pour reproduire le contrôle, appliquer le patch dans une copie propre de `ff3ca1c` et reconstruire l’UCI avec les mêmes options que `QuietVerify`. Passer à `replay_quiet.py` le rapport de défaites, le binaire de la base, celui à tester, Stockfish et un nouveau fichier de sortie. Puis comparer avec `python3 tools/elo/2400/compare_replays.py tools/elo/2400/quiet-2200.json tools/elo/2400/ranking-2200.json`. La commande `cmd/quiet_trace` de la branche de recherche se compile avec les tags `searchtrace quietverify` et prend le rapport de défaites puis le rejeu complet.
+Pour reproduire le contrôle, appliquer le patch dans une copie propre de `04efa19` et reconstruire l’UCI avec les mêmes options que `QuietVerify`. Passer à `replay_quiet.py` le rapport de défaites, le binaire de la base, celui à tester, Stockfish et un nouveau fichier de sortie. Puis comparer avec `python3 tools/elo/2400/compare_replays.py tools/elo/2400/quiet-2200.json tools/elo/2400/ranking-2200.json`. La commande `cmd/quiet_trace` de la branche de recherche se compile avec les tags `searchtrace quietverify` et prend le rapport de défaites puis le rejeu complet.
 
 ## Défenses dans les défaites contre SF2400
 
@@ -77,17 +77,16 @@ go tool pprof -top /tmp/equinox-root.test /tmp/equinox-root.pprof
 
 ## Rejouer les matchs
 
-Depuis le dépôt, ces commandes reconstruisent les deux exécutables dans des arbres propres et écrivent les parties dans un répertoire temporaire. Git doit connaître la branche de recherche. Les PGN et leurs manifestes permettent de contrôler les empreintes avec la même chaîne de compilation. À la pendule, les résultats individuels peuvent varier.
+Depuis le dépôt, ces commandes reconstruisent les deux exécutables dans des arbres propres et écrivent les parties dans un répertoire temporaire. Les clones récupèrent les branches publiées sur GitHub. Les manifestes conservent les empreintes des binaires de match. Le [contrôle de reconstruction](../2200/loop/README.md#reconstruire-la-base-2200) donne celle de la base dans l’historique actuel. À la pendule, les résultats individuels peuvent varier.
 
 ```sh
-git fetch origin main codex/2400-quiet-defense
+remote=$(git remote get-url origin)
 lab=$(mktemp -d)
-git clone --quiet --no-local . "$lab/base"
-git -C "$lab/base" checkout --quiet 13800c8
+git clone --quiet "$remote" "$lab/base"
+git -C "$lab/base" checkout --quiet --detach a43a8a3
 (cd "$lab/base" && go build -trimpath -buildvcs=true -o "$lab/Base2200" ./cmd/uci)
-git clone --quiet --no-local . "$lab/recherche"
-git -C "$lab/recherche" fetch --quiet "$(git remote get-url origin)" codex/2400-quiet-defense
-git -C "$lab/recherche" checkout --quiet ff3ca1c
+git clone --quiet "$remote" "$lab/recherche"
+git -C "$lab/recherche" checkout --quiet --detach 04efa19
 (cd "$lab/recherche" && go build -trimpath -buildvcs=true -tags quietverify -o "$lab/QuietVerify" ./cmd/uci)
 
 jouer_sf2400() {

@@ -15,7 +15,7 @@ Le gain observé sur les défenses calmes se généralise mal au coût de recher
 
 ## Protocole du 24 novembre 2026
 
-Tester le binaire du rejeu à froid précédent, construit au commit `ff3ca1c` avec [le patch figé](../ranking-only.patch) et le tag `quietverify`. À partir de D5, la recherche réduite des coups calmes tardifs à la racine élargit sa fenêtre de 80 centipions. La boucle se termine après le dernier coup légal. La recherche normale à pleine profondeur d’un coup qui dépasse alpha reste celle de la base.
+Tester le binaire du rejeu à froid précédent, construit au commit `04efa19` avec [le patch figé](../ranking-only.patch) et le tag `quietverify`. À partir de D5, la recherche réduite des coups calmes tardifs à la racine élargit sa fenêtre de 80 centipions. La boucle se termine après le dernier coup légal. La recherche normale à pleine profondeur d’un coup qui dépasse alpha reste celle de la base.
 
 Les deux duels utilisent **les mêmes 192 ouvertures**, dans le même ordre et les deux couleurs, soit 384 parties chacun. Le premier oppose RankingOnly à la base qualifiée 2200+, le second à Stockfish 18 réglé à 2400 avec limitation activée, un thread et 16 Mio de table. Cadence 1 s + 0,1 s par coup et huit parties parallèles. Jouer les deux matchs intégralement. Le lot est celui des deux mesures SF2400 précédentes. Le duel direct antérieur du candidat avec revérification portait sur un autre lot.
 
@@ -44,9 +44,14 @@ Cinq coups changent sur les 77 positions. À 320 000 nœuds par coup forcé, sur
 
 ## Reproduction
 
-Le SHA-256 du binaire de match `RankingOnly` est `1323dd9cc0c1c8eafa0b311f53e3b69314acd91004db3648a8c5f0a7e6ff93e7`. Depuis un checkout propre de `ff3ca1c`, appliquer `git apply` au [patch](../ranking-only.patch), puis construire le moteur avec `go build -trimpath -buildvcs=true -tags quietverify -o /tmp/RankingOnly ./cmd/uci`. Le marquage Go `vcs.modified=true` correspond à ce patch. Les manifestes des matchs contiennent les arguments de cutechess et l’empreinte de chaque exécutable.
+Le manifeste de match enregistre le SHA-256 historique de `RankingOnly`, `1323dd9cc0c1c8eafa0b311f53e3b69314acd91004db3648a8c5f0a7e6ff93e7`. Avec Go 1.26.2 sur macOS arm64, la reconstruction ci-dessous donne `f2a2806e4901c28513755ade3580624ac00c3f89f0c2cd6d7bd008141adf58b3`. Le marquage Go `vcs.modified=true` correspond au [patch de la fenêtre seule](../ranking-only.patch).
+
+Depuis la racine du dépôt, exécuter d’abord les [commandes de reconstruction de Base2200](../../2200/loop/README.md#reconstruire-la-base-2200), puis dans le même shell :
 
 ```sh
-python3 tools/elo/2400/window/measure_openings.py /tmp/Base2200 /tmp/RankingOnly /tmp/opening-nodes.json
-python3 tools/elo/2400/window/grade_openings.py /tmp/opening-nodes.json "$(command -v stockfish)" /tmp/opening-grades.json
+git -C "$lab/source" worktree add --quiet --detach "$lab/ranking" 04efa19
+git -C "$lab/ranking" apply "$PWD/tools/elo/2400/ranking-only.patch"
+(cd "$lab/ranking" && go build -trimpath -buildvcs=true -tags quietverify -o "$lab/RankingOnly" ./cmd/uci)
+python3 tools/elo/2400/window/measure_openings.py "$lab/Base2200" "$lab/RankingOnly" "$lab/opening-nodes.json"
+python3 tools/elo/2400/window/grade_openings.py "$lab/opening-nodes.json" "$(command -v stockfish)" "$lab/opening-grades.json"
 ```

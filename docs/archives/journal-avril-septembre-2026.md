@@ -2,6 +2,8 @@
 
 Les entrées sont classées de la plus récente à la plus ancienne. Chaque décision et chaque prochaine étape reflètent la date de leur entrée. Pour reprendre le projet, lire le [bilan actuel](../../status.md).
 
+Les révisions citées renvoient à l’historique actuel. Les noms de fichiers temporaires et les empreintes identifient les artefacts de l’époque. [Correspondance des révisions](../revisions-git.tsv)
+
 ## Update 2026-09-09 — D5ReducedFullShadow
 
 - Le traceur passe en schema 11 et ajoute `-probe-d5-reduced-full`, une sonde
@@ -333,7 +335,7 @@ Les entrées sont classées de la plus récente à la plus ancienne. Chaque déc
 
 ## Update 2026-08-31 — TargetBridgeNoFutility
 
-- Le lot TargetReply+1 a ete fige dans le commit `7e56aff` avant cette nouvelle
+- Le lot TargetReply+1 a ete fige dans le commit `90ea1da` avant cette nouvelle
   experience. Aucun push n'a ete effectue et le stash historique reste intact.
 - Le schema `searchtrace` passe a 5 et accepte une ligne UCI exacte. Chaque
   etape apres la paire racine/reponse est tracee seulement si tout le prefixe
@@ -465,8 +467,8 @@ Les entrées sont classées de la plus récente à la plus ancienne. Chaque déc
 
 ## Update 2026-08-27
 
-- Le contrat canari separe a ete committe sous `8a66d1b` puis pousse sur
-  `origin/main`, avec le commit diagnostique precedent `0d2650b`. La baseline
+- Le contrat canari separe a ete committe sous `c0e6a69` puis pousse sur
+  `origin/main`, avec le commit diagnostique precedent `dfab943`. La baseline
   de l'experience `CheckNoLMR` est donc un HEAD propre, synchronise et marque
   `vcs.modified=false`.
 - Experience isolee : ajout temporaire d'une seule condition a l'eligibilite
@@ -531,7 +533,7 @@ Les entrées sont classées de la plus récente à la plus ancienne. Chaque déc
 ## Update 2026-08-25
 
 - Candidat causal `QueenZone20` implemente puis teste isolement depuis la
-  baseline `a26755e` : penalite de 20 cp par dame adverse distincte touchant
+  baseline `2d0a2d8` : penalite de 20 cp par dame adverse distincte touchant
   geometriquement l'anneau du roi, une fois par dame, sous le gate strict
   `nonPawnMaterial > 2000`. Aucun fou, tour, multiplicite de cases, synergie,
   cap ou changement de recherche n'a ete ajoute.
@@ -804,7 +806,7 @@ Les entrées sont classées de la plus récente à la plus ancienne. Chaque déc
 - Decision : **overhead fixe de 15 ms accepte**. Il totalise zero forfait sur
   le gate `32`, le long A/B `128` et l'externe `128`, sans perte de force
   detectee. Ne plus tester les constantes `10/20 ms`.
-- Changement fige dans le commit `182aae5 Add UCI move overhead margin`.
+- Changement fige dans le commit `8611e7a Add UCI move overhead margin`.
   Binaire propre reconstruit depuis ce commit, SHA-256
   `ae1d10278a8ec18a8fd42d7a5bd8ec5f08cc67fa74024084f215f6f5fd3bc5ba`.
 - Calibration contre Stockfish 18 limite a `1800 Elo`, `128` parties /

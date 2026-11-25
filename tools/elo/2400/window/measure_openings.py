@@ -2,11 +2,15 @@
 import argparse
 import hashlib
 import json
+import sys
 from pathlib import Path
 from statistics import median
 
 import chess
 import chess.engine
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
+from replay_binaries import matches_recorded_binary
 
 
 def digest(path):
@@ -29,7 +33,9 @@ def main():
     campaign = Path(__file__).resolve().parents[1]
     epd = campaign / "baseline.epd"
     hashes = json.loads((campaign / "ranking-2400.json").read_text())["inputs"]
-    if digest(args.base) != hashes["base"] or digest(args.candidate) != hashes["candidate"]:
+    base_sha, candidate_sha = digest(args.base), digest(args.candidate)
+    if not (matches_recorded_binary(base_sha, hashes["base"])
+            and matches_recorded_binary(candidate_sha, hashes["candidate"])):
         raise ValueError("Executables differ from the frozen cold replay")
     if digest(epd) != json.loads((campaign / "openings-audit.json").read_text())["sha256"]:
         raise ValueError("Unexpected opening suite")
@@ -46,8 +52,8 @@ def main():
                    more_nodes=sum(d > 0 for d in diffs), fewer_nodes=sum(d < 0 for d in diffs),
                    equal_nodes=diffs.count(0), median_node_difference=median(diffs),
                    total_nodes={k: sum(r[k]["nodes"] for r in rows) for k in ("base", "candidate")})
-    report = dict(depth=depth, openings_sha256=digest(epd), base_sha256=hashes["base"],
-                  candidate_sha256=hashes["candidate"], summary=summary, cases=rows)
+    report = dict(depth=depth, openings_sha256=digest(epd), base_sha256=base_sha,
+                  candidate_sha256=candidate_sha, summary=summary, cases=rows)
     with args.output.open("x") as stream:
         json.dump(report, stream, indent=2)
         stream.write("\n")

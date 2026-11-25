@@ -12,13 +12,13 @@ Sur 192 nouvelles ouvertures à couleurs inversées, la base 2200+ marque **38,6
 
 Le 24 novembre, `baseline-2200` franchit le critère fixé contre Stockfish 18 limité à 2200 à 1 s + 0,1 s par coup. **430 victoires, 64 nulles et 274 défaites** sur 384 ouvertures jouées dans les deux couleurs, soit 60,16 % [53,23 % à 67,09 %]. L’écart local est de +71,6 Elo [+22,4 à +123,7]. Les ouvertures ont été figées avant les essais. Aucun incident de jeu. [Rapport, PGN et manifeste](tools/elo/2200/loop/README.md#confirmation-du-palier-2200)
 
-Le moteur sélectionné (`13800c8`) accélère la détection des positions non terminales, adapte l’horloge aux itérations complètes et privilégie le coup de table sous la racine. Le duel contre `baseline-1850` donne 69,01 % sur 384 parties. À D6, les 77 positions tactiques coûtent 19,9 % de nœuds en moins avec les mêmes 32 solutions v1, 13 solutions v2 et 10 fautes historiques évitées sur le run6. Game25 montre la limite du dernier indicateur : le nouveau coup de roi y perd l’avantage. La variante d’attaque coordonnée récupère Game25 mais marque 48,83 % en duel direct sur 128 parties. Elle reste expérimentale. [Détails par position et essais écartés](tools/elo/2200/loop/README.md)
+Le moteur sélectionné (`a43a8a3`) accélère la détection des positions non terminales, adapte l’horloge aux itérations complètes et privilégie le coup de table sous la racine. Le duel contre `baseline-1850` donne 69,01 % sur 384 parties. À D6, les 77 positions tactiques coûtent 19,9 % de nœuds en moins avec les mêmes 32 solutions v1, 13 solutions v2 et 10 fautes historiques évitées sur le run6. Game25 montre la limite du dernier indicateur : le nouveau coup de roi y perd l’avantage. La variante d’attaque coordonnée récupère Game25 mais marque 48,83 % en duel direct sur 128 parties. Elle reste expérimentale. [Détails par position et essais écartés](tools/elo/2200/loop/README.md)
 
 Sur les 274 défaites de confirmation, 153 présentent une bascule vérifiée et 123 de ces défenses exigent un coup calme. Sur 12 cas de cette famille, un demi-coup de plus récupère deux défenses pour 4,38 fois plus de nœuds. Ces observations ont motivé le premier essai à 2400 sur la vérification d’un coup calme réduit à la racine. [Analyse des défaites](tools/elo/2200/loop/README.md#où-les-274-défaites-basculent)
 
 ## Qualification antérieure du moteur 1850+
 
-Le candidat `e5daafe` part de septembre (`819a8d5`), accélère le calcul de mobilité et l’évaluation, puis trie les prises en quiétude. Sur les 64 ouvertures du projet à couleurs inversées, il marque 92,19 % contre septembre. Sur 192 ouvertures supplémentaires figées avant le match, il marque 74,09 % contre Stockfish 18 réglé à 1850, à 1 seconde + 0,1 seconde par coup. L’écart local est estimé à +182,5 Elo, avec un intervalle bilatéral à 95 % de +102,1 à +286,6. Face au réglage 2200, le score est de 56,25 % sur 128 parties, avec un intervalle compatible avec une force inférieure ou supérieure. La base 1850 a ensuite obtenu 51,43 % sur 192 paires indépendantes contre ce réglage. [Protocole, résultats et PGN](tools/elo/1850/README.md)
+Le candidat `91aeb4e` part de septembre (`f6871de`), accélère le calcul de mobilité et l’évaluation, puis trie les prises en quiétude. Sur les 64 ouvertures du projet à couleurs inversées, il marque 92,19 % contre septembre. Sur 192 ouvertures supplémentaires figées avant le match, il marque 74,09 % contre Stockfish 18 réglé à 1850, à 1 seconde + 0,1 seconde par coup. L’écart local est estimé à +182,5 Elo, avec un intervalle bilatéral à 95 % de +102,1 à +286,6. Face au réglage 2200, le score est de 56,25 % sur 128 parties, avec un intervalle compatible avec une force inférieure ou supérieure. La base 1850 a ensuite obtenu 51,43 % sur 192 paires indépendantes contre ce réglage. [Protocole, résultats et PGN](tools/elo/1850/README.md)
 
 ## Référence de septembre
 
@@ -28,9 +28,9 @@ Le moteur est jouable en UCI et dans le navigateur. Le progrès le mieux établi
 
 | Référence | Ce qu’elle contient |
 |---|---|
-| `182aae5`, 5 août | Révision du moteur reconstruite pour la calibration contre Stockfish 18 limité à 1800. Marge de 15 ms sur l’allocation avec incrément. |
-| `7e56aff`, 31 août | Point de départ des expériences de septembre. Inclut l’analyse hors ligne et le diagnostic ciblé des réponses adverses. |
-| **`819a8d5`**, figé le 23 novembre | Référence de septembre pour reprendre le développement. Ce commit réunit le traceur de schéma 11, ses tests, son mode d’emploi et le journal des expériences. Les vérifications ci-dessous portent sur cette version du code. |
+| `8611e7a`, 5 août | Révision du moteur reconstruite pour la calibration contre Stockfish 18 limité à 1800. Marge de 15 ms sur l’allocation avec incrément. |
+| `90ea1da`, 31 août | Point de départ des expériences de septembre. Inclut l’analyse hors ligne et le diagnostic ciblé des réponses adverses. |
+| **`f6871de`**, figé le 23 novembre | Référence de septembre pour reprendre le développement. Ce commit réunit le traceur de schéma 11, ses tests, son mode d’emploi et le journal des expériences. Les vérifications ci-dessous portent sur cette version du code. |
 | Stash local `786d539` | Ancien essai combinant plusieurs termes de pression autour du roi. Les expériences ultérieures sur le cavalier et la dame sont consignées séparément. |
 
 ## Activité et décisions
@@ -61,11 +61,11 @@ Le rejeu du PGN run6 retrouve les 30 parties, les 1 530 décisions exploitables 
 
 ## Référence tactique indépendante du run6
 
-Le lot v1 a été figé dans `850def5` avant de mesurer `819a8d5`. Ses 32 positions proviennent de 32 nouvelles parties Stockfish et de 32 ouvertures distinctes. Aucune ne se retrouve parmi les 3 108 positions distinctes du run6, même en ignorant les compteurs FEN. À profondeur 6, le moteur retrouve **16/16 coups en position tenable et 16/16 en position perdante**. Il reconnaît **15/16 pertes**, sans fausse alerte sur les 16 positions tenables. Deux passages avec processus neufs donnent exactement les mêmes résultats, pour 1 480 222 nœuds par passage. [Lot, protocole et limites](tools/tactics/README.md) · [Résultats par position](tools/tactics/v1/septembre.json)
+Le lot v1 a été figé dans `769eb3f` avant de mesurer `f6871de`. Ses 32 positions proviennent de 32 nouvelles parties Stockfish et de 32 ouvertures distinctes. Aucune ne se retrouve parmi les 3 108 positions distinctes du run6, même en ignorant les compteurs FEN. À profondeur 6, le moteur retrouve **16/16 coups en position tenable et 16/16 en position perdante**. Il reconnaît **15/16 pertes**, sans fausse alerte sur les 16 positions tenables. Deux passages avec processus neufs donnent exactement les mêmes résultats, pour 1 480 222 nœuds par passage. [Lot, protocole et limites](tools/tactics/README.md) · [Résultats par position](tools/tactics/v1/septembre.json)
 
 ## Coups calmes difficiles · lot v2
 
-Le lot v2 a été publié dans `1b97ed9` avant toute mesure du moteur de septembre. Sur 32 problèmes issus de 32 autres parties, sans position commune avec le run6 ni les parties sources de v1, `819a8d5` trouve **13/32 premiers coups** à profondeur 6 (8/16 avec les Blancs, 5/16 avec les Noirs). Deux passages concordent sur chaque position et comptent chacun 3 289 616 nœuds. Le même binaire reproduit à l’octet près son rapport v1. [Sélection et résultats v2](tools/tactics/v2/README.md)
+Le lot v2 a été publié dans `259ec7e` avant toute mesure du moteur de septembre. Sur 32 problèmes issus de 32 autres parties, sans position commune avec le run6 ni les parties sources de v1, `f6871de` trouve **13/32 premiers coups** à profondeur 6 (8/16 avec les Blancs, 5/16 avec les Noirs). Deux passages concordent sur chaque position et comptent chacun 3 289 616 nœuds. Le même binaire reproduit à l’octet près son rapport v1. [Sélection et résultats v2](tools/tactics/v2/README.md)
 
 ## Analyse critique du 23 novembre et suivi
 

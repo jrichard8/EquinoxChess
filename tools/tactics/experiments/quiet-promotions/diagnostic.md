@@ -1,6 +1,6 @@
 # Deux effets des promotions sans prise en quiétude
 
-**Septembre (`819a8d5`) reste la référence.** Les deux positions ont été rejouées à profondeur 6 avec la seule autre révision de l’expérience, `81fdfe3`. Sur Game17, le candidat prolonge des suites de prises en quiétude. Sur 0JLoe, une promotion change l’ordre des coups à la racine, puis la réduction de profondeur empêche de départager les deux poussées de pions. Les quatre recherches instrumentées reproduisent le coup, le score et le nombre de nœuds du [bilan apparié](paired.json).
+**Septembre (`f6871de`) reste la référence.** Les deux positions ont été rejouées à profondeur 6 avec la seule autre révision de l’expérience, `5361155`. Sur Game17, le candidat prolonge des suites de prises en quiétude. Sur 0JLoe, une promotion change l’ordre des coups à la racine, puis la réduction de profondeur empêche de départager les deux poussées de pions. Les quatre recherches instrumentées reproduisent le coup, le score et le nombre de nœuds du [bilan apparié](paired.json).
 
 ## Game17_W_ply17 · où vont les 4 253 226 nœuds
 
@@ -40,7 +40,7 @@ Depuis la racine du dépôt, avec Go 1.26 et les deux révisions disponibles loc
 set -eu
 probe="$PWD/tools/tactics/experiments/quiet-promotions/diagnostic.patch"
 replay=$(mktemp -d)
-for revision in 819a8d5 81fdfe3; do
+for revision in f6871de 5361155; do
   mkdir "$replay/$revision"
   git archive "$revision" | tar -x -C "$replay/$revision"
   (

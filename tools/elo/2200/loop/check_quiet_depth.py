@@ -10,6 +10,8 @@ import chess.engine
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE.parent))
 from analyze_losses import VERIFY, decision, digest
+sys.path.insert(0, str(HERE.parents[1]))
+from replay_binaries import matches_recorded_binary
 
 
 def main():
@@ -19,7 +21,7 @@ def main():
     args = parser.parse_args()
     data = json.loads((HERE / "confirmation-losses.json").read_text())
     manifest = json.loads((HERE.parents[3] / "matches/elo2200/loop/interior-sf2200-confirm.pgn.meta.json").read_text())
-    if (digest(args.engine) != manifest["engine_a_sha256"]
+    if (not matches_recorded_binary(digest(args.engine), manifest["engine_a_sha256"])
             or digest(args.stockfish) != data["arbiter_sha256"] or data["pgn_sha256"] != manifest["pgn_sha256"]):
         raise ValueError("Unexpected inputs")
     quiet = [r for r in data["losses"] if r["turning_point"] and r["turning_point"]["best_kind"] == "quiet"]
