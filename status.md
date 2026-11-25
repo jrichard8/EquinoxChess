@@ -1,79 +1,79 @@
-# MarsGopherChess · point au 24 novembre 2026
+# MarsGopherChess · project status as of November 24, 2026
 
-## MarsGopherChess · résultat de la fenêtre seule
+## MarsGopherChess · wider-window result
 
-Le moteur porte désormais le nom de MarsGopherChess. Sur le lot de 192 ouvertures à couleurs inversées, la fenêtre élargie seule obtient 46,22 % en duel contre la base, puis 42,97 % contre SF2400. Les 768 parties se sont terminées sans incident. Son coût à D8 monte de 30,40 % sur les ouvertures et elle perd une solution v2. La base 2200+ reste celle proposée en tournoi. [Bilan et parties](tools/elo/2400/window/README.md) · [Dossier tournoi](docs/tournois.md)
+The engine is now called MarsGopherChess. On the 192 openings with colors reversed, the wider window alone scored 46.22% head-to-head against the baseline and 42.97% against SF2400. All 768 games finished without incident. On the openings it searched 30.40% more nodes at D8, and it lost one v2 solution. The 2200+ baseline remains the tournament entry. [Results and games](tools/elo/2400/window/README.md) · [Tournament entry guide](docs/tournois.md)
 
-## Objectif 2400 · première mesure
+## Target 2400 · first benchmark
 
-Sur 192 nouvelles ouvertures à couleurs inversées, la base 2200+ marque **38,67 % contre Stockfish 18 réglé à 2400**. La vérification sélective d’une défense calme obtient **45,05 %** sur les mêmes ouvertures et **54,10 %** en duel direct contre la base (IC 95 % de −55,4 à +116,0 Elo). La base qualifiée reste active. Sur les 96 défenses calmes isolées dans les défaites à 2400, la fenêtre élargie seule avait été retenue pour un essai à la pendule. La vérification finale lui ajoute 1,69 million de nœuds et occasionne 2 sauvetages pour 4 régressions à l’arbitrage de 80 000 nœuds. [Rapport, PGN et profil du moteur Go](tools/elo/2400/README.md)
+On 192 new openings with colors reversed, the 2200+ baseline scored **38.67% against Stockfish 18 set to 2400**. Selectively rechecking a quiet defense scored **45.05%** on the same openings and **54.10%** head-to-head against the baseline (95% CI −55.4 to +116.0 Elo). The qualified baseline remains active. Replay on 96 quiet defenses from the 2400 losses led to a timed trial of the wider window alone. Adding the final recheck cost 1.69 million nodes and produced two recoveries and four regressions under 80,000-node adjudication. [Report, PGNs and Go engine profile](tools/elo/2400/README.md)
 
-## Base active · qualification 2200+
+## Active baseline · 2200+ qualification
 
-Le 24 novembre, `baseline-2200` franchit le critère fixé contre Stockfish 18 limité à 2200 à 1 s + 0,1 s par coup. **430 victoires, 64 nulles et 274 défaites** sur 384 ouvertures jouées dans les deux couleurs, soit 60,16 % [53,23 % à 67,09 %]. L’écart local est de +71,6 Elo [+22,4 à +123,7]. Les ouvertures ont été figées avant les essais. Aucun incident de jeu. [Rapport, PGN et manifeste](tools/elo/2200/loop/README.md#confirmation-du-palier-2200)
+On November 24, `baseline-2200` cleared the criterion set for Stockfish 18 limited to 2200 at 1 second plus 0.1 seconds per move. It recorded **430 wins, 64 draws and 274 losses** on 384 openings played with both colors, scoring 60.16% [53.23% to 67.09%]. The local difference was +71.6 Elo [+22.4 to +123.7]. The openings were frozen before testing. There were no game incidents. [Report, PGN and manifest](tools/elo/2200/loop/README.md#2200-qualification)
 
-Le moteur sélectionné (`a43a8a3`) accélère la détection des positions non terminales, adapte l’horloge aux itérations complètes et privilégie le coup de table sous la racine. Le duel contre `baseline-1850` donne 69,01 % sur 384 parties. À D6, les 77 positions tactiques coûtent 19,9 % de nœuds en moins avec les mêmes 32 solutions v1, 13 solutions v2 et 10 fautes historiques évitées sur le run6. Game25 montre la limite du dernier indicateur : le nouveau coup de roi y perd l’avantage. La variante d’attaque coordonnée récupère Game25 mais marque 48,83 % en duel direct sur 128 parties. Elle reste expérimentale. [Détails par position et essais écartés](tools/elo/2200/loop/README.md)
+The selected engine (`a43a8a3`) detects nonterminal positions faster, adjusts time allocation to completed iterations and prioritizes the table move below the root. It scored 69.01% against `baseline-1850` over 384 games. At D6 it searched 19.9% fewer nodes on the 77 tactical positions while retaining 32 v1 solutions, 13 v2 solutions and ten historical run6 mistakes avoided. Game25 illustrates a limitation of that last metric. The new king move loses the advantage. The coordinated-attack variant recovered Game25 but scored 48.83% head-to-head over 128 games and remains experimental. [Per-position details and rejected trials](tools/elo/2200/loop/README.md)
 
-Sur les 274 défaites de confirmation, 153 présentent une bascule vérifiée et 123 de ces défenses exigent un coup calme. Sur 12 cas de cette famille, un demi-coup de plus récupère deux défenses pour 4,38 fois plus de nœuds. Ces observations ont motivé le premier essai à 2400 sur la vérification d’un coup calme réduit à la racine. [Analyse des défaites](tools/elo/2200/loop/README.md#où-les-274-défaites-basculent)
+Of 274 confirmation losses, 153 had a verified turning point. In 123 the reference defense was a quiet move. On a sample of 12, one extra ply recovered two defenses at 4.38 times the nodes. These observations motivated the first 2400 trial, rechecking a quiet move that had received a reduced root search. [Loss analysis](tools/elo/2200/loop/README.md#turning-points-in-the-274-losses)
 
-## Qualification antérieure du moteur 1850+
+## Previous 1850+ qualification
 
-Le candidat `91aeb4e` part de septembre (`f6871de`), accélère le calcul de mobilité et l’évaluation, puis trie les prises en quiétude. Sur les 64 ouvertures du projet à couleurs inversées, il marque 92,19 % contre septembre. Sur 192 ouvertures supplémentaires figées avant le match, il marque 74,09 % contre Stockfish 18 réglé à 1850, à 1 seconde + 0,1 seconde par coup. L’écart local est estimé à +182,5 Elo, avec un intervalle bilatéral à 95 % de +102,1 à +286,6. Face au réglage 2200, le score est de 56,25 % sur 128 parties, avec un intervalle compatible avec une force inférieure ou supérieure. La base 1850 a ensuite obtenu 51,43 % sur 192 paires indépendantes contre ce réglage. [Protocole, résultats et PGN](tools/elo/1850/README.md)
+Candidate `91aeb4e` builds on September (`f6871de`), speeds up mobility and evaluation, and orders captures in quiescence. It scored 92.19% against September on the project's 64 openings with colors reversed. On 192 additional openings frozen before the match it scored 74.09% against Stockfish 18 set to 1850 at 1 second plus 0.1 seconds per move. The estimated local difference was +182.5 Elo, with a two-sided 95% interval of +102.1 to +286.6. Against the 2200 setting it scored 56.25% over 128 games, with an interval compatible with either a gain or a deficit. The 1850 baseline subsequently scored 51.43% on 192 independent pairs against that setting. [Protocol, results and PGN](tools/elo/1850/README.md)
 
-## Référence de septembre
+## September baseline
 
-Le moteur est jouable en UCI et dans le navigateur. Le progrès le mieux établi vient de l’allocation du temps de recherche. Les limites tactiques sont mesurables. À profondeur 6, Equinox évite 10 des 13 erreurs historiques du jeu de régression, mais n’évalue que 2 de ces positions à −300 centipions ou moins. Sur le lot de régression v1, la même révision choisit les 32 coups de référence et reconnaît 15 des 16 positions classées perdantes par Stockfish. Sur le lot v2, qui exige un premier coup calme difficile, elle trouve 13 des 32 solutions.
+The engine runs via UCI and in the browser. The clearest gain came from allocating search time. At depth 6, Equinox avoided ten of 13 historical regression-suite errors but scored only two of those positions at −300 centipawns or worse. On the v1 regression suite the same revision chose all 32 reference moves and recognized 15 of the 16 positions Stockfish classified as losing. On v2, which requires a difficult quiet first move, it found 13 of 32 solutions.
 
-## Où reprendre le code
+## Code revisions
 
-| Référence | Ce qu’elle contient |
+| Reference | Contents |
 |---|---|
-| `8611e7a`, 5 août | Révision du moteur reconstruite pour la calibration contre Stockfish 18 limité à 1800. Marge de 15 ms sur l’allocation avec incrément. |
-| `90ea1da`, 31 août | Point de départ des expériences de septembre. Inclut l’analyse hors ligne et le diagnostic ciblé des réponses adverses. |
-| **`f6871de`**, figé le 23 novembre | Référence de septembre pour reprendre le développement. Ce commit réunit le traceur de schéma 11, ses tests, son mode d’emploi et le journal des expériences. Les vérifications ci-dessous portent sur cette version du code. |
-| Stash local `786d539` | Ancien essai combinant plusieurs termes de pression autour du roi. Les expériences ultérieures sur le cavalier et la dame sont consignées séparément. |
+| `8611e7a`, August 5 | Engine revision rebuilt for calibration against Stockfish 18 limited to 1800. Uses a 15 ms margin for time allocation with increment. |
+| `90ea1da`, August 31 | Starting point for the September experiments. Includes offline analysis and targeted diagnosis of opponent replies. |
+| **`f6871de`**, frozen November 23 | September baseline for resuming development. Includes the schema 11 tracer, its tests, instructions and experiment log. The checks below apply to this revision. |
+| Local stash `786d539` | Earlier experiment combining several king-pressure terms. Later knight and queen experiments are documented separately. |
 
-## Activité et décisions
+## Activity and decisions
 
-- **Avril — rendre les résultats interprétables.** Corrections des pats à la frontière de recherche, du suivi du meilleur coup, du repli sur interruption et des scores de mat. Le sixième match de 30 parties contre SF1600 finit à 12 victoires, 0 nulle et 18 défaites. Ses positions servent toujours aux régressions. [PGN du run6](matches/sf1600-run6-1+0.1-30.pgn)
-- **Juillet à début août — maîtriser l’horloge.** La recherche temporisée dépasse l’ancien plafond de profondeur 4. Le moteur conserve son état de recherche entre commandes `position` et contrôle le compteur des 50 coups avant de réutiliser une borne de la table de transposition. Deux lots de 64 parties contre l’ancienne allocation donnent 73,05 % au nouveau budget avec incrément. La marge de 15 ms est retenue ensuite, avec zéro forfait dans son A/B de 128 parties. [Protocole des matchs appariés](tools/elo/README.md)
-- **Août — mettre les hypothèses d’évaluation à l’épreuve.** Les pénalités de 20 centipions pour la pression du cavalier puis de la dame sur la zone du roi ont obtenu 46,88 % et 48,44 % sur leurs A/B longs. Toutes deux ont été écartées. La pression de la dame reste un indice pour retrouver des positions difficiles dans les PGN. [Analyse des positions](tools/kingzone/README.md)
-- **Fin août et septembre — expliquer une erreur de recherche.** Les traces suivent 19 réponses adverses donnant échec sans prise et les 13 positions de régression. Chercher à pleine profondeur certains échecs normalement réduits améliore le bilan des 19 cas de 9 à 11 erreurs évitées, mais réintroduit `d2b4` dans `Game25_ply35`. La règle générale `D5D3D1CheckChain` a été rejetée avant match. La dernière sonde compare des sous-arbres isolés et permet d’observer séparément score, ordre et table de transposition. [Journal détaillé et décisions](docs/archives/journal-avril-septembre-2026.md)
+- **April — making results interpretable.** Fixed stalemate handling at the search horizon, best-move tracking, the fallback on interruption and mate scores. The sixth 30-game match against SF1600 finished with 12 wins, no draws and 18 losses. Its positions still serve as regression tests. [Run6 PGN](matches/sf1600-run6-1+0.1-30.pgn)
+- **July to early August — time management.** Timed search passed the old depth-4 cap. The engine retains search state between `position` commands and checks the fifty-move counter before reusing a transposition table bound. Two 64-game sets against the old time allocation gave the new increment budget 73.05%. The 15 ms margin was then retained, with zero time forfeits in its 128-game A/B test. [Paired match protocol](tools/elo/README.md)
+- **August — testing evaluation hypotheses.** Penalties of 20 centipawns for knight and then queen pressure on the king zone scored 46.88% and 48.44% in their longer A/B tests. Both were rejected. Queen pressure remains a way to locate difficult positions in the PGNs. [Position analysis](tools/kingzone/README.md)
+- **Late August and September — explaining a search error.** Traces covered 19 non-capturing checking replies and the 13 regression positions. Searching selected normally reduced checks at full depth raised errors avoided from 9 to 11 on the 19 cases, but reintroduced `d2b4` on `Game25_ply35`. The general `D5D3D1CheckChain` rule was rejected before match play. The latest probe compares isolated subtrees and separates the effects of score, ordering and the transposition table. [Detailed experiment log and decisions (in French)](docs/archives/journal-avril-septembre-2026.md)
 
-## Calibration antérieure du 5 août
+## Earlier calibration on August 5
 
-Matchs du 5 août contre Stockfish 18 limité en force, à **1 seconde + 0,1 seconde par coup**. Chaque lot comprend 64 ouvertures jouées avec les deux couleurs. L’intervalle de Hoeffding à 95 % utilise la paire d’ouverture comme unité.
+The August 5 matches used strength-limited Stockfish 18 at **1 second plus 0.1 seconds per move**. Each set contained 64 openings played with both colors. The 95% Hoeffding interval uses the opening pair as its unit.
 
-| Adversaire | Victoires – nulles – défaites | Score Equinox | Écart Elo estimé et intervalle | Forfaits au temps |
+| Opponent | Wins – draws – losses | Equinox score | Estimated Elo difference and interval | Time forfeits |
 |---|---:|---:|---:|---|
-| SF18 limité à 1600 | 79 – 2 – 47 | 62,50 % | +88,7 [−31,2 ; +235,2] | 0 |
-| SF18 limité à 1800 | 59 – 7 – 62 | 48,83 % | −8,1 [−132,1 ; +113,7] | 1 pour Stockfish |
+| SF18 limited to 1600 | 79 – 2 – 47 | 62.50% | +88.7 [−31.2, +235.2] | 0 |
+| SF18 limited to 1800 | 59 – 7 – 62 | 48.83% | −8.1 [−132.1, +113.7] | 1 by Stockfish |
 
-Le moteur a joué près de l’équilibre contre SF18-1800 à cette cadence. L’intervalle reste compatible avec un écart important dans les deux sens. Un classement absolu ou une extrapolation à cadence lente demanderait d’autres mesures. Les chiffres d’août proviennent du journal d’expérience. Le dépôt conserve les six lots historiques d’avril ainsi que les nouveaux matchs appariés de novembre et leurs manifestes. [Entrée du 5 août](docs/archives/journal-avril-septembre-2026.md#update-2026-08-05)
+The engine played near even against SF18-1800 at this time control. The interval still allows a substantial difference in either direction. An absolute rating or extrapolation to slower play would require further measurements. The August figures come from the experiment log. The repository contains the six historical April sets and the November paired matches with their manifests. [August 5 entry (in French)](docs/archives/journal-avril-septembre-2026.md#update-2026-08-05)
 
-## Vérifications de reprise
+## Checks when resuming development
 
-Sur macOS arm64, avec Go 1.26.2, les suites Go standard et `searchtrace` passent sans cache de résultat. `go vet ./...`, les tests UCI sous détecteur de courses et les 14 tests Python de l’analyseur passent également. Les six positions anti-pat passent. À profondeur 6, les deux indicateurs tactiques reproduisent exactement 10/13 erreurs évitées et 2/13 pertes reconnues. Le test protège aussi chaque succès antérieur individuellement. [Commandes de validation](docs/developpement.md) · [Test tactique](internal/search/search_anti_blunder_test.go)
+On macOS arm64 with Go 1.26.2, the standard and `searchtrace` Go suites passed without cached test results. `go vet ./...`, UCI race tests and all 14 analyzer Python tests also passed. All six anti-stalemate positions passed. At depth 6 the two tactical metrics reproduced exactly 10/13 errors avoided and 2/13 losses recognized. The test also protects each previous success individually. [Validation commands](docs/developpement.md) · [Tactical test](internal/search/search_anti_blunder_test.go)
 
-Les deux points d’entrée ont aussi été essayés avec un binaire reconstruit. Après 1. e4, le moteur UCI a renvoyé `b8c6` à profondeur 6. Le serveur a servi la page et annoncé 20 coups légaux au départ, puis a accepté `e2e4`, joué `g8f6` à profondeur 4 et rendu le trait aux Blancs.
+Both entry points were tried with a rebuilt binary. After 1.e4, the UCI engine returned `b8c6` at depth 6. The server served the page, reported 20 legal starting moves, accepted `e2e4`, played `g8f6` at depth 4 and returned the move to White.
 
-Le rejeu du PGN run6 retrouve les 30 parties, les 1 530 décisions exploitables et l’empreinte SHA-256 du CSV de septembre (`7fa89590…`). À profondeur 6, la sonde `-probe-d5-reduced-full` reproduit 107 comparaisons sur 23 positions. Sur les 32 cas, la recherche observée rend exactement le même coup, le même score, la même profondeur et le même nombre de nœuds que la recherche sans trace. Sur les 19 réponses primaires, elle évite 9 erreurs et reconnaît 7 pertes. [Rejouer la sonde](cmd/search_trace/README.md)
+Run6 PGN replay reproduced all 30 games, 1,530 usable decisions and the September CSV SHA-256 (`7fa89590…`). At depth 6, the `-probe-d5-reduced-full` probe reproduced 107 comparisons on 23 positions. On all 32 cases, the observed search exactly matched the untraced move, score, depth and nodes. On the 19 primary replies it avoided nine errors and recognized seven losses. [Replay the probe](cmd/search_trace/README.md)
 
-## Référence tactique indépendante du run6
+## Tactical benchmark independent of run6
 
-Le lot v1 a été figé dans `769eb3f` avant de mesurer `f6871de`. Ses 32 positions proviennent de 32 nouvelles parties Stockfish et de 32 ouvertures distinctes. Aucune ne se retrouve parmi les 3 108 positions distinctes du run6, même en ignorant les compteurs FEN. À profondeur 6, le moteur retrouve **16/16 coups en position tenable et 16/16 en position perdante**. Il reconnaît **15/16 pertes**, sans fausse alerte sur les 16 positions tenables. Deux passages avec processus neufs donnent exactement les mêmes résultats, pour 1 480 222 nœuds par passage. [Lot, protocole et limites](tools/tactics/README.md) · [Résultats par position](tools/tactics/v1/septembre.json)
+The v1 suite was frozen at `769eb3f` before measuring `f6871de`. Its 32 positions come from 32 new Stockfish games and 32 distinct openings. None appears among the 3,108 distinct run6 positions, even after ignoring FEN counters. At depth 6 the engine found **16/16 reference moves in defensible positions and 16/16 in losing positions**. It recognized **15/16 losses**, with no false alarms in the 16 defensible positions. Two fresh-process passes agreed exactly, at 1,480,222 nodes each. [Suite, protocol and limitations](tools/tactics/README.md) · [Per-position results](tools/tactics/v1/septembre.json)
 
-## Coups calmes difficiles · lot v2
+## Difficult quiet moves · v2 suite
 
-Le lot v2 a été publié dans `259ec7e` avant toute mesure du moteur de septembre. Sur 32 problèmes issus de 32 autres parties, sans position commune avec le run6 ni les parties sources de v1, `f6871de` trouve **13/32 premiers coups** à profondeur 6 (8/16 avec les Blancs, 5/16 avec les Noirs). Deux passages concordent sur chaque position et comptent chacun 3 289 616 nœuds. Le même binaire reproduit à l’octet près son rapport v1. [Sélection et résultats v2](tools/tactics/v2/README.md)
+The v2 suite was published at `259ec7e` before testing the September engine. On 32 puzzles from 32 other games with no overlap with run6 or the v1 source games, `f6871de` found **13/32 first moves** at depth 6 (8/16 as White, 5/16 as Black). Two passes agreed on every position and each searched 3,289,616 nodes. The same binary reproduced its v1 report byte for byte. [v2 selection and results](tools/tactics/v2/README.md)
 
-## Analyse critique du 23 novembre et suivi
+## November 23 review and follow-up
 
-| Priorité | Constat | Action et critère de décision |
+| Priority | Finding | Action and decision criterion |
 |---|---|---|
-| 1 · Comparer les changements aux références figées | La référence de septembre trouve 32/32 coups sur v1 et 13/32 sur les coups calmes de v2. | Rejouer les deux lots à profondeur 6. Sur v2, compter les gains parmi les 19 écarts et les régressions parmi les 13 succès. Sur v1, suivre également les 15/16 pertes reconnues. Comparer le coût en nœuds et garder les canaris du run6 comme contrôle historique. |
-| 2 · Conserver les preuves des prochains matchs | Le traceur est versionné. Pour les matchs d’août, le dépôt contient les résultats et les empreintes, mais les PGN et leurs manifestes manquent. | Depuis le 24 novembre, chaque match de qualification a son PGN et son manifeste vérifiés. Le score a été recalculé à partir des PGN archivés. [Parties de novembre](matches/elo1850/) |
-| 3 · Promotions sans prise en quiétude, expérience close | Le candidat corrige les finales témoins mais perd une solution sur v2 (13/32 → 12/32) et augmente le coût de 39,29 % sur les 77 positions. | Conserver septembre comme référence. Les mesures et le candidat isolé permettent de reprendre l’analyse. [Bilan par lot et par position](tools/tactics/experiments/quiet-promotions/README.md) |
-| 4 · Couvrir les usages réels | Les tests UCI exercent surtout les fonctions de gestion de position et d’horloge. Le serveur HTTP partage un objet de partie mutable entre requêtes et son paquet ne contient aucun test. | Ajouter un scénario UCI complet allant de la position au meilleur coup puis à la partie suivante. Côté HTTP, vérifier la cohérence du plateau lors de requêtes simultanées et sérialiser les accès à la partie partagée. Valider les scénarios sous `-race`. |
+| 1 · Compare changes against frozen baselines | September found 32/32 moves on v1 and 13/32 quiet moves on v2. | Replay both suites at depth 6. On v2 count gains among the 19 misses and regressions among the 13 successes. On v1 also track the 15/16 recognized losses. Compare nodes and retain the run6 canaries as a historical control. |
+| 2 · Preserve evidence for future matches | The tracer is versioned. For the August matches the repository contains results and checksums but lacks the PGNs and manifests. | Since November 24 each qualification match has a verified PGN and manifest. Scores were recalculated from the archived PGNs. [November games](matches/elo1850/) |
+| 3 · Quiet promotions in quiescence, experiment closed | The candidate fixed the control endgames but lost one v2 solution (13/32 → 12/32) and increased work by 39.29% over the 77 positions. | Keep September as the reference for this experiment. The measurements and isolated candidate are available for further analysis. [Results by suite and position](tools/tactics/experiments/quiet-promotions/README.md) |
+| 4 · Cover real usage | UCI tests mainly exercise position and clock handling. The HTTP server shares mutable game state across requests and its package has no tests. | Add an end-to-end UCI scenario from setting the position through best move and into the next game. For HTTP, check board consistency under concurrent requests and serialize shared game access. Validate under `-race`. |
 
-La sonde `D5D3D1ScoreOnlyShadow` proposée en septembre reste une expérience d’attribution possible si l’objectif est d’expliquer l’effet de la table de transposition sur cette branche précise.
+The `D5D3D1ScoreOnlyShadow` probe proposed in September remains an option for isolating the transposition table's effect on that specific branch.

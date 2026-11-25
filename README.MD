@@ -2,7 +2,7 @@
 
 MarsGopherChess (formerly EquinoxChess) is a chess engine written in Go with a classical evaluation function. You can play against it in a browser or use it with any UCI-compatible chess GUI.
 
-**The tournament engine uses `baseline-2200`.** It scored **60.16% against Stockfish 18 limited to 2200 Elo** at 1 second per game plus 0.1 seconds per move. Across 384 independent openings, each played with both colors, it recorded 430 wins, 64 draws and 274 losses. The estimated difference at this time control was +71.6 Elo (95% confidence interval +22.4 to +123.7). [Qualification games](tools/elo/2200/loop/README.md#confirmation-du-palier-2200) · [Rebuild the 2200+ baseline](tools/elo/2200/loop/README.md#reconstruire-la-base-2200) · [Project status](status.md)
+**The tournament engine uses `baseline-2200`.** It scored **60.16% against Stockfish 18 limited to 2200 Elo** at 1 second per game plus 0.1 seconds per move. Across 384 independent openings, each played with both colors, it recorded 430 wins, 64 draws and 274 losses. The estimated difference at this time control was +71.6 Elo (95% confidence interval +22.4 to +123.7). [Qualification games](tools/elo/2200/loop/README.md#2200-qualification) · [Rebuild the 2200+ baseline](tools/elo/2200/loop/README.md#rebuild-the-2200-baseline) · [Project status](status.md)
 
 Against Stockfish at 2400, the baseline scored **38.67%** over 384 games. A candidate that rechecks a quiet defensive move scored **45.05%** on the same openings. Its head-to-head match against the baseline was inconclusive. [2400 campaign and games](tools/elo/2400/README.md)
 

@@ -1,36 +1,36 @@
-# Promotions sans prise à la frontière de recherche · 23 novembre 2026
+# Non-capturing promotions at the search horizon · November 23, 2026
 
-**Le candidat est écarté en l’état.** La recherche de quiétude voit désormais une promotion et une sous-promotion gagnantes sur les positions témoins. Sur les trois lots figés, elle perd une solution de v2, n’en gagne aucune et augmente le nombre de nœuds de 39,29 % au total. Le moteur de septembre reste la référence de jeu.
+**The candidate was rejected in this form.** Quiescence now sees a winning promotion and a winning underpromotion in the control positions. Across the three frozen suites it loses one v2 solution, gains none and searches 39.29% more nodes overall. The September engine remains the playing baseline for this experiment.
 
-## Changement isolé et vérification directe
+## Isolated change and direct checks
 
-Le candidat `5361155` admet en quiétude, hors échec, les quatre promotions sans prise. La génération de coups, les évasions, le stand-pat et la règle existante qui exempte les promotions de l’élagage delta sont communs aux deux moteurs. Le candidat se trouve sur la branche `codex/qsearch-quiet-promotions`.
+Candidate `5361155` searches all four non-capturing promotions in quiescence when out of check. Both engines use the same move generation, check evasions, stand pat and existing exemption for promotions in delta pruning. The candidate is on `codex/qsearch-quiet-promotions`.
 
-| Position témoin, recherche de quiétude seule | Score septembre → candidat (cp au trait) | Nœuds |
+| Control position, quiescence only | September → candidate score (cp, side to move) | Nodes |
 |---|---:|---:|
-| Promotion blanche en dame, `a7a8q` | +220 → +881 | 1 → 5 |
-| Position miroir pour les Noirs, `a2a1q` | +220 → +881 | 1 → 5 |
-| Sous-promotion `c7c8r`, la dame ferait pat | +250 → +526 | 1 → 6 |
-| Témoin avec prise, `a7b8q` | +613 → +613 | 5 → 5 |
+| White promotes to a queen, `a7a8q` | +220 → +881 | 1 → 5 |
+| Mirrored position for Black, `a2a1q` | +220 → +881 | 1 → 5 |
+| Rook underpromotion `c7c8r` avoids stalemating with a queen | +250 → +526 | 1 → 6 |
+| Capture control, `a7b8q` | +613 → +613 | 5 → 5 |
 
-## Comparaison à profondeur 6
+## Depth-6 comparison
 
-| Lot | Indicateurs septembre → candidat | Gains / régressions de choix | Nœuds septembre | Nœuds candidat | Écart |
+| Suite | September → candidate | Newly solved / lost | September nodes | Candidate nodes | Difference |
 |---|---|---:|---:|---:|---:|
-| v1, 32 positions | Coups de référence 32 → 32. Pertes reconnues 15/16 → 15/16, fausses alertes 0 → 0. | 0 / 0 | 1 480 222 | 1 574 941 | +94 719 (+6,40 %) |
-| v2, 32 coups calmes | Coups de référence 13 → 12. Blancs 8/16 → 7/16, Noirs 5/16 → 5/16. Trois fausses alertes dans les deux versions, sur les mêmes positions. | 0 / 1 | 3 289 616 | 3 400 898 | +111 282 (+3,38 %) |
-| run6, 13 canaris | Coups fautifs historiques évités 10 → 10. Pertes reconnues 2 → 2. | 0 / 0 | 7 772 789 | 12 495 002 | +4 722 213 (+60,75 %) |
-| **Total, 77 positions** | | **0 / 1** | **12 542 627** | **17 470 841** | **+4 928 214 (+39,29 %)** |
+| v1, 32 positions | Reference moves 32 → 32. Losses recognized 15/16 → 15/16, false alarms 0 → 0. | 0 / 0 | 1,480,222 | 1,574,941 | +94,719 (+6.40%) |
+| v2, 32 quiet moves | Reference moves 13 → 12. White 8/16 → 7/16, Black 5/16 → 5/16. Both versions raise three false alarms in the same positions. | 0 / 1 | 3,289,616 | 3,400,898 | +111,282 (+3.38%) |
+| run6, 13 canaries | Historical mistakes avoided 10 → 10. Losses recognized 2 → 2. | 0 / 0 | 7,772,789 | 12,495,002 | +4,722,213 (+60.75%) |
+| **Total, 77 positions** | | **0 / 1** | **12,542,627** | **17,470,841** | **+4,928,214 (+39.29%)** |
 
-La régression de v2 se situe sur **`0JLoe`**. Septembre trouvait `h5h6` (+38 cp). Le candidat choisit `f5f6` (+26 cp). À profondeur 18, Stockfish donnait +522 cp à `h5h6` et +60 cp au deuxième coup, `e5d4`. Sur **`0Np2W`**, l’autre changement de choix, les deux versions manquent `g2g5`. Septembre joue `g2g3`, le candidat `f3f2`. Les 75 autres premiers coups sont identiques.
+The v2 regression is **`0JLoe`**. September found `h5h6` (+38 cp). The candidate chooses `f5f6` (+26 cp). At depth 18, Stockfish scored `h5h6` at +522 cp and its second choice, `e5d4`, at +60 cp. On **`0Np2W`**, the only other changed decision, both versions miss `g2g5`. September plays `g2g3` and the candidate plays `f3f2`. The other 75 first moves match.
 
-Le surcoût est concentré. Sur **`Game17_W_ply17`**, les deux moteurs jouent l’erreur historique `d1f3` et annoncent +67 cp. Le candidat explore 7 041 277 nœuds contre 2 788 051, soit **90,1 % du surcoût du run6** à lui seul. Dans v1, `G18-p26` ajoute 81 075 nœuds sur les 94 719 supplémentaires du lot. Les nombres de nœuds mesurent le travail à profondeur fixe. Aucun match Elo n’a été joué pour cette expérience.
+One position dominates the cost. On **`Game17_W_ply17`**, both engines repeat the historical error `d1f3` and report +67 cp. The candidate searches 7,041,277 nodes against 2,788,051, accounting for **90.1% of the extra run6 nodes**. In v1, `G18-p26` accounts for 81,075 of the suite's 94,719 extra nodes. These counts measure work at fixed depth. No Elo match was played for this experiment.
 
-Le diagnostic des deux positions retrace les promotions noires responsables du surcoût sur Game17 et la coupure à profondeur réduite sur 0JLoe. [Traces, contre-épreuve et reproduction](diagnostic.md)
+The two-position diagnosis traces the black promotions responsible for the Game17 cost and the reduced-depth cutoff on 0JLoe. [Traces, control search and reproduction (in French)](diagnostic.md)
 
-## Provenance et reproduction
+## Provenance and reproduction
 
-- Les sources des deux binaires historiques correspondent aujourd’hui à `f6871de` et `5361155`. Les compilations ont utilisé des arbres propres sous Go 1.26.2, macOS arm64. Les empreintes des exécutables, des entrées et les 77 paires de résultats sont conservées dans [paired.json](paired.json). Les champs `cp` et `mate` sont au point de vue du camp au trait.
-- Pour v1 et v2, utiliser [measure.py](../../measure.py) avec chaque binaire et les deux fichiers `positions.json` figés. Deux processus UCI neufs par position doivent rendre le même coup, le même score, la même profondeur et le même nombre de nœuds. Avec les binaires reconstruits, comparer les résultats par position. Les rapports versionnés contiennent les métadonnées Git des binaires historiques. La table UCI compte 1 048 576 entrées.
-- Pour run6, reconstruire le [CSV tactique de septembre](../../../kingzone/README.md) depuis le PGN (SHA-256 du CSV complet `7fa89590629317332ad5ebdaf032e38448f74fd9e4946f5c104e380b9348fce7`). Garder les 13 lignes dont `canary_name` est renseigné. Utiliser chaque [traceur](../../../../cmd/search_trace/README.md) compilé avec `-tags searchtrace`, en mode observationnel, avec `-depths 6 -tt-size 65536 -expected-primary 0`. Chaque résultat tracé a été confronté à une recherche fraîche sans trace. Les nœuds du tableau comptent un seul passage principal par position. La reconnaissance de perte inclut les scores ≤ −300 cp et les mats subis.
-- La suite Go standard et `go vet -tags searchtrace ./...` passent sur le candidat. Dans la suite avec `-tags searchtrace`, trois tests historiques échouent sur leurs comptes de nœuds figés (`TestSearchTraceBridgeLocatesNestedLMRTTCutoff`, `TestSearchTraceD5BranchAblationsStayOnExactPath` et `TestSearchTraceD5ReducedFullShadowIsDeterministicAndNonInterfering`). Ces trois tests repassent sur septembre. Leurs valeurs attendues ont été conservées.
+- The historical binaries correspond to current revisions `f6871de` and `5361155`. Both were built from clean trees with Go 1.26.2 on macOS arm64. [paired.json](paired.json) records executable and input checksums and all 77 paired results. The `cp` and `mate` fields are from the side to move's perspective.
+- For v1 and v2, run [measure.py](../../measure.py) with each binary and both frozen `positions.json` files. Two fresh UCI processes per position must return the same move, score, depth and node count. Compare rebuilt binaries by position. The versioned reports record the historical binaries' Git metadata. The UCI table has 1,048,576 entries.
+- For run6, rebuild the [September tactical CSV](../../../kingzone/README.md) from the PGN (full CSV SHA-256 `7fa89590629317332ad5ebdaf032e38448f74fd9e4946f5c104e380b9348fce7`). Keep the 13 rows with a nonempty `canary_name`. Build each [tracer](../../../../cmd/search_trace/README.md) with `-tags searchtrace` and run it in observation mode with `-depths 6 -tt-size 65536 -expected-primary 0`. Each traced result was checked against a fresh untraced search. The table counts one main search per position. Recognized losses include scores ≤ −300 cp and forced mates against the side to move.
+- The candidate passes the standard Go suite and `go vet -tags searchtrace ./...`. With `-tags searchtrace`, three historical tests fail on their frozen node counts (`TestSearchTraceBridgeLocatesNestedLMRTTCutoff`, `TestSearchTraceD5BranchAblationsStayOnExactPath` and `TestSearchTraceD5ReducedFullShadowIsDeterministicAndNonInterfering`). All three pass on September. Their expected values were retained.

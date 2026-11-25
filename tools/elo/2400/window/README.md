@@ -1,52 +1,52 @@
-# Fenêtre élargie seule à la racine
+# A wider window alone at the root
 
-## Bilan des 768 parties
+## Results from 768 games
 
-**MarsGopherChess conserve la base 2200+.** La fenêtre élargie seule manque le critère de sélection en duel direct. Sur les mêmes ouvertures face à SF2400, elle fait mieux que la base et moins bien que la variante avec revérification. Les deux nouveaux matchs se terminent sans incident ni forfait.
+**MarsGopherChess retains the 2200+ baseline.** The wider window alone missed the head-to-head selection criterion. On the same openings against SF2400 it outscored the baseline and scored below the variant with a recheck. Both new matches finished without incidents or forfeits.
 
-| Duel | Victoires / nulles / défaites de la fenêtre seule | Score | Écart Elo à 1+0,1 s, IC 95 % |
+| Opponent | Wider window wins / draws / losses | Score | Elo difference at 1+0.1 s, 95% CI |
 |---|---:|---:|---:|
-| Contre la base 2200+ | 105 / 145 / 134 | 46,22 % | −26,3 [−96,8 à +42,1] |
-| Contre Stockfish 18 réglé à 2400 | 152 / 26 / 206 | 42,97 % | −49,2 [−121,7 à +19,3] |
+| 2200+ baseline | 105 / 145 / 134 | 46.22% | −26.3 [−96.8 to +42.1] |
+| Stockfish 18 set to 2400 | 152 / 26 / 206 | 42.97% | −49.2 [−121.7 to +19.3] |
 
-Contre SF2400, le score historique de la base est de 38,67 % et celui de la variante avec revérification de 45,05 %. La fenêtre seule gagne **4,30 points de pourcentage** face au résultat de la base (77 paires meilleures, 58 égales et 57 moins bonnes) et cède **2,08 points** face à la variante avec revérification (70 meilleures, 51 égales, 71 moins bonnes). Le premier écart vaut +4,58 points si l’on retire aussi la paire touchée par le forfait de Stockfish lors du match historique de la base. La profondeur médiane de la fenêtre seule est de 9 dans les deux matchs. [PGN du duel direct](../../../../matches/elo2400/window-base.pgn) · [PGN contre SF2400](../../../../matches/elo2400/window-sf2400.pgn) · [Audit direct](base-audit.json) · [Audit SF2400](sf2400-audit.json) · [Paires comparées à la base](paired-base.json) · [Paires comparées à la revérification](paired-quiet.json)
+Against SF2400 the historical baseline scored 38.67% and the recheck variant 45.05%. The window alone gained **4.30 percentage points** over the baseline (77 pairs better, 58 tied, 57 worse) and trailed the recheck variant by **2.08 points** (70 better, 51 tied, 71 worse). The first difference becomes +4.58 points after excluding the pair affected by Stockfish's time forfeit in the historical baseline match. The window-only engine reached a median depth of 9 in both matches. [Head-to-head PGN](../../../../matches/elo2400/window-base.pgn) · [SF2400 PGN](../../../../matches/elo2400/window-sf2400.pgn) · [Head-to-head audit](base-audit.json) · [SF2400 audit](sf2400-audit.json) · [Pairs compared with baseline](paired-base.json) · [Pairs compared with recheck](paired-quiet.json)
 
-Le gain observé sur les défenses calmes se généralise mal au coût de recherche des ouvertures. La fenêtre consomme 2,13 % de nœuds en moins sur les 96 défenses SF2400 et **30,40 % de plus** en repartant des 192 ouvertures à D8. La trace du run6 confirme 345 recherches réduites dans la fenêtre élargie sur 11 des 13 dernières itérations et aucun passage de revérification ajouté.
+The search savings on quiet defenses did not carry over to the openings. The window used 2.13% fewer nodes on the 96 SF2400 defenses and **30.40% more** when searching from the 192 openings at D8. The run6 trace confirmed 345 reduced searches in the wider window across 11 of the 13 final iterations, with no added recheck pass.
 
-## Protocole du 24 novembre 2026
+## November 24, 2026 protocol
 
-Tester le binaire du rejeu à froid précédent, construit au commit `04efa19` avec [le patch figé](../ranking-only.patch) et le tag `quietverify`. À partir de D5, la recherche réduite des coups calmes tardifs à la racine élargit sa fenêtre de 80 centipions. La boucle se termine après le dernier coup légal. La recherche normale à pleine profondeur d’un coup qui dépasse alpha reste celle de la base.
+Test the binary used in the previous cold replay, built at `04efa19` with the [frozen patch](../ranking-only.patch) and the `quietverify` tag. Starting at D5, widen the reduced-search window for late quiet root moves by 80 centipawns. The loop ends after the last legal move. A move exceeding alpha receives the baseline's normal full-depth search.
 
-Les deux duels utilisent **les mêmes 192 ouvertures**, dans le même ordre et les deux couleurs, soit 384 parties chacun. Le premier oppose RankingOnly à la base qualifiée 2200+, le second à Stockfish 18 réglé à 2400 avec limitation activée, un thread et 16 Mio de table. Cadence 1 s + 0,1 s par coup et huit parties parallèles. Jouer les deux matchs intégralement. Le lot est celui des deux mesures SF2400 précédentes. Le duel direct antérieur du candidat avec revérification portait sur un autre lot.
+Use **the same 192 openings** for both duels, in the same order with both colors, for 384 games each. First play RankingOnly against the qualified 2200+ baseline, then against Stockfish 18 at 2400 with strength limiting enabled, one thread and a 16 MiB hash. Use 1 second plus 0.1 seconds per move with eight games in parallel. Play both matches in full. The two previous SF2400 measurements used this suite. The earlier head-to-head with the recheck candidate used a different suite.
 
-Utiliser le score de match et l’intervalle bilatéral de Hoeffding à 95 % par paire. Le critère de sélection en duel direct est une borne basse supérieure à 50 %. Le score SF2400 sur ce lot de développement permet de comparer les trois moteurs. Une qualification 2400 demanderait de nouvelles ouvertures.
+Use the match score and the two-sided 95% Hoeffding interval by opening pair. Head-to-head selection requires a lower bound above 50%. The SF2400 scores on this development set allow all three engines to be compared. Qualification at 2400 would require new openings.
 
-Compter les nœuds à profondeur fixée sur v1, v2, les canaris du run6 et les deux corpus de défenses calmes. Rapporter les solutions gagnées et perdues ainsi que les incidents de match. [Ouvertures](../baseline.epd) · [Expérience précédente](../README.md)
+Count fixed-depth nodes on v1, v2, the run6 canaries and both quiet-defense sets. Report solutions gained and lost and any match incidents. [Openings](../baseline.epd) · [Previous experiment](../README.md)
 
-## Coût à profondeur fixée
+## Fixed-depth cost
 
-| Positions | Profondeur | Nœuds base | Nœuds fenêtre seule | Variation | Qualité observée |
+| Positions | Depth | Baseline nodes | Window-only nodes | Change | Observed quality |
 |---|---:|---:|---:|---:|---|
-| 192 ouvertures des matchs | 8 | 100 004 748 | 130 408 283 | +30,40 % | 36 premiers coups changés |
-| v1, 32 positions | 6 | 816 043 | 834 306 | +2,24 % | 32 → 32 solutions, 15 → 15 pertes reconnues |
-| v2, 32 positions | 6 | 1 229 318 | 1 402 340 | +14,07 % | 13 → 12 solutions, 3 → 3 fausses alertes de perte |
-| run6, 13 canaris | 6 | 919 588 | 1 066 327 | +15,96 % | 10 → 10 erreurs historiques évitées, 2 → 2 pertes reconnues |
-| 123 défenses du corpus SF2200 | profondeur de partie | 36 730 886 | 39 867 227 | +8,54 % | 7 sauvetages, 5 régressions |
-| 96 défenses du corpus SF2400 | profondeur de partie | 30 091 189 | 29 449 704 | −2,13 % | 6 sauvetages, 2 régressions |
+| 192 match openings | 8 | 100,004,748 | 130,408,283 | +30.40% | 36 first moves changed |
+| v1, 32 positions | 6 | 816,043 | 834,306 | +2.24% | 32 → 32 solutions, 15 → 15 recognized losses |
+| v2, 32 positions | 6 | 1,229,318 | 1,402,340 | +14.07% | 13 → 12 solutions, 3 → 3 false loss alerts |
+| run6, 13 canaries | 6 | 919,588 | 1,066,327 | +15.96% | 10 → 10 historical errors avoided, 2 → 2 recognized losses |
+| 123 defenses from the SF2200 set | Game depth | 36,730,886 | 39,867,227 | +8.54% | 7 recoveries, 5 regressions |
+| 96 defenses from the SF2400 set | Game depth | 30,091,189 | 29,449,704 | −2.13% | 6 recoveries, 2 regressions |
 
-Sur les 77 positions v1, v2 et run6 réunies, la fenêtre coûte **338 024 nœuds supplémentaires (+11,40 %)**. Sur les ouvertures, D8 correspond à la profondeur médiane de la base dans sa mesure initiale contre SF2400. Chaque recherche commence avec une table vide et la FEN initiale du PGN. Le nombre de nœuds augmente sur 158 ouvertures, baisse sur 32 et reste identique sur 2. Pour les 36 changements de premier coup, SF18 à pleine force donne un avantage d’au moins 50 cp au candidat dans **2 cas** et à la base dans **3 cas** aux deux budgets de 80 000 et 320 000 nœuds par coup forcé. Les 31 autres changements ne franchissent pas ce seuil dans le même sens aux deux budgets. [Nœuds et coups par ouverture](opening-nodes.json) · [Arbitrages](opening-grades.json)
+Across the 77 v1, v2 and run6 positions, the window cost **338,024 extra nodes (+11.40%)**. On the openings, D8 was the baseline's median depth in its first SF2400 measurement. Each search started with an empty table and the PGN starting FEN. The node count rose on 158 openings, fell on 32 and matched on two. Of the 36 changed first moves, full-strength SF18 preferred the candidate by at least 50 cp in **two cases** and the baseline by that margin in **three**, at both 80,000 and 320,000 nodes per forced move. The other 31 changes did not clear the threshold in the same direction at both budgets. [Nodes and moves by opening](opening-nodes.json) · [Adjudications](opening-grades.json)
 
-Les deux dernières lignes reprennent les rejeux archivés, dont les empreintes des deux exécutables correspondent à celles des matchs. Une position est sauvée lorsque le coup de la base vaut au plus −200 cp et celui du candidat au moins −100 cp. La régression est le franchissement inverse. Les chiffres du tableau emploient SF18 à 80 000 nœuds. Sur les 96 défenses SF2400, le contrôle à 320 000 nœuds donne 4 sauvetages et 2 régressions. [Rejeu SF2200](../ranking-2200.json) · [Rejeu SF2400](../ranking-2400.json) · [Contrôle à 320 000 nœuds](../quiet-2400-deeper.json)
+The last two rows use the archived replays, whose executable checksums match the game binaries. A recovery means the baseline move scored at most −200 cp and the candidate move at least −100 cp. A regression crosses in the other direction. The table uses SF18 at 80,000 nodes. On the 96 SF2400 defenses, the 320,000-node check found four recoveries and two regressions. [SF2200 replay](../ranking-2200.json) · [SF2400 replay](../ranking-2400.json) · [320,000-node check](../quiet-2400-deeper.json)
 
-## Gains et régressions tactiques
+## Tactical gains and regressions
 
-Cinq coups changent sur les 77 positions. À 320 000 nœuds par coup forcé, sur `Game25_W_ply49`, `g1g2` remplace `e2f3` et passe de −242 à +143 cp. Sur `Game30_B_ply26`, `h7h5` remplace `c6e5` et descend de −171 à −439 cp. Les compteurs historiques du run6 ne distinguent pas ces changements. La perte d’une solution v2 vient de `0eK7q`, où `g8g7` vaut −75 cp contre +568 pour `g8h8`. Sur `Game16_B_ply62`, l’évaluation passe de −289 à −216 cp et sur `0Pfb0`, de +1 à −35. Les deux budgets d’arbitrage donnent le même sens aux cinq écarts. [Résultats des trois suites](tactics.json) · [Coups, scores et variantes](tactic-changes.json)
+Five moves changed across the 77 positions. At 320,000 nodes per forced move on `Game25_W_ply49`, `g1g2` replaced `e2f3`, improving from −242 to +143 cp. On `Game30_B_ply26`, `h7h5` replaced `c6e5`, falling from −171 to −439 cp. The historical run6 counters did not distinguish these changes. The lost v2 solution was `0eK7q`, where `g8g7` scored −75 cp versus +568 for `g8h8`. On `Game16_B_ply62` the score moved from −289 to −216 cp and on `0Pfb0` from +1 to −35. Both adjudication budgets agreed on the direction of all five changes. [Three-suite results](tactics.json) · [Moves, scores and lines](tactic-changes.json)
 
 ## Reproduction
 
-Le manifeste de match enregistre le SHA-256 historique de `RankingOnly`, `1323dd9cc0c1c8eafa0b311f53e3b69314acd91004db3648a8c5f0a7e6ff93e7`. Avec Go 1.26.2 sur macOS arm64, la reconstruction ci-dessous donne `f2a2806e4901c28513755ade3580624ac00c3f89f0c2cd6d7bd008141adf58b3`. Le marquage Go `vcs.modified=true` correspond au [patch de la fenêtre seule](../ranking-only.patch).
+The match manifest records the historical `RankingOnly` SHA-256, `1323dd9cc0c1c8eafa0b311f53e3b69314acd91004db3648a8c5f0a7e6ff93e7`. On macOS arm64 with Go 1.26.2, the rebuild below yields `f2a2806e4901c28513755ade3580624ac00c3f89f0c2cd6d7bd008141adf58b3`. Go reports `vcs.modified=true` because the [window-only patch](../ranking-only.patch) was applied.
 
-Depuis la racine du dépôt, exécuter d’abord les [commandes de reconstruction de Base2200](../../2200/loop/README.md#reconstruire-la-base-2200), puis dans le même shell :
+From the repository root, first run the [Base2200 rebuild commands](../../2200/loop/README.md#rebuild-the-2200-baseline), then run the following in the same shell.
 
 ```sh
 git -C "$lab/source" worktree add --quiet --detach "$lab/ranking" 04efa19

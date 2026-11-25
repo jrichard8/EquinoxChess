@@ -1,43 +1,43 @@
-# Lot v2 · trouver un coup calme
+# Tactical suite v2 · finding a quiet move
 
-Cette suite mesure le choix du **premier coup** sur 32 problèmes provenant de 32 parties Lichess, avec 16 décisions de chaque couleur. Dans chaque position, le joueur au trait est hors échec. La solution commence par un coup sans prise, échec ni promotion. Le [lot v1](../README.md) reste le témoin de régression sur les décisions plus immédiates.
+This suite tests the **first move** on 32 puzzles from 32 Lichess games, with 16 decisions for each color. The side to move is out of check. The solution starts with a move that neither captures, gives check nor promotes. The [v1 suite](../README.md) remains the regression test for more immediate decisions.
 
-## Sélection avant la mesure
+## Selection before testing
 
-1. **Source.** Le constructeur prend les 65 536 premières lignes du premier fichier Parquet de l’export Lichess figé à la révision `461725966e`. Il applique le premier coup de la ligne publiée à la FEN source pour obtenir la position du problème. Le deuxième coup est la solution à trouver. Les données de problèmes sont publiées sous CC0. [Export daté](https://huggingface.co/datasets/Lichess/chess-puzzles/tree/461725966ea46898ec6481372a6326de3281bfbd) · [Convention FEN et coups](https://database.lichess.org/#puzzles)
-2. **Présélection.** Cote du problème ≥ 2 000, incertitude de la cote ≤ 100 (champ `RatingDeviation`), popularité ≥ 80 et au moins 50 tentatives. La ligne publiée contient au moins cinq demi-coups à partir de la décision, dont une prise, un échec ou une promotion dans les quatre demi-coups suivant le coup calme. L’ordre est fixé par le SHA-256 de `equinox-quiet-v2|` suivi de l’identifiant du problème. Les 512 premiers cas admissibles, à raison d’un par partie et par position, forment le [réservoir versionné](candidates.csv). La clé de position ignore les compteurs FEN et conserve le trait, le roque et la prise en passant légale. Toute position rencontrée dans les 30 parties du run6 ou les 128 parties sources de v1 est écartée.
-3. **Difficulté et arbitrage.** Stockfish 18 doit d’abord manquer la solution à 512 nœuds. À profondeur 14 puis 18, il doit retrouver le coup Lichess à chaque recherche et le créditer d’au moins 150 centipions d’avance sur le deuxième. Les deux coups sont évalués à la profondeur demandée avec MultiPV 2, un thread, 16 Mio de table, scores numériques sans indication de borne et état neuf à chaque recherche. Les 16 premiers cas admissibles par couleur constituent le [lot figé](positions.json). Chaque cas garde le coup du contrôle court et les deux analyses profondes.
-4. **Mesure.** L’indicateur principal est le nombre de coups de référence trouvés à profondeur 6. Un processus UCI neuf est lancé deux fois par position, sans horloge. Les deux passages doivent rendre le même coup légal, le même score et le même nombre de nœuds à profondeur 6. On conserve les résultats individuels pour comparer les gains et les régressions d’un candidat. L’échantillonnage cible les positions où un coup calme se détache et échappe à la recherche courte de Stockfish.
+1. **Source.** The builder reads the first 65,536 rows of the first Parquet file in the Lichess export at `461725966e`. It applies the first move of the published line to the source FEN to obtain the puzzle position. The second move is the solution. The puzzle data is distributed under CC0. [Pinned export](https://huggingface.co/datasets/Lichess/chess-puzzles/tree/461725966ea46898ec6481372a6326de3281bfbd) · [FEN and move convention](https://database.lichess.org/#puzzles)
+2. **Filtering.** Require puzzle rating ≥ 2,000, `RatingDeviation` ≤ 100, popularity ≥ 80 and at least 50 attempts. The published line contains at least five plies from the decision, including a capture, check or promotion within the four plies after the quiet move. Sort by SHA-256 of `equinox-quiet-v2|` followed by the puzzle ID. The first 512 eligible cases, with one per game and position, form the [versioned pool](candidates.csv). The position key ignores FEN counters and keeps the side to move, castling rights and legal en passant captures. Exclude every position seen in the 30 run6 games or the 128 v1 source games.
+3. **Difficulty and adjudication.** Stockfish 18 must miss the solution at 512 nodes. At depths 14 and 18 it must find the Lichess move and score it at least 150 centipawns above the runner-up each time. Both moves are evaluated at the requested depth with MultiPV 2, one thread, 16 MiB of hash, numeric scores without bound flags and fresh state for each search. The first 16 eligible cases per color form the [frozen suite](positions.json). Each case records the shallow search move and both deeper analyses.
+4. **Measurement.** The primary metric is how many reference moves the engine finds at depth 6. Search each position twice with fresh UCI processes and no clock. Both runs must return the same legal move, score and node count at depth 6. Keep the individual results to identify gains and regressions. Selection targets positions with a clearly better quiet move that Stockfish's shallow search misses.
 
-## Référence de septembre · 23 novembre 2026
+## September baseline · November 23, 2026
 
-Le lot a été publié sur `origin/main` avant sa première mesure. Sa révision dans l’historique actuel est `259ec7e`. Les deux mesures historiques v1 et v2 ont utilisé le même exécutable (sources actuelles à `f6871de`, SHA-256 `46caaa986c5e4ab0610790b012cad658c6578d6f3bf187fe29222111c1b0642b`). Les 32 problèmes ont des cotes Lichess de 2 048 à 2 747, de médiane 2 345. La reconstruction depuis le réservoir a reproduit le fichier des références à l’octet près.
+The suite was published on `origin/main` before its first measurement. Its revision in the current history is `259ec7e`. Both historical measurements used the same executable (source now at `f6871de`, SHA-256 `46caaa986c5e4ab0610790b012cad658c6578d6f3bf187fe29222111c1b0642b`). The 32 Lichess ratings range from 2,048 to 2,747 with a median of 2,345. Rebuilding from the pool reproduced the reference file byte for byte.
 
-| Trait | Premier coup de référence trouvé | Nœuds sur un passage |
+| Side to move | Reference first move found | Nodes in one pass |
 |---|---:|---:|
-| Blancs | 8/16 | 1 166 903 |
-| Noirs | 5/16 | 2 122 713 |
-| **Ensemble** | **13/32 (40,6 %)** | **3 289 616** |
+| White | 8/16 | 1,166,903 |
+| Black | 5/16 | 2,122,713 |
+| **Total** | **13/32 (40.6%)** | **3,289,616** |
 
-Les deux recherches neuves par position concordent. Sur les 19 écarts de choix, 11 reproduisent le coup du contrôle Stockfish à 512 nœuds. À profondeur 18, Stockfish évalue les 32 positions en faveur du camp au trait. Equinox en évalue trois à −300 cp ou moins, y compris `0afCF`, où il trouve pourtant le coup de référence. [Rapport par position](septembre.json)
+The two fresh searches agreed on every position. Of the 19 misses, 11 repeated Stockfish's 512-node choice. At depth 18, Stockfish favors the side to move in all 32 positions. Equinox scores three at −300 cp or worse, including `0afCF`, where it finds the reference move. [Per-position report](septembre.json)
 
-Le problème `00Nhl` illustre le type de décision recherché. Equinox prend immédiatement la tour en h7 (`h8h7`). Stockfish classe cette prise deuxième, à −176 cp. Son premier choix, le coup de cavalier `g6f4`, vaut +316 cp et invite la dame blanche à prendre le cavalier en f4, où le pion e5 peut reprendre. [Position sur l’échiquier](https://lichess.org/training/00Nhl)
+Puzzle `00Nhl` illustrates the intended difficulty. Equinox immediately captures the rook on h7 (`h8h7`). Stockfish ranks that capture second at −176 cp. Its first choice, the knight move `g6f4`, scores +316 cp and invites the white queen to capture the knight on f4, where the e5-pawn can recapture. [View the position](https://lichess.org/training/00Nhl)
 
-Lors d’une comparaison, compter séparément les solutions nouvellement trouvées et celles perdues parmi les 13 déjà acquises. Le lot v1 reste la référence pour les régressions, avec 32/32 coups et 15/16 pertes reconnues. La comparaison des deux scores décrit la difficulté des deux sélections pour le même binaire à profondeur 6.
+Count newly solved positions separately from any of the original 13 solutions lost. The v1 regression baseline found 32/32 moves and recognized 15/16 losses. The two scores show how difficult each selection was for the same binary at depth 6.
 
-## Rejouer une mesure
+## Repeat a measurement
 
-Depuis la racine du dépôt, passer le binaire UCI et un chemin de sortie libre. Le [protocole de compilation](../README.md#relire-la-mesure-ou-comparer-un-candidat) précise comment reconstruire le moteur de septembre avec son identifiant Git.
+From the repository root, supply the UCI binary and an unused output path. The [build instructions](../README.md#reproduce-a-measurement-or-compare-a-candidate) rebuild the September engine with its embedded Git revision and set the shell variable `trial`. Run the following in the same shell.
 
 ```sh
-python3 tools/tactics/measure.py "$essai/equinox" "$essai/v2.json" \
+python3 tools/tactics/measure.py "$trial/equinox" "$trial/v2.json" \
   --fixture tools/tactics/v2/positions.json
 ```
 
-Pour reconstruire les références depuis le réservoir suivi par Git, utiliser le binaire Stockfish identifié dans le lot et la dépendance Python du [banc tactique](../README.md). La commande `pool` utilise également PyArrow (22.0.0 lors de la construction) pour relire le Parquet amont dont l’URL et l’empreinte figurent dans le lot.
+To rebuild the references from the versioned pool, use the Stockfish binary identified in the suite and the Python dependency of the [tactical harness](../README.md). The `pool` command also uses PyArrow (22.0.0 when the suite was built) to read the upstream Parquet file. Its URL and checksum are recorded in the suite.
 
 ```sh
 python3 tools/tactics/quiet.py label "$(command -v stockfish)" \
-  tools/tactics/v2/candidates.csv "$essai/positions-v2.json"
-cmp tools/tactics/v2/positions.json "$essai/positions-v2.json"
+  tools/tactics/v2/candidates.csv "$trial/positions-v2.json"
+cmp tools/tactics/v2/positions.json "$trial/positions-v2.json"
 ```

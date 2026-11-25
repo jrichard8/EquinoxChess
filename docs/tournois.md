@@ -1,12 +1,12 @@
-# Première participation de MarsGopherChess à un tournoi de moteurs
+# Entering MarsGopherChess in its first engine tournament
 
-Pistes vérifiées le 24 novembre 2026 pour la base publique `baseline-2200`. Présenter le moteur comme **MarsGopherChess — Julien Richard**. Le moteur annonce `id name MarsGopherChess` et joue avec la recherche de la base 2200+. Le nom associe Marseille et le gopher de Go. Au 24 novembre, le nom exact était absent des listes de moteurs CCRL et ChessCache consultées. [Source du moteur proposé](https://github.com/jrichard8/MarsGopherChess/tree/a4a46cf) · [Liste CCRL](https://computerchess.org/rating_list_all.html) · [ChessCache](https://www.chesscache.com/ChessEngines.html)
+These entry options were checked on November 24, 2026 for the public `baseline-2200` engine. Enter it as **MarsGopherChess — Julien Richard**. It reports `id name MarsGopherChess` and uses the 2200+ baseline search. The name combines Marseille and the Go gopher. As of November 24, the exact name did not appear in the CCRL or ChessCache engine lists checked. [Proposed engine source](https://github.com/jrichard8/MarsGopherChess/tree/a4a46cf) · [CCRL list](https://computerchess.org/rating_list_all.html) · [ChessCache](https://www.chesscache.com/ChessEngines.html)
 
-## Jouer depuis le Mac au blitz de Nightmare Chess
+## Play the Nightmare Chess blitz from a Mac
 
-Joost Buijs organise ce tournoi mensuel de moteurs. Le 14 novembre 2026, l’édition s’est jouée en **11 rondes suisses à 4 minutes + 1 seconde par coup**, avec connexion demandée 15 minutes avant la première ronde. Le serveur accepte les moteurs UCI via un client. **La prochaine date reste à confirmer auprès de l’organisateur.** Il attribue les comptes moteur sur demande à `admin@nightmare-chess.nl`. Le Mac doit rester connecté et disponible pour toute la session. [Annonce de Joost Buijs et résultats de novembre](https://talkchess.com/forum/viewtopic.php?t=86963)
+Joost Buijs organizes this monthly engine tournament. The November 14, 2026 edition used **11 Swiss rounds at 4 minutes plus 1 second per move**. Players were asked to connect 15 minutes before round one. The server accepts UCI engines through a client. **Confirm the next date with the organizer.** Request an engine account at `admin@nightmare-chess.nl`. The Mac must stay online and available throughout the session. [Joost Buijs's announcement and November results](https://talkchess.com/forum/viewtopic.php?t=86963)
 
-Brouillon pour demander le compte et la date, en anglais :
+Draft account and date request
 
 > **Subject — Engine account request for MarsGopherChess**
 >
@@ -20,24 +20,24 @@ Brouillon pour demander le compte et la date, en anglais :
 >
 > Julien Richard
 
-Le client `icsdrone-rs` 2.2.17 pour Mac arm64 a démarré localement après vérification de l’empreinte de son archive. Le binaire macOS MarsGopherChess a donné les mêmes coups, scores, profondeurs et nombres de nœuds que le binaire qualifié sur les 77 positions v1, v2 et run6 en UCI à D6. Il a aussi joué un coup légal avec les pendules réglées à 4+1. Le compte et une connexion d’essai restent à valider avec l’organisateur. [Client macOS](https://github.com/jshriver/icsdrone-rs/releases/tag/v2.2.17) · [Configuration du client](https://github.com/jshriver/icsdrone-rs/blob/v2.2.17/config.example.json)
+The `icsdrone-rs` 2.2.17 client for macOS arm64 started locally after its archive checksum was verified. Over all 77 v1, v2 and run6 positions at UCI depth 6, the macOS MarsGopherChess binary matched the qualified executable on move, score, depth and nodes. It also played a legal move with 4+1 clocks. The account and a test connection still need to be checked with the organizer. [macOS client](https://github.com/jshriver/icsdrone-rs/releases/tag/v2.2.17) · [Client configuration](https://github.com/jshriver/icsdrone-rs/blob/v2.2.17/config.example.json)
 
-Sur le Mac de préparation, le moteur, le client et un exemple de configuration sont dans `.cache/tournois/nightmare-macos/`. Après attribution du compte, copier `config.example.json` vers `config.json` et remplacer le champ `Username` par l’identifiant attribué. Le client demande le mot de passe au lancement. Le fichier pointe sur le binaire testé et sur le port 5000 de `nightmare-chess.nl`. Depuis la racine du dépôt :
+On the Mac used for preparation, the engine, client and sample configuration are in `.cache/tournois/nightmare-macos/`. Once the account is issued, copy `config.example.json` to `config.json` and set `Username` to the assigned account name. The client prompts for the password at startup. The configuration points to the tested binary and port 5000 on `nightmare-chess.nl`. Run from the repository root.
 
 ```sh
 cd .cache/tournois/nightmare-macos
 ./icsdrone-rs --config config.json
 ```
 
-## Proposer le moteur à l’Amateur Series
+## Submit the engine to the Amateur Series
 
-Graham Banks a accepté en octobre une candidature présentée avec un lien de version. On peut lui proposer MarsGopherChess pour une division adaptée à `gbanksnz@gmail.com`, avec le nom de l’auteur, les sources, le binaire Windows x64 et les conditions des matchs locaux. L’organisateur choisit les participants. Une participation ou une cote CCRL restent à obtenir. [Échange avec Graham Banks](https://talkchess.com/forum/viewtopic.php?p=998196)
+In October, Graham Banks accepted an entry submitted with a release link. To propose MarsGopherChess for a suitable division, email `gbanksnz@gmail.com` with the author's name, source, Windows x64 binary and local match conditions. The organizer selects the participants. Entry and a CCRL rating are still pending. [Discussion with Graham Banks](https://talkchess.com/forum/viewtopic.php?p=998196)
 
-L’archive locale `.cache/tournois/MarsGopherChess-windows-x64.zip` contient l’exécutable, sa fiche, la licence MIT et les empreintes SHA-256. Le binaire archivé correspond aux sources de `a4a46cf`. Son format Windows PE x86-64 et son empreinte après compression ont été vérifiés. Son exécution sous Windows reste à tester. Le code n’exige ni bibliothèque d’ouvertures, ni table de finales, ni réseau neuronal. Pour reconstruire l’exécutable depuis un checkout propre de cette révision avec Go 1.26.2 :
+The local archive `.cache/tournois/MarsGopherChess-windows-x64.zip` contains the executable, its information sheet, the MIT license and SHA-256 checksums. The archived binary corresponds to the source at `a4a46cf`. Its Windows PE x86-64 format and checksum after compression were verified. Running it on Windows is still untested. The engine requires no opening book, endgame tablebases or neural network. To rebuild it, run the following in a clean checkout of that revision with Go 1.26.2.
 
 ```sh
 CGO_ENABLED=0 GOOS=windows GOARCH=amd64 GOAMD64=v1 \
   go build -trimpath -buildvcs=true -o /tmp/MarsGopherChess.exe ./cmd/uci
 ```
 
-SHA-256 de la reconstruction à `a4a46cf` : `ebb2805c850b465ffa0c37fd80a16a4dac221beb21ff51630d37bb1cfcebe745`. SHA-256 de l’exécutable dans l’archive préparée avant la réécriture : `69331aaab9d6cfd435057bbf7638730bb80b12747c6394e085d381e817f93bb6`.
+The rebuild at `a4a46cf` has SHA-256 `ebb2805c850b465ffa0c37fd80a16a4dac221beb21ff51630d37bb1cfcebe745`. The executable archived before the history rewrite has SHA-256 `69331aaab9d6cfd435057bbf7638730bb80b12747c6394e085d381e817f93bb6`.
