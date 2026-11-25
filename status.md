@@ -35,7 +35,7 @@ The engine runs via UCI and in the browser. The clearest gain came from allocati
 
 ### Research branch archive · November 25, 2026
 
-All research commits are reachable from `main`. The tournament engine still uses the qualified 2200+ search. To inspect an experiment from a clone of `main`, use `git show <commit>`. To build one separately, use `git worktree add --detach ../mars-experiment <commit>`.
+All research commits are reachable from `main`. The tournament engine still uses the qualified 2200+ search. To inspect an experiment from a clone of `main`, use `git show <commit>`. For a build with the Git revision embedded, run `git checkout --detach <commit>` in a separate full clone and follow the build instructions for that experiment.
 
 | Former branch | Final commit |
 |---|---|

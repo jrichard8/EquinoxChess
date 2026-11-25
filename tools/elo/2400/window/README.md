@@ -44,7 +44,7 @@ Five moves changed across the 77 positions. At 320,000 nodes per forced move on 
 
 ## Reproduction
 
-The match manifest records the historical `RankingOnly` SHA-256, `1323dd9cc0c1c8eafa0b311f53e3b69314acd91004db3648a8c5f0a7e6ff93e7`. On macOS arm64 with Go 1.26.2, the rebuild below yields `f2a2806e4901c28513755ade3580624ac00c3f89f0c2cd6d7bd008141adf58b3`. Go reports `vcs.modified=true` because the [window-only patch](../ranking-only.patch) was applied.
+The match manifest records the historical `RankingOnly` SHA-256, `1323dd9cc0c1c8eafa0b311f53e3b69314acd91004db3648a8c5f0a7e6ff93e7`. On macOS arm64 with Go 1.26.2, the rebuild below yields `f2a2806e4901c28513755ade3580624ac00c3f89f0c2cd6d7bd008141adf58b3`. The commands apply the [window-only patch](../ranking-only.patch) in a linked worktree. On the verified rebuild, `go version -m` reported `(devel)` and omitted the VCS fields. Use the checksum above to identify this executable.
 
 From the repository root, first run the [Base2200 rebuild commands](../../2200/loop/README.md#rebuild-the-2200-baseline), then run the following in the same shell.
 
